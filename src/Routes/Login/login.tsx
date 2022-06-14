@@ -51,7 +51,7 @@ const Login = (): JSX.Element => {
                     />
                     <input
                         className='border-b-[2px] border-gray-400 w-full py-1 px-3 hover:outline-none focus:outline-none focus:border-secondary-color focus:border-b-[3px]  xl:text-2xl lg:text-xl placeholder:text-xl'
-                        type='text'
+                        type='password'
                         name='password'
                         placeholder='Password'
                         value={inputValues.password}
