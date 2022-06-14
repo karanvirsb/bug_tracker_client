@@ -23,7 +23,10 @@ const Login = (): JSX.Element => {
         });
     };
 
-    const handleSubmit = (): void => {
+    const handleSubmit = (
+        e: React.MouseEvent<HTMLFormElement, MouseEvent>
+    ): void => {
+        e.preventDefault();
         if (!inputValues.username) throw Error("Invalid username");
         if (!inputValues.password) throw Error("Invalid password");
 
