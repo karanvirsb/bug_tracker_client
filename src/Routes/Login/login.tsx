@@ -42,7 +42,7 @@ const Login = (): JSX.Element => {
                 <h1 className=' xl:text-4xl lg:text-3xl'>Login</h1>
                 <div className='h-full flex flex-col justify-evenly w-full'>
                     <input
-                        className='border-b-[2px] border-gray-400 w-full py-1 px-3 hover:outline-none focus:outline-none focus:border-secondary-color focus:border-b-[3px] xl:text-2xl lg:text-xl placeholder:text-xl'
+                        className='input'
                         type='text'
                         name='username'
                         placeholder='Username'
@@ -50,7 +50,7 @@ const Login = (): JSX.Element => {
                         onChange={changedValue}
                     />
                     <input
-                        className='border-b-[2px] border-gray-400 w-full py-1 px-3 hover:outline-none focus:outline-none focus:border-secondary-color focus:border-b-[3px]  xl:text-2xl lg:text-xl placeholder:text-xl'
+                        className='input'
                         type='password'
                         name='password'
                         placeholder='Password'
@@ -59,11 +59,11 @@ const Login = (): JSX.Element => {
                     />
                 </div>
                 <div className='flex flex-col justify-evenly w-full gap-4'>
-                    <button className='bg-secondary-color text-black btn hover:outline-secondary-color transition-colors'>
+                    <button className='btn bg-secondary-color text-black text-lg hover:outline-secondary-color transition-colors'>
                         Login
                     </button>
                     <button
-                        className='bg-gray-300 text-gray-900 btn hover:outline-gray-300 transition-colors'
+                        className='btn bg-gray-300 text-gray-900 text-lg  hover:outline-gray-300 transition-colors'
                         onClick={() => {
                             navigate("/register");
                         }}
