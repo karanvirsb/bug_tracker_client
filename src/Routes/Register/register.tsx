@@ -37,10 +37,17 @@ const Register = () => {
     const [isConfirmPasswordValid, setIsConfirmPasswordValid] =
         useState<States["isConfirmPasswordValid"]>(false);
 
-    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setInputValues((prev) => {
             return { ...prev, [e.target.name]: e.target.value };
         });
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
+        if (!isUsernameValid || !isPasswordValid || isConfirmPasswordValid)
+            return;
+        // TODO send request to backend with form data
     };
 
     useEffect(() => {
@@ -62,6 +69,7 @@ const Register = () => {
             <form
                 action=''
                 className='bg-white p-4 flex justify-between items-center flex-col gap-4 w-[25rem] sm:w-4/5 h-full rounded-md'
+                onSubmit={handleSubmit}
             >
                 <h1 className='xl:text-4xl lg:text-3xl'>Register</h1>
                 <div className='flex gap-4 sm:flex-col w-full'>
@@ -73,6 +81,7 @@ const Register = () => {
                         placeholder='First Name'
                         value={inputValues.firstName}
                         onChange={changeHandler}
+                        required
                     />
                     <input
                         type='text'
@@ -81,6 +90,7 @@ const Register = () => {
                         placeholder='Last Name'
                         value={inputValues.lastName}
                         onChange={changeHandler}
+                        required
                     />
                 </div>
                 <input
@@ -90,6 +100,7 @@ const Register = () => {
                     placeholder='Email'
                     value={inputValues.email}
                     onChange={changeHandler}
+                    required
                 />
 
                 {inputValues.username && (
@@ -108,6 +119,7 @@ const Register = () => {
                         autoComplete='false'
                         value={inputValues.username}
                         onChange={changeHandler}
+                        required
                     />
                     {inputValues.username &&
                         (isUsernameValid ? (
@@ -132,6 +144,7 @@ const Register = () => {
                         autoComplete='false'
                         value={inputValues.password}
                         onChange={changeHandler}
+                        required
                     />
                     {inputValues.password &&
                         (isPasswordValid ? (
@@ -149,6 +162,7 @@ const Register = () => {
                         autoComplete='false'
                         value={inputValues.confirmPassword}
                         onChange={changeHandler}
+                        required
                     />
                     {inputValues.confirmPassword &&
                         (isConfirmPasswordValid ? (
