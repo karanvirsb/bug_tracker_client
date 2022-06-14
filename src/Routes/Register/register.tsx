@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import ToolTip from "../../Components/Tooltip";
 
 type States = {
     register: {
@@ -54,7 +55,7 @@ const Register = () => {
         setIsConfirmPasswordValid(
             inputValues.confirmPassword === inputValues.password
         );
-    }, [inputValues.confirmPassword]);
+    }, [inputValues.confirmPassword, inputValues.password]);
 
     return (
         <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 '>
@@ -91,12 +92,19 @@ const Register = () => {
                     onChange={changeHandler}
                 />
 
+                {inputValues.username && (
+                    <ToolTip
+                        id='username'
+                        toolTipText='Username must be 4 to 24 characters long'
+                    ></ToolTip>
+                )}
                 <div className='flex items-center gap-3 w-full'>
                     <input
                         type='text'
                         name='username'
                         className='input'
                         placeholder='Username'
+                        id='username'
                         autoComplete='false'
                         value={inputValues.username}
                         onChange={changeHandler}
@@ -108,11 +116,17 @@ const Register = () => {
                             <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
                         ))}
                 </div>
-
+                {inputValues.password && (
+                    <ToolTip
+                        id='password'
+                        toolTipText='Password must have atleast 1 capital letter. Atleast 1 of these symbols "!@#$%_". Must be 8 to 24 characters long'
+                    ></ToolTip>
+                )}
                 <div className='flex items-center gap-3 w-full'>
                     <input
                         type='password'
                         name='password'
+                        id='password'
                         className='input'
                         placeholder='Password'
                         autoComplete='false'
