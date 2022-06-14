@@ -16,3 +16,7 @@ body {
 .btn {
     @apply font-semibold py-1 px-4 rounded-md hover:bg-transparent hover:outline-2 hover:outline;
 }
+
+.input {
+    @apply border-b-[2px] border-gray-400 w-full py-1 px-3 hover:outline-none focus:outline-none focus:border-secondary-color focus:border-b-[3px] xl:text-2xl lg:text-xl placeholder:text-xl;
+}
