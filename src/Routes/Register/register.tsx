@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 
 type States = {
     register: {
@@ -36,21 +37,24 @@ const Register = () => {
         useState<States["isConfirmPasswordValid"]>(false);
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.name === "username") {
-            setIsUsernameValid(USER_REGEX.test(inputValues.username));
-        }
-        if (e.target.name === "password") {
-            setIsPasswordValid(PWD_REGEX.test(inputValues.password));
-        }
-        if (e.target.name === "confirmPassword") {
-            setIsConfirmPasswordValid(
-                inputValues.confirmPassword === inputValues.password
-            );
-        }
         setInputValues((prev) => {
             return { ...prev, [e.target.name]: e.target.value };
         });
     };
+
+    useEffect(() => {
+        setIsUsernameValid(USER_REGEX.test(inputValues.username));
+    }, [inputValues.username]);
+
+    useEffect(() => {
+        setIsPasswordValid(PWD_REGEX.test(inputValues.password));
+    }, [inputValues.password]);
+
+    useEffect(() => {
+        setIsConfirmPasswordValid(
+            inputValues.confirmPassword === inputValues.password
+        );
+    }, [inputValues.confirmPassword]);
 
     return (
         <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 '>
@@ -87,34 +91,58 @@ const Register = () => {
                     onChange={changeHandler}
                 />
 
-                <input
-                    type='text'
-                    name='username'
-                    className='input'
-                    placeholder='Username'
-                    autoComplete='false'
-                    value={inputValues.username}
-                    onChange={changeHandler}
-                />
+                <div className='flex items-center gap-3 w-full'>
+                    <input
+                        type='text'
+                        name='username'
+                        className='input'
+                        placeholder='Username'
+                        autoComplete='false'
+                        value={inputValues.username}
+                        onChange={changeHandler}
+                    />
+                    {inputValues.username &&
+                        (isUsernameValid ? (
+                            <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
+                        ) : (
+                            <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
+                        ))}
+                </div>
 
-                <input
-                    type='password'
-                    name='password'
-                    className='input'
-                    placeholder='Password'
-                    autoComplete='false'
-                    value={inputValues.password}
-                    onChange={changeHandler}
-                />
-                <input
-                    type='password'
-                    name='confirmPassword'
-                    className='input'
-                    placeholder='Confirm Password'
-                    autoComplete='false'
-                    value={inputValues.confirmPassword}
-                    onChange={changeHandler}
-                />
+                <div className='flex items-center gap-3 w-full'>
+                    <input
+                        type='password'
+                        name='password'
+                        className='input'
+                        placeholder='Password'
+                        autoComplete='false'
+                        value={inputValues.password}
+                        onChange={changeHandler}
+                    />
+                    {inputValues.password &&
+                        (isPasswordValid ? (
+                            <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
+                        ) : (
+                            <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
+                        ))}
+                </div>
+                <div className='flex items-center gap-3 w-full'>
+                    <input
+                        type='password'
+                        name='confirmPassword'
+                        className='input'
+                        placeholder='Confirm Password'
+                        autoComplete='false'
+                        value={inputValues.confirmPassword}
+                        onChange={changeHandler}
+                    />
+                    {inputValues.confirmPassword &&
+                        (isConfirmPasswordValid ? (
+                            <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
+                        ) : (
+                            <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
+                        ))}
+                </div>
                 <div className='flex flex-col justify-evenly w-full gap-4'>
                     <button className=' btn bg-secondary-color text-black  text-lg hover:outline-secondary-color transition-colors'>
                         Register
