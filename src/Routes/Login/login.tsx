@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { axiosPrivate } from "../../API/axios";
+import useAuth from "../../Hooks/useAuth";
 
 type States = {
     login: {
@@ -9,7 +12,10 @@ type States = {
 };
 
 const Login = (): JSX.Element => {
+    const { setAuth }: any = useAuth();
     const navigate = useNavigate();
+    const location: any = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const [inputValues, setInputValues] = useState<States["login"]>({
         username: "",
@@ -23,12 +29,53 @@ const Login = (): JSX.Element => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (
+        e: React.FormEvent<HTMLFormElement>
+    ): Promise<void> => {
         e.preventDefault();
         if (!inputValues.username) throw Error("Invalid username");
         if (!inputValues.password) throw Error("Invalid password");
 
-        // TODO submit the login data
+        try {
+            const response = await axiosPrivate.post(
+                "/login",
+                {
+                    username: inputValues.username,
+                    password: inputValues.password,
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            const group_id = response?.data?.group_id;
+            setAuth({
+                username: inputValues.username,
+                roles,
+                accessToken,
+                group_id,
+            });
+
+            navigate(from, { replace: true });
+            setInputValues((prev) => {
+                return { ...prev, username: "", password: "" };
+            });
+        } catch (err: any) {
+            let errMsg = "";
+            if (!err?.response) {
+                errMsg = "No Server Response";
+            } else if (err.response?.status === 400) {
+                errMsg = "The username or password was incorrect";
+            } else if (err.response?.status === 401) {
+                errMsg = "Unauthorized";
+            } else {
+                errMsg = "Login Failed";
+            }
+
+            toast.error(errMsg);
+        }
     };
 
     return (
