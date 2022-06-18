@@ -1,12 +1,13 @@
 import { createContext, useState } from "react";
 
-type States = {
-    auth: {
-        username: String;
-        group_id: String;
-        roles: String;
+export interface IStates {
+    auth?: {
+        username: string;
+        group_id: string;
+        roles: [];
+        accessToken: string;
     };
-};
+}
 
 type Props = {
     children: JSX.Element;
@@ -15,10 +16,11 @@ type Props = {
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }: Props) => {
-    const [auth, setAuth] = useState<States["auth"]>({
+    const [auth, setAuth] = useState<IStates["auth"]>({
         username: "",
         group_id: "",
-        roles: "",
+        roles: [],
+        accessToken: "",
     });
 
     return (
