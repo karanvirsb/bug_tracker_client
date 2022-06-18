@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import ToolTip from "../../Components/Tooltip";
+import axios from "../../API/axios";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 type States = {
     register: {
@@ -21,6 +24,7 @@ const USER_REGEX = /^[a-zA-Z][a-zA-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%_]).{8,24}$/;
 
 const Register = () => {
+    const navigate = useNavigate();
     const [inputValues, setInputValues] = useState<States["register"]>({
         firstName: "",
         lastName: "",
@@ -43,11 +47,25 @@ const Register = () => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (
+        e: React.FormEvent<HTMLFormElement>
+    ): Promise<void> => {
         e.preventDefault();
         if (!isUsernameValid || !isPasswordValid || isConfirmPasswordValid)
             return;
-        // TODO send request to backend with form data
+
+        try {
+            const response = await axios.post("/register", { inputValues });
+            if (response.status === 201) {
+                navigate("/registration-sucessful");
+            }
+        } catch (err: any) {
+            if (err.response.status === 409) {
+                toast.error(`${inputValues.username} already exists`);
+            } else {
+                toast.error("Server Error");
+            }
+        }
     };
 
     useEffect(() => {
