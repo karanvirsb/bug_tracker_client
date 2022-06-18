@@ -7,6 +7,7 @@ export interface IStates {
         roles: [];
         accessToken: string;
     };
+    persist?: string;
 }
 
 type Props = {
@@ -23,8 +24,12 @@ export const AuthProvider = ({ children }: Props) => {
         accessToken: "",
     });
 
+    const [persist, setPersist] = useState<IStates["persist"]>(
+        JSON.parse(localStorage.getItem("bugTrackerPersist") || "{}") || false
+    );
+
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
             {children}
         </AuthContext.Provider>
     );
