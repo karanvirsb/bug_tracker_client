@@ -4,7 +4,6 @@ import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import ToolTip from "../../Components/Tooltip";
 import axios from "../../API/axios";
 import { toast } from "react-toastify";
-import { AxiosError } from "axios";
 
 type States = {
     register: {
