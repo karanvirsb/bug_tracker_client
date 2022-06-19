@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
+import { IStates } from "../../Context/AuthProvider";
 import useAuth from "../../Hooks/useAuth";
 
 type States = {
@@ -48,14 +49,12 @@ const Login = (): JSX.Element => {
                     withCredentials: true,
                 }
             );
+
             const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            const group_id = response?.data?.group_id;
+
             setAuth({
                 username: inputValues.username,
-                roles,
                 accessToken,
-                group_id,
             });
 
             navigate(from, { replace: true });
@@ -64,7 +63,7 @@ const Login = (): JSX.Element => {
             });
         } catch (err: any) {
             let errMsg = "";
-            if (!err?.response) {
+            if (err?.response) {
                 errMsg = "No Server Response";
             } else if (err.response?.status === 400) {
                 errMsg = "The username or password was incorrect";
