@@ -50,11 +50,24 @@ const Register = () => {
         e: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
         e.preventDefault();
-        if (!isUsernameValid || !isPasswordValid || isConfirmPasswordValid)
-            return;
+        if (!isUsernameValid) {
+            toast.error("Username is not valid");
+        } else if (!isPasswordValid) {
+            toast.error("Password is not valid");
+        } else if (!isConfirmPasswordValid) {
+            toast.error("Confirm Password is not valid");
+        } else {
+            toast.error("There is an issue");
+        }
 
         try {
-            const response = await axios.post("/register", { inputValues });
+            const response = await axios.post("/register", {
+                username: inputValues.username,
+                password: inputValues.password,
+                firstName: inputValues.firstName,
+                lastName: inputValues.lastName,
+                email: inputValues.email,
+            });
             if (response.status === 201) {
                 navigate("/registration-sucessful");
             }
@@ -145,7 +158,7 @@ const Register = () => {
                             <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
                         ))}
                 </div>
-                {inputValues.password && isPasswordValid && (
+                {inputValues.password && !isPasswordValid && (
                     <ToolTip
                         id='password'
                         toolTipText='Password must have atleast 1 capital letter. Atleast 1 of these symbols "!@#$%_". Must be 8 to 24 characters long'
