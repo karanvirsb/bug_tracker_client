@@ -8,6 +8,7 @@ import {
     Register,
     RegistrationSuccessful,
     PageNotFound,
+    Unauthorized,
 } from "./Routes";
 import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
@@ -55,6 +56,12 @@ function App() {
                         <Route path='/admin'></Route>
                     </Route>
                 </Route>
+                {/* Unauthorized */}
+                <Route
+                    path='/unauthorized'
+                    element={<Unauthorized></Unauthorized>}
+                ></Route>
+                {/* This is for 404 not found */}
                 <Route path='*' element={<PageNotFound></PageNotFound>}></Route>
             </Routes>
         </Router>
