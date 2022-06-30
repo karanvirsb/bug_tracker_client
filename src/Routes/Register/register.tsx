@@ -69,7 +69,7 @@ const Register = () => {
                 email: inputValues.email,
             });
             if (response.status === 201) {
-                navigate("/registration-sucessful");
+                navigate("/registration-successful");
             }
         } catch (err: any) {
             if (err.response.status === 409) {
