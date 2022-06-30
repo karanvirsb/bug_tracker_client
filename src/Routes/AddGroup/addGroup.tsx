@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { useMutation } from "react-query";
+import { axiosPrivate } from "../../API/axios";
+import { AxiosError } from "axios";
 
 type States = {
     groupType: string;
@@ -9,11 +12,40 @@ const AddGroup = () => {
     const [group, setGroup] = useState<States["groupType"]>("");
     const inviteCodeRegex = /.+#\d{4}/;
 
-    const joinGroup = (): void => {
+    const { mutateAsync } = useMutation((info) => {
+        return axiosPrivate("/user/id", { method: "put", data: info });
+    });
+
+    const fetchGroups = async () => {
+        const res = await axiosPrivate("/group/id", {
+            method: "Post",
+            data: { filter: "groupInviteCode", filterValue: group },
+        });
+        return res.data;
+    };
+
+    const joinGroup = async (): Promise<void> => {
         if (!group.match(inviteCodeRegex)) {
             toast.error(
                 "Invalid invite must match: << [any character]#[4 digits] >> "
             );
+        }
+        try {
+            // find group based on invite code
+            const groupInfo = await fetchGroups();
+            // if group doesnt exist show error
+            if (!groupInfo) {
+                toast.error(`${group} does not exist`);
+                return;
+            }
+            // if group exists add group id to user
+
+            // once gorup is added, add user to room based on group invite code
+            // redirect user to the home page of the group
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.error || "Server Error");
+            }
         }
     };
     const createGroup = (): void => {
