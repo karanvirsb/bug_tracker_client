@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,8 +6,15 @@ import { Home, Login, Register } from "./Routes";
 import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
+import socket from "./API/sockets";
 
 function App() {
+    useEffect(() => {
+        socket.on("connect", () => {
+            console.log(socket.id);
+        });
+    }, []);
+
     return (
         <Router>
             <ToastContainer
