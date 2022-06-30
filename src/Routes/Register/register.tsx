@@ -84,7 +84,7 @@ const Register = () => {
     return (
         <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 '>
             <form
-                action=''
+                action='Post'
                 className='bg-white p-4 flex justify-between items-center flex-col gap-4 w-[25rem] sm:w-4/5 h-full rounded-md'
                 onSubmit={handleSubmit}
             >
@@ -120,7 +120,7 @@ const Register = () => {
                     required
                 />
 
-                {inputValues.username && (
+                {inputValues.username && !isUsernameValid && (
                     <ToolTip
                         id='username'
                         toolTipText='Username must be 4 to 24 characters long'
@@ -145,7 +145,7 @@ const Register = () => {
                             <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
                         ))}
                 </div>
-                {inputValues.password && (
+                {inputValues.password && isPasswordValid && (
                     <ToolTip
                         id='password'
                         toolTipText='Password must have atleast 1 capital letter. Atleast 1 of these symbols "!@#$%_". Must be 8 to 24 characters long'
@@ -163,12 +163,11 @@ const Register = () => {
                         onChange={changeHandler}
                         required
                     />
-                    {inputValues.password &&
-                        (isPasswordValid ? (
-                            <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
-                        ) : (
-                            <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
-                        ))}
+                    {inputValues.password && isPasswordValid ? (
+                        <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
+                    ) : (
+                        <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
+                    )}
                 </div>
                 <div className='flex items-center gap-3 w-full'>
                     <input
