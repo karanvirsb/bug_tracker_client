@@ -2,7 +2,13 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import { Home, Login, Register, RegistrationSuccessful } from "./Routes";
+import {
+    Home,
+    Login,
+    Register,
+    RegistrationSuccessful,
+    PageNotFound,
+} from "./Routes";
 import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
@@ -49,6 +55,7 @@ function App() {
                         <Route path='/admin'></Route>
                     </Route>
                 </Route>
+                <Route path='*' element={<PageNotFound></PageNotFound>}></Route>
             </Routes>
         </Router>
     );
