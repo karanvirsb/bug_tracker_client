@@ -9,6 +9,7 @@ import {
     RegistrationSuccessful,
     PageNotFound,
     Unauthorized,
+    AddGroup,
 } from "./Routes";
 import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
@@ -36,6 +37,10 @@ function App() {
                 <Route
                     path='/registration-successful'
                     element={<RegistrationSuccessful></RegistrationSuccessful>}
+                ></Route>
+                <Route
+                    path='/add-group'
+                    element={<AddGroup></AddGroup>}
                 ></Route>
                 {/* PROTECT ROUTES */}
                 <Route element={<PersistLogin></PersistLogin>}>
