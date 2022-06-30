@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import { Home, Login, Register } from "./Routes";
+import { Home, Login, Register, RegistrationSuccessful } from "./Routes";
 import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
@@ -26,6 +26,10 @@ function App() {
             <Routes>
                 <Route path='/login' element={<Login></Login>}></Route>
                 <Route path='/register' element={<Register></Register>}></Route>
+                <Route
+                    path='/registration-successful'
+                    element={<RegistrationSuccessful></RegistrationSuccessful>}
+                ></Route>
                 {/* PROTECT ROUTES */}
                 <Route element={<PersistLogin></PersistLogin>}>
                     <Route
