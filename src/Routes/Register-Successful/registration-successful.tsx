@@ -1,7 +1,27 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const RegistrationSuccessful = () => {
-    return <div>Success</div>;
+    const navigate = useNavigate();
+    return (
+        <section className='bg-main-color flex justify-center items-center w-full h-screen'>
+            <div className='bg-white p-4 rounded-md flex flex-col gap-3'>
+                <h1 className='md:text-xl xl:text-3xl text-center'>
+                    Registration Was Successful
+                </h1>
+                <p className='md:text-lg xl:text-xl text-center'>
+                    Please continue back to the login page.
+                </p>
+                <button
+                    className='bg-blue-500 text-white font-semibold hover:bg-blue-600 hover:text-black rounded-md mt-8 py-2 px-4 md:text-lg xl:text-xl text-center '
+                    onClick={() => {
+                        navigate("/login", { replace: true });
+                    }}
+                >
+                    Login
+                </button>
+            </div>
+        </section>
+    );
 };
 
 export default RegistrationSuccessful;
