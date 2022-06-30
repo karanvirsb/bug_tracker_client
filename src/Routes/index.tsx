@@ -4,6 +4,7 @@ import Home from "./UserHome/home";
 import RegistrationSuccessful from "./Register-Successful/registration-successful";
 import PageNotFound from "./PageNotFound/pageNotFound";
 import Unauthorized from "./Unauthorized/unauthorized";
+import AddGroup from "./AddGroup/addGroup";
 
 export {
     Login,
@@ -12,4 +13,5 @@ export {
     RegistrationSuccessful,
     PageNotFound,
     Unauthorized,
+    AddGroup,
 };
