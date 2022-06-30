@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 type States = {
     groupType: string;
@@ -6,9 +7,20 @@ type States = {
 
 const AddGroup = () => {
     const [group, setGroup] = useState<States["groupType"]>("");
+    const inviteCodeRegex = /.+#\d{4}/;
 
-    const joinGroup = (): void => {};
-    const createGroup = (): void => {};
+    const joinGroup = (): void => {
+        if (!group.match(inviteCodeRegex)) {
+            toast.error(
+                "Invalid invite must match: << [any character]#[4 digits] >> "
+            );
+        }
+    };
+    const createGroup = (): void => {
+        if (group.includes("#")) {
+            toast.error("Group name cannot contain: #");
+        }
+    };
 
     return (
         <section className='bg-main-color flex justify-center items-center p-4 w-full h-screen'>
