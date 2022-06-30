@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 const PageNotFound = () => {
     const navigate = useNavigate();
     return (
-        <section className='bg-main-color flex justify-center items-center w-full h-screen'>
+        <section className='bg-main-color flex justify-center items-center p-4 w-full h-screen'>
             <div className='bg-white p-4 rounded-md flex flex-col gap-3'>
-                <h1 className='md:text-xl xl:text-3xl text-center'>
+                <h1 className='md:text-2xl xl:text-3xl text-center'>
                     404 Page Not Found
                 </h1>
                 <p className='md:text-lg xl:text-xl text-center'>
