@@ -34,8 +34,14 @@ const Login = (): JSX.Element => {
         e: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
         e.preventDefault();
-        if (!inputValues.username) throw Error("Invalid username");
-        if (!inputValues.password) throw Error("Invalid password");
+        if (!inputValues.username) {
+            toast.error("Invalid username");
+            return;
+        }
+        if (!inputValues.password) {
+            toast.error("Invalid password");
+            return;
+        }
 
         try {
             const response = await axiosPrivate.post(
