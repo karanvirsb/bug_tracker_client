@@ -3,6 +3,9 @@ import { toast } from "react-toastify";
 import { useMutation } from "react-query";
 import { axiosPrivate } from "../../API/axios";
 import { AxiosError } from "axios";
+import useAuth from "../../Hooks/useAuth";
+import { IStates } from "../../Context/AuthProvider";
+import { Navigate } from "react-router-dom";
 
 type States = {
     groupType: string;
@@ -12,7 +15,9 @@ const AddGroup = () => {
     const [group, setGroup] = useState<States["groupType"]>("");
     const inviteCodeRegex = /.+#\d{4}/;
 
-    const { mutateAsync } = useMutation((info) => {
+    const { auth, setAuth }: IStates = useAuth();
+
+    const addGroupToUser = useMutation((info: {}) => {
         return axiosPrivate("/user/id", { method: "put", data: info });
     });
 
@@ -39,9 +44,20 @@ const AddGroup = () => {
                 return;
             }
             // if group exists add group id to user
+            addGroupToUser.mutate({
+                id: auth?.username,
+                updates: { groupId: groupInfo.groupId },
+            });
 
             // once gorup is added, add user to room based on group invite code
+            if (addGroupToUser.isSuccess) {
+                if (setAuth) {
+                    setAuth({ ...auth, group_id: groupInfo.groupId });
+                }
+            }
+
             // redirect user to the home page of the group
+            Navigate({ to: "/", replace: true });
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
