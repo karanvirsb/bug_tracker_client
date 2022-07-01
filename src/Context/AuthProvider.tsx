@@ -1,14 +1,15 @@
 import { createContext, useState } from "react";
 
-export interface IStates {
+export type IStates = {
     auth?: {
-        username: string;
-        group_id: string;
-        roles: [];
-        accessToken: string;
+        username?: string | undefined;
+        group_id?: string | undefined;
+        roles?: [] | undefined;
+        accessToken?: string | undefined;
     };
+    setAuth?: React.Dispatch<React.SetStateAction<IStates["auth"]>>;
     persist?: string;
-}
+};
 
 type Props = {
     children: JSX.Element;
