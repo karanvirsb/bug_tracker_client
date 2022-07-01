@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
 import { IStates } from "../../Context/AuthProvider";
+import decoder, { IDecode } from "../../Helper/decodeToken";
 import useAuth from "../../Hooks/useAuth";
 
 type States = {
@@ -13,7 +14,7 @@ type States = {
 };
 
 const Login = (): JSX.Element => {
-    const { setAuth }: any = useAuth();
+    const { setAuth }: IStates = useAuth();
     const navigate = useNavigate();
     const location: any = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -57,13 +58,36 @@ const Login = (): JSX.Element => {
             );
 
             const accessToken = response?.data?.accessToken;
+            // once accesstoken received decode to get group id
+            if (!accessToken) {
+                toast.error("Server Error, Please try to login again.");
+                return;
+            }
 
-            setAuth({
-                username: inputValues.username,
-                accessToken,
-            });
+            const userInfo: IDecode | undefined = decoder(accessToken);
 
-            navigate(from, { replace: true });
+            if (!userInfo) {
+                toast.error("Error: Please try to login again.");
+            }
+
+            // set auth to roles along with group id
+            if (setAuth) {
+                setAuth({
+                    username: inputValues.username,
+                    roles: userInfo?.UserInfo.roles,
+                    group_id: userInfo?.UserInfo.group_id,
+                    accessToken,
+                });
+            }
+
+            // if it exists go to home page otherwise go to
+            if (userInfo?.UserInfo.group_id) {
+                navigate(from, { replace: true });
+            } else {
+                // else go to add group page
+                navigate("/add-group", { replace: true });
+            }
+
             setInputValues((prev) => {
                 return { ...prev, username: "", password: "" };
             });
