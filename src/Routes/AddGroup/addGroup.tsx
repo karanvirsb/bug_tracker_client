@@ -21,6 +21,10 @@ const AddGroup = () => {
         return axiosPrivate("/user/id", { method: "put", data: info });
     });
 
+    const createGroupMutation = useMutation((info: {}) => {
+        return axiosPrivate("/group", { method: "post", data: info });
+    });
+
     const fetchGroups = async () => {
         const res = await axiosPrivate("/group/id", {
             method: "Post",
@@ -64,9 +68,37 @@ const AddGroup = () => {
             }
         }
     };
-    const createGroup = (): void => {
+    const createGroup = async (): Promise<void> => {
         if (group.includes("#")) {
             toast.error("Group name cannot contain: #");
+        }
+
+        try {
+            // create a group using mutation
+            const newGroup = await createGroupMutation.mutateAsync({
+                groupName: group,
+            });
+            const groupInfo = newGroup.data;
+            if (createGroupMutation.isSuccess) {
+                // add group id to user
+                addGroupToUser.mutate({
+                    id: auth?.username,
+                    updates: { groupId: groupInfo.groupId },
+                });
+                // set group id
+                if (addGroupToUser.isSuccess) {
+                    if (setAuth) {
+                        setAuth({ ...auth, group_id: groupInfo.groupId });
+                    }
+                }
+
+                // navigate to home page
+                Navigate({ to: "/", replace: true });
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.error || "Server Error");
+            }
         }
     };
 
