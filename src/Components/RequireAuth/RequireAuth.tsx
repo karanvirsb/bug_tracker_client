@@ -1,23 +1,14 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { IStates } from "../../Context/AuthProvider";
-import jwt_decode from "jwt-decode";
-
-type decode = {
-    UserInfo: {
-        username: string;
-        group_id: string;
-        roles: [];
-    };
-};
+import decoder from "../../Helper/decodeToken";
+import { IDecode } from "../../Helper/decodeToken";
 
 const RequireAuth = ({ allowedRoles }: any) => {
     const { auth }: IStates = useAuth();
     const location = useLocation();
 
-    const decoded: decode | undefined = auth?.accessToken
-        ? jwt_decode(auth.accessToken)
-        : undefined;
+    const decoded: IDecode | undefined = decoder(auth?.accessToken || "");
 
     const roles = decoded?.UserInfo?.roles || [];
 
