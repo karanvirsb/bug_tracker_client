@@ -80,10 +80,13 @@ const AddGroup = () => {
             });
             const groupInfo = newGroup.data;
             if (createGroupMutation.isSuccess) {
-                // add group id to user
+                // add group id to user and add user as the admin of that group
                 addGroupToUser.mutate({
                     id: auth?.username,
-                    updates: { groupId: groupInfo.groupId },
+                    updates: {
+                        groupId: groupInfo.groupId,
+                        roles: { ...auth?.roles, Admin: "1990" },
+                    },
                 });
                 // set group id
                 if (addGroupToUser.isSuccess) {
