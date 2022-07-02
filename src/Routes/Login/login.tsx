@@ -82,7 +82,7 @@ const Login = (): JSX.Element => {
 
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
-                navigate(from, { replace: true });
+                navigate(from || "/", { replace: true });
             } else {
                 // else go to add group page
                 navigate("/add-group", { replace: true });
