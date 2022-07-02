@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useMutation } from "react-query";
-import { axiosPrivate } from "../../API/axios";
+// import { useMutation } from "react-query";
 import { AxiosError } from "axios";
 import useAuth from "../../Hooks/useAuth";
 import { IStates } from "../../Context/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 
 type States = {
     groupType: string;
@@ -14,16 +14,18 @@ type States = {
 const AddGroup = () => {
     const [group, setGroup] = useState<States["groupType"]>("");
     const inviteCodeRegex = /.+#\d{4}/;
+    const axiosPrivate = useAxiosPrivate();
 
     const { auth, setAuth }: IStates = useAuth();
+    const navigate = useNavigate();
 
-    const addGroupToUser = useMutation((info: {}) => {
-        return axiosPrivate("/user/id", { method: "put", data: info });
-    });
+    const addGroupToUser = async (info: {}) => {
+        return await axiosPrivate("/user/id", { method: "put", data: info });
+    };
 
-    const createGroupMutation = useMutation((info: {}) => {
-        return axiosPrivate("/group", { method: "post", data: info });
-    });
+    const createGroupMutation = async (info: {}) => {
+        return await axiosPrivate("/group", { method: "post", data: info });
+    };
 
     const fetchGroups = async () => {
         const res = await axiosPrivate("/group/id", {
@@ -38,36 +40,40 @@ const AddGroup = () => {
             toast.error(
                 "Invalid invite must match: << [any character]#[4 digits] >> "
             );
+            return;
         }
         try {
             // find group based on invite code
             const groupInfo = await fetchGroups();
+
             // if group doesnt exist show error
             if (!groupInfo) {
-                toast.error(`${group} does not exist`);
+                if (groupInfo.status === 204)
+                    toast.error(`${group} does not exist`);
                 return;
             }
             // if group exists add group id to user
-            addGroupToUser.mutate({
+            const addedGroup = await addGroupToUser({
                 id: auth?.username,
                 updates: { groupId: groupInfo.groupId },
             });
 
             // once gorup is added, add user to room based on group invite code
-            if (addGroupToUser.isSuccess) {
+            if (addedGroup) {
                 if (setAuth) {
                     setAuth({ ...auth, group_id: groupInfo.groupId });
                 }
             }
 
             // redirect user to the home page of the group
-            Navigate({ to: "/", replace: true });
+            navigate("/", { replace: true });
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
             }
         }
     };
+
     const createGroup = async (): Promise<void> => {
         if (group.includes("#")) {
             toast.error("Group name cannot contain: #");
@@ -75,33 +81,35 @@ const AddGroup = () => {
 
         try {
             // create a group using mutation
-            const newGroup = await createGroupMutation.mutateAsync({
+            const newGroup = await createGroupMutation({
                 groupName: group,
             });
-            const groupInfo = newGroup.data;
-            if (createGroupMutation.isSuccess) {
+
+            if (newGroup) {
+                const groupInfo = newGroup.data;
                 // add group id to user and add user as the admin of that group
-                addGroupToUser.mutate({
+                const addedGroup = await addGroupToUser({
                     id: auth?.username,
                     updates: {
                         groupId: groupInfo.groupId,
                         roles: { ...auth?.roles, Admin: "1990" },
                     },
                 });
+
                 // set group id
-                if (addGroupToUser.isSuccess) {
+                if (addedGroup) {
                     if (setAuth) {
                         setAuth({ ...auth, group_id: groupInfo.groupId });
                     }
+                    // navigate to home page
+                    navigate("/", { replace: true });
                 }
-
-                // navigate to home page
-                Navigate({ to: "/", replace: true });
             }
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
             }
+            console.log(error);
         }
     };
 
