@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Outlet,
+} from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -15,6 +20,25 @@ import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
+import { Navbar, AdminNavbar } from "./Components/Navbar";
+
+const NavbarLayout = () => {
+    return (
+        <>
+            <Navbar></Navbar>
+            <Outlet></Outlet>
+        </>
+    );
+};
+
+const AdminNavbarLayout = () => {
+    return (
+        <>
+            <AdminNavbar></AdminNavbar>
+            <Outlet></Outlet>
+        </>
+    );
+};
 
 function App() {
     useEffect(() => {
@@ -47,8 +71,10 @@ function App() {
                             <RequireAuth allowedRoles={["2001"]}></RequireAuth>
                         }
                     >
+                        <Route element={<NavbarLayout></NavbarLayout>}>
+                            <Route path='/' element={<Home></Home>}></Route>
+                        </Route>
                         {/* TODO add routes */}
-                        <Route path='/' element={<Home></Home>}></Route>
                     </Route>
                     <Route
                         element={
@@ -56,7 +82,11 @@ function App() {
                         }
                     >
                         {/* TODO add routes */}
-                        <Route path='/admin'></Route>
+                        <Route
+                            element={<AdminNavbarLayout></AdminNavbarLayout>}
+                        >
+                            <Route path='/admin'></Route>
+                        </Route>
                     </Route>
                 </Route>
                 {/* Unauthorized */}
