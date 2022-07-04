@@ -3,8 +3,8 @@ import { setAuth } from "../Auth/authenticationSlice";
 import { useDispatch } from "react-redux";
 
 const useLogout = () => {
+    const dispatch = useDispatch();
     const logout = async () => {
-        const dispatch = useDispatch();
         dispatch(
             setAuth({ username: "", accessToken: "", group_id: "", roles: [] })
         ); // reset auth
