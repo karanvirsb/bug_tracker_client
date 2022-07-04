@@ -1,10 +1,12 @@
-import { useContext } from "react";
-import AuthContext from "../Context/AuthProvider";
+import type { RootState } from "../Store";
+import { useSelector } from "react-redux";
 
 // can remove importing this each time
 // also gives easy access to auth data
 const useAuth = () => {
-    return useContext(AuthContext);
+    const auth = useSelector((state: RootState) => state.auth);
+    const persist = useSelector((state: RootState) => state.persist.persist);
+    return { auth, persist };
 };
 
 export default useAuth;
