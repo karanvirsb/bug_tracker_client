@@ -15,11 +15,20 @@ import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
+import useAuth from "./Hooks/useAuth";
+import { IStates } from "./Context/AuthProvider";
 
 function App() {
+    const { auth }: IStates = useAuth();
     useEffect(() => {
         socket.on("connect", () => {
             console.log(socket.id);
+
+            socket.emit("joinRoom", {
+                query: {
+                    room: auth?.group_id,
+                },
+            });
         });
     }, []);
 
