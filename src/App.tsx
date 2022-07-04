@@ -21,15 +21,7 @@ import { IStates } from "./Context/AuthProvider";
 function App() {
     const { auth }: IStates = useAuth();
     useEffect(() => {
-        socket.on("connect", () => {
-            console.log(socket.id);
-
-            socket.emit("joinRoom", {
-                query: {
-                    room: auth?.group_id,
-                },
-            });
-        });
+        socket.on("connect", () => {});
     }, []);
 
     return (
