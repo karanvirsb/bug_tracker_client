@@ -4,9 +4,8 @@ import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
 // import { IStates } from "../../Context/AuthProvider";
 import decoder, { IDecode } from "../../Helper/decodeToken";
-// import useAuth from "../../Hooks/useAuth";
 import socket from "../../API/sockets";
-import { useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../Hooks/hooks";
 import { setAuth } from "../../Auth/authenticationSlice";
 
 type States = {
@@ -17,8 +16,7 @@ type States = {
 };
 
 const Login = (): JSX.Element => {
-    // const { setAuth }: IStates = useAuth();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location: any = useLocation();
     const from = location.state?.from?.pathname || "/";
