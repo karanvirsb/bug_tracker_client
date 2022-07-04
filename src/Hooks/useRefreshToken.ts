@@ -1,17 +1,22 @@
 import axios from "../API/axios";
 import { setAuth } from "../Auth/authenticationSlice";
-import useAuth from "./useAuth";
-import { useDispatch } from "react-redux";
-
+import { useAppSelector, useAppDispatch } from "../Hooks/hooks";
 const useRefreshToken = () => {
-    const { auth } = useAuth();
-    const dispatch = useDispatch();
+    const auth = useAppSelector((state) => state.auth);
+
+    const dispatch = useAppDispatch();
     // doing this so we can set the accessToken;
     const refresh = async () => {
         // withCrendeitals allows us to send the cookie back
-        const response = await axios.get("/refresh", { withCredentials: true });
+        const response = await axios.get("/refresh", {
+            withCredentials: true,
+        });
 
-        const newAuth = { ...auth, accessToken: response.data.accessToken };
+        const newAuth = {
+            ...auth,
+            accessToken: response.data.accessToken,
+            roles: response.data.roles,
+        };
 
         dispatch(setAuth(newAuth));
 
