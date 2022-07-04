@@ -12,7 +12,7 @@ const PageNotFound = () => {
                     The page you are trying to access does not exist.
                 </p>
                 <button
-                    className='bg-blue-500 text-white font-semibold hover:bg-blue-600 hover:text-black rounded-md mt-8 py-2 px-4 md:text-lg xl:text-xl text-center'
+                    className='bg-secondary-color text-black font-semibold hover:bg-transparent hover:outline hover:outline-2 hover:outline-secondary-color rounded-md mt-8 py-2 px-4 md:text-lg xl:text-xl text-center'
                     onClick={() => navigate(-1)}
                 >
                     Go Back
