@@ -6,6 +6,7 @@ import useAuth from "../../Hooks/useAuth";
 import { IStates } from "../../Context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import socket from "../../API/sockets";
 
 type States = {
     groupType: string;
@@ -64,7 +65,7 @@ const AddGroup = () => {
                     setAuth({ ...auth, group_id: groupInfo.groupId });
                 }
             }
-
+            socket.connect();
             // redirect user to the home page of the group
             navigate("/", { replace: true });
         } catch (error: any) {
@@ -105,6 +106,9 @@ const AddGroup = () => {
                     if (setAuth) {
                         setAuth({ ...auth, group_id: groupInfo.groupId });
                     }
+
+                    socket.connect();
+
                     // navigate to home page
                     navigate("/", { replace: true });
                 }
