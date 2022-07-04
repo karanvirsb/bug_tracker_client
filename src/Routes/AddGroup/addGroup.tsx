@@ -61,11 +61,13 @@ const AddGroup = () => {
             });
 
             // once gorup is added, add user to room based on group invite code
-            if (addedGroup) {
-                if (setAuth) {
-                    setAuth({ ...auth, group_id: groupInfo.groupId });
-                }
+            if (!addedGroup) {
+                toast.error("Something went wrong");
+                return;
             }
+
+            dispatch(setAuth({ ...auth, group_id: groupInfo.groupId }));
+
             socket.connect();
             // redirect user to the home page of the group
             navigate("/", { replace: true });
@@ -91,29 +93,32 @@ const AddGroup = () => {
                 groupName: group,
             });
 
-            if (newGroup) {
-                const groupInfo = newGroup.data;
-                // add group id to user and add user as the admin of that group
-                const addedGroup = await addGroupToUser({
-                    id: auth?.username,
-                    updates: {
-                        groupId: groupInfo.groupId,
-                        roles: { ...auth?.roles, Admin: "1990" },
-                    },
-                });
-
-                // set group id
-                if (addedGroup) {
-                    if (setAuth) {
-                        setAuth({ ...auth, group_id: groupInfo.groupId });
-                    }
-
-                    socket.connect();
-
-                    // navigate to home page
-                    navigate("/", { replace: true });
-                }
+            if (!newGroup) {
+                toast.error("Could not create group try again.");
+                return;
             }
+            const groupInfo = newGroup.data;
+            // add group id to user and add user as the admin of that group
+            const addedGroup = await addGroupToUser({
+                id: auth?.username,
+                updates: {
+                    groupId: groupInfo.groupId,
+                    roles: { ...auth?.roles, Admin: "1990" },
+                },
+            });
+
+            // set group id
+            if (!addedGroup) {
+                toast.error("Could not add to group please try again");
+                return;
+            }
+
+            dispatch(setAuth({ ...auth, group_id: groupInfo.groupId }));
+
+            socket.connect();
+
+            // navigate to home page
+            navigate("/", { replace: true });
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
