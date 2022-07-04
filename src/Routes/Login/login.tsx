@@ -73,17 +73,20 @@ const Login = (): JSX.Element => {
 
             // set auth to roles along with group id
             if (setAuth) {
-                setAuth({
-                    username: inputValues.username,
-                    roles: userInfo?.UserInfo.roles,
-                    group_id: userInfo?.UserInfo.group_id,
-                    accessToken,
+                setAuth(() => {
+                    return {
+                        username: inputValues.username,
+                        roles: userInfo?.UserInfo.roles,
+                        group_id: userInfo?.UserInfo.group_id,
+                        accessToken,
+                    };
                 });
             }
 
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
                 socket.connect();
+                socket.emit("joinRoom", { room: userInfo?.UserInfo.group_id });
                 navigate(from || "/", { replace: true });
             } else {
                 // else go to add group page
