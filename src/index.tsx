@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { AuthProvider } from "./Context/AuthProvider";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { store } from "./Store/store";
+import { store } from "./Store";
 import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(
