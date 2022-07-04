@@ -5,9 +5,9 @@ import { useDispatch } from "react-redux";
 
 const useRefreshToken = () => {
     const { auth } = useAuth();
+    const dispatch = useDispatch();
     // doing this so we can set the accessToken;
     const refresh = async () => {
-        const dispatch = useDispatch();
         // withCrendeitals allows us to send the cookie back
         const response = await axios.get("/refresh", { withCredentials: true });
 
