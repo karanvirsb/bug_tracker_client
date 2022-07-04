@@ -70,6 +70,10 @@ const AddGroup = () => {
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
+
+                if (error?.response?.data?.error.includes("unauth")) {
+                    navigate("/login", { replace: true });
+                }
             }
         }
     };
