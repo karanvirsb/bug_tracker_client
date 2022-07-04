@@ -1,11 +1,10 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
-import { IStates } from "../../Context/AuthProvider";
 import decoder from "../../Helper/decodeToken";
 import { IDecode } from "../../Helper/decodeToken";
 
 const RequireAuth = ({ allowedRoles }: any) => {
-    const { auth }: IStates = useAuth();
+    const { auth } = useAuth();
     const location = useLocation();
 
     const decoded: IDecode | undefined = decoder(auth?.accessToken || "");
