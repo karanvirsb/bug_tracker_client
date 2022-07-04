@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
-import { IStates } from "../../Context/AuthProvider";
+// import { IStates } from "../../Context/AuthProvider";
 import decoder, { IDecode } from "../../Helper/decodeToken";
-import useAuth from "../../Hooks/useAuth";
+// import useAuth from "../../Hooks/useAuth";
 import socket from "../../API/sockets";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../Auth/authenticationSlice";
 
 type States = {
     login: {
@@ -15,7 +17,8 @@ type States = {
 };
 
 const Login = (): JSX.Element => {
-    const { setAuth }: IStates = useAuth();
+    // const { setAuth }: IStates = useAuth();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location: any = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -72,16 +75,14 @@ const Login = (): JSX.Element => {
             }
 
             // set auth to roles along with group id
-            if (setAuth) {
-                setAuth(() => {
-                    return {
-                        username: inputValues.username,
-                        roles: userInfo?.UserInfo.roles,
-                        group_id: userInfo?.UserInfo.group_id,
-                        accessToken,
-                    };
-                });
-            }
+            dispatch(
+                setAuth({
+                    username: inputValues.username,
+                    roles: userInfo?.UserInfo.roles,
+                    group_id: userInfo?.UserInfo.group_id,
+                    accessToken,
+                })
+            );
 
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
