@@ -95,7 +95,7 @@ const Register = () => {
     }, [inputValues.confirmPassword, inputValues.password]);
 
     return (
-        <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 '>
+        <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 register-background'>
             <form
                 action='Post'
                 className='bg-white p-4 flex justify-between items-center flex-col gap-4 w-[25rem] sm:w-4/5 h-full rounded-md'

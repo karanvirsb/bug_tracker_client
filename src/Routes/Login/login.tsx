@@ -112,7 +112,7 @@ const Login = (): JSX.Element => {
     };
 
     return (
-        <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 '>
+        <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 login-background'>
             <form
                 className='bg-white p-4 flex justify-between items-center flex-col gap-4 w-80 sm:w-4/5 h-60 lg:h-80 xl:h-[20rem] rounded-md'
                 onSubmit={handleSubmit}

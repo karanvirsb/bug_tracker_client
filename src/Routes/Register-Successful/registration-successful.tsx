@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const RegistrationSuccessful = () => {
     const navigate = useNavigate();
     return (
-        <section className='bg-main-color flex justify-center items-center p-4 w-full h-screen'>
+        <section className='bg-main-color flex justify-center items-center p-4 w-full h-screen success-background'>
             <div className='bg-white p-4 rounded-md flex flex-col gap-3'>
                 <h1 className='md:text-2xl xl:text-3xl text-center'>
                     Registration Was Successful
