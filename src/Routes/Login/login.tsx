@@ -5,6 +5,7 @@ import { axiosPrivate } from "../../API/axios";
 import { IStates } from "../../Context/AuthProvider";
 import decoder, { IDecode } from "../../Helper/decodeToken";
 import useAuth from "../../Hooks/useAuth";
+import socket from "../../API/sockets";
 
 type States = {
     login: {
@@ -82,6 +83,7 @@ const Login = (): JSX.Element => {
 
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
+                socket.connect();
                 navigate(from || "/", { replace: true });
             } else {
                 // else go to add group page
