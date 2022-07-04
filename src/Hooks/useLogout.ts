@@ -1,11 +1,9 @@
 import axios from "../API/axios";
-import useAuth from "./useAuth";
+import { setAuth } from "../Auth/authenticationSlice";
 
 const useLogout = () => {
-    const { setAuth }: any = useAuth();
-
     const logout = async () => {
-        setAuth({}); // reset auth
+        setAuth({ username: "", accessToken: "", group_id: "", roles: [] }); // reset auth
 
         try {
             await axios.delete("/logout", { withCredentials: true });
