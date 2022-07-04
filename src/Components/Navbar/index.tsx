@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useLogout from "../../Hooks/useLogout";
 
 export const Navbar = () => {
+    const logout = useLogout();
     return (
         <nav className='bg-main-color text-white fixed top-2 left-2 bottom-2 rounded-2xl p-4 min-h-[98.5vh] w-[175px] flex flex-col justify-between'>
             <div className='pb-4 '>
@@ -24,7 +26,10 @@ export const Navbar = () => {
                     </Link>
                 </div>
             </div>
-            <button className='bg-secondary-color text-black py-2 px-4 rounded-md hover:bg-transparent hover:text-white hover:font-semibold hover:outline hover:outline-secondary-color hover:outline-2'>
+            <button
+                className='bg-secondary-color text-black py-2 px-4 rounded-md hover:bg-transparent hover:text-white hover:font-semibold hover:outline hover:outline-secondary-color hover:outline-2'
+                onClick={logout}
+            >
                 Logout
             </button>
         </nav>
@@ -32,6 +37,7 @@ export const Navbar = () => {
 };
 
 export const AdminNavbar = () => {
+    const logout = useLogout();
     return (
         <nav className='bg-main-color text-white fixed top-2 left-2 bottom-2 rounded-2xl p-4 w-[175px] flex flex-col justify-between'>
             <div className='pb-4 '>
@@ -60,7 +66,10 @@ export const AdminNavbar = () => {
                     </Link>
                 </div>
             </div>
-            <button className='bg-secondary-color text-black py-2 px-4 rounded-md hover:bg-transparent hover:text-white hover:font-semibold hover:outline hover:outline-secondary-color hover:outline-2'>
+            <button
+                className='bg-secondary-color text-black py-2 px-4 rounded-md hover:bg-transparent hover:text-white hover:font-semibold hover:outline hover:outline-secondary-color hover:outline-2'
+                onClick={logout}
+            >
                 Logout
             </button>
         </nav>
