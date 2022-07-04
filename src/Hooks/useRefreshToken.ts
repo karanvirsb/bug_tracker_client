@@ -1,17 +1,17 @@
 import axios from "../API/axios";
+import { setAuth } from "../Auth/authenticationSlice";
 import useAuth from "./useAuth";
-import { IStates } from "../Context/AuthProvider";
 
 const useRefreshToken = () => {
-    const { setAuth }: any = useAuth(); // doing this so we can set the accessToken;
-
+    const { auth } = useAuth();
+    // doing this so we can set the accessToken;
     const refresh = async () => {
-        const response = await axios.get("/refresh", { withCredentials: true });
         // withCrendeitals allows us to send the cookie back
+        const response = await axios.get("/refresh", { withCredentials: true });
 
-        setAuth((prev: IStates) => {
-            return { ...prev, accessToken: response.data.accessToken };
-        });
+        const newAuth = { ...auth, accessToken: response.data.accessToken };
+
+        setAuth(newAuth);
 
         return response.data.accessToken; // allwos us to request again
     };
