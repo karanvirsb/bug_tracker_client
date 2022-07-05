@@ -86,7 +86,7 @@ const Login = (): JSX.Element => {
             if (userInfo?.UserInfo.group_id) {
                 socket.connect();
                 socket.emit("joinRoom", { room: userInfo?.UserInfo.group_id });
-                navigate(from || "/", { replace: true });
+                navigate(from || "/dashboard", { replace: true });
             } else {
                 // else go to add group page
                 navigate("/add-group", { replace: true });
