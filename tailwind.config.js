@@ -8,6 +8,11 @@ module.exports = {
             md: { max: "768px" },
             sm: { max: "480px" },
             xs: { max: "250px" },
+            "m-xl": { min: "2000px" },
+            "m-lg": { min: "1176px" },
+            "m-md": { min: "768px" },
+            "m-sm": { min: "480px" },
+            "m-xs": { min: "250px" },
         },
         extend: {
             colors: {
