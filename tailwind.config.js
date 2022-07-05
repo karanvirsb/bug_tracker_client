@@ -18,6 +18,7 @@ module.exports = {
             colors: {
                 "main-color": "#403F3F",
                 "secondary-color": "#C97878",
+                "btn-color": "#303030",
             },
         },
     },
