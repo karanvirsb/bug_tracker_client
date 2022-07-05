@@ -1,6 +1,6 @@
 import Login from "./Login/login";
 import Register from "./Register/register";
-import Home from "./UserHome/home";
+import Dashboard from "./Dashboard/dashboard";
 import RegistrationSuccessful from "./Register-Successful/registration-successful";
 import PageNotFound from "./PageNotFound/pageNotFound";
 import Unauthorized from "./Unauthorized/unauthorized";
@@ -9,7 +9,7 @@ import AddGroup from "./AddGroup/addGroup";
 export {
     Login,
     Register,
-    Home,
+    Dashboard,
     RegistrationSuccessful,
     PageNotFound,
     Unauthorized,
