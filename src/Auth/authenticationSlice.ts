@@ -4,7 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface AuthState {
     username: string | undefined;
     group_id?: string | undefined;
-    roles?: [] | undefined;
+    roles?: string[] | undefined;
     accessToken: string | undefined;
 }
 
