@@ -8,7 +8,7 @@ import {
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import {
-    Home,
+    Dashboard,
     Login,
     Register,
     RegistrationSuccessful,
@@ -63,7 +63,10 @@ function App() {
                         }
                     >
                         <Route element={<NavbarLayout></NavbarLayout>}>
-                            <Route path='/' element={<Home></Home>}></Route>
+                            <Route
+                                path='/'
+                                element={<Dashboard></Dashboard>}
+                            ></Route>
                         </Route>
                         {/* TODO add routes */}
                     </Route>
