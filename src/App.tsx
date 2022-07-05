@@ -20,21 +20,12 @@ import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
-import { Navbar, AdminNavbar } from "./Components/Navbar";
+import { Navbar } from "./Components/Navbar";
 
 const NavbarLayout = () => {
     return (
         <>
             <Navbar></Navbar>
-            <Outlet></Outlet>
-        </>
-    );
-};
-
-const AdminNavbarLayout = () => {
-    return (
-        <>
-            <AdminNavbar></AdminNavbar>
             <Outlet></Outlet>
         </>
     );
@@ -82,11 +73,7 @@ function App() {
                         }
                     >
                         {/* TODO add routes */}
-                        <Route
-                            element={<AdminNavbarLayout></AdminNavbarLayout>}
-                        >
-                            <Route path='/admin'></Route>
-                        </Route>
+                        <Route path='/admin'></Route>
                     </Route>
                 </Route>
                 {/* Unauthorized */}
