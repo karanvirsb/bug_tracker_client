@@ -20,3 +20,7 @@ body {
 .input {
     @apply border-b-[2px] border-gray-400 w-full py-1 px-3 hover:outline-none focus:outline-none focus:border-secondary-color focus:border-b-[3px] xl:text-2xl lg:text-xl placeholder:text-xl;
 }
+
+.pagination-btn {
+    @apply bg-btn-color text-white py-1 px-2 rounded-md hover:bg-transparent hover:text-black hover:font-semibold hover:outline hover:outline-btn-color hover:outline-2;
+}
