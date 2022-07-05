@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
+import { useAppSelector } from "../../Hooks/hooks";
 
 export const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const logout = useLogout();
+
+    const auth = useAppSelector((state) => state.auth);
 
     const openModal = () => {
         setShowNavigation(true);
