@@ -76,7 +76,7 @@ export const Navbar = () => {
                             />
                         </svg>
                     </div>
-                    <div className=' flex flex-col gap-4 py-4 px-4 m-md:text-center'>
+                    <div className=' flex flex-col gap-4 py-4 m-md:text-center'>
                         <Link
                             className='rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black'
                             to='/dashboard'
