@@ -13,6 +13,7 @@ export const Navbar = () => {
         const role: string = "1990";
         return roles?.includes(role);
     };
+
     const openModal = () => {
         setShowNavigation(true);
     };
@@ -47,8 +48,8 @@ export const Navbar = () => {
                 />
             </svg>
             <nav
-                className={`flex flex-col justify-between min-h-full md:${
-                    showNavigation ? "" : "hidden"
+                className={`flex flex-col justify-between min-h-full ${
+                    showNavigation ? "" : "md:hidden"
                 }`}
             >
                 <div className='pb-4'>
