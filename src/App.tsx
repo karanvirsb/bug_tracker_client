@@ -64,7 +64,7 @@ function App() {
                     >
                         <Route element={<NavbarLayout></NavbarLayout>}>
                             <Route
-                                path='/'
+                                path='/dashboard'
                                 element={<Dashboard></Dashboard>}
                             ></Route>
                         </Route>
