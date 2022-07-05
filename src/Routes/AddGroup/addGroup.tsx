@@ -70,7 +70,7 @@ const AddGroup = () => {
 
             socket.connect();
             // redirect user to the home page of the group
-            navigate("/", { replace: true });
+            navigate("/dashboard", { replace: true });
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
@@ -118,7 +118,7 @@ const AddGroup = () => {
             socket.connect();
 
             // navigate to home page
-            navigate("/", { replace: true });
+            navigate("/dashboard", { replace: true });
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.error || "Server Error");
