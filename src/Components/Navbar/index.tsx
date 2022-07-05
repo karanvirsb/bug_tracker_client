@@ -3,21 +3,21 @@ import { Link } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
 
 export const Navbar = () => {
-    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const logout = useLogout();
 
     const openModal = () => {
-        setShowModal(true);
+        setShowNavigation(true);
     };
 
     const closeModal = () => {
-        setShowModal(false);
+        setShowNavigation(false);
     };
 
     return (
         <header
             className={`bg-main-color text-white fixed top-2 left-2 bottom-2 m-md:rounded-2xl p-4 min-h-[98.5vh] w-[175px] flex flex-col sm:w-full md:top-0 md:left-0 md:bottom-0${
-                showModal
+                showNavigation
                     ? " md:w-[50vw] md:block"
                     : " md:bg-transparent md:text-black md:w-max"
             }`}
@@ -25,7 +25,7 @@ export const Navbar = () => {
             <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className={`h-8 w-8 md:${
-                    showModal ? "hidden" : "block"
+                    showNavigation ? "hidden" : "block"
                 } m-lg:hidden`}
                 fill='none'
                 viewBox='0 0 24 24'
@@ -41,7 +41,7 @@ export const Navbar = () => {
             </svg>
             <nav
                 className={`flex flex-col justify-between min-h-full md:${
-                    showModal ? "" : "hidden"
+                    showNavigation ? "" : "hidden"
                 }`}
             >
                 <div className='pb-4'>
@@ -53,7 +53,7 @@ export const Navbar = () => {
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
                             className={`h-8 w-8 m-md:hidden ${
-                                showModal ? "inline-block" : "hidden"
+                                showNavigation ? "inline-block" : "hidden"
                             }`}
                             fill='none'
                             viewBox='0 0 24 24'
