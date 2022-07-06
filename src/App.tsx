@@ -4,6 +4,7 @@ import {
     Routes,
     Route,
     Outlet,
+    useNavigate,
 } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +22,7 @@ import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
 import { Navbar } from "./Components/Navbar";
+import { useAppSelector } from "./Hooks/hooks";
 
 const NavbarLayout = () => {
     return (
@@ -32,12 +34,20 @@ const NavbarLayout = () => {
 };
 
 function App() {
+    const navigate = useNavigate();
+    const auth = useAppSelector((state) => state.auth);
     useEffect(() => {
         socket.on("connect", () => {});
     }, []);
 
+    useEffect(() => {
+        if (!auth.accessToken) {
+            navigate("/login", { replace: true });
+        }
+    }, [auth.accessToken, navigate]);
+
     return (
-        <Router>
+        <>
             <ToastContainer
                 position='top-right'
                 draggable={true}
@@ -87,7 +97,7 @@ function App() {
                 {/* This is for 404 not found */}
                 <Route path='*' element={<PageNotFound></PageNotFound>}></Route>
             </Routes>
-        </Router>
+        </>
     );
 }
 
