@@ -5,6 +5,7 @@ import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { store } from "./Store";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -12,10 +13,12 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient();
 root.render(
     <React.StrictMode>
-        <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-                <App />
-            </QueryClientProvider>
-        </Provider>
+        <BrowserRouter>
+            <Provider store={store}>
+                <QueryClientProvider client={queryClient}>
+                    <App />
+                </QueryClientProvider>
+            </Provider>
+        </BrowserRouter>
     </React.StrictMode>
 );
