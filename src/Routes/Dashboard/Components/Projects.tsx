@@ -1,33 +1,42 @@
-import React from "react";
+import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 
-const Projects = (): JSX.Element => {
-    // TODO query all the data of project given groupId
-    const projects = [
-        {
-            id: "1",
-            title: "Bug Tracker",
-            description:
-                " Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit iste beatae recusandae et accusamus, rem iure, iusto alias consectetur odit dicta repellat corporis, tenetur quasi enim aspernatur molestias impedit consequuntur! Obcaecati",
-            dateCreated: "2022-01-20",
-            members: "Marin Kar, Lar Far",
-        },
-    ];
-    return (
+export interface IProject {
+    projectId: string;
+    groupId: string;
+    projectName: string;
+    projectDesc: string;
+    dateCreated: Date;
+    users: string[];
+}
+
+const Projects = (props: { projects: IProject[] }): JSX.Element => {
+    // get all users of each project
+
+    return props.projects.length < 0 ? (
+        <div>No results. Maybe try to create a project or reload the page.</div>
+    ) : (
         <>
-            {projects.map((project) => {
+            {props.projects.map((project) => {
                 return (
-                    <tr className='border-gray-200 border-b-2' key={project.id}>
+                    <tr
+                        className='border-gray-200 border-b-2'
+                        key={project.projectId}
+                    >
                         <th
                             scope='row'
                             className='px-6 py-3 text-gray-800 font-semibold'
                         >
-                            {project.title}
+                            {project.projectName}
                         </th>
                         <td className='truncate max-w-[15ch] px-6 py-3'>
-                            {project.description}
+                            {project.projectDesc}
                         </td>
-                        <td className='px-6 py-3'>{project.dateCreated}</td>
-                        <td className='px-6 py-3'>{project.members}</td>
+                        <td className='px-6 py-3'>
+                            {project.dateCreated.toDateString()}
+                        </td>
+                        <td className='px-6 py-3'>
+                            <ProjectUsers users={project.users}></ProjectUsers>
+                        </td>
                         <td className='px-1 py-3'>
                             <svg
                                 xmlns='http://www.w3.org/2000/svg'
@@ -49,6 +58,27 @@ const Projects = (): JSX.Element => {
             })}
         </>
     );
+};
+
+const ProjectUsers = (props: { users: string[] }) => {
+    const axiosPrivate = useAxiosPrivate();
+
+    const userElements = props.users.map(async (user, index) => {
+        const foundUser = await axiosPrivate("/user/id", {
+            method: "post",
+            data: { filter: "userId", filterValue: user },
+        });
+
+        const userData = foundUser.data;
+
+        if (index === props.users.length - 1) {
+            return <span>{userData.firstName + " " + userData.lastName}</span>;
+        }
+        return (
+            <span>{userData.firstName + " " + userData.lastName + ","}</span>
+        );
+    });
+    return <>{userElements}</>;
 };
 
 export default Projects;
