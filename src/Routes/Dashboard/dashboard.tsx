@@ -11,14 +11,10 @@ const Dashboard = () => {
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
-
-    // creating axios fetch for projects
     const axiosPrivate = useAxiosPrivate();
+    // creating axios fetch for projects
     const fetchProjects = async () => {
-        return await axiosPrivate("/project/group/", {
-            method: "get",
-            params: { id: groupId },
-        });
+        return await axiosPrivate.get("/project/group/" + groupId);
     };
 
     const projectQuery = useQuery("projectIds", fetchProjects, {
