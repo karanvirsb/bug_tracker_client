@@ -17,7 +17,7 @@ const useRefreshToken = () => {
             accessToken: response.data.accessToken,
             roles: response.data.roles,
         };
-
+        console.log(newAuth);
         dispatch(setAuth(newAuth));
 
         return response.data.accessToken; // allwos us to request again
