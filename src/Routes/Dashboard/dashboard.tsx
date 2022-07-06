@@ -1,8 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
-import { useQuery } from "react-query";
+import { QueryErrorResetBoundary, useQuery } from "react-query";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import Spinner from "../../Components/Spinner";
+import ErrorFallback from "../../Components/ErrorFallback";
 
 const Dashboard = () => {
     // getting the group Id
@@ -18,7 +21,9 @@ const Dashboard = () => {
         });
     };
 
-    const projectQuery = useQuery("projectIds", fetchProjects);
+    const projectQuery = useQuery("projectIds", fetchProjects, {
+        suspense: true,
+    });
 
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
@@ -52,9 +57,24 @@ const Dashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <Projects
-                                projects={projectQuery.data?.data}
-                            ></Projects>
+                            <QueryErrorResetBoundary>
+                                {({ reset }) => (
+                                    <ErrorBoundary
+                                        onReset={reset}
+                                        FallbackComponent={ErrorFallback}
+                                    >
+                                        <Suspense
+                                            fallback={<Spinner></Spinner>}
+                                        >
+                                            <Projects
+                                                projects={
+                                                    projectQuery.data?.data
+                                                }
+                                            ></Projects>
+                                        </Suspense>
+                                    </ErrorBoundary>
+                                )}
+                            </QueryErrorResetBoundary>
                         </tbody>
                     </table>
                     <div className='w-full flex justify-center items-center py-4 gap-4'>
