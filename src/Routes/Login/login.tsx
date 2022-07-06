@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
-// import { IStates } from "../../Context/AuthProvider";
 import decoder, { IDecode } from "../../Helper/decodeToken";
 import socket from "../../API/sockets";
-import { useAppSelector, useAppDispatch } from "../../Hooks/hooks";
+import { useAppDispatch } from "../../Hooks/hooks";
 import { setAuth } from "../../Auth/authenticationSlice";
 
 type States = {
@@ -19,7 +18,6 @@ const Login = (): JSX.Element => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location: any = useLocation();
-    const from = location.state?.from?.pathname || "/";
 
     const [inputValues, setInputValues] = useState<States["login"]>({
         username: "",
@@ -86,7 +84,7 @@ const Login = (): JSX.Element => {
             if (userInfo?.UserInfo.group_id) {
                 socket.connect();
                 socket.emit("joinRoom", { room: userInfo?.UserInfo.group_id });
-                navigate(from || "/dashboard", { replace: true });
+                navigate("/dashboard", { replace: true });
             } else {
                 // else go to add group page
                 navigate("/add-group", { replace: true });
