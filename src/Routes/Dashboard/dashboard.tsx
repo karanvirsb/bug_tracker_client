@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
+import { useQuery } from "react-query";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 
 const Dashboard = () => {
+    // getting the group Id
+    const auth = useAppSelector((state) => state.auth);
+    const groupId = useMemo(() => auth.group_id, [auth.group_id]);
+
+    // creating axios fetch for projects
+    const axiosPrivate = useAxiosPrivate();
+    const fetchProjects = async () => {
+        return await axiosPrivate("/project/group/", {
+            method: "get",
+            params: { id: groupId },
+        });
+    };
+
+    const projectQuery = useQuery("projectIds", fetchProjects);
+
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
             <h1 className='text-2xl font-semibold'>Dashboard</h1>
@@ -34,7 +52,9 @@ const Dashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <Projects></Projects>
+                            <Projects
+                                projects={projectQuery.data?.data}
+                            ></Projects>
                         </tbody>
                     </table>
                     <div className='w-full flex justify-center items-center py-4 gap-4'>
