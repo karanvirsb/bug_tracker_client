@@ -17,7 +17,7 @@ function usePagination(props: { currentPage: number; totalCount: number }) {
 
     const pages = useMemo(() => {
         return getPages(FIRST_PAGE, LAST_PAGE, props.currentPage);
-    }, [FIRST_PAGE, LAST_PAGE, props.currentPage]);
+    }, [FIRST_PAGE, LAST_PAGE, props.currentPage, props.totalCount]);
 
     return pages;
 }
