@@ -60,7 +60,7 @@ function App() {
             ></ToastContainer>
             {/* TODO add modals to backdrop */}
             <AnimatePresence exitBeforeEnter={true} initial={false}>
-                {modal.open && <Backdrop></Backdrop>}
+                {modal.open && <Backdrop>{modal?.component}</Backdrop>}
             </AnimatePresence>
             <Routes>
                 <Route path='/login' element={<Login></Login>}></Route>
