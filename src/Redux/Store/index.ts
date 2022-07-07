@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authenticationReducer from "../../Auth/authenticationSlice";
 import persistReducer from "../../Auth/persistSlice";
+import projectSlice from "../Slices/projectSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authenticationReducer,
         persist: persistReducer,
+        project: projectSlice,
     },
 });
 
