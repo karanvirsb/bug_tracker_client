@@ -38,6 +38,8 @@ const NavbarLayout = () => {
 function App() {
     const navigate = useNavigate();
     const auth = useAppSelector((state) => state.auth);
+    const modal = useAppSelector((state) => state.modal);
+
     useEffect(() => {
         socket.on("connect", () => {});
     }, []);
@@ -58,7 +60,7 @@ function App() {
             ></ToastContainer>
             {/* TODO add modals to backdrop */}
             <AnimatePresence exitBeforeEnter={true} initial={false}>
-                <Backdrop></Backdrop>
+                {modal.open && <Backdrop></Backdrop>}
             </AnimatePresence>
             <Routes>
                 <Route path='/login' element={<Login></Login>}></Route>
