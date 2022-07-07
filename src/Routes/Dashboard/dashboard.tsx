@@ -7,6 +7,7 @@ import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import Spinner from "../../Components/Spinner";
 import ErrorFallback from "../../Components/ErrorFallback";
 import { updateInitialState } from "../../Redux/Slices/projectSlice";
+import Pagination from "../../Components/Pagination";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -92,7 +93,13 @@ const Dashboard = () => {
                             </QueryErrorResetBoundary>
                         </tbody>
                     </table>
-                    <div className='w-full flex justify-center items-center py-4 gap-4'>
+                    <Pagination
+                        pageNumber={pageNumber}
+                        totalPage={projects?.totalPages || 0}
+                        hasMore={projects.hasNextPage}
+                        setPageNumber={setPageNumber}
+                    ></Pagination>
+                    {/* <div className='w-full flex justify-center items-center py-4 gap-4'>
                         <button className='pagination-btn'>Prev</button>
                         <span className='bg-secondary-color text-white w-10 h-10 text-2xl flex justify-center items-center text-center rounded-full'>
                             1
@@ -100,7 +107,7 @@ const Dashboard = () => {
                         <button className='bg-btn-color text-white py-1 px-2 rounded-md hover:bg-transparent hover:text-black hover:font-semibold hover:outline hover:outline-btn-color hover:outline-2'>
                             Next
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div>
