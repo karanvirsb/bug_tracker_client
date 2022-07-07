@@ -19,21 +19,22 @@ const Dashboard = () => {
     const projectsState = useAppSelector((state) => state.projects.projects);
 
     // creating axios fetch for projects
-    const fetchProjects = async () => {
+    const fetchProjects = async (page: number) => {
         const resp = await axiosPrivate.get("/project/group/" + groupId, {
-            params: { page: pageNumber },
+            params: { page: page },
         });
 
         return resp.data;
     };
 
-    const {
-        data: projects,
-        status,
-        error,
-    } = useQuery("projectIds", fetchProjects, {
-        suspense: true,
-    });
+    const { data: projects, status } = useQuery(
+        ["projectIds", pageNumber],
+        () => fetchProjects(pageNumber),
+        {
+            suspense: true,
+            keepPreviousData: true, // use this for pagination
+        }
+    );
 
     useEffect(() => {
         if (status === "success") {
