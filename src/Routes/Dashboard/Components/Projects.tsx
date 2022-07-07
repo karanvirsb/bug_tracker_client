@@ -21,7 +21,7 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
         </tr>
     ) : (
         <>
-            {props.projects.map((project) => {
+            {props?.projects?.map((project) => {
                 return (
                     <tr
                         className='border-gray-200 border-b-2'
