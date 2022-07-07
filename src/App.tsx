@@ -25,6 +25,7 @@ import { Navbar } from "./Components/Navbar";
 import { useAppSelector } from "./Hooks/hooks";
 import { AnimatePresence } from "framer-motion";
 import Backdrop from "./Components/Backdrop";
+import AddProjectModal from "./Routes/Dashboard/Components/AddProjectModal";
 
 const NavbarLayout = () => {
     return (
@@ -60,7 +61,13 @@ function App() {
             ></ToastContainer>
             {/* TODO add modals to backdrop */}
             <AnimatePresence exitBeforeEnter={true} initial={false}>
-                {modal.open && <Backdrop>{modal?.component}</Backdrop>}
+                {modal.open && (
+                    <Backdrop>
+                        {modal.type === "createProject" && (
+                            <AddProjectModal></AddProjectModal>
+                        )}
+                    </Backdrop>
+                )}
             </AnimatePresence>
             <Routes>
                 <Route path='/login' element={<Login></Login>}></Route>
