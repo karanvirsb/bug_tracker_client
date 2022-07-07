@@ -6,8 +6,10 @@ import { QueryErrorResetBoundary, useQuery } from "react-query";
 import Spinner from "../../Components/Spinner";
 import ErrorFallback from "../../Components/ErrorFallback";
 import { updateInitialState } from "../../Redux/Slices/projectSlice";
+import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
 import { axiosPrivate } from "../../API/axios";
+import AddProjectModal from "./Components/AddProjectModal";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -51,7 +53,20 @@ const Dashboard = () => {
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Projects
                     </h2>
-                    <button className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'>
+                    <button
+                        className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
+                        onClick={() =>
+                            dispatch(
+                                setModal({
+                                    open: true,
+                                    type: "createProject",
+                                    component: (
+                                        <AddProjectModal></AddProjectModal>
+                                    ),
+                                })
+                            )
+                        }
+                    >
                         New Project
                     </button>
                 </div>
