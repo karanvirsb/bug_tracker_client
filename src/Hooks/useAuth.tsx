@@ -1,4 +1,4 @@
-import type { RootState } from "../Store";
+import type { RootState } from "../Redux/Store";
 import { useSelector } from "react-redux";
 
 // can remove importing this each time
