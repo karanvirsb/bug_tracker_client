@@ -23,6 +23,8 @@ import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
 import { Navbar } from "./Components/Navbar";
 import { useAppSelector } from "./Hooks/hooks";
+import { AnimatePresence } from "framer-motion";
+import Backdrop from "./Components/Backdrop";
 
 const NavbarLayout = () => {
     return (
@@ -54,6 +56,10 @@ function App() {
                 draggablePercent={75}
                 autoClose={5000}
             ></ToastContainer>
+            {/* TODO add modals to backdrop */}
+            <AnimatePresence exitBeforeEnter={true} initial={false}>
+                <Backdrop></Backdrop>
+            </AnimatePresence>
             <Routes>
                 <Route path='/login' element={<Login></Login>}></Route>
                 <Route path='/register' element={<Register></Register>}></Route>
