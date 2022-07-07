@@ -3,18 +3,17 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
 import { QueryErrorResetBoundary, useQuery } from "react-query";
-import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import Spinner from "../../Components/Spinner";
 import ErrorFallback from "../../Components/ErrorFallback";
 import { updateInitialState } from "../../Redux/Slices/projectSlice";
 import Pagination from "../../Components/Pagination";
+import { axiosPrivate } from "../../API/axios";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(0);
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
-    const axiosPrivate = useAxiosPrivate();
 
     const dispatch = useAppDispatch();
     const projectsState = useAppSelector((state) => state.projects.projects);
@@ -23,6 +22,7 @@ const Dashboard = () => {
     const fetchProjects = async (page: number) => {
         const resp = await axiosPrivate.get("/project/group/" + groupId, {
             params: { page: page },
+            headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
 
         return resp.data;
@@ -96,7 +96,8 @@ const Dashboard = () => {
                     <Pagination
                         pageNumber={pageNumber}
                         totalPage={projects?.totalPages || 0}
-                        hasMore={projects.hasNextPage}
+                        hasMore={projects.hasNextPage || false}
+                        hasPrevious={projects.hasPreviousPage || false}
                         setPageNumber={setPageNumber}
                     ></Pagination>
                     {/* <div className='w-full flex justify-center items-center py-4 gap-4'>
