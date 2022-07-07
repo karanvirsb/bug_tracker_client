@@ -1,4 +1,4 @@
-import React, { useMemo, Suspense } from "react";
+import React, { useMemo, Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
@@ -8,13 +8,16 @@ import Spinner from "../../Components/Spinner";
 import ErrorFallback from "../../Components/ErrorFallback";
 
 const Dashboard = () => {
+    const [pageNumber, setPageNumber] = useState(0);
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
     const axiosPrivate = useAxiosPrivate();
     // creating axios fetch for projects
     const fetchProjects = async () => {
-        return await axiosPrivate.get("/project/group/" + groupId);
+        return await axiosPrivate.get("/project/group/" + groupId, {
+            params: { page: pageNumber },
+        });
     };
 
     const projectQuery = useQuery("projectIds", fetchProjects, {
