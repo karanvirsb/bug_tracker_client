@@ -1,4 +1,4 @@
-import React, { useMemo, Suspense, useState } from "react";
+import React, { useMemo, Suspense, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
@@ -13,14 +13,21 @@ const Dashboard = () => {
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
     const axiosPrivate = useAxiosPrivate();
+
     // creating axios fetch for projects
     const fetchProjects = async () => {
-        return await axiosPrivate.get("/project/group/" + groupId, {
+        const resp = await axiosPrivate.get("/project/group/" + groupId, {
             params: { page: pageNumber },
         });
+
+        return resp.data;
     };
 
-    const projectQuery = useQuery("projectIds", fetchProjects, {
+    const {
+        data: projects,
+        status,
+        error,
+    } = useQuery("projectIds", fetchProjects, {
         suspense: true,
     });
 
@@ -66,9 +73,7 @@ const Dashboard = () => {
                                             fallback={<Spinner></Spinner>}
                                         >
                                             <Projects
-                                                projects={
-                                                    projectQuery.data?.data
-                                                }
+                                                projects={projects}
                                             ></Projects>
                                         </Suspense>
                                     </ErrorBoundary>
