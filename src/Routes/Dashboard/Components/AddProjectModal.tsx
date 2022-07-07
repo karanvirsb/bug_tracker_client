@@ -15,7 +15,7 @@ interface IProject {
     users: string[];
 }
 
-const AddProjectModal = () => {
+const AddProjectModal = (): JSX.Element => {
     const [projectInput, setProjectInput] = useState<IProject>({
         groupId: "",
         projectName: "",
