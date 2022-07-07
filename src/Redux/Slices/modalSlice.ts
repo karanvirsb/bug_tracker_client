@@ -5,13 +5,11 @@ import React from "react";
 export interface ModalState {
     type: "createProject" | "";
     open: boolean;
-    component: JSX.Element | null;
 }
 
 const initialState: ModalState = {
     type: "",
     open: false,
-    component: null,
 };
 
 export const modalSlice = createSlice({
