@@ -14,7 +14,7 @@ const Backdrop = ({ children }: any) => {
             initial='hidden'
             animate='visible'
             exit={"exit"}
-            className={"bg-backdrop-bg fixed inset-0"}
+            className={"bg-backdrop-bg fixed inset-0 z-50"}
         >
             {children}
         </motion.div>
