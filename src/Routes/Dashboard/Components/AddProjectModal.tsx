@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { motion } from "framer-motion";
 import { useAppDispatch } from "../../../Hooks/hooks";
-import {
-    setModal,
-    setOpen,
-    resetModal,
-} from "../../../Redux/Slices/modalSlice";
-import MultiValue from "react-select";
+import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
+import { useQueryClient } from "react-query";
+
 interface IProject {
     groupId: string;
     projectName: string;
@@ -22,6 +19,7 @@ const AddProjectModal = (): JSX.Element => {
         projectDesc: "",
         users: [],
     });
+    const queryClient = useQueryClient();
     const dispatch = useAppDispatch();
 
     const options = [
@@ -37,7 +35,7 @@ const AddProjectModal = (): JSX.Element => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const form = new FormData(e.target as HTMLFormElement);
+        queryClient.invalidateQueries("projectIds");
     };
 
     const closeModal = () => {
