@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import authenticationReducer from "../../Auth/authenticationSlice";
 import persistReducer from "../../Auth/persistSlice";
 import projectSlice from "../Slices/projectSlice";
+import modalSlice from "../Slices/modalSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authenticationReducer,
         persist: persistReducer,
         projects: projectSlice,
+        modal: modalSlice,
     },
 });
 
