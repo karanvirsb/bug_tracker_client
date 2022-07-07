@@ -1,11 +1,12 @@
 import React, { useMemo, Suspense, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useAppSelector } from "../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
 import { QueryErrorResetBoundary, useQuery } from "react-query";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import Spinner from "../../Components/Spinner";
 import ErrorFallback from "../../Components/ErrorFallback";
+import { updateInitialState } from "../../Redux/Slices/projectSlice";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -13,6 +14,9 @@ const Dashboard = () => {
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
     const axiosPrivate = useAxiosPrivate();
+
+    const dispatch = useAppDispatch();
+    const projectsState = useAppSelector((state) => state.projects.projects);
 
     // creating axios fetch for projects
     const fetchProjects = async () => {
@@ -30,6 +34,12 @@ const Dashboard = () => {
     } = useQuery("projectIds", fetchProjects, {
         suspense: true,
     });
+
+    useEffect(() => {
+        if (status === "success") {
+            dispatch(updateInitialState(projects));
+        }
+    }, [projects, status]);
 
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
@@ -73,7 +83,7 @@ const Dashboard = () => {
                                             fallback={<Spinner></Spinner>}
                                         >
                                             <Projects
-                                                projects={projects}
+                                                projects={projectsState}
                                             ></Projects>
                                         </Suspense>
                                     </ErrorBoundary>
