@@ -7,7 +7,7 @@ import {
     setOpen,
     resetModal,
 } from "../../../Redux/Slices/modalSlice";
-
+import MultiValue from "react-select";
 interface IProject {
     groupId: string;
     projectName: string;
@@ -37,7 +37,7 @@ const AddProjectModal = (): JSX.Element => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(e.target);
+        const form = new FormData(e.target as HTMLFormElement);
     };
 
     const closeModal = () => {
@@ -45,16 +45,45 @@ const AddProjectModal = (): JSX.Element => {
         dispatch(resetModal());
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setProjectInput((prev) => {
+            return { ...prev, [e.target.name]: e.target.value };
+        });
+    };
+
+    const selectedUsers = (users: any) => {
+        const userIds = users.map(
+            (user: { label: String; value: { id: number } }) => {
+                return user.value.id.toString();
+            }
+        );
+        setProjectInput((prev) => {
+            return { ...prev, users: userIds };
+        });
+    };
+
     return (
         <motion.div>
             <form action='' onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor='projectName'>Project Name</label>
-                    <input type='text' id='projectName' name='projectName' />
+                    <input
+                        type='text'
+                        id='projectName'
+                        name='projectName'
+                        value={projectInput.projectName}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <label htmlFor='projectDesc'>Project Description</label>
-                    <input type='text' id='projectDesc' name='projectDesc' />
+                    <input
+                        type='text'
+                        id='projectDesc'
+                        name='projectDesc'
+                        value={projectInput.projectDesc}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <label htmlFor='users'>Select Users</label>
@@ -64,7 +93,9 @@ const AddProjectModal = (): JSX.Element => {
                         isMulti
                         name='users'
                         id='users'
-                        form='projectUsers'
+                        onChange={(e) => {
+                            selectedUsers(e);
+                        }}
                     ></Select>
                 </div>
 
