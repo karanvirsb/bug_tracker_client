@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import usePagination, { DOTS } from "../../Hooks/usePagination";
 
 const Pagination = (props: {
     pageNumber: number;
     setPageNumber: any;
     hasMore: boolean;
+    hasPrevious: boolean;
     totalPage: number;
 }) => {
     const pageRange = usePagination({
@@ -13,19 +14,25 @@ const Pagination = (props: {
     });
 
     const nextPage = () => {
-        props.setPageNumber((old: number) => old + 1);
+        if (props.hasMore && props.pageNumber < props.totalPage) {
+            console.log("here next");
+            props.setPageNumber((old: number) => old + 1);
+        }
     };
 
     const previousPage = () => {
-        props.setPageNumber((old: number) => Math.max(old - 1, 0));
+        if (props.pageNumber !== 0 && props.hasPrevious) {
+            console.log("here prev");
+            props.setPageNumber((old: number) => Math.max(old - 1, 0));
+        }
     };
 
     return (
         <div className='w-full flex justify-center items-center py-4 gap-4'>
             <button
                 className='pagination-btn'
-                disabled={props.pageNumber === 0}
                 onClick={previousPage}
+                disabled={props.pageNumber === 0}
             >
                 Prev
             </button>
@@ -42,7 +49,9 @@ const Pagination = (props: {
                                     : "false"
                             }
                             onClick={() =>
-                                props.setPageNumber((old: number) => pageNum)
+                                props.setPageNumber(
+                                    (old: number) => (pageNum as number) - 1
+                                )
                             }
                         >
                             {pageNum.toString()}
@@ -52,10 +61,10 @@ const Pagination = (props: {
             </div>
             <button
                 className='pagination-btn'
-                disabled={
-                    props.pageNumber + 1 === props.totalPage || !props.hasMore
-                }
                 onClick={nextPage}
+                disabled={
+                    props.pageNumber === props.totalPage || !props.hasMore
+                }
             >
                 Next
             </button>
