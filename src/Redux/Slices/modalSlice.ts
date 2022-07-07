@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import React from "react";
 
 export interface ModalState {
     type: "createProject" | "";
     open: boolean;
+    component: React.FC | null;
 }
 
 const initialState: ModalState = {
     type: "",
     open: false,
+    component: null,
 };
 
 export const modalSlice = createSlice({
@@ -23,6 +26,9 @@ export const modalSlice = createSlice({
         },
         resetModal: () => {
             return initialState;
+        },
+        setModal: (state, action: PayloadAction<ModalState>) => {
+            return { ...state, ...action.payload };
         },
     },
 });
