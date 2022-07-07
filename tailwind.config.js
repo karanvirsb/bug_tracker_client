@@ -19,6 +19,7 @@ module.exports = {
                 "main-color": "#403F3F",
                 "secondary-color": "#C97878",
                 "btn-color": "#303030",
+                "backdrop-bg": "#12121266",
             },
         },
     },
