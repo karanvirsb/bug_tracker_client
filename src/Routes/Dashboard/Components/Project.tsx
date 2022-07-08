@@ -110,7 +110,7 @@ const ProjectUsers = ({ usersArr, projectId }: projectUsersProps) => {
                     </span>
                 );
             });
-        }, [users]);
+        }, [props.users]);
 
     return (
         <>
