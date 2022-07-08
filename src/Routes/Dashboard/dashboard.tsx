@@ -38,11 +38,32 @@ const Dashboard = () => {
         }
     );
 
+    // fetching all the users of the group
+    const fetchGroupUsers = async () => {
+        const resp = await axiosPrivate.post("/user/group", {
+            data: { groupId: groupId },
+            headers: { Authorization: `Bearer ${auth.accessToken}` },
+        });
+
+        return resp.data;
+    };
+
+    const { data: users, status: groupUsersStatus } = useQuery(
+        "groupUsers",
+        fetchGroupUsers
+    );
+
     useEffect(() => {
         if (status === "success") {
             dispatch(updateInitialState(projects.docs));
         }
     }, [projects, status, dispatch]);
+
+    useEffect(() => {
+        // if (groupUsersStatus === "success") {
+        //     dispatch(updateInitialState(projects.docs));
+        // }
+    }, [groupUsersStatus, users, dispatch]);
 
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
