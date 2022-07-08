@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Select from "react-select";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
@@ -7,13 +6,7 @@ import { useMutation, useQueryClient } from "react-query";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-
-interface IProject {
-    groupId: string;
-    projectName: string;
-    projectDesc: string;
-    users: string[];
-}
+import ProjectModal, { IProject } from "./ProjectModal";
 
 const AddProjectModal = (): JSX.Element => {
     const [projectInput, setProjectInput] = useState<IProject>({
@@ -35,18 +28,19 @@ const AddProjectModal = (): JSX.Element => {
         });
     });
 
-    const options = [
-        {
-            value: { id: 1 },
-            label: "Maria Brown",
-        },
-        {
-            value: { id: 3 },
-            label: "John Doe",
-        },
-    ];
+    // TODO
+    const modalConstraints = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+        exit: { opacity: 0 },
+    };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const closeModal = () => {
+        dispatch(setOpen(false));
+        dispatch(resetModal());
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         let newProject: IProject | {} = {};
         const users = [...projectInput.users];
@@ -110,36 +104,6 @@ const AddProjectModal = (): JSX.Element => {
         }
     };
 
-    const closeModal = () => {
-        dispatch(setOpen(false));
-        dispatch(resetModal());
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setProjectInput((prev) => {
-            return { ...prev, [e.target.name]: e.target.value };
-        });
-    };
-
-    const handleTextAreaChange = (
-        e: React.ChangeEvent<HTMLTextAreaElement>
-    ) => {
-        setProjectInput((prev) => {
-            return { ...prev, projectDesc: e.target.value };
-        });
-    };
-
-    const selectedUsers = (users: any) => {
-        const userIds = users.map(
-            (user: { label: String; value: { id: number } }) => {
-                return user.value.id.toString();
-            }
-        );
-        setProjectInput((prev) => {
-            return { ...prev, users: userIds };
-        });
-    };
-
     return (
         <motion.div className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0'>
             <form
@@ -147,47 +111,10 @@ const AddProjectModal = (): JSX.Element => {
                 onSubmit={handleSubmit}
                 className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
             >
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor='projectName' className='text-xl md:text-lg'>
-                        Project Name
-                    </label>
-                    <input
-                        type='text'
-                        id='projectName'
-                        name='projectName'
-                        value={projectInput.projectName}
-                        onChange={handleChange}
-                        className='outline outline-1 outline-gray-400 rounded-md ml-2 text-xl px-2 py-1 md:text-lg'
-                    />
-                </div>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor='projectDesc' className='text-xl md:text-lg'>
-                        Project Description
-                    </label>
-                    <textarea
-                        id='projectDesc'
-                        name='projectDesc'
-                        value={projectInput.projectDesc}
-                        onChange={handleTextAreaChange}
-                        className='outline outline-1 outline-gray-400 rounded-md resize-y ml-2 text-xl px-2 py-1 md:text-lg'
-                    />
-                </div>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor='users' className='text-xl md:text-lg'>
-                        Select Users
-                    </label>
-                    <Select
-                        options={options}
-                        isMulti
-                        name='users'
-                        id='users'
-                        onChange={(e) => {
-                            selectedUsers(e);
-                        }}
-                        className='outline-gray-400 border-none rounded-lg ml-2 text-xl md:text-lg'
-                    ></Select>
-                </div>
-
+                <ProjectModal
+                    setProjectInput={setProjectInput}
+                    projectInput={projectInput}
+                ></ProjectModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
                         Submit
