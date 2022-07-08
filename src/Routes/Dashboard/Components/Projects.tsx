@@ -1,3 +1,7 @@
+import { useMemo } from "react";
+import { useQuery } from "react-query";
+import Spinner from "../../../Components/Spinner";
+import { useAppSelector } from "../../../Hooks/hooks";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 
 export interface IProject {
@@ -22,6 +26,7 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
     ) : (
         <>
             {props?.projects?.map((project) => {
+                const dateCreated = new Date(project.dateCreated);
                 return (
                     <tr
                         className='border-gray-200 border-b-2'
@@ -37,10 +42,13 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
                             {project.projectDesc}
                         </td>
                         <td className='px-6 py-3'>
-                            {project.dateCreated.toDateString()}
+                            {dateCreated.toDateString()}
                         </td>
                         <td className='px-6 py-3'>
-                            <ProjectUsers users={project.users}></ProjectUsers>
+                            <ProjectUsers
+                                users={project.users}
+                                projectId={project.projectId}
+                            ></ProjectUsers>
                         </td>
                         <td className='px-1 py-3'>
                             <svg
@@ -65,25 +73,48 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
     );
 };
 
-const ProjectUsers = (props: { users: string[] }) => {
+const ProjectUsers = (props: { users: string[]; projectId: string }) => {
     const axiosPrivate = useAxiosPrivate();
+    const auth = useAppSelector((state) => state.auth);
 
-    const userElements = props.users.map(async (user, index) => {
-        const foundUser = await axiosPrivate("/user/id", {
+    const foundUsers = async () => {
+        const resp = await axiosPrivate("/user/users", {
             method: "post",
-            data: { filter: "userId", filterValue: user },
+            data: { users: props.users },
+            headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
+        return resp.data;
+    };
 
-        const userData = foundUser.data;
+    const { data: users, status } = useQuery(
+        `users-${props.projectId}`,
+        foundUsers,
+        { enabled: props.users.length > 0 }
+    );
 
-        if (index === props.users.length - 1) {
-            return <span>{userData.firstName + " " + userData.lastName}</span>;
-        }
-        return (
-            <span>{userData.firstName + " " + userData.lastName + ","}</span>
-        );
-    });
-    return <>{userElements}</>;
+    const UserElements = (props: { users: any }) =>
+        useMemo(() => {
+            return users?.map((user: any, index: number) => {
+                if (index === props.users.length - 1) {
+                    return <span>{user.firstName + " " + user.lastName}</span>;
+                }
+                return (
+                    <span>{user.firstName + " " + user.lastName + ","}</span>
+                );
+            });
+        }, [props.users]);
+
+    return (
+        <>
+            {status === "loading" ? (
+                <Spinner></Spinner>
+            ) : status === "success" ? (
+                <UserElements users={users}></UserElements>
+            ) : (
+                <div>No Users</div>
+            )}
+        </>
+    );
 };
 
 export default Projects;
