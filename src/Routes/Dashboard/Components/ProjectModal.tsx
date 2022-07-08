@@ -8,10 +8,13 @@ export interface IProject {
     users: string[];
 }
 
-const ProjectModal = (props: {
+type props = {
     projectInput: IProject;
     setProjectInput: React.Dispatch<React.SetStateAction<IProject>>;
-}) => {
+    type?: "edit";
+};
+
+const ProjectModal = ({ projectInput, setProjectInput, type }: props) => {
     const options = [
         {
             value: { id: 1 },
@@ -24,7 +27,7 @@ const ProjectModal = (props: {
     ];
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.setProjectInput((prev: IProject) => {
+        setProjectInput((prev: IProject) => {
             return { ...prev, [e.target.name]: e.target.value };
         });
     };
@@ -32,7 +35,7 @@ const ProjectModal = (props: {
     const handleTextAreaChange = (
         e: React.ChangeEvent<HTMLTextAreaElement>
     ) => {
-        props.setProjectInput((prev: IProject) => {
+        setProjectInput((prev: IProject) => {
             return { ...prev, projectDesc: e.target.value };
         });
     };
@@ -43,7 +46,7 @@ const ProjectModal = (props: {
                 return user.value.id.toString();
             }
         );
-        props.setProjectInput((prev: IProject) => {
+        setProjectInput((prev: IProject) => {
             return { ...prev, users: userIds };
         });
     };
@@ -58,7 +61,7 @@ const ProjectModal = (props: {
                     type='text'
                     id='projectName'
                     name='projectName'
-                    value={props.projectInput.projectName}
+                    value={projectInput.projectName}
                     onChange={handleChange}
                     className='outline outline-1 outline-gray-400 rounded-md ml-2 text-xl px-2 py-1 md:text-lg'
                 />
@@ -70,7 +73,7 @@ const ProjectModal = (props: {
                 <textarea
                     id='projectDesc'
                     name='projectDesc'
-                    value={props.projectInput.projectDesc}
+                    value={projectInput.projectDesc}
                     onChange={handleTextAreaChange}
                     className='outline outline-1 outline-gray-400 rounded-md resize-y ml-2 text-xl px-2 py-1 md:text-lg'
                 />
