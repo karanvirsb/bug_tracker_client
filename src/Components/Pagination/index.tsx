@@ -1,4 +1,3 @@
-import React, { useCallback, useMemo } from "react";
 import usePagination, { DOTS } from "../../Hooks/usePagination";
 
 const Pagination = (props: {
@@ -14,14 +13,14 @@ const Pagination = (props: {
     });
 
     const nextPage = () => {
-        if (props.hasMore && props.pageNumber < props.totalPage) {
+        if (props.hasMore) {
             console.log("here next");
             props.setPageNumber((old: number) => old + 1);
         }
     };
 
     const previousPage = () => {
-        if (props.pageNumber !== 0 && props.hasPrevious) {
+        if (props.hasPrevious) {
             console.log("here prev");
             props.setPageNumber((old: number) => Math.max(old - 1, 0));
         }
@@ -36,7 +35,7 @@ const Pagination = (props: {
             >
                 Prev
             </button>
-            <div>
+            <div className='flex gap-2'>
                 {pageRange.map((pageNum, index) => {
                     if (pageNum === DOTS) {
                         <span key={index}>{DOTS}</span>;
@@ -54,6 +53,7 @@ const Pagination = (props: {
                                     (old: number) => (pageNum as number) - 1
                                 )
                             }
+                            className='bg-secondary-color text-white w-10 h-10 text-2xl flex justify-center items-center text-center rounded-full '
                         >
                             {pageNum.toString()}
                         </button>
