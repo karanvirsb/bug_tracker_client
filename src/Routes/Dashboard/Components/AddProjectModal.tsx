@@ -116,7 +116,10 @@ const AddProjectModal = (): JSX.Element => {
     };
 
     return (
-        <motion.div className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0'>
+        <motion.div
+            className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0'
+            variants={modalConstraints}
+        >
             <form
                 action=''
                 onSubmit={handleSubmit}
