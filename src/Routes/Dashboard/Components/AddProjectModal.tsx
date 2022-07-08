@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { motion } from "framer-motion";
-import { useAppDispatch } from "../../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
-import { useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 interface IProject {
     groupId: string;
@@ -19,8 +22,18 @@ const AddProjectModal = (): JSX.Element => {
         projectDesc: "",
         users: [],
     });
+    const axiosPrivate = useAxiosPrivate();
     const queryClient = useQueryClient();
+    const auth = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
+
+    const mutation = useMutation((newProject: IProject | {}) => {
+        return axiosPrivate("/project", {
+            method: "post",
+            data: newProject,
+            headers: { Authorization: `Bearer ${auth?.accessToken}` },
+        });
+    });
 
     const options = [
         {
@@ -35,7 +48,64 @@ const AddProjectModal = (): JSX.Element => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        queryClient.invalidateQueries("projectIds");
+        let newProject: IProject | {} = {};
+        const users = [...projectInput.users];
+
+        if (auth.username) {
+            users.push(auth?.username);
+        }
+
+        if (auth.group_id) {
+            newProject = {
+                groupId: auth?.group_id,
+                projectName: projectInput.projectName,
+                projectDesc: projectInput.projectDesc,
+                users: users,
+            };
+        }
+        try {
+            mutation.mutateAsync(newProject, {
+                onSuccess: () => {
+                    setProjectInput({
+                        groupId: "",
+                        projectName: "",
+                        projectDesc: "",
+                        users: [],
+                    });
+                    queryClient.invalidateQueries("projectIds");
+                    dispatch(setOpen(false));
+                    dispatch(resetModal());
+                },
+                onError: (error) => {
+                    if (error instanceof AxiosError) {
+                        const errorResp = JSON.parse(
+                            error.response?.data.message
+                        );
+                        console.log(errorResp);
+                        errorResp.forEach(
+                            (elem: {
+                                code: string;
+                                inclusive: boolean;
+                                message: string;
+                                minimum?: number;
+                                maxiumum?: number;
+                                path: string[];
+                                type: string;
+                            }) => {
+                                console.log(elem.path[0] + " " + elem.message);
+                                toast.error(elem.path[0] + " " + elem.message);
+                            }
+                        );
+                    }
+                },
+            });
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                console.log(JSON.parse(error.response?.data.message));
+                toast.error(JSON.parse(error.response?.data.message));
+            }
+            console.log(error);
+        }
     };
 
     const closeModal = () => {
