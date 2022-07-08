@@ -41,7 +41,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (status === "success") {
-            dispatch(updateInitialState(projects));
+            dispatch(updateInitialState(projects.docs));
         }
     }, [projects, status]);
 
