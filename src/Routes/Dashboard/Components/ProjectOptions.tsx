@@ -25,9 +25,11 @@ const ProjectOptions = ({ projectId, setProjectOpen }: props) => {
     const openDeleteModal = () => {};
 
     return (
-        <div className='absolute '>
-            <button onClick={openEditModal}>Edit</button>
-            <button>Delete</button>
+        <div className='absolute right-[100%] top-[50%] translate-y-[-50%] bg-white rounded-md z-40 outline outline-2 outline-gray-400 flex flex-col gap-2 p-1'>
+            <button onClick={openEditModal} className='btn bg-blue-400'>
+                Edit
+            </button>
+            <button className='btn bg-red-400'>Delete</button>
         </div>
     );
 };
