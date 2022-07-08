@@ -38,6 +38,21 @@ const Dashboard = () => {
         }
     );
 
+    // fetching gruop info with invite code
+    const fetchGroup = async () => {
+        const resp = await axiosPrivate.get("/group/id", {
+            data: { filter: "groupId", filterValue: groupId },
+            headers: { Authorization: `Bearer ${auth.accessToken}` },
+        });
+
+        return resp.data;
+    };
+
+    const { data: groupData, status: groupStatus } = useQuery(
+        "groupInfo",
+        fetchGroup
+    );
+
     // fetching all the users of the group
     const fetchGroupUsers = async () => {
         const resp = await axiosPrivate.post("/user/group", {
@@ -64,6 +79,12 @@ const Dashboard = () => {
         //     dispatch(updateInitialState(projects.docs));
         // }
     }, [groupUsersStatus, users, dispatch]);
+
+    useEffect(() => {
+        // if (groupUsersStatus === "success") {
+        //     dispatch(updateInitialState(projects.docs));
+        // }
+    }, [groupStatus, groupData, dispatch]);
 
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
