@@ -1,11 +1,5 @@
-import React, { useEffect } from "react";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Outlet,
-    useNavigate,
-} from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import {

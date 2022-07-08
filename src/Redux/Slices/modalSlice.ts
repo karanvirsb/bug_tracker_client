@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import React from "react";
 
 export interface ModalState {
     type: "createProject" | "updateProject" | "";

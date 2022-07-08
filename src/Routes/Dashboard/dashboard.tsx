@@ -1,4 +1,4 @@
-import React, { useMemo, Suspense, useState, useEffect } from "react";
+import { useMemo, Suspense, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
@@ -9,7 +9,6 @@ import { updateInitialState } from "../../Redux/Slices/projectSlice";
 import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
 import { axiosPrivate } from "../../API/axios";
-import AddProjectModal from "./Components/AddProjectModal";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -43,7 +42,7 @@ const Dashboard = () => {
         if (status === "success") {
             dispatch(updateInitialState(projects.docs));
         }
-    }, [projects, status]);
+    }, [projects, status, dispatch]);
 
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>

@@ -1,6 +1,3 @@
-import React from "react";
-import { ResetOptions } from "react-query";
-
 const ErrorFallback = (props: { error: any; resetErrorBoundary: any }) => {
     return (
         <>
