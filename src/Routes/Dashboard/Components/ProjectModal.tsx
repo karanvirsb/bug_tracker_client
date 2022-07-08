@@ -8,24 +8,28 @@ export interface IProject {
     users: string[];
 }
 
+type options = {
+    value: { id: string };
+    label: string;
+};
+
 type props = {
     projectInput: IProject;
     setProjectInput: React.Dispatch<React.SetStateAction<IProject>>;
     type?: "edit";
+    options: options[] | any;
+    defaultSelect?: options[];
+    fixedSelect?: options;
 };
 
-const ProjectModal = ({ projectInput, setProjectInput, type }: props) => {
-    const options = [
-        {
-            value: { id: 1 },
-            label: "Maria Brown",
-        },
-        {
-            value: { id: 3 },
-            label: "John Doe",
-        },
-    ];
-
+const ProjectModal = ({
+    projectInput,
+    setProjectInput,
+    type,
+    options,
+    defaultSelect,
+    fixedSelect,
+}: props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProjectInput((prev: IProject) => {
             return { ...prev, [e.target.name]: e.target.value };
@@ -90,6 +94,7 @@ const ProjectModal = ({ projectInput, setProjectInput, type }: props) => {
                     onChange={(e) => {
                         selectedUsers(e);
                     }}
+                    defaultValue={type && projectInput.users}
                     className='outline-gray-400 border-none rounded-lg ml-2 text-xl md:text-lg'
                 ></Select>
             </div>
