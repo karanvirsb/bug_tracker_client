@@ -26,6 +26,7 @@ import { useAppSelector } from "./Hooks/hooks";
 import { AnimatePresence } from "framer-motion";
 import Backdrop from "./Components/Backdrop";
 import AddProjectModal from "./Routes/Dashboard/Components/AddProjectModal";
+import EditProjectModal from "./Routes/Dashboard/Components/EditProjectModal";
 
 const NavbarLayout = () => {
     return (
@@ -65,6 +66,11 @@ function App() {
                     <Backdrop>
                         {modal.type === "createProject" && (
                             <AddProjectModal></AddProjectModal>
+                        )}
+                        {modal.type === "updateProject" && modal.options && (
+                            <EditProjectModal
+                                projectId={modal.options?.projectId ?? ""}
+                            ></EditProjectModal>
                         )}
                     </Backdrop>
                 )}
