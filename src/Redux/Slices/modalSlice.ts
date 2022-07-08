@@ -3,20 +3,22 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import React from "react";
 
 export interface ModalState {
-    type: "createProject" | "";
+    type: "createProject" | "updateProject" | "";
     open: boolean;
+    options: { projectId?: string } | {};
 }
 
 const initialState: ModalState = {
     type: "",
     open: false,
+    options: {},
 };
 
 export const modalSlice = createSlice({
     name: "modal",
     initialState,
     reducers: {
-        setType: (state, action: PayloadAction<"createProject" | "">) => {
+        setType: (state, action: PayloadAction<ModalState["type"]>) => {
             return { ...state, type: action.payload };
         },
         setOpen: (state, action: PayloadAction<boolean>) => {
