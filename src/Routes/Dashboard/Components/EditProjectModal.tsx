@@ -29,6 +29,17 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
 
     type updatedProject = { projectId: string; updates: IProject };
 
+    const options = [
+        {
+            value: { id: 1 },
+            label: "Maria Brown",
+        },
+        {
+            value: { id: 3 },
+            label: "John Doe",
+        },
+    ];
+
     const mutation = useMutation((updatedProject: updatedProject) => {
         return axiosPrivate("/project", {
             method: "put",
@@ -114,9 +125,11 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                 onSubmit={handleSubmit}
                 className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
             >
+                {/* TODO default values */}
                 <ProjectModal
                     setProjectInput={setProjectInput}
                     projectInput={projectInput}
+                    options={options}
                 ></ProjectModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
