@@ -37,12 +37,13 @@ const Pagination = (props: {
                 Prev
             </button>
             <div>
-                {pageRange.map((pageNum) => {
+                {pageRange.map((pageNum, index) => {
                     if (pageNum === DOTS) {
-                        <span>{DOTS}</span>;
+                        <span key={index}>{DOTS}</span>;
                     }
                     return (
                         <button
+                            key={index}
                             aria-current={
                                 props.pageNumber + 1 === pageNum
                                     ? "page"
