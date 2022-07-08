@@ -64,8 +64,11 @@ const AddProjectModal = (): JSX.Element => {
             };
         }
         try {
+            // mutating in order to invalidate query
+            // TODO create function to invalidate for everyone
             mutation.mutateAsync(newProject, {
                 onSuccess: () => {
+                    // reset input
                     setProjectInput({
                         groupId: "",
                         projectName: "",
@@ -73,6 +76,7 @@ const AddProjectModal = (): JSX.Element => {
                         users: [],
                     });
                     queryClient.invalidateQueries("projectIds");
+                    // reset modal
                     dispatch(setOpen(false));
                     dispatch(resetModal());
                 },
@@ -117,6 +121,14 @@ const AddProjectModal = (): JSX.Element => {
         });
     };
 
+    const handleTextAreaChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+        setProjectInput((prev) => {
+            return { ...prev, projectDesc: e.target.value };
+        });
+    };
+
     const selectedUsers = (users: any) => {
         const userIds = users.map(
             (user: { label: String; value: { id: number } }) => {
@@ -129,9 +141,13 @@ const AddProjectModal = (): JSX.Element => {
     };
 
     return (
-        <motion.div>
-            <form action='' onSubmit={handleSubmit}>
-                <div>
+        <motion.div className='bg-white min-h-[100vh] w-3/6 fixed right-0'>
+            <form
+                action=''
+                onSubmit={handleSubmit}
+                className='flex flex-col w-full'
+            >
+                <div className='flex flex-col'>
                     <label htmlFor='projectName'>Project Name</label>
                     <input
                         type='text'
@@ -143,18 +159,16 @@ const AddProjectModal = (): JSX.Element => {
                 </div>
                 <div>
                     <label htmlFor='projectDesc'>Project Description</label>
-                    <input
-                        type='text'
+                    <textarea
                         id='projectDesc'
                         name='projectDesc'
                         value={projectInput.projectDesc}
-                        onChange={handleChange}
+                        onChange={handleTextAreaChange}
                     />
                 </div>
                 <div>
                     <label htmlFor='users'>Select Users</label>
                     <Select
-                        closeMenuOnSelect={false}
                         options={options}
                         isMulti
                         name='users'
