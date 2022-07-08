@@ -5,7 +5,7 @@ import React from "react";
 export interface ModalState {
     type: "createProject" | "updateProject" | "";
     open: boolean;
-    options: { projectId?: string } | {};
+    options: { projectId?: string };
 }
 
 const initialState: ModalState = {
