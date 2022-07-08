@@ -96,10 +96,16 @@ const ProjectUsers = (props: { users: string[]; projectId: string }) => {
         useMemo(() => {
             return users?.map((user: any, index: number) => {
                 if (index === props.users.length - 1) {
-                    return <span>{user.firstName + " " + user.lastName}</span>;
+                    return (
+                        <span key={user.username}>
+                            {user.firstName + " " + user.lastName}
+                        </span>
+                    );
                 }
                 return (
-                    <span>{user.firstName + " " + user.lastName + ","}</span>
+                    <span key={user.username}>
+                        {user.firstName + " " + user.lastName + ","}
+                    </span>
                 );
             });
         }, [props.users]);
