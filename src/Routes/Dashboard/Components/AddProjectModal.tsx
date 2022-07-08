@@ -81,7 +81,6 @@ const AddProjectModal = (): JSX.Element => {
                         const errorResp = JSON.parse(
                             error.response?.data.message
                         );
-                        console.log(errorResp);
                         errorResp.forEach(
                             (elem: {
                                 code: string;
@@ -92,7 +91,6 @@ const AddProjectModal = (): JSX.Element => {
                                 path: string[];
                                 type: string;
                             }) => {
-                                console.log(elem.path[0] + " " + elem.message);
                                 toast.error(elem.path[0] + " " + elem.message);
                             }
                         );
