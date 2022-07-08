@@ -60,6 +60,7 @@ const Dashboard = () => {
                                 setModal({
                                     open: true,
                                     type: "createProject",
+                                    options: {},
                                 })
                             )
                         }
