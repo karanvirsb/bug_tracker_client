@@ -10,7 +10,7 @@ import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
 // import { axiosPrivate } from "../../API/axios";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
-import { setGroup, setUsers } from "../../Redux/Slices/groupSlice";
+import { setUsers } from "../../Redux/Slices/groupSlice";
 
 const Dashboard = () => {
     const axiosPrivate = useAxiosPrivate();
@@ -41,21 +41,6 @@ const Dashboard = () => {
         }
     );
 
-    // fetching gruop info with invite code
-    const fetchGroup = async () => {
-        const resp = await axiosPrivate("/group/id", {
-            method: "post",
-            data: { filter: "groupId", filterValue: groupId },
-        });
-
-        return resp.data;
-    };
-
-    const { data: groupData, status: groupStatus } = useQuery(
-        "groupInfo",
-        fetchGroup
-    );
-
     // fetching all the users of the group
     const fetchGroupUsers = async () => {
         const resp = await axiosPrivate("/user/group", {
@@ -75,12 +60,6 @@ const Dashboard = () => {
             dispatch(updateInitialState(projects.docs));
         }
     }, [projects, status, dispatch]);
-
-    useEffect(() => {
-        if (groupStatus === "success") {
-            dispatch(setGroup(groupData));
-        }
-    }, [groupStatus, groupData, dispatch]);
 
     useEffect(() => {
         if (groupUsersStatus === "success") {
