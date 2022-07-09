@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import useComponentVisible from "../../../Hooks/useComponentVisible";
 import ProjectOptions from "./ProjectOptions";
 
 type project = {
@@ -21,8 +22,8 @@ const Project = ({
     dateCreated,
     users,
 }: project) => {
-    const [projectOpen, setProjectOpen] = useState<Boolean>(false);
-
+    const { ref, isComponentVisible, setIsComponentVisible } =
+        useComponentVisible(false);
     return (
         <tr className='border-gray-200 border-b-2' key={projectId}>
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
@@ -44,7 +45,7 @@ const Project = ({
                     viewBox='0 0 24 24'
                     stroke='currentColor'
                     strokeWidth={2}
-                    onClick={() => setProjectOpen(true)}
+                    onClick={() => setIsComponentVisible(true)}
                 >
                     <path
                         strokeLinecap='round'
@@ -52,10 +53,11 @@ const Project = ({
                         d='M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z'
                     />
                 </svg>
-                {projectOpen && (
+                {isComponentVisible && (
                     <ProjectOptions
                         projectId={projectId}
-                        setProjectOpen={setProjectOpen}
+                        refs={ref}
+                        setProjectOpen={setIsComponentVisible}
                     ></ProjectOptions>
                 )}
             </td>
