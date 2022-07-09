@@ -26,12 +26,11 @@ const AddProjectModal = (): JSX.Element => {
     for (let i = 0; i < groupUsers.length; i++) {
         if (groupUsers[i].username !== auth.username) {
             options.push({
-                value: { id: groupUsers[i].username },
+                value: groupUsers[i].username,
                 label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
             });
         }
     }
-    console.log(options);
 
     const mutation = useMutation((newProject: IProject | {}) => {
         return axiosPrivate("/project", {
@@ -58,14 +57,14 @@ const AddProjectModal = (): JSX.Element => {
         let newProject: IProject | {} = {};
         let selectedUsers;
         type user = {
-            value: { [key: string]: string };
+            value: string;
             label: string;
         };
         if (usersSelected.current) {
             selectedUsers =
                 (usersSelected?.current as any).state?.selectValue.map(
                     (user: user) => {
-                        return user.value.id;
+                        return user.value;
                     }
                 ) ?? [];
         }
