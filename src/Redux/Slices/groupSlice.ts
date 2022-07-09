@@ -30,7 +30,7 @@ export const groupSlice = createSlice({
             return { ...state, ...action.payload };
         },
         setUsers: (state, action: PayloadAction<GroupState["users"]>) => {
-            return { ...state, ...action.payload };
+            return { ...state, users: action.payload };
         },
     },
 });
