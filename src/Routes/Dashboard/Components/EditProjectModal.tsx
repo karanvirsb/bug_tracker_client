@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
@@ -23,22 +23,28 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     const queryClient = useQueryClient();
 
     const auth = useAppSelector((state) => state.auth);
-
+    const groupUsers = useAppSelector((state) => state.group.users);
     const dispatch = useAppDispatch();
 
+    const usersSelected = useRef(null);
+
+    const options = [];
+    const defaultSelectValue = [];
+    for (let i = 0; i < groupUsers.length; i++) {
+        options.push({
+            value: groupUsers[i].username,
+            label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
+        });
+
+        if (project?.users.includes(groupUsers[i].username)) {
+            defaultSelectValue.push({
+                value: groupUsers[i].username,
+                label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
+            });
+        }
+    }
+
     type updatedProject = { projectId: string; updates: IProject };
-
-    const options = [
-        {
-            value: { id: 1 },
-            label: "Maria Brown",
-        },
-        {
-            value: { id: 3 },
-            label: "John Doe",
-        },
-    ];
-
     const mutation = useMutation((updatedProject: updatedProject) => {
         return axiosPrivate("/project", {
             method: "put",
@@ -131,6 +137,9 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                     setProjectInput={setProjectInput}
                     projectInput={projectInput}
                     options={options}
+                    defaultSelect={defaultSelectValue}
+                    refs={usersSelected}
+                    type={"edit"}
                 ></ProjectModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
