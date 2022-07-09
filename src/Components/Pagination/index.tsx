@@ -1,28 +1,33 @@
 import usePagination, { DOTS } from "../../Hooks/usePagination";
 
-const Pagination = (props: {
+type props = {
     pageNumber: number;
     setPageNumber: any;
     hasMore: boolean;
-    hasPrevious: boolean;
     totalPage: number;
-}) => {
+};
+
+const Pagination = ({
+    pageNumber,
+    setPageNumber,
+    hasMore,
+    totalPage,
+}: props) => {
     const pageRange = usePagination({
-        currentPage: props.pageNumber + 1,
-        totalCount: props.totalPage,
+        currentPage: pageNumber,
+        totalCount: totalPage,
     });
 
     const nextPage = () => {
-        if (props.hasMore) {
+        if (hasMore) {
             console.log("here next");
-            props.setPageNumber((old: number) => old + 1);
+            setPageNumber((old: number) => old + 1);
         }
     };
 
     const previousPage = () => {
-        if (props.hasPrevious) {
-            console.log("here prev");
-            props.setPageNumber((old: number) => Math.max(old - 1, 0));
+        if (pageNumber > 1) {
+            setPageNumber((old: number) => Math.max(old - 1, 1));
         }
     };
 
@@ -31,7 +36,7 @@ const Pagination = (props: {
             <button
                 className='pagination-btn'
                 onClick={previousPage}
-                disabled={props.pageNumber === 0}
+                disabled={pageNumber === 1}
             >
                 Prev
             </button>
@@ -44,13 +49,11 @@ const Pagination = (props: {
                         <button
                             key={index}
                             aria-current={
-                                props.pageNumber + 1 === pageNum
-                                    ? "page"
-                                    : "false"
+                                pageNumber === pageNum ? "page" : "false"
                             }
                             onClick={() =>
-                                props.setPageNumber(
-                                    (old: number) => (pageNum as number) - 1
+                                setPageNumber(
+                                    (old: number) => pageNum as number
                                 )
                             }
                             className='bg-secondary-color text-white w-10 h-10 text-2xl flex justify-center items-center text-center rounded-full '
@@ -63,9 +66,7 @@ const Pagination = (props: {
             <button
                 className='pagination-btn'
                 onClick={nextPage}
-                disabled={
-                    props.pageNumber === props.totalPage || !props.hasMore
-                }
+                disabled={pageNumber === totalPage || !hasMore}
             >
                 Next
             </button>
