@@ -2,7 +2,12 @@ import { useMemo } from "react";
 
 export const DOTS = "...";
 
-function usePagination(props: { currentPage: number; totalCount: number }) {
+type props = {
+    currentPage: number;
+    totalCount: number;
+};
+
+function usePagination({ currentPage, totalCount }: props) {
     /*
     * This hook will return pagination of blogs with always displaying the first and last page. 
 
@@ -13,20 +18,24 @@ function usePagination(props: { currentPage: number; totalCount: number }) {
 
     const FIRST_PAGE = 1;
 
-    const LAST_PAGE = props.totalCount;
+    const LAST_PAGE = totalCount;
 
     const pages = useMemo(() => {
-        return getPages(FIRST_PAGE, LAST_PAGE, props.currentPage);
-    }, [FIRST_PAGE, LAST_PAGE, props.currentPage, props.totalCount]);
+        return getPages(FIRST_PAGE, LAST_PAGE, currentPage);
+    }, [FIRST_PAGE, LAST_PAGE, currentPage, totalCount]);
 
     return pages;
 }
 
-function getPages(FIRST_PAGE: Number, LAST_PAGE: Number, currentPage: number) {
+function getPages(FIRST_PAGE: number, LAST_PAGE: number, currentPage: number) {
     let pages = [];
 
     if (FIRST_PAGE === LAST_PAGE || FIRST_PAGE > LAST_PAGE) {
         pages = [FIRST_PAGE];
+    } else if (LAST_PAGE === 2) {
+        pages = [FIRST_PAGE, LAST_PAGE];
+    } else if (LAST_PAGE === 3) {
+        pages = [FIRST_PAGE, FIRST_PAGE + 1, LAST_PAGE];
     } else if (currentPage === FIRST_PAGE || currentPage - 1 === FIRST_PAGE) {
         // checks to see if currentPage is the first page or is the second page
         pages = [FIRST_PAGE, 2, 3, DOTS, LAST_PAGE];
