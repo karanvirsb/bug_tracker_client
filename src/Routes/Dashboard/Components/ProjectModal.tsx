@@ -5,7 +5,6 @@ export interface IProject {
     groupId: string;
     projectName: string;
     projectDesc: string;
-    users: string[];
 }
 
 type options = {
@@ -19,7 +18,7 @@ type props = {
     type?: "edit";
     options: options[] | any;
     defaultSelect?: options[];
-    fixedSelect?: options;
+    refs?: React.MutableRefObject<null | any>;
 };
 
 const ProjectModal = ({
@@ -28,7 +27,7 @@ const ProjectModal = ({
     type,
     options,
     defaultSelect,
-    fixedSelect,
+    refs,
 }: props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProjectInput((prev: IProject) => {
@@ -44,16 +43,16 @@ const ProjectModal = ({
         });
     };
 
-    const selectedUsers = (users: any) => {
-        const userIds = users.map(
-            (user: { label: String; value: { id: number } }) => {
-                return user.value.id.toString();
-            }
-        );
-        setProjectInput((prev: IProject) => {
-            return { ...prev, users: userIds };
-        });
-    };
+    // const selectedUsers = (users: any) => {
+    //     const userIds = users.map(
+    //         (user: { label: String; value: { id: number } }) => {
+    //             return user.value.id.toString();
+    //         }
+    //     );
+    //     setProjectInput((prev: IProject) => {
+    //         return { ...prev, users: userIds };
+    //     });
+    // };
 
     return (
         <>
@@ -89,13 +88,10 @@ const ProjectModal = ({
                 <Select
                     options={options}
                     isMulti
-                    name='users'
-                    id='users'
-                    onChange={(e) => {
-                        selectedUsers(e);
-                    }}
-                    defaultValue={type && projectInput.users}
+                    ref={refs}
+                    defaultValue={type}
                     className='outline-gray-400 border-none rounded-lg ml-2 text-xl md:text-lg'
+                    closeMenuOnSelect={false}
                 ></Select>
             </div>
         </>
