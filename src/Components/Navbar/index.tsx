@@ -1,13 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
-import { useAppSelector } from "../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import { useQuery } from "react-query";
+import { setGroup } from "../../Redux/Slices/groupSlice";
+import Spinner from "../Spinner";
 
 export const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const logout = useLogout();
-
+    const dispatch = useAppDispatch();
+    const axiosPrivate = useAxiosPrivate();
     const auth = useAppSelector((state) => state.auth);
+
+    // fetching gruop info with invite code
+    const fetchGroup = async () => {
+        const resp = await axiosPrivate("/group/id", {
+            method: "post",
+            data: { filter: "groupId", filterValue: auth?.group_id },
+        });
+
+        return resp.data;
+    };
+
+    const { data: groupData, status: groupStatus } = useQuery(
+        "groupInfo",
+        fetchGroup
+    );
+
     const getRoles = () => {
         const roles = auth.roles;
         const role: string = "1990";
@@ -21,6 +42,12 @@ export const Navbar = () => {
     const closeModal = () => {
         setShowNavigation(false);
     };
+
+    useEffect(() => {
+        if (groupStatus === "success") {
+            dispatch(setGroup(groupData));
+        }
+    }, [groupStatus, groupData, dispatch]);
 
     return (
         <header
@@ -56,7 +83,11 @@ export const Navbar = () => {
                     {/* TODO make drop down */}
                     <div className='flex justify-between items-center md:px-4'>
                         <h1 className='text-center text-xl pb-1 m-md:w-full'>
-                            Group name
+                            {groupStatus !== "success" ? (
+                                <Spinner></Spinner>
+                            ) : (
+                                groupData.groupName
+                            )}
                         </h1>
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
