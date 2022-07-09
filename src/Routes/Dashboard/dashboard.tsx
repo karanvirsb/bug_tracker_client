@@ -13,7 +13,7 @@ import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 
 const Dashboard = () => {
     const axiosPrivate = useAxiosPrivate();
-    const [pageNumber, setPageNumber] = useState(0);
+    const [pageNumber, setPageNumber] = useState(1);
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
@@ -61,7 +61,6 @@ const Dashboard = () => {
             method: "Post",
             data: { groupId: groupId },
         });
-
         return resp.data;
     };
 
@@ -153,7 +152,6 @@ const Dashboard = () => {
                         pageNumber={pageNumber}
                         totalPage={projects?.totalPages || 0}
                         hasMore={projects.hasNextPage || false}
-                        hasPrevious={projects.hasPreviousPage || false}
                         setPageNumber={setPageNumber}
                     ></Pagination>
                     {/* <div className='w-full flex justify-center items-center py-4 gap-4'>
