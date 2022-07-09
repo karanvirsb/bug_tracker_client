@@ -108,7 +108,7 @@ const ProjectUsers = ({ usersArr, projectId }: projectUsersProps) => {
                 }
                 return (
                     <span key={user.username}>
-                        {user.firstName + " " + user.lastName + ","}
+                        {user.firstName + " " + user.lastName + ", "}
                     </span>
                 );
             });
