@@ -8,7 +8,7 @@ export interface IProject {
 }
 
 type options = {
-    value: { id: string };
+    value: string;
     label: string;
 };
 
@@ -89,7 +89,7 @@ const ProjectModal = ({
                     options={options}
                     isMulti
                     ref={refs}
-                    defaultValue={type}
+                    defaultValue={type && defaultSelect}
                     className='outline-gray-400 border-none rounded-lg ml-2 text-xl md:text-lg'
                     closeMenuOnSelect={false}
                 ></Select>
