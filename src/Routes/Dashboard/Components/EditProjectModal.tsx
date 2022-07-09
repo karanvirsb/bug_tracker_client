@@ -18,7 +18,6 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
         groupId: project?.groupId ?? "",
         projectName: project?.projectName ?? "",
         projectDesc: project?.projectDesc ?? "",
-        users: project?.users ?? [],
     });
     const axiosPrivate = useAxiosPrivate();
     const queryClient = useQueryClient();
@@ -78,7 +77,6 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                             groupId: "",
                             projectName: "",
                             projectDesc: "",
-                            users: [],
                         });
                         queryClient.invalidateQueries("projectIds");
                         // reset modal
