@@ -8,9 +8,11 @@ import ErrorFallback from "../../Components/ErrorFallback";
 import { updateInitialState } from "../../Redux/Slices/projectSlice";
 import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
-import { axiosPrivate } from "../../API/axios";
+// import { axiosPrivate } from "../../API/axios";
+import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 
 const Dashboard = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [pageNumber, setPageNumber] = useState(0);
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
@@ -21,9 +23,9 @@ const Dashboard = () => {
 
     // creating axios fetch for projects
     const fetchProjects = async (page: number) => {
-        const resp = await axiosPrivate.get("/project/group/" + groupId, {
+        const resp = await axiosPrivate("/project/group/" + groupId, {
+            method: "get",
             params: { page: page },
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
 
         return resp.data;
@@ -40,9 +42,9 @@ const Dashboard = () => {
 
     // fetching gruop info with invite code
     const fetchGroup = async () => {
-        const resp = await axiosPrivate.get("/group/id", {
+        const resp = await axiosPrivate("/group/id", {
+            method: "post",
             data: { filter: "groupId", filterValue: groupId },
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
 
         return resp.data;
@@ -55,9 +57,9 @@ const Dashboard = () => {
 
     // fetching all the users of the group
     const fetchGroupUsers = async () => {
-        const resp = await axiosPrivate.post("/user/group", {
+        const resp = await axiosPrivate("/user/group", {
+            method: "Post",
             data: { groupId: groupId },
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
 
         return resp.data;
