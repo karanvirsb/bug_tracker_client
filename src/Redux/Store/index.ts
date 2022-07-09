@@ -3,6 +3,7 @@ import authenticationReducer from "../../Auth/authenticationSlice";
 import persistReducer from "../../Auth/persistSlice";
 import projectSlice from "../Slices/projectSlice";
 import modalSlice from "../Slices/modalSlice";
+import groupSlice from "../Slices/groupSlice";
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         persist: persistReducer,
         projects: projectSlice,
         modal: modalSlice,
+        group: groupSlice,
     },
 });
 
