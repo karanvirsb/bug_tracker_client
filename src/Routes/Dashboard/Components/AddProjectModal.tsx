@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
@@ -13,23 +13,25 @@ const AddProjectModal = (): JSX.Element => {
         groupId: "",
         projectName: "",
         projectDesc: "",
-        users: [],
     });
     const axiosPrivate = useAxiosPrivate();
     const queryClient = useQueryClient();
     const auth = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
+    const groupUsers = useAppSelector((state) => state.group.users);
+    const usersSelected = useRef(null);
+    // creating the users of the group
+    const options = [];
 
-    const options = [
-        {
-            value: { id: 1 },
-            label: "Maria Brown",
-        },
-        {
-            value: { id: 3 },
-            label: "John Doe",
-        },
-    ];
+    for (let i = 0; i < groupUsers.length; i++) {
+        if (groupUsers[i].username !== auth.username) {
+            options.push({
+                value: { id: groupUsers[i].username },
+                label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
+            });
+        }
+    }
+    console.log(options);
 
     const mutation = useMutation((newProject: IProject | {}) => {
         return axiosPrivate("/project", {
@@ -54,7 +56,20 @@ const AddProjectModal = (): JSX.Element => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         let newProject: IProject | {} = {};
-        const users = [...projectInput.users];
+        let selectedUsers;
+        type user = {
+            value: { [key: string]: string };
+            label: string;
+        };
+        if (usersSelected.current) {
+            selectedUsers =
+                (usersSelected?.current as any).state?.selectValue.map(
+                    (user: user) => {
+                        return user.value.id;
+                    }
+                ) ?? [];
+        }
+        const users = selectedUsers;
 
         if (auth.username) {
             users.push(auth?.username);
@@ -78,7 +93,6 @@ const AddProjectModal = (): JSX.Element => {
                         groupId: "",
                         projectName: "",
                         projectDesc: "",
-                        users: [],
                     });
                     queryClient.invalidateQueries("projectIds");
                     // reset modal
@@ -130,6 +144,7 @@ const AddProjectModal = (): JSX.Element => {
                     setProjectInput={setProjectInput}
                     projectInput={projectInput}
                     options={options}
+                    refs={usersSelected}
                 ></ProjectModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
