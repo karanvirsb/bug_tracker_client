@@ -10,6 +10,7 @@ import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
 // import { axiosPrivate } from "../../API/axios";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import { setGroup, setUsers } from "../../Redux/Slices/groupSlice";
 
 const Dashboard = () => {
     const axiosPrivate = useAxiosPrivate();
@@ -64,7 +65,7 @@ const Dashboard = () => {
         return resp.data;
     };
 
-    const { data: users, status: groupUsersStatus } = useQuery(
+    const { data: usersData, status: groupUsersStatus } = useQuery(
         "groupUsers",
         fetchGroupUsers
     );
@@ -76,17 +77,16 @@ const Dashboard = () => {
     }, [projects, status, dispatch]);
 
     useEffect(() => {
-        // if (groupUsersStatus === "success") {
-        //     dispatch(updateInitialState(projects.docs));
-        // }
-    }, [groupUsersStatus, users, dispatch]);
-
-    useEffect(() => {
-        // if (groupUsersStatus === "success") {
-        //     dispatch(updateInitialState(projects.docs));
-        // }
+        if (groupStatus === "success") {
+            dispatch(setGroup(groupData));
+        }
     }, [groupStatus, groupData, dispatch]);
 
+    useEffect(() => {
+        if (groupUsersStatus === "success") {
+            dispatch(setUsers(usersData));
+        }
+    }, [groupUsersStatus, usersData, dispatch]);
     return (
         <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
             <h1 className='text-2xl font-semibold'>Dashboard</h1>
