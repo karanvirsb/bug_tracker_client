@@ -19,6 +19,7 @@ const DeleteProjectModal = ({ projectId }: props) => {
             data: { id: id },
         });
     });
+
     const closeDeleteModal = () => {
         dispatch(resetModal());
     };
@@ -82,6 +83,7 @@ const DeleteProjectModal = ({ projectId }: props) => {
                     <button
                         className='btn bg-red-400 !px-6'
                         onClick={closeDeleteModal}
+                        type='button'
                     >
                         No
                     </button>
