@@ -9,7 +9,7 @@ const useAxiosPrivate = () => {
     const auth = useAppSelector((state) => state.auth);
 
     // useEffect(() => {
-    const requestIntercept = axiosPrivate.interceptors.request.use(
+    axiosPrivate.interceptors.request.use(
         (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
             axiosPrivate.defaults.headers.common["Authorization"] = "";
             if (config.headers) {
@@ -22,21 +22,28 @@ const useAxiosPrivate = () => {
         }
     );
 
-    const responseIntercept = axiosPrivate.interceptors.response.use(
+    axiosPrivate.interceptors.response.use(
         (response: AxiosResponse) => response,
         async (error) => {
             axiosPrivate.defaults.headers.common["Authorization"] = "";
             //token expired
             const prevRequest = error?.config;
-            if (error?.response?.status === 403 && !prevRequest?.sent) {
+            if (
+                (error?.response?.status === 403 ||
+                    error?.response?.status === 401) &&
+                !prevRequest?.sent
+            ) {
                 prevRequest.sent = true;
                 const newAccessToken = await refresh();
-                prevRequest.headers[
+                // prevRequest.headers[
+                //     "Authorization"
+                // ] = `Bearer ${newAccessToken}`;
+                prevRequest.defaults.headers.common[
                     "Authorization"
                 ] = `Bearer ${newAccessToken}`;
                 return axiosPrivate(prevRequest);
             }
-            return Promise.reject(error);
+            return error;
         }
     );
 
