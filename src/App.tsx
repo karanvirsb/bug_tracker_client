@@ -21,6 +21,7 @@ import { AnimatePresence } from "framer-motion";
 import Backdrop from "./Components/Backdrop";
 import AddProjectModal from "./Routes/Dashboard/Components/AddProjectModal";
 import EditProjectModal from "./Routes/Dashboard/Components/EditProjectModal";
+import DeleteProjectModal from "./Routes/Dashboard/Components/DeleteProjectModal";
 
 const NavbarLayout = () => {
     return (
@@ -66,6 +67,12 @@ function App() {
                                 projectId={modal.options?.projectId ?? ""}
                             ></EditProjectModal>
                         )}
+                        {modal.type === "deleteProject" &&
+                            modal.options.projectId && (
+                                <DeleteProjectModal
+                                    projectId={modal.options?.projectId ?? ""}
+                                ></DeleteProjectModal>
+                            )}
                     </Backdrop>
                 )}
             </AnimatePresence>
