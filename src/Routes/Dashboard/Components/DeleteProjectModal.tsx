@@ -21,8 +21,10 @@ const DeleteProjectModal = ({ projectId }: props) => {
                 <p className='text-center'>
                     Are you sure you want to delete this project?
                 </p>
-                <button>Yes</button>
-                <button onClick={closeDeleteModal}>No</button>
+                <div>
+                    <button>Yes</button>
+                    <button onClick={closeDeleteModal}>No</button>
+                </div>
             </form>
         </motion.div>
     );
