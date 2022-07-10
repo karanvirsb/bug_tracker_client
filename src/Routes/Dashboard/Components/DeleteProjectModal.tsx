@@ -18,7 +18,7 @@ const DeleteProjectModal = ({ projectId }: props) => {
                 action=''
                 className='bg-white flex flex-col justify-center items-center p-4 rounded-md w-1/4 max-w-[350px] h-1/4 min-h-[200px] max-h-[250px]'
             >
-                <p className='text-center'>
+                <p className='text-center lg:text-xl md:text-lg'>
                     Are you sure you want to delete this project?
                 </p>
                 <div>
