@@ -22,8 +22,13 @@ const DeleteProjectModal = ({ projectId }: props) => {
                     Are you sure you want to delete this project?
                 </p>
                 <div>
-                    <button>Yes</button>
-                    <button onClick={closeDeleteModal}>No</button>
+                    <button className='btn bg-blue-400'>Yes</button>
+                    <button
+                        className='btn bg-red-400'
+                        onClick={closeDeleteModal}
+                    >
+                        No
+                    </button>
                 </div>
             </form>
         </motion.div>
