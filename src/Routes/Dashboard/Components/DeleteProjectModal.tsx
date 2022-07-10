@@ -1,6 +1,8 @@
+import { AxiosError } from "axios";
 import { motion } from "framer-motion";
-import { Mutation, useMutation } from "react-query";
+import { Mutation, useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 
@@ -9,6 +11,7 @@ type props = {
 };
 const DeleteProjectModal = ({ projectId }: props) => {
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const axiosPrivate = useAxiosPrivate();
     const mutation = useMutation(async (id: string) => {
         return await axiosPrivate("/project", {
@@ -24,7 +27,42 @@ const DeleteProjectModal = ({ projectId }: props) => {
         e.preventDefault();
 
         try {
-        } catch (error) {}
+            mutation.mutateAsync(projectId, {
+                onSuccess: () => {
+                    queryClient.invalidateQueries("projectIds");
+                    dispatch(resetModal());
+                },
+                onError: (error) => {
+                    if (error instanceof AxiosError) {
+                        const errorResp = JSON.parse(
+                            error.response?.data.message
+                        );
+                        errorResp.forEach(
+                            (elem: {
+                                code: string;
+                                inclusive: boolean;
+                                message: string;
+                                minimum?: number;
+                                maxiumum?: number;
+                                path: string[];
+                                type: string;
+                            }) => {
+                                toast.error(elem.path[0] + " " + elem.message);
+                            }
+                        );
+                    }
+                },
+            });
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.log(JSON.parse(error.response?.data.message));
+                toast.error(JSON.parse(error.response?.data.message));
+            }
+            console.log(
+                "🚀 ~ file: DeleteProjectModal.tsx ~ line 57 ~ handleSubmit ~ error",
+                error
+            );
+        }
     };
 
     return (
