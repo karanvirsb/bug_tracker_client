@@ -5,6 +5,7 @@ import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import useComponentVisible from "../../../Hooks/useComponentVisible";
+import useIsAdmin from "../../../Hooks/useIsAdmin";
 import ProjectOptions from "./ProjectOptions";
 
 type project = {
@@ -24,6 +25,8 @@ const Project = ({
 }: project) => {
     const { ref, isComponentVisible, setIsComponentVisible } =
         useComponentVisible(false);
+    const { getRoles } = useIsAdmin();
+    const roles = useAppSelector((state) => state.auth.roles);
     return (
         <tr className='border-gray-200 border-b-2' key={projectId}>
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
@@ -37,30 +40,33 @@ const Project = ({
                     projectId={projectId}
                 ></ProjectUsers>
             </td>
-            <td className='px-1 py-3 relative'>
-                <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-6 w-6 relative'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    strokeWidth={2}
-                    onClick={() => setIsComponentVisible(true)}
-                >
-                    <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z'
-                    />
-                </svg>
-                {isComponentVisible && (
-                    <ProjectOptions
-                        projectId={projectId}
-                        refs={ref}
-                        setProjectOpen={setIsComponentVisible}
-                    ></ProjectOptions>
-                )}
-            </td>
+            {/* only if user is admin should you display this column */}
+            {getRoles(roles) && (
+                <td className='px-1 py-3 relative'>
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-6 w-6 relative'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                        strokeWidth={2}
+                        onClick={() => setIsComponentVisible(true)}
+                    >
+                        <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z'
+                        />
+                    </svg>
+                    {isComponentVisible && (
+                        <ProjectOptions
+                            projectId={projectId}
+                            refs={ref}
+                            setProjectOpen={setIsComponentVisible}
+                        ></ProjectOptions>
+                    )}
+                </td>
+            )}
         </tr>
     );
 };
