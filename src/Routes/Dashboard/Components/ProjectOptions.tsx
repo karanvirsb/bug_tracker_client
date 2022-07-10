@@ -23,7 +23,15 @@ const ProjectOptions = ({ projectId, setProjectOpen, refs }: props) => {
         setProjectOpen(false);
     };
 
-    const openDeleteModal = () => {};
+    const openDeleteModal = () => {
+        dispatch(
+            setModal({
+                type: "deleteProject",
+                open: true,
+                options: { projectId: projectId },
+            })
+        );
+    };
 
     return (
         <div
