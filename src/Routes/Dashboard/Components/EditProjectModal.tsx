@@ -72,10 +72,24 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
         e.preventDefault();
 
         try {
+            let selectedUsers;
+            type user = {
+                value: string;
+                label: string;
+            };
+            if (usersSelected.current) {
+                selectedUsers =
+                    (usersSelected?.current as any).state?.selectValue.map(
+                        (user: user) => {
+                            return user.value;
+                        }
+                    ) ?? [];
+            }
+            const updates = { ...projectInput, users: selectedUsers };
             // mutating in order to invalidate query
             // TODO create function to invalidate for everyone
             mutation.mutateAsync(
-                { projectId: props.projectId, updates: projectInput },
+                { projectId: props.projectId, updates: updates },
                 {
                     onSuccess: () => {
                         // reset input
