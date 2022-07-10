@@ -11,15 +11,17 @@ import Pagination from "../../Components/Pagination";
 // import { axiosPrivate } from "../../API/axios";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import { setUsers } from "../../Redux/Slices/groupSlice";
+import useIsAdmin from "../../Hooks/useIsAdmin";
 
 const Dashboard = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [pageNumber, setPageNumber] = useState(1);
+    const axiosPrivate = useAxiosPrivate();
+    const dispatch = useAppDispatch();
+    const { getRoles } = useIsAdmin();
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
     const groupId = useMemo(() => auth.group_id, [auth.group_id]);
 
-    const dispatch = useAppDispatch();
     const projectsState = useAppSelector((state) => state.projects.projects);
 
     // creating axios fetch for projects
@@ -74,20 +76,22 @@ const Dashboard = () => {
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Projects
                     </h2>
-                    <button
-                        className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
-                        onClick={() =>
-                            dispatch(
-                                setModal({
-                                    open: true,
-                                    type: "createProject",
-                                    options: {},
-                                })
-                            )
-                        }
-                    >
-                        New Project
-                    </button>
+                    {getRoles(auth.roles) && (
+                        <button
+                            className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
+                            onClick={() =>
+                                dispatch(
+                                    setModal({
+                                        open: true,
+                                        type: "createProject",
+                                        options: {},
+                                    })
+                                )
+                            }
+                        >
+                            New Project
+                        </button>
+                    )}
                 </div>
                 <div className='outline-[#D4D4D4] outline-1 outline w-full px-4 text-left rounded-md'>
                     <table className=' w-full'>
