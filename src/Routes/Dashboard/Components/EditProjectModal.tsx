@@ -7,6 +7,7 @@ import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import ProjectModal, { IProject } from "./ProjectModal";
+import socket from "../../../API/sockets";
 
 const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     const projects = useAppSelector((state) => state.projects.projects);
@@ -20,7 +21,6 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
         projectDesc: project?.projectDesc ?? "",
     });
     const axiosPrivate = useAxiosPrivate();
-    const queryClient = useQueryClient();
 
     const auth = useAppSelector((state) => state.auth);
     const groupUsers = useAppSelector((state) => state.group.users);
@@ -98,9 +98,13 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                             projectName: "",
                             projectDesc: "",
                         });
-                        queryClient.invalidateQueries("projectIds");
+
+                        socket.emit("invalidateQuery", {
+                            queryName: "projectIds",
+                            groupId: auth.group_id,
+                        });
+
                         // reset modal
-                        dispatch(setOpen(false));
                         dispatch(resetModal());
                     },
                     onError: (error) => {
