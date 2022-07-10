@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { Mutation, useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import socket from "../../../API/sockets";
+import { useAppSelector } from "../../../Hooks/hooks";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 
@@ -13,6 +15,7 @@ const DeleteProjectModal = ({ projectId }: props) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
     const axiosPrivate = useAxiosPrivate();
+    const groupId = useAppSelector((state) => state.group.groupId);
     const mutation = useMutation(async (id: string) => {
         return await axiosPrivate("/project", {
             method: "delete",
@@ -30,7 +33,10 @@ const DeleteProjectModal = ({ projectId }: props) => {
         try {
             mutation.mutateAsync(projectId, {
                 onSuccess: () => {
-                    queryClient.invalidateQueries("projectIds");
+                    socket.emit("invalidateQuery", {
+                        queryName: "projectIds",
+                        groupId: groupId,
+                    });
                     dispatch(resetModal());
                 },
                 onError: (error) => {
