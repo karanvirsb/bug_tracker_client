@@ -2,11 +2,13 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import ProjectModal, { IProject } from "./ProjectModal";
+import socket from "../../../API/sockets";
+import useInvalidateQuery from "../../../Hooks/useInvalidateQuery";
 
 const AddProjectModal = (): JSX.Element => {
     const [projectInput, setProjectInput] = useState<IProject>({
@@ -15,7 +17,7 @@ const AddProjectModal = (): JSX.Element => {
         projectDesc: "",
     });
     const axiosPrivate = useAxiosPrivate();
-    const queryClient = useQueryClient();
+    const { invalidateQuery } = useInvalidateQuery();
     const auth = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const groupUsers = useAppSelector((state) => state.group.users);
@@ -93,9 +95,11 @@ const AddProjectModal = (): JSX.Element => {
                         projectName: "",
                         projectDesc: "",
                     });
-                    queryClient.invalidateQueries("projectIds");
+                    socket.emit("invalidateQuery", {
+                        queryName: "projectIds",
+                        groupId: auth.group_id,
+                    });
                     // reset modal
-                    dispatch(setOpen(false));
                     dispatch(resetModal());
                 },
                 onError: (error) => {
