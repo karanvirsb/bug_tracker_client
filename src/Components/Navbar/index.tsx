@@ -6,11 +6,13 @@ import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import { useQuery } from "react-query";
 import { setGroup } from "../../Redux/Slices/groupSlice";
 import Spinner from "../Spinner";
+import useIsAdmin from "../../Hooks/useIsAdmin";
 
 export const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const logout = useLogout();
     const dispatch = useAppDispatch();
+    const { getRoles } = useIsAdmin();
     const axiosPrivate = useAxiosPrivate();
     const auth = useAppSelector((state) => state.auth);
 
@@ -28,12 +30,6 @@ export const Navbar = () => {
         "groupInfo",
         fetchGroup
     );
-
-    const getRoles = () => {
-        const roles = auth.roles;
-        const role: string = "1990";
-        return roles?.includes(role);
-    };
 
     const openModal = () => {
         setShowNavigation(true);
@@ -120,7 +116,7 @@ export const Navbar = () => {
                         >
                             Tickets
                         </Link>
-                        {getRoles() && (
+                        {getRoles(auth.roles) && (
                             <Link
                                 className='rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black'
                                 to='/administration'
