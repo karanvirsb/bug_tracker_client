@@ -11,11 +11,14 @@ const DeleteProjectModal = ({ projectId }: props) => {
     const closeDeleteModal = () => {
         dispatch(resetModal());
     };
+
     return (
-        <motion.div>
-            <p>Are you sure you want to delete this project?</p>
-            <button>Yes</button>
-            <button onClick={closeDeleteModal}>No</button>
+        <motion.div className='flex justify-center items-center w-full h-full'>
+            <form action='' className=''>
+                <p>Are you sure you want to delete this project?</p>
+                <button>Yes</button>
+                <button onClick={closeDeleteModal}>No</button>
+            </form>
         </motion.div>
     );
 };
