@@ -22,6 +22,7 @@ import Backdrop from "./Components/Backdrop";
 import AddProjectModal from "./Routes/Dashboard/Components/AddProjectModal";
 import EditProjectModal from "./Routes/Dashboard/Components/EditProjectModal";
 import DeleteProjectModal from "./Routes/Dashboard/Components/DeleteProjectModal";
+import useInvalidateQuery from "./Hooks/useInvalidateQuery";
 
 const NavbarLayout = () => {
     return (
@@ -34,12 +35,15 @@ const NavbarLayout = () => {
 
 function App() {
     const navigate = useNavigate();
+    const { invalidateQuery } = useInvalidateQuery();
     const auth = useAppSelector((state) => state.auth);
     const modal = useAppSelector((state) => state.modal);
 
     useEffect(() => {
-        socket.on("connect", () => {});
-    }, []);
+        socket.on("invalidateData", (query) => {
+            invalidateQuery({ queryName: query });
+        });
+    }, [socket]);
 
     useEffect(() => {
         if (!auth.accessToken) {
