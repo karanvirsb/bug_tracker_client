@@ -6,8 +6,8 @@ type props = {
 const useInvalidateQuery = () => {
     const queryClient = useQueryClient();
 
-    const invalidateQuery = ({ queryName }: props) => {
-        queryClient.invalidateQueries(queryName);
+    const invalidateQuery = async ({ queryName }: props) => {
+        await queryClient.invalidateQueries(queryName);
     };
 
     return { invalidateQuery };
