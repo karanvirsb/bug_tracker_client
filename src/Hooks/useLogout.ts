@@ -1,6 +1,7 @@
 import axios from "../API/axios";
 import { setAuth } from "../Auth/authenticationSlice";
 import { useDispatch } from "react-redux";
+import socket from "../API/sockets";
 
 const useLogout = () => {
     const dispatch = useDispatch();
@@ -9,6 +10,7 @@ const useLogout = () => {
             setAuth({ username: "", accessToken: "", group_id: "", roles: [] })
         ); // reset auth
 
+        socket.disconnect();
         try {
             await axios.delete("/logout", { withCredentials: true });
         } catch (err) {
