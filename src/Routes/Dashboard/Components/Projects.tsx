@@ -12,7 +12,7 @@ export interface IProject {
 const Projects = (props: { projects: IProject[] }): JSX.Element => {
     // get all users of each project
 
-    return props.projects.length <= 0 ? (
+    return !props.projects ? (
         <tr className='w-full text-center text-lg '>
             <td colSpan={1000}>
                 <p className='text-xl'>No results.</p>
