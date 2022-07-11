@@ -94,14 +94,13 @@ const Login = (): JSX.Element => {
             });
         } catch (err: any) {
             let errMsg = "";
-            if (err?.response) {
-                errMsg = "No Server Response";
-            } else if (err.response?.status === 400) {
+
+            if (err?.response?.data.includes("password")) {
                 errMsg = "The username or password was incorrect";
-            } else if (err.response?.status === 401) {
+            } else if (err?.response?.data.includes("Unauthorized")) {
                 errMsg = "Unauthorized";
             } else {
-                errMsg = "Login Failed";
+                errMsg = "No Server Response";
             }
 
             toast.error(errMsg);
