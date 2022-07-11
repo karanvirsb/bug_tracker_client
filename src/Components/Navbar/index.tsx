@@ -116,7 +116,7 @@ export const Navbar = () => {
                         >
                             Tickets
                         </Link>
-                        {getRoles(auth.roles) && (
+                        {getRoles() && (
                             <Link
                                 className='rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black'
                                 to='/administration'
