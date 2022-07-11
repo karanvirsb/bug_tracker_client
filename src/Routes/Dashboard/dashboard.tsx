@@ -20,7 +20,7 @@ const Dashboard = () => {
     const { getRoles } = useIsAdmin();
     // getting the group Id
     const auth = useAppSelector((state) => state.auth);
-    const groupId = useMemo(() => auth.group_id, [auth.group_id]);
+    const groupId = useAppSelector((state) => state.auth.group_id);
 
     const projectsState = useAppSelector((state) => state.projects.projects);
 
@@ -76,7 +76,7 @@ const Dashboard = () => {
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Projects
                     </h2>
-                    {getRoles(auth.roles) && (
+                    {getRoles() && (
                         <button
                             className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
                             onClick={() =>
