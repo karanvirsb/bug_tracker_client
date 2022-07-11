@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
+import { Routes, Route, Outlet, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -45,12 +45,6 @@ function App() {
         });
     }, [socket]);
 
-    useEffect(() => {
-        if (!auth.accessToken) {
-            navigate("/login", { replace: true });
-        }
-    }, [auth.accessToken, navigate]);
-
     return (
         <>
             <ToastContainer
@@ -81,6 +75,16 @@ function App() {
                 )}
             </AnimatePresence>
             <Routes>
+                <Route
+                    path='/'
+                    element={
+                        !auth.group_id ? (
+                            <Navigate replace to='login'></Navigate>
+                        ) : (
+                            <Navigate replace to='dashboard'></Navigate>
+                        )
+                    }
+                ></Route>
                 <Route path='/login' element={<Login></Login>}></Route>
                 <Route path='/register' element={<Register></Register>}></Route>
                 <Route
