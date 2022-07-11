@@ -69,6 +69,10 @@ const AddGroup = () => {
             dispatch(setAuth({ ...auth, group_id: groupInfo.groupId }));
 
             socket.connect();
+            socket.emit("invalidateQuery", {
+                queryName: "groupInfo",
+                groupId: groupInfo.groupId,
+            });
             // redirect user to the home page of the group
             navigate("/dashboard", { replace: true });
         } catch (error: any) {
@@ -112,8 +116,22 @@ const AddGroup = () => {
                 toast.error("Could not add to group please try again");
                 return;
             }
-
-            dispatch(setAuth({ ...auth, group_id: groupInfo.groupId }));
+            if (auth.roles) {
+                dispatch(
+                    setAuth({
+                        ...auth,
+                        group_id: groupInfo.groupId,
+                        roles: [...auth.roles, "1990"],
+                    })
+                );
+            }
+            dispatch(
+                setAuth({
+                    ...auth,
+                    group_id: groupInfo.groupId,
+                    roles: ["1990"],
+                })
+            );
 
             socket.connect();
 
