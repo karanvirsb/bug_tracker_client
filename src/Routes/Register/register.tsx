@@ -56,8 +56,6 @@ const Register = () => {
             toast.error("Password is not valid");
         } else if (!isConfirmPasswordValid) {
             toast.error("Confirm Password is not valid");
-        } else {
-            toast.error("There is an issue");
         }
 
         try {
