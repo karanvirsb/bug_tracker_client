@@ -28,7 +28,10 @@ const Project = ({
     const { getRoles } = useIsAdmin();
     const roles = useAppSelector((state) => state.auth.roles);
     return (
-        <tr className='border-gray-200 border-b-2' key={projectId}>
+        <tr
+            className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
+            key={projectId}
+        >
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
                 {projectName}
             </th>
@@ -41,7 +44,7 @@ const Project = ({
                 ></ProjectUsers>
             </td>
             {/* only if user is admin should you display this column */}
-            {getRoles(roles) && (
+            {getRoles() && (
                 <td className='px-1 py-3 relative'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
