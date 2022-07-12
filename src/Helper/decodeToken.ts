@@ -6,6 +6,8 @@ export interface IDecode {
         group_id: string;
         roles: [];
     };
+    iat: number;
+    exp: number;
 }
 
 const decoder = (token: string): IDecode | undefined => {
