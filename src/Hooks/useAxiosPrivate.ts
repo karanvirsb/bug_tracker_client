@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
 
 const useAxiosPrivate = () => {
     const refresh = useRefreshToken();
-    const auth = useAppSelector((state) => state.auth.accessToken);
+    const auth = useAppSelector(
+        (state) => state.persistedReducer.auth.accessToken
+    );
     const logout = useLogout();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();

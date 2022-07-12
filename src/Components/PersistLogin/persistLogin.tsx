@@ -6,8 +6,10 @@ import { useAppSelector } from "../../Hooks/hooks";
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const auth = useAppSelector((state) => state.auth);
-    const persist = useAppSelector((state) => state.persist.persist);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const persist = useAppSelector(
+        (state) => state.persistedReducer.persist.persist
+    );
 
     useEffect(() => {
         let isMounted = true;

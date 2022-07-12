@@ -20,8 +20,10 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
     // getting the group Id
-    const auth = useAppSelector((state) => state.auth);
-    const groupId = useAppSelector((state) => state.auth.group_id);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const groupId = useAppSelector(
+        (state) => state.persistedReducer.auth.group_id
+    );
 
     const projectsState = useAppSelector((state) => state.projects.projects);
 

@@ -15,7 +15,7 @@ export const Navbar = () => {
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
     // const axiosPrivate = useAxiosPrivate();
-    const auth = useAppSelector((state) => state.auth);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
 
     // fetching gruop info with invite code
     const fetchGroup = async () => {

@@ -18,7 +18,7 @@ const AddProjectModal = (): JSX.Element => {
     });
     // const axiosPrivate = useAxiosPrivate();
 
-    const auth = useAppSelector((state) => state.auth);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
     const dispatch = useAppDispatch();
     const groupUsers = useAppSelector((state) => state.group.users);
     const usersSelected = useRef(null);

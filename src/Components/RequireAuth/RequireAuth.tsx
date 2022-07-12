@@ -4,7 +4,7 @@ import { IDecode } from "../../Helper/decodeToken";
 import { useAppSelector } from "../../Hooks/hooks";
 
 const RequireAuth = ({ allowedRoles }: any) => {
-    const auth = useAppSelector((state) => state.auth);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
     const location = useLocation();
 
     const decoded: IDecode | undefined = decoder(auth?.accessToken || "");

@@ -6,7 +6,9 @@ import useRefreshToken from "../../Hooks/useRefreshToken";
 
 export const AxiosInterceptor = ({ children }: any) => {
     const refresh = useRefreshToken();
-    const auth = useAppSelector((state) => state.auth.accessToken);
+    const auth = useAppSelector(
+        (state) => state.persistedReducer.auth.accessToken
+    );
 
     useEffect(() => {
         const requestIntercept = axiosPrivate.interceptors.request.use(

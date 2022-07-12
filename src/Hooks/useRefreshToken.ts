@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../Hooks/hooks";
 import mem from "mem";
 const useRefreshToken = () => {
     const dispatch = useAppDispatch();
-    const auth = useAppSelector((state) => state.auth);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
     // doing this so we can set the accessToken;
     const refresh = async () => {
         try {

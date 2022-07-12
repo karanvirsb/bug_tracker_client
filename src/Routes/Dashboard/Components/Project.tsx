@@ -28,7 +28,7 @@ const Project = ({
     const { ref, isComponentVisible, setIsComponentVisible } =
         useComponentVisible(false);
     const { getRoles } = useIsAdmin();
-    const roles = useAppSelector((state) => state.auth.roles);
+    const roles = useAppSelector((state) => state.persistedReducer.auth.roles);
     return (
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
@@ -92,7 +92,7 @@ export interface IUser {
 
 const ProjectUsers = ({ usersArr, projectId }: projectUsersProps) => {
     // const axiosPrivate = useAxiosPrivate();
-    const auth = useAppSelector((state) => state.auth);
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
 
     const foundUsers = async (): Promise<IUser[]> => {
         const resp = await axiosPrivate("/user/users", {
