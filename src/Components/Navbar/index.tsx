@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
-import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+// import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../AxiosInterceptors";
 import { useQuery } from "react-query";
 import { setGroup } from "../../Redux/Slices/groupSlice";
 import Spinner from "../Spinner";
@@ -13,7 +14,7 @@ export const Navbar = () => {
     const logout = useLogout();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
-    const axiosPrivate = useAxiosPrivate();
+    // const axiosPrivate = useAxiosPrivate();
     const auth = useAppSelector((state) => state.auth);
 
     // fetching gruop info with invite code
@@ -22,7 +23,7 @@ export const Navbar = () => {
             method: "post",
             data: { filter: "groupId", filterValue: auth?.group_id },
         });
-
+        console.log(resp);
         return resp.data;
     };
 

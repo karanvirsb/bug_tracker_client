@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
 import { useMutation, useQueryClient } from "react-query";
-import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import ProjectModal, { IProject } from "./ProjectModal";
@@ -20,7 +21,7 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
         projectName: project?.projectName ?? "",
         projectDesc: project?.projectDesc ?? "",
     });
-    const axiosPrivate = useAxiosPrivate();
+    // const axiosPrivate = useAxiosPrivate();
 
     const auth = useAppSelector((state) => state.auth);
     const groupUsers = useAppSelector((state) => state.group.users);
@@ -52,7 +53,6 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                 id: updatedProject.projectId,
                 updates: updatedProject.updates,
             },
-            headers: { Authorization: `Bearer ${auth?.accessToken}` },
         });
     });
 

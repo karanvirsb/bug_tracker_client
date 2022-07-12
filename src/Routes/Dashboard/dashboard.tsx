@@ -10,12 +10,13 @@ import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
 // import { axiosPrivate } from "../../API/axios";
 import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../../Components/AxiosInterceptors";
 import { setUsers } from "../../Redux/Slices/groupSlice";
 import useIsAdmin from "../../Hooks/useIsAdmin";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(1);
-    const axiosPrivate = useAxiosPrivate();
+    // const axiosPrivate = useAxiosPrivate();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
     // getting the group Id

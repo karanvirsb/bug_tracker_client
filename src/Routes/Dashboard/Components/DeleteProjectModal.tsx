@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import { useAppSelector } from "../../../Hooks/hooks";
-import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
+
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 
 type props = {
@@ -14,7 +16,7 @@ type props = {
 const DeleteProjectModal = ({ projectId }: props) => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
-    const axiosPrivate = useAxiosPrivate();
+    // const axiosPrivate = useAxiosPrivate();
     const groupId = useAppSelector((state) => state.group.groupId);
     const mutation = useMutation(async (id: string) => {
         return await axiosPrivate("/project", {

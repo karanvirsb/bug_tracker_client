@@ -3,7 +3,9 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
-import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
+
 import useComponentVisible from "../../../Hooks/useComponentVisible";
 import useIsAdmin from "../../../Hooks/useIsAdmin";
 import ProjectOptions from "./ProjectOptions";
@@ -89,14 +91,13 @@ export interface IUser {
 }
 
 const ProjectUsers = ({ usersArr, projectId }: projectUsersProps) => {
-    const axiosPrivate = useAxiosPrivate();
+    // const axiosPrivate = useAxiosPrivate();
     const auth = useAppSelector((state) => state.auth);
 
     const foundUsers = async (): Promise<IUser[]> => {
         const resp = await axiosPrivate("/user/users", {
             method: "post",
             data: { users: usersArr },
-            headers: { Authorization: `Bearer ${auth.accessToken}` },
         });
         return resp.data;
     };

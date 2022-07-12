@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
 import { useMutation } from "react-query";
-import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import ProjectModal, { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
-import useInvalidateQuery from "../../../Hooks/useInvalidateQuery";
 
 const AddProjectModal = (): JSX.Element => {
     const [projectInput, setProjectInput] = useState<IProject>({
@@ -16,8 +16,8 @@ const AddProjectModal = (): JSX.Element => {
         projectName: "",
         projectDesc: "",
     });
-    const axiosPrivate = useAxiosPrivate();
-    const { invalidateQuery } = useInvalidateQuery();
+    // const axiosPrivate = useAxiosPrivate();
+
     const auth = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const groupUsers = useAppSelector((state) => state.group.users);
@@ -38,7 +38,6 @@ const AddProjectModal = (): JSX.Element => {
         return axiosPrivate("/project", {
             method: "post",
             data: newProject,
-            headers: { Authorization: `Bearer ${auth?.accessToken}` },
         });
     });
 
