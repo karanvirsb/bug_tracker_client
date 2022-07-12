@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import localForage from "localforage";
 import {
     persistStore,
     persistReducer,
@@ -9,7 +10,7 @@ import {
     PURGE,
     REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+// import storageSession from "reduxjs-toolkit-persist/lib/storage/session";
 import authenticationReducer from "../../Auth/authenticationSlice";
 import persistLoginReducer from "../../Auth/persistSlice";
 import projectReducer from "../Slices/projectSlice";
@@ -24,7 +25,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: "root",
     version: 1,
-    storage,
+    storage: localForage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
