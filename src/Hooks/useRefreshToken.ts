@@ -1,23 +1,37 @@
 import axios from "../API/axios";
-import { updateAccessToken } from "../Auth/authenticationSlice";
-import { useAppSelector, useAppDispatch } from "../Hooks/hooks";
+import { setAuth, updateAccessToken } from "../Auth/authenticationSlice";
+import { useAppDispatch, useAppSelector } from "../Hooks/hooks";
+import mem from "mem";
 const useRefreshToken = () => {
-    const auth = useAppSelector((state) => state.auth);
-
     const dispatch = useAppDispatch();
+    const auth = useAppSelector((state) => state.auth);
     // doing this so we can set the accessToken;
     const refresh = async () => {
-        // withCrendeitals allows us to send the cookie back
-        const response = await axios.get("/refresh", {
-            withCredentials: true,
-        });
+        try {
+            const response = await axios.get("/refresh", {
+                withCredentials: true,
+                timeout: 30000,
+            });
 
-        dispatch(updateAccessToken(response.data.accessToken));
-
-        return response.data.accessToken; // allwos us to request again
+            dispatch(
+                setAuth({ ...auth, accessToken: response.data.accessToken })
+            );
+            // console.log(response.data.accessToken);
+            return response.data.accessToken; // allwos us to request again
+            // withCrendeitals allows us to send the cookie back
+        } catch (error) {
+            dispatch(
+                setAuth({
+                    username: "",
+                    accessToken: "",
+                    group_id: "",
+                    roles: [],
+                })
+            );
+        }
     };
 
-    return refresh;
+    return mem(refresh);
 };
 
 export default useRefreshToken;
