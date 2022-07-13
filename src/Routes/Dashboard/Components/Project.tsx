@@ -30,7 +30,7 @@ const Project = ({
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
             key={projectId}
-            onClick={() => navigate(`/project?${projectId}`)}
+            onClick={() => navigate(`/project/${projectId}`)}
         >
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
                 {projectName}
