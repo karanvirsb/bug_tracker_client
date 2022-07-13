@@ -108,7 +108,7 @@ function App() {
                                 element={<Dashboard></Dashboard>}
                             ></Route>
                             <Route
-                                path='/project?:projectId'
+                                path='/project/:projectId'
                                 element={<Project></Project>}
                             ></Route>
                         </Route>
