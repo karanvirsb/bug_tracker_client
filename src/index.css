@@ -24,3 +24,7 @@ body {
 .pagination-btn {
     @apply bg-btn-color text-white py-1 px-2 rounded-md hover:bg-transparent hover:text-black hover:font-semibold hover:outline hover:outline-btn-color hover:outline-2 disabled:bg-gray-500 disabled:hover:bg-gray-500 disabled:hover:outline-none disabled:hover:text-white disabled:hover:font-normal;
 }
+
+.sections {
+    @apply ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px];
+}
