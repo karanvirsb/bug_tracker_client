@@ -70,7 +70,7 @@ const Dashboard = () => {
         }
     }, [groupUsersStatus, usersData, dispatch]);
     return (
-        <section className='ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px]'>
+        <section className='sections'>
             <h1 className='text-2xl font-semibold'>Dashboard</h1>
             <div className='my-6 mx-4'>
                 <div className='flex justify-between items-center mb-4'>
