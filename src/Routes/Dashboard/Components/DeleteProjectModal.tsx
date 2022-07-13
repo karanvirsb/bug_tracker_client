@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
-import { Mutation, useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
@@ -15,7 +15,6 @@ type props = {
 };
 const DeleteProjectModal = ({ projectId }: props) => {
     const dispatch = useDispatch();
-    const queryClient = useQueryClient();
     // const axiosPrivate = useAxiosPrivate();
     const groupId = useAppSelector((state) => state.group.groupId);
     const mutation = useMutation(async (id: string) => {
