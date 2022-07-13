@@ -23,6 +23,7 @@ import AddProjectModal from "./Routes/Dashboard/Components/AddProjectModal";
 import EditProjectModal from "./Routes/Dashboard/Components/EditProjectModal";
 import DeleteProjectModal from "./Routes/Dashboard/Components/DeleteProjectModal";
 import useInvalidateQuery from "./Hooks/useInvalidateQuery";
+import Project from "./Routes/Project/project";
 
 const NavbarLayout = () => {
     return (
@@ -90,10 +91,6 @@ function App() {
                     path='/registration-successful'
                     element={<RegistrationSuccessful></RegistrationSuccessful>}
                 ></Route>
-                <Route
-                    path='/add-group'
-                    element={<AddGroup></AddGroup>}
-                ></Route>
                 {/* PROTECT ROUTES */}
                 <Route element={<PersistLogin></PersistLogin>}>
                     <Route
@@ -101,10 +98,18 @@ function App() {
                             <RequireAuth allowedRoles={["2001"]}></RequireAuth>
                         }
                     >
+                        <Route
+                            path='/add-group'
+                            element={<AddGroup></AddGroup>}
+                        ></Route>
                         <Route element={<NavbarLayout></NavbarLayout>}>
                             <Route
                                 path='/dashboard'
                                 element={<Dashboard></Dashboard>}
+                            ></Route>
+                            <Route
+                                path='/project?:projectId'
+                                element={<Project></Project>}
                             ></Route>
                         </Route>
                         {/* TODO add routes */}
