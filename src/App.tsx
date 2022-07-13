@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, Outlet, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -34,7 +34,6 @@ const NavbarLayout = () => {
 };
 
 function App() {
-    const navigate = useNavigate();
     const { invalidateQuery } = useInvalidateQuery();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const modal = useAppSelector((state) => state.modal);
@@ -43,7 +42,7 @@ function App() {
         socket.on("invalidateData", (query) => {
             invalidateQuery({ queryName: query });
         });
-    }, [socket]);
+    }, [invalidateQuery]);
 
     return (
         <>
