@@ -25,6 +25,7 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
                 const dateCreated = new Date(project.dateCreated);
                 return (
                     <Project
+                        key={project.projectId}
                         projectId={project.projectId}
                         projectName={project.projectName}
                         projectDesc={project.projectDesc}
