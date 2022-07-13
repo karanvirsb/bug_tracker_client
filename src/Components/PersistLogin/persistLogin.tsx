@@ -30,7 +30,7 @@ const PersistLogin = () => {
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [auth.accessToken, refresh]);
 
     return (
         <>
