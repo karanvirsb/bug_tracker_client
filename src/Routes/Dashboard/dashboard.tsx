@@ -1,4 +1,4 @@
-import { useMemo, Suspense, useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
@@ -8,8 +8,6 @@ import ErrorFallback from "../../Components/ErrorFallback";
 import { updateInitialState } from "../../Redux/Slices/projectSlice";
 import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
-// import { axiosPrivate } from "../../API/axios";
-import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import { setUsers } from "../../Redux/Slices/groupSlice";
 import useIsAdmin from "../../Hooks/useIsAdmin";
@@ -19,8 +17,8 @@ const Dashboard = () => {
     // const axiosPrivate = useAxiosPrivate();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
+
     // getting the group Id
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
     const groupId = useAppSelector(
         (state) => state.persistedReducer.auth.group_id
     );
