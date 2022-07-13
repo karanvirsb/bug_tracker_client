@@ -1,5 +1,5 @@
 import axios from "../API/axios";
-import { setAuth, updateAccessToken } from "../Auth/authenticationSlice";
+import { setAuth } from "../Auth/authenticationSlice";
 import { useAppDispatch, useAppSelector } from "../Hooks/hooks";
 import mem from "mem";
 const useRefreshToken = () => {
