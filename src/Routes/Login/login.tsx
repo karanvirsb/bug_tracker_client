@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
 import decoder, { IDecode } from "../../Helper/decodeToken";
@@ -17,7 +17,6 @@ type States = {
 const Login = (): JSX.Element => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const location: any = useLocation();
 
     const [inputValues, setInputValues] = useState<States["login"]>({
         username: "",
