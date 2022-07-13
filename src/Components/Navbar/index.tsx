@@ -23,7 +23,7 @@ export const Navbar = () => {
             method: "post",
             data: { filter: "groupId", filterValue: auth?.group_id },
         });
-        console.log(resp);
+
         return resp.data;
     };
 
