@@ -1,14 +1,11 @@
-import React, { useState } from "react";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 import Spinner from "../../../Components/Spinner";
-import { useAppSelector } from "../../../Hooks/hooks";
-// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
-
 import useComponentVisible from "../../../Hooks/useComponentVisible";
 import useIsAdmin from "../../../Hooks/useIsAdmin";
 import ProjectOptions from "./ProjectOptions";
+import { useNavigate } from "react-router-dom";
 
 type project = {
     projectId: string;
@@ -28,11 +25,12 @@ const Project = ({
     const { ref, isComponentVisible, setIsComponentVisible } =
         useComponentVisible(false);
     const { getRoles } = useIsAdmin();
-    const roles = useAppSelector((state) => state.persistedReducer.auth.roles);
+    const navigate = useNavigate();
     return (
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
             key={projectId}
+            onClick={() => navigate(`/Project?${projectId}`)}
         >
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
                 {projectName}
@@ -90,9 +88,9 @@ export interface IUser {
     roles: Object;
 }
 
+// TODO may not need to run this since we have users in groupData
 const ProjectUsers = ({ usersArr, projectId }: projectUsersProps) => {
     // const axiosPrivate = useAxiosPrivate();
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
 
     const foundUsers = async (): Promise<IUser[]> => {
         const resp = await axiosPrivate("/user/users", {
