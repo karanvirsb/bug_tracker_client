@@ -1,12 +1,34 @@
-import React, { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { QueryErrorResetBoundary } from "react-query";
+import { QueryErrorResetBoundary, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import ErrorFallback from "../../Components/ErrorFallback";
 import Spinner from "../../Components/Spinner";
+import axiosPrivate from "../../Components/AxiosInterceptors";
 
 const Project = () => {
+    const [pageNumber, setPageNumber] = useState(1);
     const { projectId } = useParams();
+
+    const fetchTickets = async () => {
+        const resp = await axiosPrivate("/ticket/project/" + projectId, {
+            method: "get",
+            params: {
+                page: pageNumber,
+                limit: 10,
+            },
+        });
+        return resp;
+    };
+
+    const { data: tickets, status: ticketStatus } = useQuery(
+        "projectTickets",
+        fetchTickets,
+        {
+            suspense: true,
+            keepPreviousData: true,
+        }
+    );
 
     return (
         <section className='sections'>
