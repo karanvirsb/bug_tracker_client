@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
+import axiosPrivate from "../../Components/AxiosInterceptors";
 import socket from "../../API/sockets";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../Auth/authenticationSlice";
@@ -19,7 +19,6 @@ const AddGroup = () => {
     const { auth } = useAuth();
 
     const inviteCodeRegex = /.+#\d{4}/;
-    const axiosPrivate = useAxiosPrivate();
 
     const addGroupToUser = async (info: {}) => {
         return await axiosPrivate("/user/id", { method: "put", data: info });
