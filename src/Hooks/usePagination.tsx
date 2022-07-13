@@ -22,7 +22,7 @@ function usePagination({ currentPage, totalCount }: props) {
 
     const pages = useMemo(() => {
         return getPages(FIRST_PAGE, LAST_PAGE, currentPage);
-    }, [FIRST_PAGE, LAST_PAGE, currentPage, totalCount]);
+    }, [FIRST_PAGE, LAST_PAGE, currentPage]);
 
     return pages;
 }
