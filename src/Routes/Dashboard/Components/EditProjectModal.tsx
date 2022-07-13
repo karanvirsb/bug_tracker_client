@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 // import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
