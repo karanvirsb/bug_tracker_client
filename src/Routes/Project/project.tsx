@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import ErrorFallback from "../../Components/ErrorFallback";
 import Spinner from "../../Components/Spinner";
 import axiosPrivate from "../../Components/AxiosInterceptors";
+import Pagination from "../../Components/Pagination";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -18,7 +19,7 @@ const Project = () => {
                 limit: 10,
             },
         });
-        return resp;
+        return resp.data;
     };
 
     const { data: tickets, status: ticketStatus } = useQuery(
@@ -81,12 +82,12 @@ const Project = () => {
                             </QueryErrorResetBoundary>
                         </tbody>
                     </table>
-                    {/* <Pagination
-                        pageNumber={}
-                        totalPage={}
-                        hasMore={}}
-                        setPageNumber={}
-                    ></Pagination> */}
+                    <Pagination
+                        pageNumber={pageNumber}
+                        totalPage={tickets.totalPage || 0}
+                        hasMore={tickets.hasNextPage || false}
+                        setPageNumber={setPageNumber}
+                    ></Pagination>
                 </div>
             </div>
         </section>
