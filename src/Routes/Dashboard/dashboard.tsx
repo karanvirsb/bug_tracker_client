@@ -14,6 +14,7 @@ import useIsAdmin from "../../Hooks/useIsAdmin";
 
 const Dashboard = () => {
     const [pageNumber, setPageNumber] = useState(1);
+    const [errMsg, setErrMsg] = useState("");
     // const axiosPrivate = useAxiosPrivate();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
@@ -35,14 +36,14 @@ const Dashboard = () => {
         return resp.data;
     };
 
-    const { data: projects, status } = useQuery(
-        ["projectIds", pageNumber],
-        () => fetchProjects(pageNumber),
-        {
-            suspense: true,
-            keepPreviousData: true, // use this for pagination
-        }
-    );
+    // TODO error catching
+    const {
+        data: projects,
+        status,
+        refetch,
+    } = useQuery(["projectIds", pageNumber], () => fetchProjects(pageNumber), {
+        keepPreviousData: true, // use this for pagination
+    });
 
     // fetching all the users of the group
     const fetchGroupUsers = async () => {
@@ -114,28 +115,38 @@ const Dashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <QueryErrorResetBoundary>
-                                {({ reset }) => (
-                                    <ErrorBoundary
-                                        onReset={reset}
-                                        FallbackComponent={ErrorFallback}
-                                    >
-                                        <Suspense
-                                            fallback={<Spinner></Spinner>}
+                            {status === "loading" && (
+                                <tr className='w-full text-center'>
+                                    <td colSpan={99}>
+                                        <Spinner></Spinner>
+                                    </td>
+                                </tr>
+                            )}
+                            {status === "success" && (
+                                <Projects projects={projectsState}></Projects>
+                            )}
+                            {status === "error" && (
+                                <tr className='w-full text-center text-lg '>
+                                    <td colSpan={1000}>
+                                        <p className='my-3 text-xl'>
+                                            {errMsg ||
+                                                "Could not fetch projects!"}
+                                        </p>
+                                        <button
+                                            className='btn bg-gray-300 mb-5'
+                                            onClick={() => refetch}
                                         >
-                                            <Projects
-                                                projects={projectsState}
-                                            ></Projects>
-                                        </Suspense>
-                                    </ErrorBoundary>
-                                )}
-                            </QueryErrorResetBoundary>
+                                            try again
+                                        </button>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                     <Pagination
                         pageNumber={pageNumber}
                         totalPage={projects?.totalPages || 0}
-                        hasMore={projects.hasNextPage || false}
+                        hasMore={projects?.hasNextPage || false}
                         setPageNumber={setPageNumber}
                     ></Pagination>
                     {/* <div className='w-full flex justify-center items-center py-4 gap-4'>
