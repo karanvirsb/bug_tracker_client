@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { axiosPrivate } from "../../API/axios";
 import { useAppSelector } from "../../Hooks/hooks";
 import useRefreshToken from "../../Hooks/useRefreshToken";

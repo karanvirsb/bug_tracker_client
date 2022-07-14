@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
