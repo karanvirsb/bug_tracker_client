@@ -1,13 +1,12 @@
-import React, { startTransition, Suspense, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { QueryErrorResetBoundary, useQuery } from "react-query";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import ErrorFallback from "../../Components/ErrorFallback";
 import Spinner from "../../Components/Spinner";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import Pagination from "../../Components/Pagination";
 import Tickets from "./Components/Tickets";
 import { toast } from "react-toastify";
+import { useAppSelector } from "../../Hooks/hooks";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -25,6 +24,14 @@ const Project = () => {
         return resp.data;
     };
 
+    const fetchProject = async () => {
+        const resp = await axiosPrivate("/project/id", {
+            method: "post",
+            data: { filter: "projectId", filterValue: projectId },
+        });
+        return resp.data;
+    };
+
     const {
         data: tickets,
         status: ticketStatus,
@@ -38,9 +45,17 @@ const Project = () => {
         },
     });
 
+    const { data: project, status: projectStatus } = useQuery(
+        "ticketProject",
+        fetchProject
+    );
+
     return (
         <section className='sections'>
-            <h1 className='text-2xl font-semibold'>Project Name</h1>
+            <h1 className='text-2xl font-semibold'>
+                {projectStatus === "loading" && <Spinner></Spinner>}
+                {projectStatus === "success" && project?.projectName}
+            </h1>
             <div className='my-6 mx-4'>
                 <div className='flex justify-end items-center mb-4'>
                     <button className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'>
