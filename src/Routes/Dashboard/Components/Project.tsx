@@ -6,6 +6,7 @@ import useComponentVisible from "../../../Hooks/useComponentVisible";
 import useIsAdmin from "../../../Hooks/useIsAdmin";
 import ProjectOptions from "./ProjectOptions";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../Hooks/hooks";
 
 type project = {
     projectId: string;
@@ -13,6 +14,30 @@ type project = {
     projectDesc: string;
     dateCreated: Date;
     users: string[];
+};
+
+type projectUsersProps = { usersArr: string[] };
+
+export interface IUser {
+    userId: String;
+    username: String;
+    password: String;
+    email: String;
+    firstName: String;
+    lastName: String;
+    groupId: String;
+    refreshToken: String;
+    roles: Object;
+}
+
+type user = {
+    username: String;
+    email: String;
+    firstName: String;
+    lastName: String;
+};
+type userElementProps = {
+    users: user[];
 };
 
 const Project = ({
@@ -38,10 +63,7 @@ const Project = ({
             <td className='truncate max-w-[15ch] px-6 py-3'>{projectDesc}</td>
             <td className='px-6 py-3'>{dateCreated.toDateString()}</td>
             <td className='px-6 py-3'>
-                <ProjectUsers
-                    usersArr={users}
-                    projectId={projectId}
-                ></ProjectUsers>
+                <ProjectUsers usersArr={users}></ProjectUsers>
             </td>
             {/* only if user is admin should you display this column */}
             {getRoles() && (
@@ -74,59 +96,57 @@ const Project = ({
     );
 };
 
-type projectUsersProps = { usersArr: string[]; projectId: string };
-
-export interface IUser {
-    userId: String;
-    username: String;
-    password: String;
-    email: String;
-    firstName: String;
-    lastName: String;
-    groupId: String;
-    refreshToken: String;
-    roles: Object;
-}
-
 // TODO may not need to run this since we have users in groupData
-const ProjectUsers = ({ usersArr, projectId }: projectUsersProps) => {
+const ProjectUsers = ({ usersArr }: projectUsersProps) => {
     // const axiosPrivate = useAxiosPrivate();
 
-    const foundUsers = async (): Promise<IUser[]> => {
-        const resp = await axiosPrivate("/user/users", {
-            method: "post",
-            data: { users: usersArr },
-        });
-        return resp.data;
+    const groupUsers = useAppSelector((state) => state.group.users);
+
+    const users = [];
+    for (let i = 0; i < groupUsers.length; i++) {
+        if (usersArr.includes(groupUsers[i].username)) {
+            users.push(groupUsers[i]);
+        }
+    }
+
+    // const foundUsers = async (): Promise<IUser[]> => {
+    //     const resp = await axiosPrivate("/user/users", {
+    //         method: "post",
+    //         data: { users: usersArr },
+    //     });
+    //     return resp.data;
+    // };
+
+    // const { data: users, status } = useQuery(`users-${projectId}`, foundUsers, {
+    //     enabled: usersArr.length > 0,
+    // });
+
+    const UserElements = ({ users }: userElementProps) => {
+        return (
+            <>
+                {useMemo(() => {
+                    return users?.map((user: any, index: number) => {
+                        if (index === users.length - 1) {
+                            return (
+                                <span key={user.username}>
+                                    {user.firstName + " " + user.lastName}
+                                </span>
+                            );
+                        }
+                        return (
+                            <span key={user.username}>
+                                {user.firstName + " " + user.lastName + ", "}
+                            </span>
+                        );
+                    });
+                }, [users])}
+            </>
+        );
     };
-
-    const { data: users, status } = useQuery(`users-${projectId}`, foundUsers, {
-        enabled: usersArr.length > 0,
-    });
-
-    const UserElements = (props: { users: any }) =>
-        useMemo(() => {
-            return props.users?.map((user: any, index: number) => {
-                if (index === props.users.length - 1) {
-                    return (
-                        <span key={user.username}>
-                            {user.firstName + " " + user.lastName}
-                        </span>
-                    );
-                }
-                return (
-                    <span key={user.username}>
-                        {user.firstName + " " + user.lastName + ", "}
-                    </span>
-                );
-            });
-        }, [props.users]);
 
     return (
         <>
-            {status === "loading" ? (
-                <Spinner></Spinner>
-            ) : status === "success" ? (
+            {users ? (
                 <UserElements users={users}></UserElements>
             ) : (
                 <div>No Users</div>
