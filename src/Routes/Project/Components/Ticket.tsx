@@ -1,4 +1,5 @@
 import React from "react";
+import Members from "../../../Components/Members";
 import { useAppSelector } from "../../../Hooks/hooks";
 import { ITicket } from "./Tickets";
 
@@ -30,7 +31,9 @@ const Ticket = ({
             <td className='px-6 py-3'>{dateCreated.toDateString()}</td>
             <td className='px-6 py-3'>{ticketType}</td>
             <td className='px-6 py-3'>{ticketStatus}</td>
-            <td className='px-6 py-3'>{assignedDev}</td>
+            <td className='px-6 py-3'>
+                <Members usersArr={assignedDev}></Members>
+            </td>
             <td className='px-6 py-3'>{ticketSeverity}</td>
         </tr>
     );
