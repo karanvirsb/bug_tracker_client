@@ -14,7 +14,7 @@ const Project = () => {
     const [errMsg, setErrMsg] = useState("");
     const { projectId } = useParams();
 
-    const fetchTickets = async () => {
+    const fetchTickets = async (pageNumber: number) => {
         const resp = await axiosPrivate("/ticket/project/" + projectId, {
             method: "get",
             params: {
@@ -29,7 +29,7 @@ const Project = () => {
         data: tickets,
         status: ticketStatus,
         refetch,
-    } = useQuery("projectTickets", fetchTickets, {
+    } = useQuery("projectTickets", () => fetchTickets(pageNumber), {
         keepPreviousData: true,
         onError: (err: any) => {
             if (err?.response?.status === 404) {
