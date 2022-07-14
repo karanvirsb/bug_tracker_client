@@ -29,7 +29,13 @@ const Tickets = ({ tickets }: props) => {
     ) : (
         tickets.map((ticket) => {
             const dateCreated = new Date(ticket.dateCreated);
-            return <Ticket></Ticket>;
+            return (
+                <Ticket
+                    key={ticket.ticketId}
+                    {...ticket}
+                    dateCreated={dateCreated}
+                ></Ticket>
+            );
         })
     );
 };
