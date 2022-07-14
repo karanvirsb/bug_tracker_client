@@ -1,3 +1,4 @@
+import React from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 type Props = {

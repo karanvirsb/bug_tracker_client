@@ -1,3 +1,4 @@
+import React from "react";
 const ErrorFallback = (props: { error: any; resetErrorBoundary: any }) => {
     return (
         <>

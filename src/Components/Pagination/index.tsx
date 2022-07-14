@@ -1,3 +1,4 @@
+import React from "react";
 import usePagination, { DOTS } from "../../Hooks/usePagination";
 
 type props = {
