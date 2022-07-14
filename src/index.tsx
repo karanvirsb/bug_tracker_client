@@ -9,11 +9,9 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { AxiosInterceptor } from "./Components/AxiosInterceptors";
 
-const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement
-);
 const queryClient = new QueryClient();
-root.render(
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <BrowserRouter>
             <Provider store={store}>
