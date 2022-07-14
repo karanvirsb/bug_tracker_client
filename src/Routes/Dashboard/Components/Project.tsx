@@ -125,17 +125,17 @@ const ProjectUsers = ({ usersArr }: projectUsersProps) => {
         return (
             <>
                 {useMemo(() => {
-                    return users?.map((user: any, index: number) => {
+                    return users?.map((user: user, index: number) => {
                         if (index === users.length - 1) {
                             return (
-                                <span key={user.username}>
-                                    {user.firstName + " " + user.lastName}
+                                <span key={user.username as string}>
+                                    {`${user.firstName} ${user.lastName}`}
                                 </span>
                             );
                         }
                         return (
-                            <span key={user.username}>
-                                {user.firstName + " " + user.lastName + ", "}
+                            <span key={user.username as string}>
+                                {`${user.firstName} ${user.lastName}, `}
                             </span>
                         );
                     });
