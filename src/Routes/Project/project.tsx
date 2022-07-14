@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { startTransition, Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryErrorResetBoundary, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -6,9 +6,12 @@ import ErrorFallback from "../../Components/ErrorFallback";
 import Spinner from "../../Components/Spinner";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import Pagination from "../../Components/Pagination";
+import Tickets from "./Components/Tickets";
+import { toast } from "react-toastify";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
+    const [errMsg, setErrMsg] = useState("");
     const { projectId } = useParams();
 
     const fetchTickets = async () => {
@@ -22,14 +25,18 @@ const Project = () => {
         return resp.data;
     };
 
-    const { data: tickets, status: ticketStatus } = useQuery(
-        "projectTickets",
-        fetchTickets,
-        {
-            suspense: true,
-            keepPreviousData: true,
-        }
-    );
+    const {
+        data: tickets,
+        status: ticketStatus,
+        refetch,
+    } = useQuery("projectTickets", fetchTickets, {
+        keepPreviousData: true,
+        onError: (err: any) => {
+            if (err?.response?.status === 404) {
+                setErrMsg("Invalid url could not fetch.");
+            }
+        },
+    });
 
     return (
         <section className='sections'>
@@ -67,25 +74,37 @@ const Project = () => {
                                 </th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <QueryErrorResetBoundary>
-                                {({ reset }) => (
-                                    <ErrorBoundary
-                                        onReset={reset}
-                                        FallbackComponent={ErrorFallback}
-                                    >
-                                        <Suspense
-                                            fallback={<Spinner></Spinner>}
-                                        ></Suspense>
-                                    </ErrorBoundary>
-                                )}
-                            </QueryErrorResetBoundary>
+                            {ticketStatus === "loading" && (
+                                <tr className='w-full text-center'>
+                                    <td colSpan={99}>
+                                        <Spinner></Spinner>
+                                    </td>
+                                </tr>
+                            )}
+                            {ticketStatus === "success" && (
+                                <Tickets tickets={tickets}></Tickets>
+                            )}
+                            {ticketStatus === "error" && (
+                                <tr className='w-full text-center text-lg '>
+                                    <td colSpan={1000}>
+                                        <p className='my-3 text-xl'>{errMsg}</p>
+                                        <button
+                                            className='btn bg-gray-300 mb-5'
+                                            onClick={() => refetch}
+                                        >
+                                            try again
+                                        </button>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                     <Pagination
                         pageNumber={pageNumber}
-                        totalPage={tickets.totalPage || 0}
-                        hasMore={tickets.hasNextPage || false}
+                        totalPage={tickets?.totalPage || 0}
+                        hasMore={tickets?.hasNextPage || false}
                         setPageNumber={setPageNumber}
                     ></Pagination>
                 </div>
