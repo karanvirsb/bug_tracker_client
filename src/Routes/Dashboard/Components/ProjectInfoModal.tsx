@@ -24,7 +24,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
-                className='bg-white p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
+                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[300px] h-full rounded-md'
                 variants={projectInfoConstraint}
                 initial='hidden'
                 animate='visible'
@@ -56,6 +56,11 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                 </div>
                 <p>{project?.projectDesc}</p>
                 <UserElements usersArr={project?.users ?? []}></UserElements>
+                <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
+                    <button className='btn bg-green-400'>Edit</button>
+                    <button className='btn bg-red-400'>Delete</button>
+                    <button className='btn bg-blue-400'>Tickets</button>
+                </div>
             </motion.div>
         </Backdrop>
     );
