@@ -15,6 +15,7 @@ type project = {
     projectDesc: string;
     dateCreated: Date;
     users: string[];
+    setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export interface IUser {
@@ -35,6 +36,7 @@ const Project = ({
     projectDesc,
     dateCreated,
     users,
+    setSelectedId,
 }: project) => {
     const { ref, isComponentVisible, setIsComponentVisible } =
         useComponentVisible(false);
@@ -44,7 +46,7 @@ const Project = ({
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
             key={projectId}
-            onClick={() => navigate(`/project/${projectId}`)}
+            onClick={() => setSelectedId(projectId)}
         >
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
                 {projectName}
@@ -72,13 +74,13 @@ const Project = ({
                             d='M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z'
                         />
                     </svg>
-                    {isComponentVisible && (
+                    {/* {isComponentVisible && (
                         <ProjectOptions
                             projectId={projectId}
                             refs={ref}
                             setProjectOpen={setIsComponentVisible}
                         ></ProjectOptions>
-                    )}
+                    )} */}
                 </td>
             )}
         </tr>
