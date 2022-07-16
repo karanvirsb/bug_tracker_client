@@ -42,10 +42,14 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
-                        <ProjectInfoModal
-                            selectedId={selectedId}
-                            setSelectedId={setSelectedId}
-                        ></ProjectInfoModal>
+                        <tr>
+                            <td>
+                                <ProjectInfoModal
+                                    selectedId={selectedId}
+                                    setSelectedId={setSelectedId}
+                                ></ProjectInfoModal>
+                            </td>
+                        </tr>
                     )}
                 </AnimatePresence>
             </LayoutGroup>
