@@ -1,12 +1,12 @@
-import React, { useMemo } from "react";
-import { useQuery } from "react-query";
-import Spinner from "../../../Components/Spinner";
-import axiosPrivate from "../../../Components/AxiosInterceptors";
+import React from "react";
+// import { useQuery } from "react-query";
+// import Spinner from "../../../Components/Spinner";
+// import axiosPrivate from "../../../Components/AxiosInterceptors";
 import useComponentVisible from "../../../Hooks/useComponentVisible";
 import useIsAdmin from "../../../Hooks/useIsAdmin";
-import ProjectOptions from "./ProjectOptions";
+// import ProjectOptions from "./ProjectOptions";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../Hooks/hooks";
+// import { useAppSelector } from "../../../Hooks/hooks";
 import Members from "../../../Components/Members";
 
 type project = {
@@ -38,10 +38,10 @@ const Project = ({
     users,
     setSelectedId,
 }: project) => {
-    const { ref, isComponentVisible, setIsComponentVisible } =
-        useComponentVisible(false);
-    const { getRoles } = useIsAdmin();
-    const navigate = useNavigate();
+    // const { ref, isComponentVisible, setIsComponentVisible } =
+    //     useComponentVisible(false);
+    // const { getRoles } = useIsAdmin();
+    // const navigate = useNavigate();
     return (
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
