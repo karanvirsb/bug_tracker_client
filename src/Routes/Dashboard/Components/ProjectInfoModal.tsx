@@ -12,19 +12,44 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
         (project) => project.projectId === selectedId
     );
 
+    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
+
+    const projectInfoConstraint = {
+        hidden: { opacity: 0, y: 100, transition },
+        visible: { opacity: 1, y: 0, transition },
+        exit: { opacity: 0, y: 100, transition },
+    };
+
     return (
-        <motion.div>
-            <motion.div>
-                <div>
-                    <div>
-                        <h1>{project?.projectName}</h1>
-                        <p>
+        <motion.div className='bg-backdrop-bg fixed inset-0 flex justify-center items-center flex-col'>
+            <motion.div
+                className='bg-white p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
+                variants={projectInfoConstraint}
+                initial='hidden'
+                animate='visible'
+                exit='exit'
+            >
+                <div className='border-b-[1px] border-black flex justify-between items-center pb-4 mb-4'>
+                    <div className='flex flex-col gap-'>
+                        <h1 className='text-2xl'>{project?.projectName}</h1>
+                        <p className='text-gray-600'>
                             {new Date(
                                 project?.dateCreated ?? ""
                             ).toDateString()}
                         </p>
                     </div>
-                    {/* close button */}
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-9 w-9 fill-gray-600 cursor-pointer hover:fill-red-400 hover:text-black'
+                        viewBox='0 0 20 20'
+                        fill='currentColor'
+                    >
+                        <path
+                            fillRule='evenodd'
+                            d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                            clipRule='evenodd'
+                        />
+                    </svg>
                 </div>
                 <p>{project?.projectDesc}</p>
                 <UserElements usersArr={project?.users ?? []}></UserElements>
