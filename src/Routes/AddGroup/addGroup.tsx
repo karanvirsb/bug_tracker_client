@@ -67,11 +67,12 @@ const AddGroup = () => {
 
             dispatch(setAuth({ ...auth, group_id: groupInfo.groupId }));
 
-            socket.connect();
+            // socket.connect();
             socket.emit("invalidateQuery", {
                 queryName: "groupInfo",
                 groupId: groupInfo.groupId,
             });
+            socket.emit("joinRoom", groupInfo.group_id);
             // redirect user to the home page of the group
             navigate("/dashboard", { replace: true });
         } catch (error: any) {
@@ -132,8 +133,8 @@ const AddGroup = () => {
                 })
             );
 
-            socket.connect();
-
+            // socket.connect();
+            socket.emit("joinRoom", groupInfo.group_id);
             // navigate to home page
             navigate("/dashboard", { replace: true });
         } catch (error) {
