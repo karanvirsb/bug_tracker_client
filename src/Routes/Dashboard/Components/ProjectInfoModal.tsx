@@ -147,7 +147,10 @@ const UserElements = ({ usersArr }: userProps) => {
         <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden'>
             {users.map((user) => {
                 return (
-                    <li className='pl-4 text-xl'>{`${user.firstName} ${user.lastName}`}</li>
+                    <li
+                        key={user.username}
+                        className='pl-4 text-xl'
+                    >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
         </ul>
