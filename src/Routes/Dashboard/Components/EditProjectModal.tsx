@@ -28,6 +28,12 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     const dispatch = useAppDispatch();
 
     const usersSelected = useRef(null);
+    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
+    const modalConstraints = {
+        hidden: { opacity: 0, x: 1000, transition },
+        visible: { opacity: 1, x: 0, transition },
+        exit: { opacity: 0, x: 1000, transition: { duration: 1 } },
+    };
 
     const options = [];
     const defaultSelectValue = [];
@@ -55,13 +61,6 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
             },
         });
     });
-
-    // TODO
-    const modalConstraints = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-        exit: { opacity: 0 },
-    };
 
     const closeModal = () => {
         dispatch(setOpen(false));
@@ -150,7 +149,6 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                 onSubmit={handleSubmit}
                 className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
             >
-                {/* TODO default values */}
                 <ProjectModal
                     setProjectInput={setProjectInput}
                     projectInput={projectInput}
