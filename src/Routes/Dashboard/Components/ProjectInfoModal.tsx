@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useAppSelector } from "../../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import Backdrop from "../../../Components/Backdrop";
+import { setModal } from "../../../Redux/Slices/modalSlice";
+import { useNavigate } from "react-router-dom";
 
 type props = {
     selectedId: string;
     setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const projects = useAppSelector((state) => state.projects.projects);
     const project = projects.find(
         (project) => project.projectId === selectedId
@@ -21,10 +25,37 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
         exit: { opacity: 0, y: 100, transition },
     };
 
+    const openEditModal = () => {
+        dispatch(
+            setModal({
+                type: "updateProject",
+                open: true,
+                options: { projectId: project?.projectId },
+            })
+        );
+        setSelectedId(null);
+    };
+
+    const openDeleteModal = () => {
+        dispatch(
+            setModal({
+                type: "deleteProject",
+                open: true,
+                options: { projectId: project?.projectId },
+            })
+        );
+        setSelectedId(null);
+    };
+
+    const navigateToTickets = () => {
+        setSelectedId(null);
+        navigate(`/project/${project?.projectId}`);
+    };
+
     return (
         <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
-                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[300px] h-full rounded-md'
+                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
                 variants={projectInfoConstraint}
                 initial='hidden'
                 animate='visible'
@@ -54,12 +85,29 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                         />
                     </svg>
                 </div>
-                <p>{project?.projectDesc}</p>
+                <p className='max-w-[100ch] max-h-[100px] overflow-scroll'>
+                    {project?.projectDesc}
+                </p>
                 <UserElements usersArr={project?.users ?? []}></UserElements>
                 <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
-                    <button className='btn bg-green-400'>Edit</button>
-                    <button className='btn bg-red-400'>Delete</button>
-                    <button className='btn bg-blue-400'>Tickets</button>
+                    <button
+                        className='btn bg-green-400'
+                        onClick={openEditModal}
+                    >
+                        Edit
+                    </button>
+                    <button
+                        className='btn bg-red-400'
+                        onClick={openDeleteModal}
+                    >
+                        Delete
+                    </button>
+                    <button
+                        className='btn bg-blue-400'
+                        onClick={navigateToTickets}
+                    >
+                        Tickets
+                    </button>
                 </div>
             </motion.div>
         </Backdrop>
