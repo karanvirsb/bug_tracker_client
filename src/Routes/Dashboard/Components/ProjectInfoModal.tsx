@@ -22,13 +22,14 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     };
 
     return (
-        <Backdrop>
+        <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
                 className='bg-white p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
                 variants={projectInfoConstraint}
                 initial='hidden'
                 animate='visible'
                 exit='exit'
+                onClick={(e) => e.stopPropagation()} // stop from bubbling up to the backdrop and closing
             >
                 <div className='border-b-[1px] border-black flex justify-between items-center pb-4 mb-4'>
                     <div className='flex flex-col gap-'>
