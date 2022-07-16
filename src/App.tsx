@@ -40,10 +40,24 @@ function App() {
     const modal = useAppSelector((state) => state.modal);
 
     useEffect(() => {
+        socket.on("connect", () => {
+            console.log("connected: " + socket.connected);
+        });
+
+        socket.on("disconnect", () => {
+            console.log("disconnected: " + socket.connected);
+        });
+
         socket.on("invalidateData", (query) => {
             invalidateQuery({ queryName: query });
         });
-    }, [invalidateQuery]);
+
+        return () => {
+            socket.off("connect");
+            socket.off("disconnect");
+            socket.off("invalidateData");
+        };
+    }, [socket, invalidateQuery]);
 
     return (
         <>
