@@ -55,15 +55,15 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
-                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
+                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[400px] h-full rounded-md'
                 variants={projectInfoConstraint}
                 initial='hidden'
                 animate='visible'
                 exit='exit'
                 onClick={(e) => e.stopPropagation()} // stop from bubbling up to the backdrop and closing
             >
-                <div className='border-b-[1px] border-black flex justify-between items-center pb-4 mb-4'>
-                    <div className='flex flex-col gap-'>
+                <div className='border-b-[1px] border-black flex justify-between items-center pb-4'>
+                    <div className='flex flex-col gap-1'>
                         <h1 className='text-2xl'>{project?.projectName}</h1>
                         <p className='text-gray-600'>
                             {new Date(
@@ -85,10 +85,18 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                         />
                     </svg>
                 </div>
-                <p className='max-w-[100ch] max-h-[100px] overflow-scroll'>
-                    {project?.projectDesc}
-                </p>
-                <UserElements usersArr={project?.users ?? []}></UserElements>
+                <div>
+                    <h2 className='text-gray-500 text-lg'>Description:</h2>
+                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto'>
+                        {project?.projectDesc}
+                    </p>
+                </div>
+                <div>
+                    <h2 className='text-gray-500 text-lg'>Users:</h2>
+                    <UserElements
+                        usersArr={project?.users ?? []}
+                    ></UserElements>
+                </div>
                 <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
                     <button
                         className='btn bg-green-400'
@@ -125,9 +133,6 @@ type userProps = {
     usersArr: string[];
 };
 
-type userElementProps = {
-    users: user[];
-};
 const UserElements = ({ usersArr }: userProps) => {
     const groupUsers = useAppSelector((state) => state.group.users);
 
@@ -139,9 +144,11 @@ const UserElements = ({ usersArr }: userProps) => {
     }
 
     return (
-        <ul>
+        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden'>
             {users.map((user) => {
-                return <li>{`${user.firstName} ${user.lastName}`}</li>;
+                return (
+                    <li className='pl-4 text-xl'>{`${user.firstName} ${user.lastName}`}</li>
+                );
             })}
         </ul>
     );
