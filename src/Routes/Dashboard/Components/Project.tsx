@@ -57,7 +57,7 @@ const Project = ({
                 <Members usersArr={users}></Members>
             </td>
             {/* only if user is admin should you display this column */}
-            {getRoles() && (
+            {/* {getRoles() && (
                 <td className='px-1 py-3 relative'>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -73,16 +73,16 @@ const Project = ({
                             strokeLinejoin='round'
                             d='M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z'
                         />
-                    </svg>
-                    {/* {isComponentVisible && (
+                    </svg> */}
+            {/* {isComponentVisible && (
                         <ProjectOptions
                             projectId={projectId}
                             refs={ref}
                             setProjectOpen={setIsComponentVisible}
                         ></ProjectOptions>
                     )} */}
-                </td>
-            )}
+            {/* </td> */}
+            {/* )} */}
         </tr>
     );
 };
