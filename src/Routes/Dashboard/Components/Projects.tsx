@@ -1,5 +1,7 @@
-import React from "react";
+import { AnimatePresence, LayoutGroup } from "framer-motion";
+import React, { useState } from "react";
 import Project from "./Project";
+import ProjectInfoModal from "./ProjectInfoModal";
 
 export interface IProject {
     projectId: string;
@@ -11,6 +13,7 @@ export interface IProject {
 }
 
 const Projects = (props: { projects: IProject[] }): JSX.Element => {
+    const [selectedId, setSelectedId] = useState<string | null>(null);
     // get all users of each project
 
     return !props.projects ? (
@@ -22,19 +25,30 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
         </tr>
     ) : (
         <>
-            {props?.projects?.map((project) => {
-                const dateCreated = new Date(project.dateCreated);
-                return (
-                    <Project
-                        key={project.projectId}
-                        projectId={project.projectId}
-                        projectName={project.projectName}
-                        projectDesc={project.projectDesc}
-                        dateCreated={dateCreated}
-                        users={project.users}
-                    ></Project>
-                );
-            })}
+            <LayoutGroup>
+                {props?.projects?.map((project) => {
+                    const dateCreated = new Date(project.dateCreated);
+                    return (
+                        <Project
+                            key={project.projectId}
+                            projectId={project.projectId}
+                            projectName={project.projectName}
+                            projectDesc={project.projectDesc}
+                            dateCreated={dateCreated}
+                            users={project.users}
+                            setSelectedId={setSelectedId}
+                        ></Project>
+                    );
+                })}
+                <AnimatePresence exitBeforeEnter>
+                    {selectedId && (
+                        <ProjectInfoModal
+                            selectedId={selectedId}
+                            setSelectedId={setSelectedId}
+                        ></ProjectInfoModal>
+                    )}
+                </AnimatePresence>
+            </LayoutGroup>
         </>
     );
 };
