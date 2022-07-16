@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
 import { useMutation } from "react-query";
-// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
@@ -16,7 +15,7 @@ const AddProjectModal = (): JSX.Element => {
         projectName: "",
         projectDesc: "",
     });
-    // const axiosPrivate = useAxiosPrivate();
+    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const dispatch = useAppDispatch();
@@ -41,11 +40,10 @@ const AddProjectModal = (): JSX.Element => {
         });
     });
 
-    // TODO
     const modalConstraints = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-        exit: { opacity: 0 },
+        hidden: { opacity: 0, x: 1000, transition },
+        visible: { opacity: 1, x: 0, transition },
+        exit: { opacity: 0, x: 1000, transition: { duration: 1 } },
     };
 
     const closeModal = () => {
