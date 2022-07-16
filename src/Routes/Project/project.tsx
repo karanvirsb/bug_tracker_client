@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Spinner from "../../Components/Spinner";
@@ -7,6 +7,7 @@ import Pagination from "../../Components/Pagination";
 import Tickets from "./Components/Tickets";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../Hooks/hooks";
+import socket from "../../API/sockets";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -49,6 +50,17 @@ const Project = () => {
         "ticketProject",
         fetchProject
     );
+    useEffect(() => {
+        socket.emit("joinRoom", projectId);
+
+        socket.on("roomJoined", (join) => {
+            console.log("project room joined: " + join);
+        });
+
+        return () => {
+            socket.off("roomJoined");
+        };
+    }, []);
 
     return (
         <section className='sections'>
