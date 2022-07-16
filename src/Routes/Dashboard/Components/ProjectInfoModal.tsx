@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useAppSelector } from "../../../Hooks/hooks";
+import Backdrop from "../../../Components/Backdrop";
 
 type props = {
     selectedId: string;
@@ -14,12 +15,6 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
 
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
-    const projectInfoBgConstraint = {
-        hidden: { opacity: 0, transition },
-        visible: { opacity: 1, transition },
-        exit: { opacity: 0, transition },
-    };
-
     const projectInfoConstraint = {
         hidden: { opacity: 0, y: 100, transition },
         visible: { opacity: 1, y: 0, transition },
@@ -27,13 +22,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     };
 
     return (
-        <motion.div
-            className='bg-backdrop-bg fixed inset-0 flex justify-center items-center flex-col'
-            variants={projectInfoBgConstraint}
-            initial='hidden'
-            animate='visible'
-            exit='exit'
-        >
+        <Backdrop>
             <motion.div
                 className='bg-white p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
                 variants={projectInfoConstraint}
@@ -67,7 +56,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                 <p>{project?.projectDesc}</p>
                 <UserElements usersArr={project?.users ?? []}></UserElements>
             </motion.div>
-        </motion.div>
+        </Backdrop>
     );
 };
 
