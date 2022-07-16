@@ -15,12 +15,17 @@ const AddProjectModal = (): JSX.Element => {
         projectName: "",
         projectDesc: "",
     });
-    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const dispatch = useAppDispatch();
     const groupUsers = useAppSelector((state) => state.group.users);
     const usersSelected = useRef(null);
+    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
+    const modalConstraints = {
+        hidden: { opacity: 0, x: 1000, transition },
+        visible: { opacity: 1, x: 0, transition },
+        exit: { opacity: 0, x: 1000, transition: { duration: 1 } },
+    };
     // creating the users of the group
     const options = [];
 
@@ -39,12 +44,6 @@ const AddProjectModal = (): JSX.Element => {
             data: newProject,
         });
     });
-
-    const modalConstraints = {
-        hidden: { opacity: 0, x: 1000, transition },
-        visible: { opacity: 1, x: 0, transition },
-        exit: { opacity: 0, x: 1000, transition: { duration: 1 } },
-    };
 
     const closeModal = () => {
         dispatch(setOpen(false));
