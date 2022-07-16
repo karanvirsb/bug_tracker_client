@@ -111,7 +111,6 @@ const Dashboard = () => {
                                 <th scope='col' className='px-6 py-3'>
                                     MEMBERS
                                 </th>
-                                <th scope='col' className='px-6 py-3'></th>
                             </tr>
                         </thead>
                         <tbody>
