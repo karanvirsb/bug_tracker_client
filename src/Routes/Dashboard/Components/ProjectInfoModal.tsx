@@ -14,6 +14,12 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
 
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
+    const projectInfoBgConstraint = {
+        hidden: { opacity: 0, transition },
+        visible: { opacity: 1, transition },
+        exit: { opacity: 0, transition },
+    };
+
     const projectInfoConstraint = {
         hidden: { opacity: 0, y: 100, transition },
         visible: { opacity: 1, y: 0, transition },
@@ -21,7 +27,13 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     };
 
     return (
-        <motion.div className='bg-backdrop-bg fixed inset-0 flex justify-center items-center flex-col'>
+        <motion.div
+            className='bg-backdrop-bg fixed inset-0 flex justify-center items-center flex-col'
+            variants={projectInfoBgConstraint}
+            initial='hidden'
+            animate='visible'
+            exit='exit'
+        >
             <motion.div
                 className='bg-white p-4 max-w-[400px] w-full  max-h-[350px] h-full rounded-md'
                 variants={projectInfoConstraint}
@@ -43,6 +55,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                         className='h-9 w-9 fill-gray-600 cursor-pointer hover:fill-red-400 hover:text-black'
                         viewBox='0 0 20 20'
                         fill='currentColor'
+                        onClick={() => setSelectedId(null)}
                     >
                         <path
                             fillRule='evenodd'
