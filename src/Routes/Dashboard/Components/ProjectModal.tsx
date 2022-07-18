@@ -56,8 +56,8 @@ const ProjectModal = ({
 
     return (
         <>
-            <div className='flex flex-col gap-1'>
-                <label htmlFor='projectName' className='text-xl md:text-lg'>
+            <div className='input-container'>
+                <label htmlFor='projectName' className='input-label'>
                     Project Name
                 </label>
                 <input
@@ -69,8 +69,8 @@ const ProjectModal = ({
                     className='outline outline-1 outline-gray-400 rounded-md ml-2 text-xl px-2 py-1 md:text-lg'
                 />
             </div>
-            <div className='flex flex-col gap-1'>
-                <label htmlFor='projectDesc' className='text-xl md:text-lg'>
+            <div className='input-container'>
+                <label htmlFor='projectDesc' className='input-label'>
                     Project Description
                 </label>
                 <textarea
@@ -81,8 +81,8 @@ const ProjectModal = ({
                     className='outline outline-1 outline-gray-400 rounded-md resize-y ml-2 text-xl px-2 py-1 md:text-lg'
                 />
             </div>
-            <div className='flex flex-col gap-1'>
-                <label htmlFor='users' className='text-xl md:text-lg'>
+            <div className='input-container'>
+                <label htmlFor='users' className='input-label'>
                     Select Users
                 </label>
                 <Select
@@ -90,7 +90,7 @@ const ProjectModal = ({
                     isMulti
                     ref={refs}
                     defaultValue={type && defaultSelect}
-                    className='outline-gray-400 border-none rounded-lg ml-2 text-xl md:text-lg'
+                    className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                     closeMenuOnSelect={false}
                 ></Select>
             </div>
