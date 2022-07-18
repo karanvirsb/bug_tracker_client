@@ -94,9 +94,7 @@ function App() {
                 autoClose={5000}
             ></ToastContainer>
             {/* TODO add modals to backdrop */}
-            <AnimatePresence exitBeforeEnter={true} initial={false}>
-                {modal.open && <Modal></Modal>}
-            </AnimatePresence>
+            <Modal></Modal>
             <Routes>
                 <Route
                     path='/'
