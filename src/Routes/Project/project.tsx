@@ -14,6 +14,8 @@ const Project = () => {
     const [errMsg, setErrMsg] = useState("");
     const { projectId } = useParams();
 
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
+
     const fetchTickets = async (pageNumber: number) => {
         const resp = await axiosPrivate("/ticket/project/" + projectId, {
             method: "get",
@@ -50,8 +52,9 @@ const Project = () => {
         "ticketProject",
         fetchProject
     );
+
     useEffect(() => {
-        socket.emit("joinRoom", projectId);
+        socket.emit("joinRoom", { roomId: projectId, username: auth.username });
 
         socket.on("roomJoined", (join) => {
             console.log("project room joined: " + join);
@@ -59,6 +62,11 @@ const Project = () => {
 
         return () => {
             socket.off("roomJoined");
+
+            socket.emit("leaveRoom", {
+                roomId: projectId,
+                username: auth.username,
+            });
         };
     }, []);
 
