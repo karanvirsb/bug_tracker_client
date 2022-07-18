@@ -72,7 +72,10 @@ const AddGroup = () => {
                 queryName: "groupInfo",
                 groupId: groupInfo.groupId,
             });
-            socket.emit("joinRoom", groupInfo.group_id);
+            socket.emit("joinRoom", {
+                roomId: groupInfo.group_id,
+                username: auth.username,
+            });
             // redirect user to the home page of the group
             navigate("/dashboard", { replace: true });
         } catch (error: any) {
@@ -134,7 +137,10 @@ const AddGroup = () => {
             );
 
             // socket.connect();
-            socket.emit("joinRoom", groupInfo.group_id);
+            socket.emit("joinRoom", {
+                roomId: groupInfo.group_id,
+                username: auth.username,
+            });
             // navigate to home page
             navigate("/dashboard", { replace: true });
         } catch (error) {
