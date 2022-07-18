@@ -17,7 +17,6 @@ import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
 import { Navbar } from "./Components/Navbar";
 import { useAppSelector } from "./Hooks/hooks";
-import { AnimatePresence } from "framer-motion";
 import useInvalidateQuery from "./Hooks/useInvalidateQuery";
 import Project from "./Routes/Project/project";
 import Modal from "./Components/Modal";
@@ -34,7 +33,6 @@ const NavbarLayout = () => {
 function App() {
     const { invalidateQuery } = useInvalidateQuery();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
-    const modal = useAppSelector((state) => state.modal);
 
     useEffect(() => {
         socket.on("connect", () => {
