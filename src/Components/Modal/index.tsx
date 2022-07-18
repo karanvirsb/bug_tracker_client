@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import React from "react";
 import { useAppSelector } from "../../Hooks/hooks";
 import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
@@ -9,22 +10,29 @@ import Backdrop from "../Backdrop";
 const Modal = () => {
     const modal = useAppSelector((state) => state.modal);
     return (
-        <Backdrop>
-            {modal.type === "createProject" && (
-                <AddProjectModal></AddProjectModal>
+        <AnimatePresence exitBeforeEnter={true} initial={false}>
+            {modal.open && (
+                <Backdrop>
+                    {modal.type === "createProject" && (
+                        <AddProjectModal></AddProjectModal>
+                    )}
+                    {modal.type === "updateProject" && modal.options && (
+                        <EditProjectModal
+                            projectId={modal.options?.projectId ?? ""}
+                        ></EditProjectModal>
+                    )}
+                    {modal.type === "deleteProject" &&
+                        modal.options.projectId && (
+                            <DeleteProjectModal
+                                projectId={modal.options?.projectId ?? ""}
+                            ></DeleteProjectModal>
+                        )}
+                    {modal.type === "createTicket" && (
+                        <AddTicketModal></AddTicketModal>
+                    )}
+                </Backdrop>
             )}
-            {modal.type === "updateProject" && modal.options && (
-                <EditProjectModal
-                    projectId={modal.options?.projectId ?? ""}
-                ></EditProjectModal>
-            )}
-            {modal.type === "deleteProject" && modal.options.projectId && (
-                <DeleteProjectModal
-                    projectId={modal.options?.projectId ?? ""}
-                ></DeleteProjectModal>
-            )}
-            {modal.type === "createTicket" && <AddTicketModal></AddTicketModal>}
-        </Backdrop>
+        </AnimatePresence>
     );
 };
 
