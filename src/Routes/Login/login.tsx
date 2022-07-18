@@ -82,7 +82,10 @@ const Login = (): JSX.Element => {
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
                 socket.connect();
-                socket.emit("joinRoom", userInfo?.UserInfo?.group_id);
+                socket.emit("joinRoom", {
+                    roomId: userInfo?.UserInfo?.group_id,
+                    username: userInfo.UserInfo.username,
+                });
                 navigate("/dashboard", { replace: true });
             } else {
                 // else go to add group page
