@@ -48,7 +48,10 @@ function App() {
             console.log("disconnected: " + socket.connected);
         });
 
-        socket.emit("joinRoom", auth?.group_id);
+        socket.emit("joinRoom", {
+            roomId: auth?.group_id,
+            username: auth.username,
+        });
 
         socket.on("roomJoined", (join) => {
             console.log("room join: " + join);
@@ -72,6 +75,18 @@ function App() {
             socket.off("invalidateData");
         };
     }, [socket, invalidateQuery]);
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", () => {
+            socket.emit("disconnecting");
+        });
+
+        return () => {
+            window.removeEventListener("beforeunload", () => {
+                socket.connect();
+            });
+        };
+    });
 
     return (
         <>
