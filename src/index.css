@@ -36,3 +36,7 @@ body {
 .input-label {
     @apply text-xl md:text-lg;
 }
+
+.modal-input {
+    @apply outline outline-1 outline-gray-400 rounded-md ml-2 text-xl px-2 py-1 md:text-lg;
+}
