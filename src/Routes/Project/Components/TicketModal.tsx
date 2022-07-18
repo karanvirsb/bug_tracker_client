@@ -24,7 +24,10 @@ type props = {
     type?: "edit";
     options: options[] | any;
     defaultSelect?: options[];
-    refs?: React.MutableRefObject<null | any>;
+    userRef?: React.MutableRefObject<null | any>;
+    ticketStatusRef: React.MutableRefObject<null | any>;
+    ticketSeverityRef: React.MutableRefObject<null | any>;
+    ticketTypeRef: React.MutableRefObject<null | any>;
 };
 
 const TicketModal = ({
@@ -33,7 +36,10 @@ const TicketModal = ({
     type,
     options,
     defaultSelect,
-    refs,
+    userRef,
+    ticketStatusRef,
+    ticketSeverityRef,
+    ticketTypeRef,
 }: props) => {
     const ticketStatusOptions = [
         { value: "Open", label: "Open" },
@@ -84,7 +90,7 @@ const TicketModal = ({
                     <Select
                         options={options}
                         isMulti
-                        ref={refs}
+                        ref={userRef}
                         defaultValue={type && defaultSelect}
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         closeMenuOnSelect={false}
@@ -113,6 +119,7 @@ const TicketModal = ({
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         placeholder='Select Status'
                         maxMenuHeight={100}
+                        ref={ticketStatusRef}
                     ></Select>
                 </div>
                 <div className='input-container'>
@@ -124,6 +131,7 @@ const TicketModal = ({
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         placeholder='Select Severity'
                         maxMenuHeight={100}
+                        ref={ticketSeverityRef}
                     ></Select>
                 </div>
                 <div className='input-container'>
@@ -135,6 +143,7 @@ const TicketModal = ({
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         placeholder='Select Type'
                         maxMenuHeight={100}
+                        ref={ticketTypeRef}
                     ></Select>
                 </div>
             </div>
