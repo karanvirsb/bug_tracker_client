@@ -23,6 +23,9 @@ const AddTicketModal = () => {
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const groupUsers = useAppSelector((state) => state.group.users);
     const usersSelected = useRef(null);
+    const ticketStatusRef = useRef(null);
+    const ticketSeverityRef = useRef(null);
+    const ticketTypeRef = useRef(null);
     const dispatch = useAppDispatch();
 
     const addTicketMutation = useMutation((ticketInfo: ITicket) => {
@@ -76,7 +79,10 @@ const AddTicketModal = () => {
                     ticketInput={ticketInput}
                     setTicketInput={setTicketInput}
                     options={users}
-                    refs={usersSelected}
+                    userRef={usersSelected}
+                    ticketSeverityRef={ticketSeverityRef}
+                    ticketStatusRef={ticketStatusRef}
+                    ticketTypeRef={ticketTypeRef}
                 ></TicketModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
