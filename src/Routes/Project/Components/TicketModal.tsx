@@ -76,7 +76,7 @@ const TicketModal = ({
                 </label>
                 <textarea className='modal-input resize-y'></textarea>
             </div>
-            <div>
+            <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
                 <div className='input-container'>
                     <label htmlFor='projectName' className='input-label'>
                         Assigned Members
@@ -103,7 +103,7 @@ const TicketModal = ({
                     />
                 </div>
             </div>
-            <div>
+            <div className='grid grid-cols-3 gap-4'>
                 <div className='input-container'>
                     <label htmlFor='projectName' className='input-label'>
                         Status
@@ -112,6 +112,7 @@ const TicketModal = ({
                         options={ticketStatusOptions}
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         placeholder='Select Status'
+                        maxMenuHeight={100}
                     ></Select>
                 </div>
                 <div className='input-container'>
@@ -122,6 +123,7 @@ const TicketModal = ({
                         options={ticketSeverityOptions}
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         placeholder='Select Severity'
+                        maxMenuHeight={100}
                     ></Select>
                 </div>
                 <div className='input-container'>
@@ -132,6 +134,7 @@ const TicketModal = ({
                         options={ticketTypeOptions}
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         placeholder='Select Type'
+                        maxMenuHeight={100}
                     ></Select>
                 </div>
             </div>
