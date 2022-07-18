@@ -5,6 +5,7 @@ import { ITicket } from "./TicketModal";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { useMutation } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
+import { resetModal } from "../../../Redux/Slices/modalSlice";
 
 const AddTicketModal = () => {
     const [ticketInput, setTicketInput] = useState<ITicket>({
@@ -54,6 +55,10 @@ const AddTicketModal = () => {
         e.preventDefault();
     };
 
+    const closeModal = () => {
+        dispatch(resetModal());
+    };
+
     return (
         <motion.div>
             <form action='' onSubmit={handleTicketSubmit}>
@@ -67,7 +72,11 @@ const AddTicketModal = () => {
                     <button type='submit' className='btn bg-blue-500 !px-8'>
                         Submit
                     </button>
-                    <button type='button' className='btn bg-red-500 !px-6'>
+                    <button
+                        type='button'
+                        className='btn bg-red-500 !px-6'
+                        onClick={closeModal}
+                    >
                         Cancel
                     </button>
                 </div>
