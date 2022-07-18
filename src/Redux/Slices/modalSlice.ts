@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ModalState {
-    type: "createProject" | "updateProject" | "deleteProject" | "";
+    type:
+        | "createProject"
+        | "updateProject"
+        | "deleteProject"
+        | "createTicket"
+        | "";
     open: boolean;
     options: { projectId?: string };
 }
