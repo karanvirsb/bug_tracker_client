@@ -67,7 +67,11 @@ const AddTicketModal = () => {
             animate='visible'
             exit='exit'
         >
-            <form action='' onSubmit={handleTicketSubmit}>
+            <form
+                action=''
+                onSubmit={handleTicketSubmit}
+                className='flex flex-col justify-evenly gap-3 w-full min-h-[100vh] p-4 '
+            >
                 <TicketModal
                     ticketInput={ticketInput}
                     setTicketInput={setTicketInput}
