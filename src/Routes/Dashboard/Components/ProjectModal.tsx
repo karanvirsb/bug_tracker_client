@@ -66,7 +66,7 @@ const ProjectModal = ({
                     name='projectName'
                     value={projectInput.projectName}
                     onChange={handleChange}
-                    className='outline outline-1 outline-gray-400 rounded-md ml-2 text-xl px-2 py-1 md:text-lg'
+                    className='modal-input'
                 />
             </div>
             <div className='input-container'>
@@ -78,7 +78,7 @@ const ProjectModal = ({
                     name='projectDesc'
                     value={projectInput.projectDesc}
                     onChange={handleTextAreaChange}
-                    className='outline outline-1 outline-gray-400 rounded-md resize-y ml-2 text-xl px-2 py-1 md:text-lg'
+                    className='modal-input resize-y'
                 />
             </div>
             <div className='input-container'>
