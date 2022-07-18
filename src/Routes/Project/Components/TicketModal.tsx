@@ -35,19 +35,46 @@ const TicketModal = ({
     defaultSelect,
     refs,
 }: props) => {
+    const ticketStatusOptions = [
+        { value: "Open", label: "Open" },
+        { value: "To Do", label: "To Do" },
+        { value: "In Progress", label: "In Progress" },
+        { value: "To Be Tested", label: "To Be Tested" },
+        { value: "Closed", label: "Closed" },
+    ];
+    const ticketSeverityOptions = [
+        { value: "None", label: "None" },
+        { value: "Low", label: "Low" },
+        { value: "Medium", label: "Medium" },
+        { value: "High", label: "High" },
+        { value: "Critical", label: "Critical" },
+    ];
+    const ticketTypeOptions = [
+        {
+            value: "Bug",
+            label: "Bug",
+        },
+        {
+            value: "Feature",
+            label: "Feature",
+        },
+        { value: "Error", label: "Error" },
+        { value: "Issue", label: "Issue" },
+    ];
+
     return (
         <>
             <div className='input-container'>
                 <label htmlFor='projectName' className='input-label'>
                     Title
                 </label>
-                <input type='text' />
+                <input type='text' className='modal-input' />
             </div>
             <div className='input-container'>
                 <label htmlFor='projectName' className='input-label'>
                     Description
                 </label>
-                <textarea></textarea>
+                <textarea className='modal-input resize-y'></textarea>
             </div>
             <div>
                 <div className='input-container'>
@@ -61,12 +88,19 @@ const TicketModal = ({
                         defaultValue={type && defaultSelect}
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         closeMenuOnSelect={false}
+                        placeholder='Select Users'
                     ></Select>
                 </div>
                 <div className='input-container'>
                     <label htmlFor='projectName' className='input-label'>
                         Time (Est. Hours)
                     </label>
+                    <input
+                        type='number'
+                        name=''
+                        className='modal-input'
+                        min={0}
+                    />
                 </div>
             </div>
             <div>
@@ -74,35 +108,31 @@ const TicketModal = ({
                     <label htmlFor='projectName' className='input-label'>
                         Status
                     </label>
-                    <select>
-                        <option value=''></option>
-                        <option value=''>Open</option>
-                        <option value=''>To Do</option>
-                        <option value=''>In Progress</option>
-                        <option value=''>To Be Tested</option>
-                        <option value=''>Closed</option>
-                    </select>
+                    <Select
+                        options={ticketStatusOptions}
+                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        placeholder='Select Status'
+                    ></Select>
                 </div>
                 <div className='input-container'>
                     <label htmlFor='projectName' className='input-label'>
                         Severity
                     </label>
-                    <select>
-                        <option value=''></option>
-                        <option value=''>None</option>
-                        <option value=''>Low</option>
-                        <option value=''>Medium</option>
-                        <option value=''>High</option>
-                        <option value=''>Critical</option>
-                    </select>
+                    <Select
+                        options={ticketSeverityOptions}
+                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        placeholder='Select Severity'
+                    ></Select>
                 </div>
                 <div className='input-container'>
                     <label htmlFor='projectName' className='input-label'>
                         Type
                     </label>
-                    <select>
-                        <option></option>
-                    </select>
+                    <Select
+                        options={ticketTypeOptions}
+                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        placeholder='Select Type'
+                    ></Select>
                 </div>
             </div>
         </>
