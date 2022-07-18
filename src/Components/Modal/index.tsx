@@ -3,6 +3,7 @@ import { useAppSelector } from "../../Hooks/hooks";
 import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
 import DeleteProjectModal from "../../Routes/Dashboard/Components/DeleteProjectModal";
 import EditProjectModal from "../../Routes/Dashboard/Components/EditProjectModal";
+import AddTicketModal from "../../Routes/Project/Components/AddTicketModal";
 import Backdrop from "../Backdrop";
 
 const Modal = () => {
@@ -22,6 +23,7 @@ const Modal = () => {
                     projectId={modal.options?.projectId ?? ""}
                 ></DeleteProjectModal>
             )}
+            {modal.type === "createTicket" && <AddTicketModal></AddTicketModal>}
         </Backdrop>
     );
 };
