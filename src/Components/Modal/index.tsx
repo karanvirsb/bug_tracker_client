@@ -1,0 +1,29 @@
+import React from "react";
+import { useAppSelector } from "../../Hooks/hooks";
+import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
+import DeleteProjectModal from "../../Routes/Dashboard/Components/DeleteProjectModal";
+import EditProjectModal from "../../Routes/Dashboard/Components/EditProjectModal";
+import Backdrop from "../Backdrop";
+
+const Modal = () => {
+    const modal = useAppSelector((state) => state.modal);
+    return (
+        <Backdrop>
+            {modal.type === "createProject" && (
+                <AddProjectModal></AddProjectModal>
+            )}
+            {modal.type === "updateProject" && modal.options && (
+                <EditProjectModal
+                    projectId={modal.options?.projectId ?? ""}
+                ></EditProjectModal>
+            )}
+            {modal.type === "deleteProject" && modal.options.projectId && (
+                <DeleteProjectModal
+                    projectId={modal.options?.projectId ?? ""}
+                ></DeleteProjectModal>
+            )}
+        </Backdrop>
+    );
+};
+
+export default Modal;
