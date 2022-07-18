@@ -132,6 +132,9 @@ const AddProjectModal = (): JSX.Element => {
         <motion.div
             className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0'
             variants={modalConstraints}
+            initial='hidden'
+            animate='visible'
+            exit='exit'
         >
             <form
                 action=''
