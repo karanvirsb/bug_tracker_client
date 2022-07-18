@@ -6,8 +6,9 @@ import axiosPrivate from "../../Components/AxiosInterceptors";
 import Pagination from "../../Components/Pagination";
 import Tickets from "./Components/Tickets";
 import { toast } from "react-toastify";
-import { useAppSelector } from "../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
+import { setModal } from "../../Redux/Slices/modalSlice";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -15,6 +16,7 @@ const Project = () => {
     const { projectId } = useParams();
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const dispatch = useAppDispatch();
 
     const fetchTickets = async (pageNumber: number) => {
         const resp = await axiosPrivate("/ticket/project/" + projectId, {
@@ -53,6 +55,10 @@ const Project = () => {
         fetchProject
     );
 
+    const openAddTicketModal = () => {
+        dispatch(setModal({ open: true, type: "createTicket", options: {} }));
+    };
+
     useEffect(() => {
         socket.emit("joinRoom", { roomId: projectId, username: auth.username });
 
@@ -78,7 +84,10 @@ const Project = () => {
             </h1>
             <div className='my-6 mx-4'>
                 <div className='flex justify-end items-center mb-4'>
-                    <button className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'>
+                    <button
+                        className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
+                        onClick={openAddTicketModal}
+                    >
                         New Ticket
                     </button>
                 </div>
