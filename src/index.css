@@ -28,3 +28,11 @@ body {
 .sections {
     @apply ml-[193px] mt-[22px] md:mt-[14px] md:ml-[68px];
 }
+
+.input-container {
+    @apply flex flex-col gap-1;
+}
+
+.input-label {
+    @apply text-xl md:text-lg;
+}
