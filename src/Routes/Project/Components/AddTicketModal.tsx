@@ -6,22 +6,29 @@ import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { useMutation } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { resetModal } from "../../../Redux/Slices/modalSlice";
+import socket from "../../../API/sockets";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+
+const initalState = {
+    title: "",
+    description: "",
+    assignedDev: [],
+    time: 0,
+    ticketStatus: "",
+    ticketSeverity: "",
+    ticketType: "",
+    reporterId: "",
+    projectId: "",
+};
 
 const AddTicketModal = () => {
-    const [ticketInput, setTicketInput] = useState<ITicket>({
-        title: "",
-        description: "",
-        assignedDev: [],
-        time: 0,
-        ticketStatus: "",
-        ticketSeverity: "",
-        ticketType: "",
-        reporterId: "",
-        projectId: "",
-    });
+    const [ticketInput, setTicketInput] = useState<ITicket>(initalState);
 
-    const projectUsers = useAppSelector((state) => state.project.users);
-    const groupUsers = useAppSelector((state) => state.group.users);
+    const projectState = useAppSelector((state) => state.project);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
     const usersSelected = useRef(null);
     const ticketStatusRef = useRef(null);
     const ticketSeverityRef = useRef(null);
@@ -45,9 +52,9 @@ const AddTicketModal = () => {
     // creating the users of the group
     const users = [];
 
-    for (let i = 0; i < projectUsers.length; i++) {
+    for (let i = 0; i < projectState.users.length; i++) {
         const user = groupUsers.find(
-            (user) => user.username === projectUsers[i]
+            (user) => user.username === projectState.users[i]
         );
 
         users.push({
@@ -57,7 +64,92 @@ const AddTicketModal = () => {
     }
 
     const handleTicketSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        type user = {
+            value: string;
+            label: string;
+        };
+
         e.preventDefault();
+
+        let newTicket = ticketInput;
+
+        if (ticketSeverityRef.current) {
+            newTicket = {
+                ...newTicket,
+                ticketSeverity: (ticketSeverityRef?.current as any).state
+                    .selectValue,
+            };
+        }
+
+        if (ticketStatusRef.current) {
+            newTicket = {
+                ...newTicket,
+                ticketStatus: (ticketStatusRef?.current as any).state
+                    .selectValue,
+            };
+        }
+
+        if (ticketTypeRef.current) {
+            newTicket = {
+                ...newTicket,
+                ticketType: (ticketStatusRef?.current as any).state.selectValue,
+            };
+        }
+
+        if (usersSelected.current) {
+            const selectedUsers =
+                (usersSelected?.current as any).state?.selectValue.map(
+                    (user: user) => {
+                        return user.value;
+                    }
+                ) ?? [];
+
+            newTicket = {
+                ...newTicket,
+                assignedDev: selectedUsers,
+            };
+        }
+        try {
+            addTicketMutation.mutateAsync(newTicket, {
+                onSuccess: () => {
+                    setTicketInput(initalState);
+
+                    socket.emit("invalidateQuery", {
+                        queryName: "projectIds",
+                        groupId: projectState.projectId,
+                    });
+
+                    //reset modal
+                    dispatch(resetModal());
+                },
+                onError: (error) => {
+                    if (error instanceof AxiosError) {
+                        const errorResp = JSON.parse(
+                            error.response?.data.message
+                        );
+                        errorResp.forEach(
+                            (elem: {
+                                code: string;
+                                inclusive: boolean;
+                                message: string;
+                                minimum?: number;
+                                maxiumum?: number;
+                                path: string[];
+                                type: string;
+                            }) => {
+                                toast.error(elem.path[0] + " " + elem.message);
+                            }
+                        );
+                    }
+                },
+            });
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.log(JSON.parse(error.response?.data.message));
+                toast.error(JSON.parse(error.response?.data.message));
+            }
+            console.log(error);
+        }
     };
 
     const closeModal = () => {
