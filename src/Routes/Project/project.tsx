@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
 import { setModal } from "../../Redux/Slices/modalSlice";
 import { setProject } from "../../Redux/Slices/projectSlice";
+import { updateInitialState } from "../../Redux/Slices/ticketsSlice";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -82,6 +83,12 @@ const Project = () => {
             dispatch(setProject(project));
         }
     }, [project, projectStatus]);
+
+    useEffect(() => {
+        if (ticketStatus === "success") {
+            dispatch(updateInitialState(tickets.docs));
+        }
+    }, [tickets, ticketStatus]);
 
     return (
         <section className='sections'>
