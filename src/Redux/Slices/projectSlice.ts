@@ -10,56 +10,28 @@ export interface Project {
     users: string[];
 }
 
-export interface ProjectState {
-    projects: Project[];
-}
-
-const initialState: ProjectState = {
-    projects: [],
+const initialState: Project = {
+    projectId: "",
+    groupId: "",
+    projectName: "",
+    projectDesc: "",
+    dateCreated: new Date(),
+    users: [],
 };
 
 export const projectSlice = createSlice({
     name: "project",
     initialState,
     reducers: {
-        addProject: (state, action: PayloadAction<Project>) => {
-            state.projects.push(action.payload);
+        setProject: (state, action: PayloadAction<Project>) => {
+            return { ...state, ...action.payload };
         },
-        deleteProject: (state, action: PayloadAction<String>) => {
-            const filterProjects = state.projects.filter(
-                (project) => project.projectId !== action.payload
-            );
-
-            state.projects = filterProjects;
-        },
-        updateProject: (
-            state,
-            action: PayloadAction<{ projectId: String; updates: {} }>
-        ) => {
-            // find the index of the object
-            const index = state.projects.findIndex(
-                (project) => project.projectId === action.payload.projectId
-            );
-            // assign new array
-            const newState = [...state.projects];
-            // created updated project
-            const updatedProject = {
-                ...state.projects[index],
-                ...action.payload.updates,
-            };
-            // then assign that project to a new reference
-            newState[index] = updatedProject;
-
-            // copy state and reassign projects
-            return { ...state, projects: newState };
-        },
-        updateInitialState: (state, action: PayloadAction<Project[]>) => {
-            return { ...state, projects: action.payload };
+        addUsers: (state, action: PayloadAction<Project["users"]>) => {
+            return { ...state, users: action.payload };
         },
     },
 });
 
-export const { addProject, updateProject, deleteProject, updateInitialState } =
-    projectSlice.actions;
+export const { setProject, addUsers } = projectSlice.actions;
 
 export default projectSlice.reducer;
