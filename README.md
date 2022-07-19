@@ -1,47 +1,85 @@
-# Getting Started with Create React App
+# Bugasaur 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web app for tracking bugs of a company. Allows users to create groups, create projects and add members. Along with having tickets per project to track the issues or features.
 
-## Available Scripts
+## Run Locally 
 
-In the project directory, you can run:
+Clone the project <br/>
 
-### `npm start`
+Also Clone the backend [here](https://github.com/karanvirsb/bug_tracker_server) <br/>
+Also be sure to have MongoDb can be downloaded [here]() or create an account on MongoDb Atlas [here]()
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To begin cloning
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+  git clone https://github.com/karanvirsb/bug_tracker_client.git
+```
 
-### `npm test`
+Go to the project directory
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+``` bash
+  cd bug_tracker_client
+```
 
-### `npm run build`
+Install dependencies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+  npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the server 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+  npm run dev
+```
 
-### `npm run eject`
+Go to http://localhost:3000 in your browser and register an account. Then proceed to login and start tracking bugs. <br/>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## How to create a project
+1. When logged in user will be prompted to create or join group. If user knows group invite code input just that, otherwise user can create a new group. 
+2. After creating click create group.
+3. User will then be on the dashboard where they can create a new project by clicking on the red button.
+4. User will then have a modal pop up to input information into and then submit to add a project
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to edit or delete project
+1. The user can click on the newly created project and a modal will pop up with details about the project
+2. User can click the green edit or red delete button. 
+3. This will prompt another modal that will allow those actions.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## How can a user view tickets of a project
+1. The user would click on the project and will see a blue tickets button at the bottom of the displayed modal
+2. Clicking the button will lead to the project tickets
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## How to create a ticket
+1. User will click on the red create ticket button in the top right
+2. This will display a modal on the right side to enter in informaiton about a ticket.
 
-## Learn More
+## How to edit or delete a ticket
+1. The user can click on the newly created ticket and a modal will pop up with details about the ticket
+2. User can click the green edit or red delete button. 
+3. This will prompt another modal that will allow those actions.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## User Stories
+1. User wants a bug tracker
+2. User wants to create projects 
+3. User wants to see tickets per project basis
+4. User wants the ability to edit or delete projects and tickets
+5. User wants real time data edits and updates
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# bug_tracker_client
+## Tech Stack
+**Front-End:** React, Redux Toolkit,  Vite, TailwindCSS, TypeScript, Socket.io <br/>
+**Back-End:** Express, Mongo DB, Node JS, Socket.io, Typescript, Jest
+
+## Features
+1. Login with JWT Authentication
+2. Authorization of roles: User, Admin
+3. Persistent login and connection of socket.
+4. Live updates of CRUD operations
+
+## Features being worked on 
+1. Comments on Tickets
+2. Administration of adding and removing users from a group
+3. Forums for projects
+4. Displaying all the members within the group or within the project
+
+## How it looks
