@@ -2,9 +2,11 @@ import React from "react";
 import Select from "react-select";
 
 export interface ITicket {
+    ticketId?: string;
     title: string;
     description: string;
     assignedDev: string[];
+    dateCreated?: Date;
     time: number;
     ticketStatus: string;
     ticketSeverity: string;
