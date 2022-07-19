@@ -29,6 +29,7 @@ type props = {
 const EditTicketModal = ({ ticketId }: props) => {
     const tickets = useAppSelector((state) => state.tickets.tickets);
     const ticket = tickets.find((ticket) => ticket.ticketId === ticketId);
+
     const [ticketInput, setTicketInput] = useState<ITicket>({
         ...initalState,
         ...ticket,
@@ -61,7 +62,7 @@ const EditTicketModal = ({ ticketId }: props) => {
 
     // creating the users of the group
     const users = [];
-    const selectedUsers = [];
+    const defaultSelectedUser = [];
 
     for (let i = 0; i < projectState.users.length; i++) {
         const user = groupUsers.find(
@@ -74,8 +75,8 @@ const EditTicketModal = ({ ticketId }: props) => {
         });
 
         if (ticket?.assignedDev.includes(projectState.users[i])) {
-            selectedUsers.push({
-                value: user?.username,
+            defaultSelectedUser.push({
+                value: user?.username ?? "",
                 label: `${user?.firstName} ${user?.lastName}`,
             });
         }
@@ -220,6 +221,11 @@ const EditTicketModal = ({ ticketId }: props) => {
                     ticketSeverityRef={ticketSeverityRef}
                     ticketStatusRef={ticketStatusRef}
                     ticketTypeRef={ticketTypeRef}
+                    defaultSelect={defaultSelectedUser}
+                    defaultTicketSeverity={ticketSeverityDefault}
+                    defaultTicketStatus={ticketStatusDefault}
+                    defaultTicketType={ticketTypeDefault}
+                    type='edit'
                 ></TicketModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
