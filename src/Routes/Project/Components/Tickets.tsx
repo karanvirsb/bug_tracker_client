@@ -28,7 +28,7 @@ const Tickets = ({ tickets }: props) => {
         </tr>
     ) : (
         <>
-            {tickets.map((ticket) => {
+            {tickets?.map((ticket) => {
                 const dateCreated = new Date(ticket.dateCreated);
                 return (
                     <Ticket
