@@ -7,21 +7,26 @@ type reportProps = {
     username: string;
 };
 
+interface Ticket extends ITicket {
+    setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
 const Ticket = ({
     ticketId,
     dateCreated,
     title,
-    description,
     assignedDev,
-    time,
     ticketStatus,
     ticketSeverity,
     ticketType,
     reporterId,
-    projectId,
-}: ITicket) => {
+    setSelectedId,
+}: Ticket) => {
     return (
-        <tr className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'>
+        <tr
+            className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
+            onClick={() => setSelectedId(ticketId)}
+        >
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
                 {title}
             </th>
