@@ -7,9 +7,7 @@ const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
-    const persist = useAppSelector(
-        (state) => state.persistedReducer.persist.persist
-    );
+    const persist = useAppSelector((state) => state.persist.persist);
 
     useEffect(() => {
         let isMounted = true;
