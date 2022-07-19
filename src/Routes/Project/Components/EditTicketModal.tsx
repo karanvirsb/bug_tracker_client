@@ -26,6 +26,11 @@ type props = {
     ticketId: string;
 };
 
+interface mutationTicket {
+    ticketId: string;
+    updates: ITicket;
+}
+
 const EditTicketModal = ({ ticketId }: props) => {
     const tickets = useAppSelector((state) => state.tickets.tickets);
     const ticket = tickets.find((ticket) => ticket.ticketId === ticketId);
@@ -46,12 +51,14 @@ const EditTicketModal = ({ ticketId }: props) => {
     const ticketTypeRef = useRef(null);
     const dispatch = useAppDispatch();
 
-    const updateTicketMutation = useMutation((ticketInfo: ITicket) => {
-        return axiosPrivate("/ticket", {
-            method: "put",
-            data: ticketInfo,
-        });
-    });
+    const updateTicketMutation = useMutation(
+        ({ ticketId, updates }: mutationTicket) => {
+            return axiosPrivate("/ticket", {
+                method: "put",
+                data: { ticketId, updates },
+            });
+        }
+    );
 
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
     const ticketModalConstraints = {
@@ -106,7 +113,18 @@ const EditTicketModal = ({ ticketId }: props) => {
 
         e.preventDefault();
 
-        let newTicket = ticketInput;
+        let newTicket = {
+            title: ticketInput.title,
+            description: ticketInput.description,
+            assignedDev: [],
+            time: ticketInput.time,
+            ticketStatus: "",
+            ticketSeverity: "",
+            ticketType: "",
+            reporterId: ticketInput.reporterId,
+            projectId: ticketInput.projectId,
+            ticketId: ticketInput.ticketId,
+        };
 
         if (ticketSeverityRef.current) {
             newTicket = {
@@ -154,39 +172,44 @@ const EditTicketModal = ({ ticketId }: props) => {
 
         console.log(newTicket);
         try {
-            updateTicketMutation.mutateAsync(newTicket, {
-                onSuccess: () => {
-                    setTicketInput(initalState);
+            updateTicketMutation.mutateAsync(
+                { ticketId: ticketId, updates: newTicket },
+                {
+                    onSuccess: () => {
+                        setTicketInput(initalState);
 
-                    socket.emit("invalidateQuery", {
-                        queryName: "projectTickets",
-                        groupId: projectState.projectId,
-                    });
+                        socket.emit("invalidateQuery", {
+                            queryName: "projectTickets",
+                            groupId: projectState.projectId,
+                        });
 
-                    //reset modal
-                    dispatch(resetModal());
-                },
-                onError: (error) => {
-                    if (error instanceof AxiosError) {
-                        const errorResp = JSON.parse(
-                            error.response?.data.message
-                        );
-                        errorResp.forEach(
-                            (elem: {
-                                code: string;
-                                inclusive: boolean;
-                                message: string;
-                                minimum?: number;
-                                maxiumum?: number;
-                                path: string[];
-                                type: string;
-                            }) => {
-                                toast.error(elem.path[0] + " " + elem.message);
-                            }
-                        );
-                    }
-                },
-            });
+                        //reset modal
+                        dispatch(resetModal());
+                    },
+                    onError: (error) => {
+                        if (error instanceof AxiosError) {
+                            const errorResp = JSON.parse(
+                                error.response?.data.message
+                            );
+                            errorResp.forEach(
+                                (elem: {
+                                    code: string;
+                                    inclusive: boolean;
+                                    message: string;
+                                    minimum?: number;
+                                    maxiumum?: number;
+                                    path: string[];
+                                    type: string;
+                                }) => {
+                                    toast.error(
+                                        elem.path[0] + " " + elem.message
+                                    );
+                                }
+                            );
+                        }
+                    },
+                }
+            );
         } catch (error) {
             if (error instanceof AxiosError) {
                 console.log(JSON.parse(error.response?.data.message));
