@@ -12,7 +12,7 @@ Also be sure to have MongoDb can be downloaded [here]() or create an account on 
 To begin cloning
 
 ```bash
-  git clone https://github.com/karanvirsb/bug_tracker_client
+  git clone https://github.com/karanvirsb/bug_tracker_client.git
 ```
 
 Go to the project directory
