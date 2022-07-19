@@ -1,5 +1,7 @@
-import React from "react";
+import { AnimatePresence, LayoutGroup } from "framer-motion";
+import React, { useState } from "react";
 import Ticket from "./Ticket";
+import TicketInfoModal from "./TicketInfoModal";
 export interface ITicket {
     ticketId: string;
     dateCreated: Date;
@@ -19,6 +21,7 @@ export type props = {
 };
 
 const Tickets = ({ tickets }: props) => {
+    const [selectedId, setSelectedId] = useState<string | null>(null);
     return !tickets ? (
         <tr className='w-full text-center text-lg '>
             <td colSpan={1000}>
@@ -28,16 +31,30 @@ const Tickets = ({ tickets }: props) => {
         </tr>
     ) : (
         <>
-            {tickets?.map((ticket) => {
-                const dateCreated = new Date(ticket.dateCreated);
-                return (
-                    <Ticket
-                        key={ticket.ticketId}
-                        {...ticket}
-                        dateCreated={dateCreated}
-                    ></Ticket>
-                );
-            })}
+            <LayoutGroup>
+                {tickets?.map((ticket) => {
+                    const dateCreated = new Date(ticket.dateCreated);
+                    return (
+                        <Ticket
+                            key={ticket.ticketId}
+                            {...ticket}
+                            dateCreated={dateCreated}
+                        ></Ticket>
+                    );
+                })}
+                <AnimatePresence exitBeforeEnter>
+                    {selectedId && (
+                        <tr>
+                            <td>
+                                <TicketInfoModal
+                                    selectedId={selectedId}
+                                    setSelectedId={setSelectedId}
+                                ></TicketInfoModal>
+                            </td>
+                        </tr>
+                    )}
+                </AnimatePresence>
+            </LayoutGroup>
         </>
     );
 };
