@@ -26,6 +26,9 @@ type props = {
     type?: "edit";
     options: options[] | any;
     defaultSelect?: options[];
+    defaultTicketType?: {};
+    defaultTicketStatus?: {};
+    defaultTicketSeverity?: {};
     userRef?: React.MutableRefObject<null | any>;
     ticketStatusRef: React.MutableRefObject<null | any>;
     ticketSeverityRef: React.MutableRefObject<null | any>;
@@ -38,6 +41,9 @@ const TicketModal = ({
     type,
     options,
     defaultSelect,
+    defaultTicketType,
+    defaultTicketStatus,
+    defaultTicketSeverity,
     userRef,
     ticketStatusRef,
     ticketSeverityRef,
@@ -101,6 +107,7 @@ const TicketModal = ({
                     className='modal-input'
                     name='title'
                     onChange={handleChange}
+                    value={ticketInput.title}
                 />
             </div>
             <div className='input-container'>
@@ -110,6 +117,7 @@ const TicketModal = ({
                 <textarea
                     className='modal-input resize-y'
                     onChange={handleTextAreaChange}
+                    value={ticketInput.description}
                 ></textarea>
             </div>
             <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
@@ -138,6 +146,7 @@ const TicketModal = ({
                         min={0}
                         step='any'
                         onChange={handleChange}
+                        value={ticketInput.time}
                     />
                 </div>
             </div>
@@ -152,6 +161,7 @@ const TicketModal = ({
                         placeholder='Select Status'
                         maxMenuHeight={100}
                         ref={ticketStatusRef}
+                        defaultValue={type && defaultTicketStatus}
                     ></Select>
                 </div>
                 <div className='input-container'>
@@ -164,6 +174,7 @@ const TicketModal = ({
                         placeholder='Select Severity'
                         maxMenuHeight={100}
                         ref={ticketSeverityRef}
+                        defaultValue={type && defaultTicketSeverity}
                     ></Select>
                 </div>
                 <div className='input-container'>
@@ -176,6 +187,7 @@ const TicketModal = ({
                         placeholder='Select Type'
                         maxMenuHeight={100}
                         ref={ticketTypeRef}
+                        defaultValue={type && defaultTicketType}
                     ></Select>
                 </div>
             </div>
