@@ -13,13 +13,13 @@ import {
 // import storageSession from "reduxjs-toolkit-persist/lib/storage/session";
 import authenticationReducer from "../../Auth/authenticationSlice";
 import persistLoginReducer from "../../Auth/persistSlice";
-import projectReducer from "../Slices/projectSlice";
+import projectsReducer from "../Slices/projectsSlice";
 import modalReducer from "../Slices/modalSlice";
 import groupReducer from "../Slices/groupSlice";
+import projectReducer from "../Slices/projectSlice";
 
 const rootReducer = combineReducers({
     auth: authenticationReducer,
-    persist: persistLoginReducer,
 });
 
 const persistConfig = {
@@ -33,9 +33,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
     reducer: {
         persistedReducer,
-        projects: projectReducer,
+        projects: projectsReducer,
         modal: modalReducer,
         group: groupReducer,
+        persist: persistLoginReducer,
+        project: projectReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -56,7 +58,7 @@ export const store = configureStore({
 //     reducer: {
 //         auth: authenticationReducer,
 //         persist: persistLoginReducer,
-//         projects: projectReducer,
+//         projects: projectsReducer,
 //         modal: modalReducer,
 //         group: groupReducer,
 //     },
