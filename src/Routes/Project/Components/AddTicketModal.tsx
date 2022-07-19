@@ -20,7 +20,6 @@ const AddTicketModal = () => {
         projectId: "",
     });
 
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
     const projectUsers = useAppSelector((state) => state.project.users);
     const groupUsers = useAppSelector((state) => state.group.users);
     const usersSelected = useRef(null);
