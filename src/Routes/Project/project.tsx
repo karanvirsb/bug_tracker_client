@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
 import { setModal } from "../../Redux/Slices/modalSlice";
+import { setProject } from "../../Redux/Slices/projectSlice";
 
 const Project = () => {
     const [pageNumber, setPageNumber] = useState(1);
@@ -29,14 +30,6 @@ const Project = () => {
         return resp.data;
     };
 
-    const fetchProject = async () => {
-        const resp = await axiosPrivate("/project/id", {
-            method: "post",
-            data: { filter: "projectId", filterValue: projectId },
-        });
-        return resp.data;
-    };
-
     const {
         data: tickets,
         status: ticketStatus,
@@ -49,6 +42,14 @@ const Project = () => {
             }
         },
     });
+
+    const fetchProject = async () => {
+        const resp = await axiosPrivate("/project/id", {
+            method: "post",
+            data: { filter: "projectId", filterValue: projectId },
+        });
+        return resp.data;
+    };
 
     const { data: project, status: projectStatus } = useQuery(
         "ticketProject",
@@ -75,6 +76,12 @@ const Project = () => {
             });
         };
     }, []);
+
+    useEffect(() => {
+        if (projectStatus === "success") {
+            dispatch(setProject(project));
+        }
+    }, [project, projectStatus]);
 
     return (
         <section className='sections'>
