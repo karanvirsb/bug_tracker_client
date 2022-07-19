@@ -6,7 +6,7 @@ export interface Project {
     groupId: string;
     projectName: string;
     projectDesc: string;
-    dateCreated: Date;
+    dateCreated?: Date;
     users: string[];
 }
 
@@ -15,7 +15,6 @@ const initialState: Project = {
     groupId: "",
     projectName: "",
     projectDesc: "",
-    dateCreated: new Date(),
     users: [],
 };
 
