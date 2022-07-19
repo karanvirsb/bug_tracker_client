@@ -23,7 +23,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const openEditModal = () => {
         dispatch(
             setModal({
-                type: "updateProject",
+                type: "updateTicket",
                 open: true,
                 options: { ticketId: ticket?.ticketId },
             })
@@ -34,7 +34,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const openDeleteModal = () => {
         dispatch(
             setModal({
-                type: "deleteProject",
+                type: "deleteTicket",
                 open: true,
                 options: { ticketId: ticket?.ticketId },
             })
