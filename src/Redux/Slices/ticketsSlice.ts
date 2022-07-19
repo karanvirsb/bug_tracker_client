@@ -67,7 +67,7 @@ const ticketsSlice = createSlice({
     },
 });
 
-const { addTicket, deleteTicket, updateTicket, updateInitialState } =
+export const { addTicket, deleteTicket, updateTicket, updateInitialState } =
     ticketsSlice.actions;
 
 export default ticketsSlice.reducer;
