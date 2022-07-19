@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import Backdrop from "../../../Components/Backdrop";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
+import { setModal } from "../../../Redux/Slices/modalSlice";
 
 type props = {
     selectedId: string;
@@ -11,21 +12,54 @@ type props = {
 const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const dispatch = useAppDispatch();
     const tickets = useAppSelector((state) => state.tickets.tickets);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
     const ticket = tickets.find((ticket) => ticket.ticketId === selectedId);
+    const user = groupUsers.find(
+        (user) => user.username === ticket?.reporterId
+    );
+
+    const openEditModal = () => {
+        dispatch(
+            setModal({
+                type: "updateProject",
+                open: true,
+                options: { ticketId: ticket?.ticketId },
+            })
+        );
+        setSelectedId(null);
+    };
+
+    const openDeleteModal = () => {
+        dispatch(
+            setModal({
+                type: "deleteProject",
+                open: true,
+                options: { ticketId: ticket?.ticketId },
+            })
+        );
+        setSelectedId(null);
+    };
+
     return (
         <Backdrop>
-            <motion.div className='bg-white flex flex-col justify-between fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full max-h-[75%] h-full rounded-md'>
-                <div>
-                    <div className='flex flex-col gap-1'>
-                        <div>
-                            <h1 className='text-2xl'>{ticket?.title}</h1>
+            <motion.div className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full max-h-[75%] h-full rounded-md'>
+                <div className='flex justify-between items-center'>
+                    <div className='flex gap-4 items-center'>
+                        <h1 className='text-2xl'>{ticket?.title}</h1>
+                        <span>&#8212;</span>
+                        <span className='text-gray-600 pl-2'>
+                            {new Date(ticket?.dateCreated ?? "").toDateString()}
+                        </span>
+                        <span>&#8212;</span>
+                        <div className='flex gap-4 items-center'>
                             <span>{ticket?.ticketType}</span> |
                             <span>{ticket?.ticketStatus}</span> |
                             <span>{ticket?.ticketSeverity}</span>
                         </div>
-                        <p className='text-gray-600'>
-                            {new Date(ticket?.dateCreated ?? "").toDateString()}
-                        </p>
+                        <span>&#8212;</span>
+                        <div>By: {user?.firstName + " " + user?.lastName}</div>
                     </div>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -41,9 +75,23 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         />
                     </svg>
                 </div>
+                <div className='flex gap-2 pb-4'>
+                    <button
+                        className='btn bg-green-400'
+                        onClick={openEditModal}
+                    >
+                        Edit
+                    </button>
+                    <button
+                        className='btn bg-red-400'
+                        onClick={openDeleteModal}
+                    >
+                        Delete
+                    </button>
+                </div>
                 <div>
                     <h2 className='text-gray-500 text-lg'>Description:</h2>
-                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto'>
+                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto pl-4'>
                         {ticket?.description}
                     </p>
                 </div>
@@ -80,7 +128,7 @@ const UserElements = ({ usersArr }: userProps) => {
                 return (
                     <li
                         key={user.username}
-                        className='pl-4 text-xl'
+                        className='pl-4 text-lg'
                     >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
