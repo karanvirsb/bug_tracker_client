@@ -21,6 +21,7 @@ const AddTicketModal = () => {
     });
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const projectUsers = useAppSelector((state) => state.project.users);
     const groupUsers = useAppSelector((state) => state.group.users);
     const usersSelected = useRef(null);
     const ticketStatusRef = useRef(null);
@@ -45,13 +46,15 @@ const AddTicketModal = () => {
     // creating the users of the group
     const users = [];
 
-    for (let i = 0; i < groupUsers.length; i++) {
-        if (groupUsers[i].username !== auth.username) {
-            users.push({
-                value: groupUsers[i].username,
-                label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
-            });
-        }
+    for (let i = 0; i < projectUsers.length; i++) {
+        const user = groupUsers.find(
+            (user) => user.username === projectUsers[i]
+        );
+
+        users.push({
+            value: user?.username,
+            label: `${user?.firstName} ${user?.lastName}`,
+        });
     }
 
     const handleTicketSubmit = (e: React.FormEvent<HTMLFormElement>) => {
