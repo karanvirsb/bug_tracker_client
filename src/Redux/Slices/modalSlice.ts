@@ -9,7 +9,7 @@ export interface ModalState {
         | "createTicket"
         | "";
     open: boolean;
-    options: { projectId?: string };
+    options: { projectId?: string; ticketId?: string };
 }
 
 const initialState: ModalState = {
