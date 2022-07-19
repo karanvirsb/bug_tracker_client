@@ -6,7 +6,7 @@ A web app for tracking bugs of a company. Allows users to create groups, create 
 
 Clone the project <br/>
 
-Also Clone the backend [here](https://github.com/karanvirsb/bug_tracker_server)
+Also Clone the backend [here](https://github.com/karanvirsb/bug_tracker_server) <br/>
 Also be sure to have MongoDb can be downloaded [here]() or create an account on MongoDb Atlas [here]()
 
 To begin cloning
