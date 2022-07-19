@@ -39,6 +39,7 @@ const Tickets = ({ tickets }: props) => {
                             key={ticket.ticketId}
                             {...ticket}
                             dateCreated={dateCreated}
+                            setSelectedId={setSelectedId}
                         ></Ticket>
                     );
                 })}
