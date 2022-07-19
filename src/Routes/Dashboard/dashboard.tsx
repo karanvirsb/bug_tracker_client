@@ -1,11 +1,9 @@
-import React, { Suspense, useState, useEffect } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import Projects from "./Components/Projects";
-import { QueryErrorResetBoundary, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import Spinner from "../../Components/Spinner";
-import ErrorFallback from "../../Components/ErrorFallback";
-import { updateInitialState } from "../../Redux/Slices/projectSlice";
+import { updateInitialState } from "../../Redux/Slices/projectsSlice";
 import { setModal } from "../../Redux/Slices/modalSlice";
 import Pagination from "../../Components/Pagination";
 import axiosPrivate from "../../Components/AxiosInterceptors";
