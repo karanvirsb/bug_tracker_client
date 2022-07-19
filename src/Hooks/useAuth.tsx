@@ -5,9 +5,7 @@ import { useSelector } from "react-redux";
 // also gives easy access to auth data
 const useAuth = () => {
     const auth = useSelector((state: RootState) => state.persistedReducer.auth);
-    const persist = useSelector(
-        (state: RootState) => state.persistedReducer.persist.persist
-    );
+    const persist = useSelector((state: RootState) => state.persist.persist);
     return { auth, persist };
 };
 
