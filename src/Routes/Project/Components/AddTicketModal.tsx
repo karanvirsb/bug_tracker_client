@@ -25,6 +25,7 @@ const initalState = {
 const AddTicketModal = () => {
     const [ticketInput, setTicketInput] = useState<ITicket>(initalState);
 
+    const authState = useAppSelector((state) => state.persistedReducer.auth);
     const projectState = useAppSelector((state) => state.project);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
@@ -77,7 +78,7 @@ const AddTicketModal = () => {
             newTicket = {
                 ...newTicket,
                 ticketSeverity: (ticketSeverityRef?.current as any).state
-                    .selectValue,
+                    .selectValue[0].value,
             };
         }
 
@@ -85,14 +86,15 @@ const AddTicketModal = () => {
             newTicket = {
                 ...newTicket,
                 ticketStatus: (ticketStatusRef?.current as any).state
-                    .selectValue,
+                    .selectValue[0].value,
             };
         }
 
         if (ticketTypeRef.current) {
             newTicket = {
                 ...newTicket,
-                ticketType: (ticketStatusRef?.current as any).state.selectValue,
+                ticketType: (ticketTypeRef?.current as any).state.selectValue[0]
+                    .value,
             };
         }
 
@@ -109,6 +111,14 @@ const AddTicketModal = () => {
                 assignedDev: selectedUsers,
             };
         }
+
+        newTicket = {
+            ...newTicket,
+            projectId: projectState.projectId,
+            reporterId: authState?.username ?? "",
+        };
+
+        console.log(newTicket);
         try {
             addTicketMutation.mutateAsync(newTicket, {
                 onSuccess: () => {
