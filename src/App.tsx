@@ -73,7 +73,8 @@ function App() {
 
     useEffect(() => {
         window.addEventListener("beforeunload", () => {
-            socket.emit("disconnecting");
+            socket.emit("leavingPage");
+            console.log("unloading");
         });
 
         return () => {
