@@ -125,7 +125,7 @@ const AddTicketModal = () => {
                     setTicketInput(initalState);
 
                     socket.emit("invalidateQuery", {
-                        queryName: "projectIds",
+                        queryName: "projectTickets",
                         groupId: projectState.projectId,
                     });
 
