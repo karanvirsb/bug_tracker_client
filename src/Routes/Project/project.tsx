@@ -135,7 +135,7 @@ const Project = () => {
                                 </tr>
                             )}
                             {ticketStatus === "success" && (
-                                <Tickets tickets={tickets}></Tickets>
+                                <Tickets tickets={tickets.docs}></Tickets>
                             )}
                             {ticketStatus === "error" && (
                                 <tr className='w-full text-center text-lg '>
