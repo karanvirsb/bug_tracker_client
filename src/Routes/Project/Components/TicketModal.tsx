@@ -45,7 +45,7 @@ const TicketModal = ({
 }: props) => {
     const ticketStatusOptions = [
         { value: "Open", label: "Open" },
-        { value: "To Do", label: "To Do" },
+        { value: "Todo", label: "Todo" },
         { value: "In Progress", label: "In Progress" },
         { value: "To Be Tested", label: "To Be Tested" },
         { value: "Closed", label: "Closed" },
@@ -70,19 +70,47 @@ const TicketModal = ({
         { value: "Issue", label: "Issue" },
     ];
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.name === "time") {
+            setTicketInput((prev: ITicket) => {
+                return { ...prev, time: Number.parseFloat(e.target.value) };
+            });
+        } else {
+            setTicketInput((prev: ITicket) => {
+                return { ...prev, [e.target.name]: e.target.value };
+            });
+        }
+    };
+
+    const handleTextAreaChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+        setTicketInput((prev: ITicket) => {
+            return { ...prev, description: e.target.value };
+        });
+    };
+
     return (
         <>
             <div className='input-container'>
                 <label htmlFor='projectName' className='input-label'>
                     Title
                 </label>
-                <input type='text' className='modal-input' />
+                <input
+                    type='text'
+                    className='modal-input'
+                    name='title'
+                    onChange={handleChange}
+                />
             </div>
             <div className='input-container'>
                 <label htmlFor='projectName' className='input-label'>
                     Description
                 </label>
-                <textarea className='modal-input resize-y'></textarea>
+                <textarea
+                    className='modal-input resize-y'
+                    onChange={handleTextAreaChange}
+                ></textarea>
             </div>
             <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
                 <div className='input-container'>
@@ -105,10 +133,11 @@ const TicketModal = ({
                     </label>
                     <input
                         type='number'
-                        name=''
+                        name='time'
                         className='modal-input'
                         min={0}
                         step='any'
+                        onChange={handleChange}
                     />
                 </div>
             </div>
