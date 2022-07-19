@@ -7,6 +7,8 @@ export interface ModalState {
         | "updateProject"
         | "deleteProject"
         | "createTicket"
+        | "updateTicket"
+        | "deleteTicket"
         | "";
     open: boolean;
     options: { projectId?: string; ticketId?: string };
