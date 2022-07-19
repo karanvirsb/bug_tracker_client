@@ -67,7 +67,7 @@ Go to http://localhost:3000 in your browser and register an account. Then procee
 5. User wants real time data edits and updates
 
 ## Tech Stack
-**Front-End:** React, Redux Toolkit,  Vite, TailwindCSS, TypeScript, Socket.io
+**Front-End:** React, Redux Toolkit,  Vite, TailwindCSS, TypeScript, Socket.io <br/>
 **Back-End:** Express, Mongo DB, Node JS, Socket.io, Typescript, Jest
 
 ## Features
