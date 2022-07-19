@@ -16,7 +16,9 @@ type userElementProps = {
 const Members = ({ usersArr }: props) => {
     // const axiosPrivate = useAxiosPrivate();
 
-    const groupUsers = useAppSelector((state) => state.group.users);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
 
     const users = [];
     for (let i = 0; i < groupUsers.length; i++) {

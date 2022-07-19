@@ -40,7 +40,7 @@ const Ticket = ({
 };
 
 const Reporter = ({ username }: reportProps) => {
-    const groupData = useAppSelector((state) => state.group);
+    const groupData = useAppSelector((state) => state.persistedReducer.group);
     const foundUser = groupData.users.find(
         (user) => user.username === username
     );

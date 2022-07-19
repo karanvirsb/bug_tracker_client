@@ -16,7 +16,9 @@ type props = {
 const DeleteProjectModal = ({ projectId }: props) => {
     const dispatch = useDispatch();
 
-    const groupId = useAppSelector((state) => state.group.groupId);
+    const groupId = useAppSelector(
+        (state) => state.persistedReducer.group.groupId
+    );
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
     const modalConstraints = {

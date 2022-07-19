@@ -18,7 +18,9 @@ const AddProjectModal = (): JSX.Element => {
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const dispatch = useAppDispatch();
-    const groupUsers = useAppSelector((state) => state.group.users);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
     const usersSelected = useRef(null);
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
     const modalConstraints = {

@@ -134,7 +134,9 @@ type userProps = {
 };
 
 const UserElements = ({ usersArr }: userProps) => {
-    const groupUsers = useAppSelector((state) => state.group.users);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
 
     const users = [];
     for (let i = 0; i < groupUsers.length; i++) {

@@ -24,7 +24,9 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     // const axiosPrivate = useAxiosPrivate();
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
-    const groupUsers = useAppSelector((state) => state.group.users);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
     const dispatch = useAppDispatch();
 
     const usersSelected = useRef(null);
