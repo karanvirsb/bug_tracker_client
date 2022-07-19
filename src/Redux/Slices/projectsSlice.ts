@@ -18,7 +18,7 @@ const initialState: ProjectState = {
     projects: [],
 };
 
-export const projectSlice = createSlice({
+export const projectsSlice = createSlice({
     name: "projects",
     initialState,
     reducers: {
@@ -60,6 +60,6 @@ export const projectSlice = createSlice({
 });
 
 export const { addProject, updateProject, deleteProject, updateInitialState } =
-    projectSlice.actions;
+    projectsSlice.actions;
 
-export default projectSlice.reducer;
+export default projectsSlice.reducer;
