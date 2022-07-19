@@ -21,6 +21,7 @@ import ticketsReducer from "../Slices/ticketsSlice";
 
 const rootReducer = combineReducers({
     auth: authenticationReducer,
+    group: groupReducer,
 });
 
 const persistConfig = {
@@ -36,7 +37,6 @@ export const store = configureStore({
         persistedReducer,
         projects: projectsReducer,
         modal: modalReducer,
-        group: groupReducer,
         persist: persistLoginReducer,
         project: projectReducer,
         tickets: ticketsReducer,
