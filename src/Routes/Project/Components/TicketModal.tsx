@@ -108,6 +108,7 @@ const TicketModal = ({
                         name=''
                         className='modal-input'
                         min={0}
+                        step='any'
                     />
                 </div>
             </div>
