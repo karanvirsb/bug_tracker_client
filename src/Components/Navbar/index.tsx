@@ -16,7 +16,7 @@ export const Navbar = () => {
     const { getRoles } = useIsAdmin();
     // const axiosPrivate = useAxiosPrivate();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
-
+    const modal = useAppSelector((state) => state.modal.open);
     // fetching gruop info with invite code
     const fetchGroup = async () => {
         const resp = await axiosPrivate("/group/id", {
@@ -50,9 +50,9 @@ export const Navbar = () => {
         <header
             className={`bg-main-color text-white fixed top-2 left-2 bottom-2 m-md:rounded-2xl p-4 min-h-[98.5vh] w-[175px] flex flex-col md:top-0 md:left-0 md:bottom-0${
                 showNavigation
-                    ? " md:w-[50vw] sm:w-full md:block"
+                    ? " md:w-[50vw] sm:w-full md:block md:-z-1"
                     : " md:bg-transparent md:text-black md:w-max"
-            }`}
+            } ${modal && "hidden"}`}
         >
             <svg
                 xmlns='http://www.w3.org/2000/svg'
