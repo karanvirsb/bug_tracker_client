@@ -94,11 +94,11 @@ export const Navbar = () => {
                                         <div
                                             className={`${
                                                 isDropDownOpen
-                                                    ? "rotate-90"
-                                                    : ""
-                                            }`}
+                                                    ? "-rotate-90"
+                                                    : "rotate-90"
+                                            } text-2xl flex justify-center items-center w-max h-max`}
                                         >
-                                            &gt;
+                                            &#10095;
                                         </div>
                                     </button>
                                     {isDropDownOpen && (
