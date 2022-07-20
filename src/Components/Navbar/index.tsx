@@ -11,11 +11,13 @@ import useIsAdmin from "../../Hooks/useIsAdmin";
 
 export const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const logout = useLogout();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
     // const axiosPrivate = useAxiosPrivate();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const group = useAppSelector((state) => state.persistedReducer.group);
     const modal = useAppSelector((state) => state.modal.open);
     // fetching gruop info with invite code
     const fetchGroup = async () => {
@@ -83,7 +85,20 @@ export const Navbar = () => {
                             {groupStatus !== "success" ? (
                                 <Spinner></Spinner>
                             ) : (
-                                groupData.groupName
+                                <div>
+                                    <button>
+                                        groupData.groupName
+                                        <span>&gt;</span>
+                                    </button>
+                                    {isDropDownOpen && (
+                                        <GroupDropDown
+                                            setGroupDropDownOpen={
+                                                setIsDropDownOpen
+                                            }
+                                            inviteCode={group.groupInviteCode}
+                                        ></GroupDropDown>
+                                    )}
+                                </div>
                             )}
                         </h1>
                         <svg
@@ -135,5 +150,18 @@ export const Navbar = () => {
                 </button>
             </nav>
         </header>
+    );
+};
+
+type dropDownProps = {
+    setGroupDropDownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    inviteCode: string;
+};
+const GroupDropDown = ({ setGroupDropDownOpen, inviteCode }: dropDownProps) => {
+    return (
+        <div>
+            <p>{inviteCode}</p>
+            <button>Leave Group</button>
+        </div>
     );
 };
