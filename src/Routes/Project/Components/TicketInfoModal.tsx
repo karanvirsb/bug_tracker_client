@@ -89,17 +89,19 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         Delete
                     </button>
                 </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>Description:</h2>
-                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto pl-4'>
-                        {ticket?.description}
-                    </p>
-                </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>Users:</h2>
-                    <UserElements
-                        usersArr={ticket?.assignedDev ?? []}
-                    ></UserElements>
+                <div className='grid grid-cols-2 gap-4'>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>Description:</h2>
+                        <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto pl-4 outline outline-gray-200 outline-1 rounded-md p-4'>
+                            {ticket?.description}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>Users:</h2>
+                        <UserElements
+                            usersArr={ticket?.assignedDev ?? []}
+                        ></UserElements>
+                    </div>
                 </div>
             </motion.div>
         </Backdrop>
@@ -123,12 +125,12 @@ const UserElements = ({ usersArr }: userProps) => {
     }
 
     return (
-        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden'>
+        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden outline outline-gray-200 outline-1 rounded-md p-4'>
             {users.map((user) => {
                 return (
                     <li
                         key={user.username}
-                        className='pl-4 text-lg'
+                        className='pl-4 text-lg border-b border-b-gray-200 border-1 w-full'
                     >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
