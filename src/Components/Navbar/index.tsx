@@ -85,10 +85,21 @@ export const Navbar = () => {
                             {groupStatus !== "success" ? (
                                 <Spinner></Spinner>
                             ) : (
-                                <div>
-                                    <button>
-                                        groupData.groupName
-                                        <span>&gt;</span>
+                                <div className='relative'>
+                                    <button
+                                        className='flex items-center justify-center gap-4 w-full'
+                                        onClick={() => setIsDropDownOpen(true)}
+                                    >
+                                        {groupData.groupName}
+                                        <div
+                                            className={`${
+                                                isDropDownOpen
+                                                    ? "rotate-90"
+                                                    : ""
+                                            }`}
+                                        >
+                                            &gt;
+                                        </div>
                                     </button>
                                     {isDropDownOpen && (
                                         <GroupDropDown
@@ -159,9 +170,11 @@ type dropDownProps = {
 };
 const GroupDropDown = ({ setGroupDropDownOpen, inviteCode }: dropDownProps) => {
     return (
-        <div>
-            <p>{inviteCode}</p>
-            <button>Leave Group</button>
+        <div className='absolute bg-white text-black p-1 z-10 rounded-md w-full'>
+            <p className='border-b border-b-gray-300'>{inviteCode}</p>
+            <button className='btn bg-secondary-color text-white hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
+                Leave Group
+            </button>
         </div>
     );
 };
