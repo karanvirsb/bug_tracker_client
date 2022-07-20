@@ -44,7 +44,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
 
     return (
         <Backdrop>
-            <motion.div className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full max-h-[75%] h-full rounded-md'>
+            <motion.div className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full max-h-[75%] h-full overflow-auto rounded-md'>
                 <div className='flex justify-between items-center'>
                     <div className='flex lg:flex-col gap-4 items-center'>
                         <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
