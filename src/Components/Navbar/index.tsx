@@ -172,12 +172,35 @@ type dropDownProps = {
     componentRef: typeof useRef;
 };
 const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
+    const [copied, setCopied] = useState(false);
+    const copyInviteCode = () => {
+        navigator.clipboard.writeText(inviteCode);
+        setCopied(true);
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => [setCopied(false)], 3000);
+
+        return () => {
+            timer;
+        };
+    }, [copied]);
     return (
         <div
             className='absolute bg-white text-black p-1 z-10 rounded-md w-full'
             ref={componentRef}
         >
-            <p className='border-b border-b-gray-300'>{inviteCode}</p>
+            <p
+                className='border-b border-b-gray-300 cursor-pointer relative'
+                onClick={copyInviteCode}
+            >
+                {inviteCode}
+                {copied && (
+                    <span className='absolute top-[100%] right-[25%] bg-gray-600 text-white p-1 rounded-md'>
+                        Copied
+                    </span>
+                )}
+            </p>
             <button className='btn bg-secondary-color text-white hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
                 Leave Group
             </button>
