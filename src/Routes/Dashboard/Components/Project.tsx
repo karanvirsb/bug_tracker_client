@@ -2,10 +2,9 @@ import React from "react";
 // import { useQuery } from "react-query";
 // import Spinner from "../../../Components/Spinner";
 // import axiosPrivate from "../../../Components/AxiosInterceptors";
-import useComponentVisible from "../../../Hooks/useComponentVisible";
-import useIsAdmin from "../../../Hooks/useIsAdmin";
+// import useComponentVisible from "../../../Hooks/useComponentVisible";
+// import useIsAdmin from "../../../Hooks/useIsAdmin";
 // import ProjectOptions from "./ProjectOptions";
-import { useNavigate } from "react-router-dom";
 // import { useAppSelector } from "../../../Hooks/hooks";
 import Members from "../../../Components/Members";
 
