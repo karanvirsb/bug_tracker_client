@@ -97,16 +97,19 @@ const Dashboard = () => {
                     <table className=' w-full'>
                         <thead className='text-sm text-gray-500 font-normal'>
                             <tr>
-                                <th scope='col' className='px-6 py-3'>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-3 sm:text-center'
+                                >
                                     PROJECT
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 md:hidden'>
                                     DESCRIPTION
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 md:hidden'>
                                     DATE CREATED
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 sm:hidden'>
                                     MEMBERS
                                 </th>
                             </tr>
