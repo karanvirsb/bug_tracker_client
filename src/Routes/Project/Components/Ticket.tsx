@@ -30,13 +30,15 @@ const Ticket = ({
             <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
                 {title}
             </th>
-            <td className='px-6 py-3'>
+            <td className='px-6 py-3 lg:hidden'>
                 <Reporter username={reporterId}></Reporter>
             </td>
-            <td className='px-6 py-3'>{dateCreated.toDateString()}</td>
-            <td className='px-6 py-3'>{ticketType}</td>
-            <td className='px-6 py-3'>{ticketStatus}</td>
-            <td className='px-6 py-3'>
+            <td className='px-6 py-3 lg:hidden'>
+                {dateCreated.toDateString()}
+            </td>
+            <td className='px-6 py-3 md:hidden'>{ticketType}</td>
+            <td className='px-6 py-3 sm:hidden'>{ticketStatus}</td>
+            <td className='px-6 py-3 lg:hidden'>
                 <Members usersArr={assignedDev}></Members>
             </td>
             <td className='px-6 py-3'>{ticketSeverity}</td>
