@@ -5,6 +5,7 @@ import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
 import DeleteProjectModal from "../../Routes/Dashboard/Components/DeleteProjectModal";
 import EditProjectModal from "../../Routes/Dashboard/Components/EditProjectModal";
 import AddTicketModal from "../../Routes/Project/Components/AddTicketModal";
+import DeleteTicketModal from "../../Routes/Project/Components/DeleteTicketModal";
 import EditTicketModal from "../../Routes/Project/Components/EditTicketModal";
 import Backdrop from "../Backdrop";
 
@@ -35,6 +36,11 @@ const Modal = () => {
                         <EditTicketModal
                             ticketId={modal.options?.ticketId ?? ""}
                         ></EditTicketModal>
+                    )}
+                    {modal.type === "deleteTicket" && (
+                        <DeleteTicketModal
+                            ticketId={modal.options?.ticketId ?? ""}
+                        ></DeleteTicketModal>
                     )}
                 </Backdrop>
             )}
