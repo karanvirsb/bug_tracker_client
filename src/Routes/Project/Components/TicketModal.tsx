@@ -132,6 +132,7 @@ const TicketModal = ({
                         defaultValue={type && defaultSelect}
                         className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                         closeMenuOnSelect={false}
+                        maxMenuHeight={150}
                         placeholder='Select Users'
                     ></Select>
                 </div>
