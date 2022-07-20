@@ -27,7 +27,10 @@ const Ticket = ({
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
             onClick={() => setSelectedId(ticketId)}
         >
-            <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
+            <th
+                scope='row'
+                className='px-6 py-3 text-gray-800 font-semibold sm:text-center'
+            >
                 {title}
             </th>
             <td className='px-6 py-3 lg:hidden'>
@@ -41,7 +44,7 @@ const Ticket = ({
             <td className='px-6 py-3 lg:hidden'>
                 <Members usersArr={assignedDev}></Members>
             </td>
-            <td className='px-6 py-3'>{ticketSeverity}</td>
+            <td className='px-6 py-3 sm:hidden'>{ticketSeverity}</td>
         </tr>
     );
 };
