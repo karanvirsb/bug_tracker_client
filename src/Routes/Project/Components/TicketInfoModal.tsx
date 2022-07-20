@@ -103,6 +103,11 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         ></UserElements>
                     </div>
                 </div>
+                <div className='w-full flex justify-center items-center mt-4'>
+                    <button className='btn hover:!outline-none hover:!text-blue-500'>
+                        Load Comments
+                    </button>
+                </div>
             </motion.div>
         </Backdrop>
     );
