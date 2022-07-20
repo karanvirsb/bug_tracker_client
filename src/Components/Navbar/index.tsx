@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
@@ -8,10 +8,12 @@ import { useQuery } from "react-query";
 import { setGroup } from "../../Redux/Slices/groupSlice";
 import Spinner from "../Spinner";
 import useIsAdmin from "../../Hooks/useIsAdmin";
+import useComponentVisible from "../../Hooks/useComponentVisible";
 
 export const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
-    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const { ref, isComponentVisible, setIsComponentVisible } =
+        useComponentVisible(false);
     const logout = useLogout();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
@@ -79,7 +81,6 @@ export const Navbar = () => {
                 }`}
             >
                 <div className='pb-4'>
-                    {/* TODO make drop down */}
                     <div className='flex justify-between items-center md:px-4'>
                         <h1 className='text-center text-xl pb-1 m-md:w-full'>
                             {groupStatus !== "success" ? (
@@ -88,12 +89,14 @@ export const Navbar = () => {
                                 <div className='relative'>
                                     <button
                                         className='flex items-center justify-center gap-4 w-full'
-                                        onClick={() => setIsDropDownOpen(true)}
+                                        onClick={() =>
+                                            setIsComponentVisible(true)
+                                        }
                                     >
                                         {groupData.groupName}
                                         <div
                                             className={`${
-                                                isDropDownOpen
+                                                isComponentVisible
                                                     ? "-rotate-90"
                                                     : "rotate-90"
                                             } text-2xl flex justify-center items-center w-max h-max`}
@@ -101,12 +104,10 @@ export const Navbar = () => {
                                             &#10095;
                                         </div>
                                     </button>
-                                    {isDropDownOpen && (
+                                    {isComponentVisible && (
                                         <GroupDropDown
-                                            setGroupDropDownOpen={
-                                                setIsDropDownOpen
-                                            }
                                             inviteCode={group.groupInviteCode}
+                                            componentRef={ref}
                                         ></GroupDropDown>
                                     )}
                                 </div>
@@ -165,12 +166,15 @@ export const Navbar = () => {
 };
 
 type dropDownProps = {
-    setGroupDropDownOpen: React.Dispatch<React.SetStateAction<boolean>>;
     inviteCode: string;
+    componentRef: typeof useRef;
 };
-const GroupDropDown = ({ setGroupDropDownOpen, inviteCode }: dropDownProps) => {
+const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
     return (
-        <div className='absolute bg-white text-black p-1 z-10 rounded-md w-full'>
+        <div
+            className='absolute bg-white text-black p-1 z-10 rounded-md w-full'
+            ref={componentRef}
+        >
             <p className='border-b border-b-gray-300'>{inviteCode}</p>
             <button className='btn bg-secondary-color text-white hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
                 Leave Group
