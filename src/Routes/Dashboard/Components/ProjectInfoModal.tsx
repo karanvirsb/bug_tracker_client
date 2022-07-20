@@ -87,7 +87,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                 </div>
                 <div>
                     <h2 className='text-gray-500 text-lg'>Description:</h2>
-                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto'>
+                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto outline outline-gray-200 outline-1 rounded-md p-4'>
                         {project?.projectDesc}
                     </p>
                 </div>
@@ -146,12 +146,12 @@ const UserElements = ({ usersArr }: userProps) => {
     }
 
     return (
-        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden'>
+        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden outline outline-gray-200 outline-1 rounded-md p-4'>
             {users.map((user) => {
                 return (
                     <li
                         key={user.username}
-                        className='pl-4 text-xl'
+                        className='pl-4 text-xl border-b border-b-gray-200 outline-1 w-full'
                     >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
