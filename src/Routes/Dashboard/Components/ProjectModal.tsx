@@ -92,6 +92,7 @@ const ProjectModal = ({
                     defaultValue={type && defaultSelect}
                     className='outline-gray-400 border-none rounded-lg ml-2 input-label'
                     closeMenuOnSelect={false}
+                    maxMenuHeight={100}
                 ></Select>
             </div>
         </>
