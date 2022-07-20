@@ -71,7 +71,7 @@ const Dashboard = () => {
     return (
         <section className='sections'>
             <h1 className='text-2xl font-semibold'>Dashboard</h1>
-            <div className='my-6 mx-4'>
+            <div className='my-6 m-md:mx-4 md:mr-1 md:ml-[-50px]'>
                 <div className='flex justify-between items-center mb-4'>
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Projects
