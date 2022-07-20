@@ -48,12 +48,19 @@ const Project = ({
             key={projectId}
             onClick={() => setSelectedId(projectId)}
         >
-            <th scope='row' className='px-6 py-3 text-gray-800 font-semibold'>
+            <th
+                scope='row'
+                className='px-6 py-3 text-gray-800 font-semibold sm:text-center'
+            >
                 {projectName}
             </th>
-            <td className='truncate max-w-[15ch] px-6 py-3'>{projectDesc}</td>
-            <td className='px-6 py-3'>{dateCreated.toDateString()}</td>
-            <td className='px-6 py-3'>
+            <td className='truncate max-w-[15ch] px-6 py-3 md:hidden'>
+                {projectDesc}
+            </td>
+            <td className='px-6 py-3 md:hidden'>
+                {dateCreated.toDateString()}
+            </td>
+            <td className='px-6 py-3 sm:hidden'>
                 <Members usersArr={users}></Members>
             </td>
             {/* only if user is admin should you display this column */}
