@@ -46,20 +46,30 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
         <Backdrop>
             <motion.div className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full max-h-[75%] h-full rounded-md'>
                 <div className='flex justify-between items-center'>
-                    <div className='flex gap-4 items-center'>
-                        <h1 className='text-2xl'>{ticket?.title}</h1>
-                        <span>&#8212;</span>
-                        <span className='text-gray-600 pl-2'>
-                            {new Date(ticket?.dateCreated ?? "").toDateString()}
-                        </span>
-                        <span>&#8212;</span>
-                        <div className='flex gap-4 items-center'>
-                            <span>{ticket?.ticketType}</span> |
-                            <span>{ticket?.ticketStatus}</span> |
-                            <span>{ticket?.ticketSeverity}</span>
+                    <div className='flex lg:flex-col gap-4 items-center'>
+                        <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
+                            <h1 className='text-2xl'>{ticket?.title}</h1>
+                            <span className='sm:hidden'>&#8212;</span>
+                            <span className='text-gray-600 m-md:pl-2'>
+                                {new Date(
+                                    ticket?.dateCreated ?? ""
+                                ).toDateString()}
+                            </span>
                         </div>
-                        <span>&#8212;</span>
-                        <div>By: {user?.firstName + " " + user?.lastName}</div>
+                        <span className='hidden m-lg:inline-block'>
+                            &#8212;
+                        </span>
+                        <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full '>
+                            <div className='flex gap-4 items-center'>
+                                <span>{ticket?.ticketType}</span> |
+                                <span>{ticket?.ticketStatus}</span> |
+                                <span>{ticket?.ticketSeverity}</span>
+                            </div>
+                            <span className='sm:hidden'>&#8212;</span>
+                            <div>
+                                By: {user?.firstName + " " + user?.lastName}
+                            </div>
+                        </div>
                     </div>
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -89,7 +99,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         Delete
                     </button>
                 </div>
-                <div className='grid grid-cols-2 gap-4'>
+                <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
                     <div>
                         <h2 className='text-gray-500 text-lg'>Description:</h2>
                         <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto pl-4 outline outline-gray-200 outline-1 rounded-md p-4'>
