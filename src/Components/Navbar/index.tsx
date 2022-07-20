@@ -88,9 +88,11 @@ export const Navbar = () => {
                             ) : (
                                 <div className='relative'>
                                     <button
-                                        className='flex items-center justify-center gap-4 w-full'
+                                        className='flex items-center justify-center gap-4 w-full hover:outline hover:outline-gray-500 rounded-md'
                                         onClick={() =>
-                                            setIsComponentVisible(true)
+                                            setIsComponentVisible(
+                                                (prev) => !prev
+                                            )
                                         }
                                     >
                                         {groupData.groupName}
