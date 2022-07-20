@@ -112,19 +112,19 @@ const Project = () => {
                                 <th scope='col' className='px-6 py-3'>
                                     TITLE
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 lg:hidden'>
                                     REPORTER
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 lg:hidden'>
                                     DATE CREATED
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 md:hidden'>
                                     TYPE
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 sm:hidden'>
                                     STATUS
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 lg:hidden'>
                                     ASSIGNEE
                                 </th>
                                 <th scope='col' className='px-6 py-3'>
