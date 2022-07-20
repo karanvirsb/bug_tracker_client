@@ -96,8 +96,11 @@ const Project = () => {
                 {projectStatus === "loading" && <Spinner></Spinner>}
                 {projectStatus === "success" && project?.projectName}
             </h1>
-            <div className='my-6 mx-4'>
-                <div className='flex justify-end items-center mb-4'>
+            <div className='my-6 m-md:mx-4 md:mr-1 md:ml-[-50px]'>
+                <div className='flex justify-between items-center mb-4'>
+                    <h2 className='text-xl font-semibold text-gray-800'>
+                        Tickets
+                    </h2>
                     <button
                         className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
                         onClick={openAddTicketModal}
@@ -109,7 +112,10 @@ const Project = () => {
                     <table className=' w-full'>
                         <thead className='text-sm text-gray-500 font-normal'>
                             <tr>
-                                <th scope='col' className='px-6 py-3'>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-3 sm:text-center'
+                                >
                                     TITLE
                                 </th>
                                 <th scope='col' className='px-6 py-3 lg:hidden'>
@@ -127,7 +133,7 @@ const Project = () => {
                                 <th scope='col' className='px-6 py-3 lg:hidden'>
                                     ASSIGNEE
                                 </th>
-                                <th scope='col' className='px-6 py-3'>
+                                <th scope='col' className='px-6 py-3 sm:hidden'>
                                     SEVERITY
                                 </th>
                             </tr>
