@@ -83,3 +83,27 @@ Go to http://localhost:3000 in your browser and register an account. Then procee
 4. Displaying all the members within the group or within the project
 
 ## How it looks
+
+# Login Page
+
+![Login page](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/login-page.jpeg)
+
+# Dashboard
+
+![Dashboard](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/dashboard-page.jpeg)
+
+# Create Project Modal
+
+![Create Project Modal](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/create-project-modal.jpeg)
+
+# Project Information Modal
+
+![Project Information Modal](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/project-info-modal.jpeg)
+
+# Project Tickets Page
+
+![Project Tickets Page](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/project-tickets-page.jpeg)
+
+# Create Ticket Modal
+
+![Create Ticket Modal](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/create-ticket-modal.jpeg)
