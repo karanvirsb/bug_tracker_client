@@ -150,7 +150,7 @@ const TicketModal = ({
                     />
                 </div>
             </div>
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 gap-4'>
                 <div className='input-container'>
                     <label htmlFor='projectName' className='input-label'>
                         Status
