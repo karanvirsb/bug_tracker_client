@@ -52,7 +52,7 @@ export const Navbar = () => {
                 showNavigation
                     ? " md:w-[50vw] sm:w-full md:block md:-z-1"
                     : " md:bg-transparent md:text-black md:w-max"
-            } ${modal && "hidden"}`}
+            } ${modal && "md:hidden"}`}
         >
             <svg
                 xmlns='http://www.w3.org/2000/svg'
