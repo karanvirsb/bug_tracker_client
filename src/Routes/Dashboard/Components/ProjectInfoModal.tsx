@@ -55,7 +55,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
-                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[400px] h-full rounded-md'
+                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[600px] min-h-max-content rounded-md'
                 variants={projectInfoConstraint}
                 initial='hidden'
                 animate='visible'
