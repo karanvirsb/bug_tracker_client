@@ -20,6 +20,13 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
         (user) => user.username === ticket?.reporterId
     );
 
+    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
+    const ticketModalConstraints = {
+        hidden: { opacity: 0, y: 1000, transition },
+        visible: { opacity: 1, y: 0, transition },
+        exit: { opacity: 0, y: 1000, transition: { duration: 1 } },
+    };
+
     const openEditModal = () => {
         dispatch(
             setModal({
@@ -44,7 +51,13 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
 
     return (
         <Backdrop>
-            <motion.div className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full max-h-[75%] h-full overflow-auto rounded-md'>
+            <motion.div
+                className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 top-0 p-4 max-w-[1920px] w-full overflow-auto rounded-md'
+                variants={ticketModalConstraints}
+                initial='hidden'
+                animate='visible'
+                exit='exit'
+            >
                 <div className='flex justify-between items-center'>
                     <div className='flex lg:flex-col gap-4 items-center'>
                         <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
