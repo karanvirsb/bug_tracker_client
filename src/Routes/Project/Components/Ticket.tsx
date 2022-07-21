@@ -11,6 +11,25 @@ interface Ticket extends ITicket {
     setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
+type colorObj = {
+    [key: string]: string;
+};
+
+export const ticketStatusColor: colorObj = {
+    Open: "bg-[#B6DBF0]",
+    Todo: "bg-[#C2F0B6]",
+    "In Progress": "bg-[#F0D5B6]",
+    "To Be Tested": "bg-[#CCB6F0]",
+    Closed: "bg-[#F0B6EE]",
+};
+
+export const ticketSeverityColor: colorObj = {
+    Critical: "bg-[#F18989]",
+    High: "bg-[#E5AC80]",
+    Medium: "bg-[#E5DC80]",
+    Low: "bg-[#80E5AA]",
+};
+
 const Ticket = ({
     ticketId,
     dateCreated,
@@ -40,11 +59,23 @@ const Ticket = ({
                 {dateCreated.toDateString()}
             </td>
             <td className='px-6 py-3 md:hidden'>{ticketType}</td>
-            <td className='px-6 py-3 sm:hidden'>{ticketStatus}</td>
+            <td className={`px-6 py-3 sm:hidden`}>
+                <p
+                    className={`${ticketStatusColor[ticketStatus]} text-center rounded-xl`}
+                >
+                    {ticketStatus}
+                </p>
+            </td>
             <td className='px-6 py-3 lg:hidden'>
                 <Members usersArr={assignedDev}></Members>
             </td>
-            <td className='px-6 py-3 sm:hidden'>{ticketSeverity}</td>
+            <td className='px-6 py-3 sm:hidden'>
+                <p
+                    className={`${ticketSeverityColor[ticketSeverity]} text-center`}
+                >
+                    {ticketSeverity}
+                </p>
+            </td>
         </tr>
     );
 };
