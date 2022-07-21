@@ -115,7 +115,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                 <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
                     <div>
                         <h2 className='text-gray-500 text-lg'>Description:</h2>
-                        <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto pl-4 outline outline-gray-200 outline-1 rounded-md p-4'>
+                        <p className='max-w-[100ch] w-full text-lg max-h-[150px] overflow-auto pl-4 outline outline-gray-200 outline-1 rounded-md p-4'>
                             {ticket?.description}
                         </p>
                     </div>
