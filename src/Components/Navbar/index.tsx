@@ -80,15 +80,15 @@ export const Navbar = () => {
                     showNavigation ? "" : "md:hidden"
                 }`}
             >
-                <div className='pb-4'>
-                    <div className='flex justify-between items-center md:px-4'>
-                        <h1 className='text-center text-xl pb-1 m-md:w-full'>
+                <div className='pb-4 w-full'>
+                    <div className='flex items-center md:px-4 w-full'>
+                        <h1 className=' flex-1 text-center text-xl pb-1 m-md:w-full'>
                             {groupStatus !== "success" ? (
                                 <Spinner></Spinner>
                             ) : (
-                                <div className='relative'>
+                                <div className='relative w-full'>
                                     <button
-                                        className='flex items-center justify-center gap-4 w-full hover:outline hover:outline-gray-500 rounded-md'
+                                        className='flex text-left items-center justify-center gap-4 w-full hover:outline hover:outline-gray-500 rounded-md'
                                         onClick={() =>
                                             setIsComponentVisible(
                                                 (prev) => !prev
@@ -117,7 +117,7 @@ export const Navbar = () => {
                         </h1>
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
-                            className={`h-8 w-8 m-md:hidden ${
+                            className={`h-8 w-8 m-md:hidden cursor-pointer ${
                                 showNavigation ? "inline-block" : "hidden"
                             }`}
                             fill='none'
@@ -196,12 +196,12 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
             >
                 {inviteCode}
                 {copied && (
-                    <span className='absolute top-[100%] right-[25%] bg-gray-600 text-white p-1 rounded-md'>
+                    <span className='absolute top-[100%] right-[25%] bg-gray-600 text-white p-3 rounded-md'>
                         Copied
                     </span>
                 )}
             </p>
-            <button className='btn bg-secondary-color text-white hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
+            <button className='btn bg-secondary-color text-white w-full hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
                 Leave Group
             </button>
         </div>
