@@ -30,6 +30,13 @@ export const ticketSeverityColor: colorObj = {
     Low: "bg-[#80E5AA]",
 };
 
+export const ticketTypeColor: colorObj = {
+    Bug: "outline outline-[#CCB6F0]",
+    Feature: "outline outline-[#B6DBF0]",
+    Error: "outline outline-[#F18989]",
+    Issue: "outlien outline-[#E5DC80]",
+};
+
 const Ticket = ({
     ticketId,
     dateCreated,
@@ -58,7 +65,13 @@ const Ticket = ({
             <td className='px-6 py-3 lg:hidden'>
                 {dateCreated.toDateString()}
             </td>
-            <td className='px-6 py-3 md:hidden'>{ticketType}</td>
+            <td className='px-6 py-3 md:hidden'>
+                <p
+                    className={`${ticketTypeColor[ticketType]} text-center rounded-xl`}
+                >
+                    {ticketType}
+                </p>
+            </td>
             <td className={`px-6 py-3 sm:hidden`}>
                 <p
                     className={`${ticketStatusColor[ticketStatus]} text-center rounded-xl`}
