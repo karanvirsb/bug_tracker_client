@@ -3,6 +3,11 @@ import React from "react";
 import Backdrop from "../../../Components/Backdrop";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
+import {
+    ticketSeverityColor,
+    ticketStatusColor,
+    ticketTypeColor,
+} from "./Ticket";
 
 type props = {
     selectedId: string;
@@ -74,9 +79,33 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         </span>
                         <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full '>
                             <div className='flex gap-4 items-center'>
-                                <span>{ticket?.ticketType}</span> |
-                                <span>{ticket?.ticketStatus}</span> |
-                                <span>{ticket?.ticketSeverity}</span>
+                                <span
+                                    className={`${
+                                        ticketTypeColor[
+                                            ticket?.ticketType ?? "Bug"
+                                        ]
+                                    } text-center rounded-xl px-4`}
+                                >
+                                    {ticket?.ticketType}
+                                </span>{" "}
+                                <span
+                                    className={`${
+                                        ticketStatusColor[
+                                            ticket?.ticketStatus ?? "Open"
+                                        ]
+                                    } text-center rounded-xl px-4`}
+                                >
+                                    {ticket?.ticketStatus}
+                                </span>{" "}
+                                <span
+                                    className={`${
+                                        ticketSeverityColor[
+                                            ticket?.ticketSeverity ?? "None"
+                                        ]
+                                    } text-center px-4`}
+                                >
+                                    {ticket?.ticketSeverity}
+                                </span>
                             </div>
                             <span className='sm:hidden'>&#8212;</span>
                             <div>
