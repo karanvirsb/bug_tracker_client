@@ -56,14 +56,14 @@ const Login = (): JSX.Element => {
                 }
             );
 
-            const accessToken = response?.data?.accessToken;
+            const userData = response?.data;
             // once accesstoken received decode to get group id
-            if (!accessToken) {
+            if (!userData.accessToken) {
                 toast.error("Server Error, Please try to login again.");
                 return;
             }
 
-            const userInfo: IDecode | undefined = decoder(accessToken);
+            const userInfo: IDecode | undefined = decoder(userData.accessToken);
 
             if (!userInfo) {
                 toast.error("Error: Please try to login again.");
@@ -75,9 +75,11 @@ const Login = (): JSX.Element => {
                     username: inputValues.username,
                     roles: userInfo?.UserInfo.roles,
                     group_id: userInfo?.UserInfo.group_id,
-                    accessToken,
+                    accessToken: userData.accessToken,
                 })
             );
+
+            //TODO set the user data
 
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
