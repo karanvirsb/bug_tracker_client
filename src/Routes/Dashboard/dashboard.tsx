@@ -64,12 +64,21 @@ const Dashboard = () => {
     }, [projects, status, dispatch]);
 
     useEffect(() => {
-        const newUsers = usersData.map((user: any) => {
-            const isAdmin = user.roles.includes("1990");
-            const isEditor = user.roles.includes("1991");
+        const newUsers = usersData?.map((user: any) => {
+            const isAdmin = Object.values(user.roles).includes("1990");
+            const isEditor = Object.values(user.roles).includes("1991");
 
-            return { ...user, isAdmin, isEditor };
+            return {
+                avatar: user.avatar,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                username: user.username,
+                isAdmin,
+                isEditor,
+            };
         });
+        console.log(newUsers);
         if (groupUsersStatus === "success") {
             dispatch(setUsers(newUsers));
         }
