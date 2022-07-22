@@ -8,11 +8,13 @@ import { setUsers } from "../../Redux/Slices/groupSlice";
 
 import DashboardTab from "./Components/DashboardTab";
 import Tab from "../../Components/Tab/Tab";
-import MembersTab from "./Components/MembersTab";
+import MembersTab from "../../Components/MembersTab/MembersTab";
 
 const Dashboard = () => {
     const dispatch = useAppDispatch();
-
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
     // getting the group Id
     const groupId = useAppSelector(
         (state) => state.persistedReducer.auth.group_id
@@ -34,7 +36,7 @@ const Dashboard = () => {
 
     const components = {
         dashboard: <DashboardTab groupId={groupId}></DashboardTab>,
-        members: <MembersTab></MembersTab>,
+        members: <MembersTab users={groupUsers}></MembersTab>,
     };
 
     const tabs = [
@@ -63,7 +65,7 @@ const Dashboard = () => {
                 isEditor,
             };
         });
-        console.log(newUsers);
+
         if (groupUsersStatus === "success") {
             dispatch(setUsers(newUsers));
         }
