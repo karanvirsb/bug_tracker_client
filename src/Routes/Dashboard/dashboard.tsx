@@ -32,8 +32,8 @@ const Dashboard = () => {
     );
 
     const components = {
-        Dashboard: <DashboardTab groupId={groupId}></DashboardTab>,
-        Members: <div>Members</div>,
+        dashboard: <DashboardTab groupId={groupId}></DashboardTab>,
+        members: <div>Members</div>,
     };
 
     const tabs = [
