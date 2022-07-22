@@ -18,14 +18,14 @@ type project = {
 };
 
 export interface IUser {
-    userId: String;
-    username: String;
-    password: String;
-    email: String;
-    firstName: String;
-    lastName: String;
-    groupId: String;
-    refreshToken: String;
+    userId: string;
+    username: string;
+    password: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    groupId: string;
+    refreshToken: string;
     roles: Object;
 }
 
