@@ -64,8 +64,14 @@ const Dashboard = () => {
     }, [projects, status, dispatch]);
 
     useEffect(() => {
+        const newUsers = usersData.map((user: any) => {
+            const isAdmin = user.roles.includes("1990");
+            const isEditor = user.roles.includes("1991");
+
+            return { ...user, isAdmin, isEditor };
+        });
         if (groupUsersStatus === "success") {
-            dispatch(setUsers(usersData));
+            dispatch(setUsers(newUsers));
         }
     }, [groupUsersStatus, usersData, dispatch]);
     return (
