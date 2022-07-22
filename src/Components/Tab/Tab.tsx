@@ -10,7 +10,7 @@ type props = {
     components: {
         [key: string]: JSX.Element;
     };
-    children: any;
+    children?: any;
 };
 
 const Tab = ({ tabs, components, children }: props) => {
@@ -50,7 +50,9 @@ const Tab = ({ tabs, components, children }: props) => {
                 </ul>
                 {children}
             </div>
-            <section>{mappedComponents.get(tabName)}</section>
+            <section className='sections'>
+                {mappedComponents.get(tabName)}
+            </section>
         </>
     );
 };
