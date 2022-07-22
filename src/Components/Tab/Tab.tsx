@@ -52,7 +52,9 @@ const Tab = ({ tabs, components, children }: props) => {
                 </ul>
                 {children}
             </nav>
-            <section>{mappedComponents.get(tabName)}</section>
+            <section className='md:mr-1 md:ml-[-50px]'>
+                {mappedComponents.get(tabName)}
+            </section>
         </>
     );
 };
