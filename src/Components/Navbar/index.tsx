@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
-// import useAxiosPrivate from "../../Hooks/useAxiosPrivate";
 import axiosPrivate from "../AxiosInterceptors";
 import { useQuery } from "react-query";
 import { setGroup } from "../../Redux/Slices/groupSlice";
@@ -17,7 +16,7 @@ export const Navbar = () => {
     const logout = useLogout();
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
-    // const axiosPrivate = useAxiosPrivate();
+
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const group = useAppSelector((state) => state.persistedReducer.group);
     const modal = useAppSelector((state) => state.modal.open);
@@ -45,6 +44,11 @@ export const Navbar = () => {
     };
 
     const setArrowDegree = isComponentVisible ? "-rotate-90" : "rotate-90";
+
+    const classNameFunc = ({ isActive }: any) =>
+        isActive
+            ? "bg-gray-400 text-black font-semibold rounded-md py-2 px-4"
+            : "rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black";
 
     useEffect(() => {
         if (groupStatus === "success") {
@@ -132,25 +136,19 @@ export const Navbar = () => {
                         </svg>
                     </div>
                     <div className=' flex flex-col gap-4 py-4 m-md:text-center'>
-                        <Link
-                            className='rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black'
-                            to='/dashboard'
-                        >
+                        <NavLink to='/dashboard' className={classNameFunc}>
                             Dashboard
-                        </Link>
-                        <Link
-                            className='rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black'
-                            to='/tickets'
-                        >
+                        </NavLink>
+                        <NavLink className={classNameFunc} to='/tickets'>
                             Tickets
-                        </Link>
+                        </NavLink>
                         {getRoles() && (
-                            <Link
-                                className='rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black'
+                            <NavLink
+                                className={classNameFunc}
                                 to='/administration'
                             >
                                 Administration
-                            </Link>
+                            </NavLink>
                         )}
                     </div>
                 </div>
