@@ -46,7 +46,7 @@ const Project = () => {
     }, []);
 
     const components = {
-        tickets: (
+        issues: (
             <TicketsTab
                 project={project}
                 projectStatus={projectStatus}
@@ -54,16 +54,22 @@ const Project = () => {
             ></TicketsTab>
         ),
         members: <div>Members</div>,
+        forums: <div>Forums</div>,
     };
 
     const tabs = [
         {
-            value: "tickets",
-            label: "Tickets",
+            value: "issues",
+            label: "Issues",
         },
+
         {
             value: "members",
             label: "Members",
+        },
+        {
+            value: "forums",
+            label: "Forums",
         },
     ];
 
