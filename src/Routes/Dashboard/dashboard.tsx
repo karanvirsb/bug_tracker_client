@@ -8,6 +8,7 @@ import { setUsers } from "../../Redux/Slices/groupSlice";
 
 import DashboardTab from "./Components/DashboardTab";
 import Tab from "../../Components/Tab/Tab";
+import MembersTab from "./Components/MembersTab";
 
 const Dashboard = () => {
     const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ const Dashboard = () => {
 
     const components = {
         dashboard: <DashboardTab groupId={groupId}></DashboardTab>,
-        members: <div>Members</div>,
+        members: <MembersTab></MembersTab>,
     };
 
     const tabs = [
