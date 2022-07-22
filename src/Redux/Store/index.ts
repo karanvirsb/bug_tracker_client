@@ -18,10 +18,12 @@ import projectReducer from "../Slices/projectSlice";
 import modalReducer from "../Slices/modalSlice";
 import groupReducer from "../Slices/groupSlice";
 import ticketsReducer from "../Slices/ticketsSlice";
+import userReducer from "../Slices/userSlice";
 
 const rootReducer = combineReducers({
     auth: authenticationReducer,
     group: groupReducer,
+    user: userReducer,
 });
 
 const persistConfig = {
