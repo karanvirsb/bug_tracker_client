@@ -6,6 +6,7 @@ import decoder, { IDecode } from "../../Helper/decodeToken";
 import socket from "../../API/sockets";
 import { useAppDispatch } from "../../Hooks/hooks";
 import { setAuth } from "../../Auth/authenticationSlice";
+import { setUser } from "../../Redux/Slices/userSlice";
 
 type States = {
     login: {
@@ -79,8 +80,18 @@ const Login = (): JSX.Element => {
                 })
             );
 
-            //TODO set the user data
-
+            const roles: string[] = userInfo?.UserInfo.roles ?? [];
+            dispatch(
+                setUser({
+                    avatar: userData.avatar,
+                    username: inputValues.username,
+                    email: userData.email,
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    isAdmin: roles.includes("1990") ?? false,
+                    isEditor: roles.includes("1991") ?? false,
+                })
+            );
             // if it exists go to home page otherwise go to
             if (userInfo?.UserInfo.group_id) {
                 socket.connect();
