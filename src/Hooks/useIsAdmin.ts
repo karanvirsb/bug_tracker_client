@@ -2,15 +2,10 @@ import { useCallback } from "react";
 import { useAppSelector } from "./hooks";
 
 const useIsAdmin = () => {
-    const roles = useAppSelector((state) => state.persistedReducer.auth.roles);
+    const user = useAppSelector((state) => state.persistedReducer.user);
     const getRoles = useCallback(() => {
-        if (roles !== undefined) {
-            const role: string = "1990";
-            return roles.includes(role);
-        } else {
-            return [];
-        }
-    }, [roles]);
+        return user.isAdmin || user.isEditor;
+    }, [user.isAdmin, user.isEditor]);
 
     return { getRoles };
 };
