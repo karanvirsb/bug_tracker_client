@@ -25,7 +25,7 @@ const Tab = ({ tabs, components, children }: props) => {
 
     return (
         <>
-            <nav className='flex justify-between mb-2'>
+            <nav className='flex justify-between mb-2 max-w-max overflow-auto'>
                 <ul className='list-none flex gap-4'>
                     {tabs?.map((tab, index) => {
                         if (index === activeIndex) {
