@@ -44,6 +44,8 @@ export const Navbar = () => {
         setShowNavigation(false);
     };
 
+    const setArrowDegree = isComponentVisible ? "-rotate-90" : "rotate-90";
+
     useEffect(() => {
         if (groupStatus === "success") {
             dispatch(setGroup(groupData));
@@ -97,11 +99,7 @@ export const Navbar = () => {
                                     >
                                         {groupData.groupName}
                                         <div
-                                            className={`${
-                                                isComponentVisible
-                                                    ? "-rotate-90"
-                                                    : "rotate-90"
-                                            } text-2xl flex justify-center items-center w-max h-max`}
+                                            className={`${setArrowDegree} text-2xl flex justify-center items-center w-max h-max`}
                                         >
                                             &#10095;
                                         </div>
