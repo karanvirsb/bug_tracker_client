@@ -8,11 +8,16 @@ import { setProject } from "../../Redux/Slices/projectSlice";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import TicketsTab from "./Components/TicketsTab";
 import Tab from "../../Components/Tab/Tab";
+import MembersTab from "../../Components/MembersTab/MembersTab";
 
 const Project = () => {
     const { projectId } = useParams();
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const groupUsers = useAppSelector(
+        (state) => state.persistedReducer.group.users
+    );
+
     const dispatch = useAppDispatch();
 
     const fetchProject = async () => {
@@ -28,6 +33,15 @@ const Project = () => {
         fetchProject
     );
 
+    const projectUsers = [];
+
+    //TODO change groupUsers to a MAP
+    for (const user of groupUsers) {
+        if (project?.users?.includes(user.username)) {
+            projectUsers.push(user);
+        }
+    }
+
     const components = {
         issues: (
             <TicketsTab
@@ -36,7 +50,7 @@ const Project = () => {
                 projectId={projectId}
             ></TicketsTab>
         ),
-        members: <div>Members</div>,
+        members: <MembersTab users={projectUsers}></MembersTab>,
         forums: <div>Forums</div>,
     };
 
