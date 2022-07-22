@@ -28,23 +28,6 @@ const Project = () => {
         fetchProject
     );
 
-    useEffect(() => {
-        socket.emit("joinRoom", { roomId: projectId, username: auth.username });
-
-        socket.on("roomJoined", (join) => {
-            console.log("project room joined: " + join);
-        });
-
-        return () => {
-            socket.off("roomJoined");
-
-            socket.emit("leaveRoom", {
-                roomId: projectId,
-                username: auth.username,
-            });
-        };
-    }, []);
-
     const components = {
         issues: (
             <TicketsTab
@@ -72,6 +55,23 @@ const Project = () => {
             label: "Forums",
         },
     ];
+
+    useEffect(() => {
+        socket.emit("joinRoom", { roomId: projectId, username: auth.username });
+
+        socket.on("roomJoined", (join) => {
+            console.log("project room joined: " + join);
+        });
+
+        return () => {
+            socket.off("roomJoined");
+
+            socket.emit("leaveRoom", {
+                roomId: projectId,
+                username: auth.username,
+            });
+        };
+    }, []);
 
     useEffect(() => {
         if (projectStatus === "success") {
