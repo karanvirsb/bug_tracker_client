@@ -8,6 +8,7 @@ import useIsAdmin from "../../../Hooks/useIsAdmin";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { updateInitialState } from "../../../Redux/Slices/projectsSlice";
+import socket from "../../../API/sockets";
 
 type props = {
     groupId: string | undefined;
@@ -17,10 +18,12 @@ const DashboardTab = ({ groupId }: props) => {
     const [pageNumber, setPageNumber] = useState(1);
     const [errMsg, setErrMsg] = useState("");
 
+    const projectsState = useAppSelector((state) => state.projects.projects);
+    const username = useAppSelector(
+        (state) => state.persistedReducer.user.username
+    );
     const dispatch = useAppDispatch();
     const { getRoles } = useIsAdmin();
-
-    const projectsState = useAppSelector((state) => state.projects.projects);
 
     // creating axios fetch for projects
     const fetchProjects = async (page: number) => {
@@ -40,6 +43,26 @@ const DashboardTab = ({ groupId }: props) => {
     } = useQuery(["projectIds", pageNumber], () => fetchProjects(pageNumber), {
         keepPreviousData: true, // use this for pagination
     });
+
+    useEffect(() => {
+        socket.emit("joinRoom", {
+            roomId: groupId,
+            username: username,
+        });
+
+        socket.on("roomJoined", (join) => {
+            console.log("project room joined: " + join);
+        });
+
+        return () => {
+            socket.off("roomJoined");
+
+            socket.emit("leaveRoom", {
+                roomId: groupId,
+                username: username,
+            });
+        };
+    }, []);
 
     useEffect(() => {
         if (status === "success") {
