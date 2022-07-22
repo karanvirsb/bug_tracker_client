@@ -1,48 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Spinner from "../../Components/Spinner";
-import axiosPrivate from "../../Components/AxiosInterceptors";
-import Pagination from "../../Components/Pagination";
-import Tickets from "./Components/Tickets";
-import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
-import { setModal } from "../../Redux/Slices/modalSlice";
 import { setProject } from "../../Redux/Slices/projectSlice";
-import { updateInitialState } from "../../Redux/Slices/ticketsSlice";
+import axiosPrivate from "../../Components/AxiosInterceptors";
+import TicketsTab from "./Components/TicketsTab";
+import Tab from "../../Components/Tab/Tab";
 
 const Project = () => {
-    const [pageNumber, setPageNumber] = useState(1);
-    const [errMsg, setErrMsg] = useState("");
     const { projectId } = useParams();
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const dispatch = useAppDispatch();
-
-    const fetchTickets = async (pageNumber: number) => {
-        const resp = await axiosPrivate("/ticket/project/" + projectId, {
-            method: "get",
-            params: {
-                page: pageNumber,
-                limit: 10,
-            },
-        });
-        return resp.data;
-    };
-
-    const {
-        data: tickets,
-        status: ticketStatus,
-        refetch,
-    } = useQuery("projectTickets", () => fetchTickets(pageNumber), {
-        keepPreviousData: true,
-        onError: (err: any) => {
-            if (err?.response?.status === 404) {
-                setErrMsg("Invalid url could not fetch.");
-            }
-        },
-    });
 
     const fetchProject = async () => {
         const resp = await axiosPrivate("/project/id", {
@@ -56,10 +27,6 @@ const Project = () => {
         "ticketProject",
         fetchProject
     );
-
-    const openAddTicketModal = () => {
-        dispatch(setModal({ open: true, type: "createTicket", options: {} }));
-    };
 
     useEffect(() => {
         socket.emit("joinRoom", { roomId: projectId, username: auth.username });
@@ -78,101 +45,37 @@ const Project = () => {
         };
     }, []);
 
+    const components = {
+        tickets: (
+            <TicketsTab
+                project={project}
+                projectStatus={projectStatus}
+                projectId={projectId}
+            ></TicketsTab>
+        ),
+        members: <div>Members</div>,
+    };
+
+    const tabs = [
+        {
+            value: "tickets",
+            label: "Tickets",
+        },
+        {
+            value: "members",
+            label: "Members",
+        },
+    ];
+
     useEffect(() => {
         if (projectStatus === "success") {
             dispatch(setProject(project));
         }
     }, [project, projectStatus]);
 
-    useEffect(() => {
-        if (ticketStatus === "success") {
-            dispatch(updateInitialState(tickets.docs));
-        }
-    }, [tickets, ticketStatus]);
-
     return (
         <section className='sections'>
-            <h1 className='text-2xl font-semibold'>
-                {projectStatus === "loading" && <Spinner></Spinner>}
-                {projectStatus === "success" && project?.projectName}
-            </h1>
-            <div className='my-6 m-md:mx-4 md:mr-1 md:ml-[-50px]'>
-                <div className='flex justify-between items-center mb-4'>
-                    <h2 className='text-xl font-semibold text-gray-800'>
-                        Tickets
-                    </h2>
-                    <button
-                        className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
-                        onClick={openAddTicketModal}
-                    >
-                        New Ticket
-                    </button>
-                </div>
-                <div className='outline-[#D4D4D4] outline-1 outline w-full px-4 text-left rounded-md'>
-                    <table className=' w-full'>
-                        <thead className='text-sm text-gray-500 font-normal'>
-                            <tr>
-                                <th
-                                    scope='col'
-                                    className='px-6 py-3 sm:text-center'
-                                >
-                                    TITLE
-                                </th>
-                                <th scope='col' className='px-6 py-3 lg:hidden'>
-                                    REPORTER
-                                </th>
-                                <th scope='col' className='px-6 py-3 lg:hidden'>
-                                    DATE CREATED
-                                </th>
-                                <th scope='col' className='px-6 py-3 md:hidden'>
-                                    TYPE
-                                </th>
-                                <th scope='col' className='px-6 py-3 sm:hidden'>
-                                    STATUS
-                                </th>
-                                <th scope='col' className='px-6 py-3 lg:hidden'>
-                                    ASSIGNEE
-                                </th>
-                                <th scope='col' className='px-6 py-3 sm:hidden'>
-                                    SEVERITY
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {ticketStatus === "loading" && (
-                                <tr className='w-full text-center'>
-                                    <td colSpan={99}>
-                                        <Spinner></Spinner>
-                                    </td>
-                                </tr>
-                            )}
-                            {ticketStatus === "success" && (
-                                <Tickets tickets={tickets.docs}></Tickets>
-                            )}
-                            {ticketStatus === "error" && (
-                                <tr className='w-full text-center text-lg '>
-                                    <td colSpan={1000}>
-                                        <p className='my-3 text-xl'>{errMsg}</p>
-                                        <button
-                                            className='btn bg-gray-300 mb-5'
-                                            onClick={() => refetch}
-                                        >
-                                            try again
-                                        </button>
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    <Pagination
-                        pageNumber={pageNumber}
-                        totalPage={tickets?.totalPage || 0}
-                        hasMore={tickets?.hasNextPage || false}
-                        setPageNumber={setPageNumber}
-                    ></Pagination>
-                </div>
-            </div>
+            <Tab tabs={tabs} components={components}></Tab>
         </section>
     );
 };
