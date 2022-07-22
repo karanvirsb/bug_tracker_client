@@ -7,7 +7,8 @@ export interface users {
     email: string;
     firstName: string;
     lastName: string;
-    roles: { [key: string | number]: string };
+    isAdmin: boolean;
+    isEditor: boolean;
 }
 export interface GroupState {
     groupId: string;
