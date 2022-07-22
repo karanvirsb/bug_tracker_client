@@ -25,14 +25,15 @@ const Tab = ({ tabs, components, children }: props) => {
 
     return (
         <>
-            <div className='flex justify-between'>
+            <nav className='flex justify-between mb-2'>
                 <ul className='list-none flex gap-4'>
                     {tabs?.map((tab, index) => {
                         if (index === activeIndex) {
                             return (
                                 <li
-                                    className='px-4 py-1 cursor-pointer border-b border-b-red-400'
+                                    className='px-4 py-1 cursor-pointer border-b-2 border-b-secondary-color'
                                     onClick={() => setTab(tab?.value, index)}
+                                    key={tab.value}
                                 >
                                     {tab?.label}
                                 </li>
@@ -42,6 +43,7 @@ const Tab = ({ tabs, components, children }: props) => {
                             <li
                                 className='px-4 py-1 cursor-pointer'
                                 onClick={() => setTab(tab?.value, index)}
+                                key={tab.value}
                             >
                                 {tab?.label}
                             </li>
@@ -49,10 +51,8 @@ const Tab = ({ tabs, components, children }: props) => {
                     })}
                 </ul>
                 {children}
-            </div>
-            <section className='sections'>
-                {mappedComponents.get(tabName)}
-            </section>
+            </nav>
+            <section>{mappedComponents.get(tabName)}</section>
         </>
     );
 };
