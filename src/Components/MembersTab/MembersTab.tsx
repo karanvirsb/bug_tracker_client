@@ -32,7 +32,13 @@ const MembersTab = ({ users }: props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {!users && <Spinner></Spinner>}
+                        {!users && (
+                            <tr className='w-full text-center'>
+                                <td colSpan={99}>
+                                    <Spinner></Spinner>
+                                </td>
+                            </tr>
+                        )}
                         {users?.map((user) => {
                             return (
                                 <tr
