@@ -21,6 +21,7 @@ import { useAppSelector } from "./Hooks/hooks";
 import useInvalidateQuery from "./Hooks/useInvalidateQuery";
 import Project from "./Routes/Project/project";
 import Modal from "./Components/Modal";
+import Administration from "./Routes/Administration/administration";
 
 const NavbarLayout = () => {
     return (
@@ -144,7 +145,10 @@ function App() {
                         }
                     >
                         {/* TODO add routes */}
-                        <Route path='/admin'></Route>
+                        <Route
+                            path='/admin'
+                            element={<Administration></Administration>}
+                        ></Route>
                     </Route>
                 </Route>
                 {/* Unauthorized */}
