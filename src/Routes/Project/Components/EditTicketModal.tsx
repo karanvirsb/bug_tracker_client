@@ -167,7 +167,6 @@ const EditTicketModal = ({ ticketId }: props) => {
         newTicket = {
             ...newTicket,
             projectId: projectState.projectId,
-            reporterId: authState?.username ?? "",
         };
 
         console.log(newTicket);
