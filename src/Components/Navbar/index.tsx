@@ -178,7 +178,7 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
         const timer = setTimeout(() => [setCopied(false)], 3000);
 
         return () => {
-            timer;
+            clearTimeout(timer);
         };
     }, [copied]);
     return (
