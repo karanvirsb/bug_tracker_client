@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import Pagination from "../../Components/Pagination";
 import Spinner from "../../Components/Spinner";
-import { useAppSelector } from "../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
+import { updateInitialState } from "../../Redux/Slices/ticketsSlice";
 import UserTickets from "./Components/UserTickets";
 
 type fetchTicketsByUsernameType = {
@@ -17,6 +18,7 @@ const Tickets = () => {
     const username = useAppSelector(
         (state) => state.persistedReducer.user.username
     );
+    const dispatch = useAppDispatch();
 
     const fetchTicketsByUsername = async ({
         username,
@@ -44,6 +46,12 @@ const Tickets = () => {
             keepPreviousData: true,
         }
     );
+
+    useEffect(() => {
+        if (ticketStatus === "success") {
+            dispatch(updateInitialState(userTickets.docs));
+        }
+    }, [userTickets, ticketStatus]);
 
     return (
         <section className='sections'>
