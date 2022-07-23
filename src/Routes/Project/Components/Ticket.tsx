@@ -34,7 +34,7 @@ export const ticketTypeColor: colorObj = {
     Bug: "outline outline-[#CCB6F0]",
     Feature: "outline outline-[#B6DBF0]",
     Error: "outline outline-[#F18989]",
-    Issue: "outlien outline-[#E5DC80]",
+    Issue: "outline outline-[#E5DC80]",
 };
 
 const Ticket = ({
