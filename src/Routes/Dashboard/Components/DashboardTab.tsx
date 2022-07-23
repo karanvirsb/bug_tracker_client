@@ -23,7 +23,7 @@ const DashboardTab = ({ groupId }: props) => {
         (state) => state.persistedReducer.user.username
     );
     const dispatch = useAppDispatch();
-    const { getRoles } = useIsAdmin();
+    const { isAdmin, isEditor } = useIsAdmin();
 
     // creating axios fetch for projects
     const fetchProjects = async (page: number) => {
@@ -78,7 +78,7 @@ const DashboardTab = ({ groupId }: props) => {
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Projects
                     </h2>
-                    {getRoles() && (
+                    {(isAdmin || isEditor) && (
                         <button
                             className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
                             onClick={() =>
@@ -151,15 +151,6 @@ const DashboardTab = ({ groupId }: props) => {
                         hasMore={projects?.hasNextPage || false}
                         setPageNumber={setPageNumber}
                     ></Pagination>
-                    {/* <div className='w-full flex justify-center items-center py-4 gap-4'>
-                        <button className='pagination-btn'>Prev</button>
-                        <span className='bg-secondary-color text-white w-10 h-10 text-2xl flex justify-center items-center text-center rounded-full'>
-                            1
-                        </span>
-                        <button className='bg-btn-color text-white py-1 px-2 rounded-md hover:bg-transparent hover:text-black hover:font-semibold hover:outline hover:outline-btn-color hover:outline-2'>
-                            Next
-                        </button>
-                    </div> */}
                 </div>
             </div>
             <div>
