@@ -22,7 +22,7 @@ const Tickets = () => {
         username,
         currentPage,
     }: fetchTicketsByUsernameType) => {
-        const resp = await axiosPrivate("/tickets/user/" + username, {
+        const resp = await axiosPrivate("/ticket/user/" + username, {
             method: "get",
             params: { page: currentPage },
         });
