@@ -4,6 +4,7 @@ import axiosPrivate from "../../Components/AxiosInterceptors";
 import Pagination from "../../Components/Pagination";
 import Spinner from "../../Components/Spinner";
 import { useAppSelector } from "../../Hooks/hooks";
+import UserTickets from "./Components/UserTickets";
 
 type fetchTicketsByUsernameType = {
     username: string;
