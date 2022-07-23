@@ -1,5 +1,7 @@
 import { AnimatePresence, LayoutGroup } from "framer-motion";
 import React, { useState } from "react";
+import UserTicket from "./UserTicket";
+import UserTicketInfoModal from "./UserTicketInfoModal";
 
 export interface ITicket {
     ticketId: string;
