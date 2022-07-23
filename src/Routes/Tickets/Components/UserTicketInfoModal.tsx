@@ -18,8 +18,8 @@ const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
-    const ticket = tickets.find((ticket) => ticket.ticketId === selectedId);
-    const user = groupUsers.find(
+    const ticket = tickets?.find((ticket) => ticket.ticketId === selectedId);
+    const user = groupUsers?.find(
         (user) => user.username === ticket?.reporterId
     );
 
@@ -33,7 +33,7 @@ const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop>
             <motion.div
-                className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 top-0 p-4 max-w-[1920px] w-full overflow-auto rounded-md'
+                className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 p-4 max-w-[1920px] w-full top-[25%] overflow-auto rounded-md'
                 variants={ticketModalConstraints}
                 initial='hidden'
                 animate='visible'
@@ -117,9 +117,10 @@ const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         ></UserElements>
                     </div>
                 </div>
-                <div className='w-full flex justify-center items-center mt-4'>
-                    <button className='btn hover:!outline-none hover:!text-blue-500'>
-                        Load Comments
+                <div>
+                    {/* TODO go to ticket */}
+                    <button className='btn bg-blue-400 hover:outline hover:outline-2 hover:outline-blue-400 mt-4 '>
+                        Go To Ticket
                     </button>
                 </div>
             </motion.div>
