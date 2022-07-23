@@ -5,6 +5,7 @@ import RegistrationSuccessful from "./Register-Successful/registration-successfu
 import PageNotFound from "./PageNotFound/pageNotFound";
 import Unauthorized from "./Unauthorized/unauthorized";
 import AddGroup from "./AddGroup/addGroup";
+import Tickets from "./Tickets/tickets";
 
 export {
     Login,
@@ -14,4 +15,5 @@ export {
     PageNotFound,
     Unauthorized,
     AddGroup,
+    Tickets,
 };
