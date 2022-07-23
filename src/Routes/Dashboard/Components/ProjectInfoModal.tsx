@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import Backdrop from "../../../Components/Backdrop";
 import { setModal } from "../../../Redux/Slices/modalSlice";
 import { useNavigate } from "react-router-dom";
+import useIsAdmin from "../../../Hooks/useIsAdmin";
 
 type props = {
     selectedId: string;
@@ -12,6 +13,7 @@ type props = {
 const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { isAdmin, isEditor } = useIsAdmin();
     const projects = useAppSelector((state) => state.projects.projects);
     const project = projects.find(
         (project) => project.projectId === selectedId
@@ -98,18 +100,22 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                     ></UserElements>
                 </div>
                 <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
-                    <button
-                        className='btn bg-green-400'
-                        onClick={openEditModal}
-                    >
-                        Edit
-                    </button>
-                    <button
-                        className='btn bg-red-400'
-                        onClick={openDeleteModal}
-                    >
-                        Delete
-                    </button>
+                    {(isAdmin || isEditor) && (
+                        <>
+                            <button
+                                className='btn bg-green-400'
+                                onClick={openEditModal}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                className='btn bg-red-400'
+                                onClick={openDeleteModal}
+                            >
+                                Delete
+                            </button>
+                        </>
+                    )}
                     <button
                         className='btn bg-blue-400'
                         onClick={navigateToTickets}
