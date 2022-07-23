@@ -15,7 +15,7 @@ export const Navbar = () => {
         useComponentVisible(false);
     const logout = useLogout();
     const dispatch = useAppDispatch();
-    const { getRoles } = useIsAdmin();
+    const { isAdmin } = useIsAdmin();
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const group = useAppSelector((state) => state.persistedReducer.group);
@@ -142,7 +142,7 @@ export const Navbar = () => {
                         <NavLink className={classNameFunc} to='/tickets'>
                             Tickets
                         </NavLink>
-                        {getRoles() && (
+                        {isAdmin && (
                             <NavLink
                                 className={classNameFunc}
                                 to='/administration'
