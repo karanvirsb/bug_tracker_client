@@ -10,6 +10,7 @@ import {
     PageNotFound,
     Unauthorized,
     AddGroup,
+    Tickets,
 } from "./Routes";
 import { ToastContainer } from "react-toastify";
 import PersistLogin from "./Components/PersistLogin/persistLogin";
@@ -92,7 +93,6 @@ function App() {
                 draggablePercent={75}
                 autoClose={5000}
             ></ToastContainer>
-            {/* TODO add modals to backdrop */}
             <Modal></Modal>
             <Routes>
                 <Route
@@ -130,6 +130,10 @@ function App() {
                             <Route
                                 path='/project/:projectId'
                                 element={<Project></Project>}
+                            ></Route>
+                            <Route
+                                path='/tickets'
+                                element={<Tickets></Tickets>}
                             ></Route>
                         </Route>
                         {/* TODO add routes */}
