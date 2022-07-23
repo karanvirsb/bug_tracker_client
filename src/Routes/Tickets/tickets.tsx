@@ -55,76 +55,74 @@ const Tickets = () => {
 
     return (
         <section className='sections'>
-            <div className='my-6 mx-4'>
-                <h1 className='text-xl font-semibold text-gray-800'>
-                    My Tickets
-                </h1>
-                <div className='outline-[#D4D4D4] outline-1 outline w-full px-4 text-left rounded-md'>
-                    <table className=' w-full'>
-                        <thead className='text-sm text-gray-500 font-normal'>
-                            <tr>
-                                <th
-                                    scope='col'
-                                    className='px-6 py-3 sm:text-center'
-                                >
-                                    TITLE
-                                </th>
-                                <th scope='col' className='px-6 py-3 lg:hidden'>
-                                    REPORTER
-                                </th>
-                                <th scope='col' className='px-6 py-3 lg:hidden'>
-                                    DATE CREATED
-                                </th>
-                                <th scope='col' className='px-6 py-3 md:hidden'>
-                                    TYPE
-                                </th>
-                                <th scope='col' className='px-6 py-3 sm:hidden'>
-                                    STATUS
-                                </th>
-                                <th scope='col' className='px-6 py-3 lg:hidden'>
-                                    ASSIGNEE
-                                </th>
-                                <th scope='col' className='px-6 py-3 sm:hidden'>
-                                    SEVERITY
-                                </th>
-                            </tr>
-                        </thead>
+            <h1 className='text-2xl font-semibold text-gray-800 mb-4'>
+                My Tickets
+            </h1>
+            <div className='outline-[#D4D4D4] outline-1 outline px-1 text-left rounded-md mx-4 md:mr-1 md:ml-[-50px] p-1'>
+                <table className='w-full'>
+                    <thead className='text-sm text-gray-500 font-normal'>
+                        <tr>
+                            <th
+                                scope='col'
+                                className='px-6 py-3 sm:text-center'
+                            >
+                                TITLE
+                            </th>
+                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                                REPORTER
+                            </th>
+                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                                DATE CREATED
+                            </th>
+                            <th scope='col' className='px-6 py-3 md:hidden'>
+                                TYPE
+                            </th>
+                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                                STATUS
+                            </th>
+                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                                ASSIGNEE
+                            </th>
+                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                                SEVERITY
+                            </th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            {ticketStatus === "loading" && (
-                                <tr className='w-full text-center'>
-                                    <td colSpan={99}>
-                                        <Spinner></Spinner>
-                                    </td>
-                                </tr>
-                            )}
-                            {ticketStatus === "success" && (
-                                <UserTickets
-                                    tickets={userTickets.docs}
-                                ></UserTickets>
-                            )}
-                            {ticketStatus === "error" && (
-                                <tr className='w-full text-center text-lg '>
-                                    <td colSpan={1000}>
-                                        <p className='my-3 text-xl'>{errMsg}</p>
-                                        <button
-                                            className='btn bg-gray-300 mb-5'
-                                            onClick={() => refetch}
-                                        >
-                                            try again
-                                        </button>
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    <Pagination
-                        pageNumber={pageNumber}
-                        totalPage={userTickets?.totalPage || 0}
-                        hasMore={userTickets?.hasNextPage || false}
-                        setPageNumber={setPageNumber}
-                    ></Pagination>
-                </div>
+                    <tbody>
+                        {ticketStatus === "loading" && (
+                            <tr className='w-full text-center'>
+                                <td colSpan={99}>
+                                    <Spinner></Spinner>
+                                </td>
+                            </tr>
+                        )}
+                        {ticketStatus === "success" && (
+                            <UserTickets
+                                tickets={userTickets.docs}
+                            ></UserTickets>
+                        )}
+                        {ticketStatus === "error" && (
+                            <tr className='w-full text-center text-lg '>
+                                <td colSpan={1000}>
+                                    <p className='my-3 text-xl'>{errMsg}</p>
+                                    <button
+                                        className='btn bg-gray-300 mb-5'
+                                        onClick={() => refetch}
+                                    >
+                                        try again
+                                    </button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <Pagination
+                    pageNumber={pageNumber}
+                    totalPage={userTickets?.totalPage || 0}
+                    hasMore={userTickets?.hasNextPage || false}
+                    setPageNumber={setPageNumber}
+                ></Pagination>
             </div>
         </section>
     );
