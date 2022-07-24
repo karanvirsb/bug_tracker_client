@@ -45,26 +45,6 @@ const DashboardTab = ({ groupId }: props) => {
     });
 
     useEffect(() => {
-        socket.emit("joinRoom", {
-            roomId: groupId,
-            username: username,
-        });
-
-        socket.on("roomJoined", (join) => {
-            console.log("project room joined: " + join);
-        });
-
-        return () => {
-            socket.off("roomJoined");
-
-            socket.emit("leaveRoom", {
-                roomId: groupId,
-                username: username,
-            });
-        };
-    }, []);
-
-    useEffect(() => {
         if (status === "success") {
             dispatch(updateInitialState(projects.docs));
         }
