@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { useMutation } from "react-query";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
-import { resetModal, setOpen } from "../../../Redux/Slices/modalSlice";
+import { resetModal } from "../../../Redux/Slices/modalSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
 import MemberModal from "./MemberModal";
 
@@ -9,12 +11,24 @@ type props = {
     username: string;
 };
 
+type editMemberMutationType = {
+    id: string;
+    updates: {
+        username?: string;
+        firstName?: string;
+        lastName?: string;
+        avatar?: string;
+        email?: string;
+        roles: {};
+    };
+};
+
 const EditMemberModal = ({ username }: props) => {
-    const [disableBtn, setDisableBtn] = useState(true);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
     const user = groupUsers.find((user) => user.username === username);
+
     const [memberInput, setMemberInput] = useState<IUser>({
         username: user?.username ?? "",
         firstName: user?.firstName ?? "",
@@ -24,8 +38,21 @@ const EditMemberModal = ({ username }: props) => {
         isAdmin: user?.isAdmin ?? false,
         isEditor: user?.isEditor ?? false,
     });
+    const [disableBtn, setDisableBtn] = useState(true);
 
     const dispatch = useAppDispatch();
+
+    const editMemberMutation = useMutation(
+        ({ id, updates }: editMemberMutationType) => {
+            return axiosPrivate("/user/id", {
+                method: "put",
+                data: {
+                    id: id,
+                    updates: updates,
+                },
+            });
+        }
+    );
 
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
     const modalConstraints = {
@@ -38,7 +65,9 @@ const EditMemberModal = ({ username }: props) => {
         dispatch(resetModal());
     };
 
-    const handleSubmit = () => {};
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    };
 
     return (
         <motion.div
