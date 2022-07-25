@@ -3,9 +3,7 @@ import Members from "./Components/Members";
 import { useAppSelector } from "../../Hooks/hooks";
 
 const Administration = () => {
-    const groupUsers = useAppSelector(
-        (state) => state.persistedReducer.group.users
-    );
+    const group = useAppSelector((state) => state.persistedReducer.group);
     return (
         <section className='sections p-4'>
             <div className='mb-4'>
@@ -62,7 +60,7 @@ const Administration = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <Members users={groupUsers}></Members>
+                            <Members users={group.users}></Members>
                         </tbody>
                     </table>
                 </div>
