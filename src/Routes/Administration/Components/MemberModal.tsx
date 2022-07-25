@@ -14,7 +14,14 @@ const MemberModal = ({
     edit,
     setDisableBtn,
 }: props) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+    const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (setDisableBtn) {
+            setDisableBtn(false);
+        }
+        setMemberInput((prev) => {
+            return { ...prev, [e.target.name]: [e.target.checked] };
+        });
+    };
     return (
         <>
             <div className='input-container'>
@@ -78,6 +85,7 @@ const MemberModal = ({
                         id='admin'
                         defaultChecked={memberInput.isAdmin}
                         className='modal-input'
+                        onChange={handleCheckBoxChange}
                     />
                     <label htmlFor='admin'>Admin</label>
                     <input
@@ -86,6 +94,7 @@ const MemberModal = ({
                         id='editor'
                         defaultChecked={memberInput.isEditor}
                         className='modal-input'
+                        onChange={handleCheckBoxChange}
                     />
                     <label htmlFor='editor'>Editor</label>
                 </div>
