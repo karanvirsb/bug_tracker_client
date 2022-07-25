@@ -143,10 +143,7 @@ export const Navbar = () => {
                             Tickets
                         </NavLink>
                         {isAdmin && (
-                            <NavLink
-                                className={classNameFunc}
-                                to='/administration'
-                            >
+                            <NavLink className={classNameFunc} to='/admin'>
                                 Administration
                             </NavLink>
                         )}
