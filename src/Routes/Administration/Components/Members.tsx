@@ -2,6 +2,7 @@ import { AnimatePresence, LayoutGroup } from "framer-motion";
 import React, { useState } from "react";
 import Spinner from "../../../Components/Spinner";
 import { IUser } from "../../../Redux/Slices/userSlice";
+import MemberInfoModal from "./MemberInfoModal";
 
 type props = {
     users: IUser[];
@@ -9,6 +10,7 @@ type props = {
 
 type memberProps = {
     user: IUser;
+    setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const Members = ({ users }: props) => {
@@ -24,12 +26,23 @@ const Members = ({ users }: props) => {
             )}
             <LayoutGroup>
                 {users?.map((user) => {
-                    return <Member key={user.username} user={user}></Member>;
+                    return (
+                        <Member
+                            key={user.username}
+                            user={user}
+                            setSelectedId={setSelectedId}
+                        ></Member>
+                    );
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
                         <tr>
-                            <td>{/* TODO Member info modal */}</td>
+                            <td>
+                                <MemberInfoModal
+                                    selectedId={selectedId}
+                                    setSelectedId={setSelectedId}
+                                ></MemberInfoModal>
+                            </td>
                         </tr>
                     )}
                 </AnimatePresence>
@@ -38,11 +51,12 @@ const Members = ({ users }: props) => {
     );
 };
 
-const Member = ({ user }: memberProps): JSX.Element => {
+const Member = ({ user, setSelectedId }: memberProps): JSX.Element => {
     return (
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
             key={user.username}
+            onClick={() => setSelectedId(user.username)}
         >
             <th scope='row' className='px-6 py-3 sm:hidden'>
                 <img
