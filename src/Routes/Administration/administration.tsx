@@ -7,19 +7,29 @@ const Administration = () => {
         (state) => state.persistedReducer.group.users
     );
     return (
-        <section className='sections'>
+        <section className='sections p-4'>
             <div>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
-                <form action=''>
-                    <label htmlFor='groupName'></label>
+                <form action='' className='flex flex-col gap-4'>
+                    <div className='input-container'>
+                        <label htmlFor='groupName' className='input-label'>
+                            Group Name
+                        </label>
+                        <input
+                            type='text'
+                            name='groupName'
+                            id='groupName'
+                            className='modal-input mx-4'
+                        />
+                    </div>
                     <div>
-                        <input type='text' name='groupName' id='groupName' />
                         <button type='submit'>Save Changes</button>
+                        <button type='button'>Refresh Invite Code</button>
                     </div>
                 </form>
             </div>
             <div>
-                <h1 className='text-2xl font-semibold mb-4'>Group Members</h1>
+                <h1 className='text-xl font-semibold mb-4'>Members</h1>
                 <div className='outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md mx-4'>
                     <table className='w-full'>
                         <thead className='text-sm text-gray-500 font-normal'>
