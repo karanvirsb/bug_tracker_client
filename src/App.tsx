@@ -140,7 +140,7 @@ function App() {
                     </Route>
                     <Route
                         element={
-                            <RequireAuth allowedRoles={[1990]}></RequireAuth>
+                            <RequireAuth allowedRoles={["1990"]}></RequireAuth>
                         }
                     >
                         {/* TODO add routes */}
