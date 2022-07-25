@@ -8,7 +8,7 @@ const Administration = () => {
     );
     return (
         <section className='sections p-4'>
-            <div>
+            <div className='mb-4'>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
                 <form action='' className='flex flex-col gap-4'>
                     <div className='input-container'>
@@ -22,9 +22,19 @@ const Administration = () => {
                             className='modal-input mx-4'
                         />
                     </div>
-                    <div>
-                        <button type='submit'>Save Changes</button>
-                        <button type='button'>Refresh Invite Code</button>
+                    <div className='grid grid-cols-2 w-1/3 gap-4 sm:grid-cols-1'>
+                        <button
+                            type='submit'
+                            className='btn bg-blue-400 font-semibold hover:outline-2 hover:outline-blue-400'
+                        >
+                            Save Changes
+                        </button>
+                        <button
+                            type='button'
+                            className='btn bg-green-400 font-semibold hover:outline-2 hover:outline-green-400'
+                        >
+                            Refresh Invite Code
+                        </button>
                     </div>
                 </form>
             </div>
