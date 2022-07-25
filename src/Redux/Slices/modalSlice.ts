@@ -9,9 +9,10 @@ export interface ModalState {
         | "createTicket"
         | "updateTicket"
         | "deleteTicket"
+        | "editMember"
         | "";
     open: boolean;
-    options: { projectId?: string; ticketId?: string };
+    options: { projectId?: string; ticketId?: string; username?: string };
 }
 
 const initialState: ModalState = {
