@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import { useAppSelector } from "../../Hooks/hooks";
+import EditMemberModal from "../../Routes/Administration/Components/EditMemberModal";
 import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
 import DeleteProjectModal from "../../Routes/Dashboard/Components/DeleteProjectModal";
 import EditProjectModal from "../../Routes/Dashboard/Components/EditProjectModal";
@@ -41,6 +42,11 @@ const Modal = () => {
                         <DeleteTicketModal
                             ticketId={modal.options?.ticketId ?? ""}
                         ></DeleteTicketModal>
+                    )}
+                    {modal.type === "editMember" && (
+                        <EditMemberModal
+                            username={modal.options.username ?? ""}
+                        ></EditMemberModal>
                     )}
                 </Backdrop>
             )}
