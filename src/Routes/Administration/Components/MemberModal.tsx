@@ -5,9 +5,15 @@ type props = {
     memberInput: IUser;
     setMemberInput: React.Dispatch<React.SetStateAction<IUser>>;
     edit: boolean;
+    setDisableBtn?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MemberModal = ({ memberInput, setMemberInput, edit }: props) => {
+const MemberModal = ({
+    memberInput,
+    setMemberInput,
+    edit,
+    setDisableBtn,
+}: props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
     return (
         <>
@@ -70,7 +76,7 @@ const MemberModal = ({ memberInput, setMemberInput, edit }: props) => {
                         type='checkbox'
                         name='isAdmin'
                         id='admin'
-                        checked={memberInput.isAdmin}
+                        defaultChecked={memberInput.isAdmin}
                         className='modal-input'
                     />
                     <label htmlFor='admin'>Admin</label>
@@ -78,7 +84,7 @@ const MemberModal = ({ memberInput, setMemberInput, edit }: props) => {
                         type='checkbox'
                         name='roles'
                         id='editor'
-                        checked={memberInput.isEditor}
+                        defaultChecked={memberInput.isEditor}
                         className='modal-input'
                     />
                     <label htmlFor='editor'>Editor</label>
