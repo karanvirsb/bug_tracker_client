@@ -30,9 +30,9 @@ const MemberInfoModal = ({ selectedId, setSelectedId }: props) => {
     const openEditModal = () => {
         dispatch(
             setModal({
-                type: "",
+                type: "editMember",
                 open: true,
-                options: {},
+                options: { username: user?.username },
             })
         );
         setSelectedId(null);
