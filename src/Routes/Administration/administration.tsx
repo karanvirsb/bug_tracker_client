@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Members from "./Components/Members";
 import { useAppSelector } from "../../Hooks/hooks";
 
 const Administration = () => {
     const group = useAppSelector((state) => state.persistedReducer.group);
+    const [groupName, setGroupName] = useState(group.groupName);
+    const [disableBtn, setDisableBtn] = useState(true);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value !== group.groupName) {
+            setDisableBtn(false);
+        } else {
+            setDisableBtn(true);
+        }
+        setGroupName(e.target.value);
+    };
+
     return (
         <section className='sections p-4'>
             <div className='mb-4'>
@@ -18,12 +30,15 @@ const Administration = () => {
                             name='groupName'
                             id='groupName'
                             className='modal-input mx-4'
+                            value={groupName}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className='grid grid-cols-2 w-1/3 gap-4 sm:grid-cols-1'>
                         <button
                             type='submit'
-                            className='btn bg-blue-400 font-semibold hover:outline-2 hover:outline-blue-400'
+                            className='btn bg-blue-400 font-semibold hover:outline-2 hover:outline-blue-400 disabled:bg-zinc-400 disabled:hover:outline-none'
+                            disabled={disableBtn}
                         >
                             Save Changes
                         </button>
