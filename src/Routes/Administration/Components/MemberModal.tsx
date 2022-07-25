@@ -4,9 +4,10 @@ import { IUser } from "../../../Redux/Slices/userSlice";
 type props = {
     memberInput: IUser;
     setMemberInput: React.Dispatch<React.SetStateAction<IUser>>;
+    edit: boolean;
 };
 
-const MemberModal = ({ memberInput, setMemberInput }: props) => {
+const MemberModal = ({ memberInput, setMemberInput, edit }: props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
     return (
         <>
@@ -19,6 +20,7 @@ const MemberModal = ({ memberInput, setMemberInput }: props) => {
                     name='username'
                     id='username'
                     className='modal-input'
+                    value={edit ? memberInput.username : ""}
                     readOnly
                 />
             </div>
@@ -31,6 +33,7 @@ const MemberModal = ({ memberInput, setMemberInput }: props) => {
                     name='firstName'
                     id='firstName'
                     className='modal-input'
+                    value={edit ? memberInput.firstName : ""}
                     readOnly
                 />
             </div>
@@ -43,6 +46,7 @@ const MemberModal = ({ memberInput, setMemberInput }: props) => {
                     name='lastName'
                     id='lastName'
                     className='modal-input'
+                    value={edit ? memberInput.lastName : ""}
                     readOnly
                 />
             </div>
@@ -55,6 +59,7 @@ const MemberModal = ({ memberInput, setMemberInput }: props) => {
                     name='email'
                     id='email'
                     className='modal-input'
+                    value={edit ? memberInput.email : ""}
                     readOnly
                 />
             </div>
@@ -65,7 +70,7 @@ const MemberModal = ({ memberInput, setMemberInput }: props) => {
                         type='checkbox'
                         name='isAdmin'
                         id='admin'
-                        value={`admin`}
+                        checked={memberInput.isAdmin}
                         className='modal-input'
                     />
                     <label htmlFor='admin'>Admin</label>
@@ -73,7 +78,7 @@ const MemberModal = ({ memberInput, setMemberInput }: props) => {
                         type='checkbox'
                         name='roles'
                         id='editor'
-                        value='editor'
+                        checked={memberInput.isEditor}
                         className='modal-input'
                     />
                     <label htmlFor='editor'>Editor</label>
