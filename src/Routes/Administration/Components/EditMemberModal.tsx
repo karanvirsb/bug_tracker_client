@@ -10,6 +10,7 @@ type props = {
 };
 
 const EditMemberModal = ({ username }: props) => {
+    const [disableBtn, setDisableBtn] = useState(true);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
@@ -53,9 +54,14 @@ const EditMemberModal = ({ username }: props) => {
                     setMemberInput={setMemberInput}
                     memberInput={memberInput}
                     edit={true}
+                    setDisableBtn={setDisableBtn}
                 ></MemberModal>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
-                    <button type='submit' className='btn bg-blue-500 !px-8'>
+                    <button
+                        type='submit'
+                        className='btn bg-blue-500 !px-8 disabled:bg-zinc-400 disabled:hover:outline-none'
+                        disabled={disableBtn}
+                    >
                         Submit
                     </button>
                     <button
