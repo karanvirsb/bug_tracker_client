@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IUser } from "../../../Redux/Slices/userSlice";
 
 type props = {
@@ -6,9 +6,8 @@ type props = {
     setMemberInput: React.Dispatch<React.SetStateAction<IUser>>;
 };
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
-
 const MemberModal = ({ memberInput, setMemberInput }: props) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
     return (
         <>
             <div className='input-container'>
