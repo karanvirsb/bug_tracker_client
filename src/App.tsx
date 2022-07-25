@@ -143,11 +143,12 @@ function App() {
                             <RequireAuth allowedRoles={["1990"]}></RequireAuth>
                         }
                     >
-                        {/* TODO add routes */}
-                        <Route
-                            path='/admin'
-                            element={<Administration></Administration>}
-                        ></Route>
+                        <Route element={<NavbarLayout></NavbarLayout>}>
+                            <Route
+                                path='/admin'
+                                element={<Administration></Administration>}
+                            ></Route>
+                        </Route>
                     </Route>
                 </Route>
                 {/* Unauthorized */}
