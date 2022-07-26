@@ -31,9 +31,29 @@ export const userSlice = createSlice({
                 ...action.payload,
             };
         },
+        updateUserRoles: (
+            state,
+            action: PayloadAction<{ roles: { [key: string]: string } }>
+        ) => {
+            const { roles } = action.payload;
+            let isAdmin = false;
+            let isEditor = false;
+            for (const [_, value] of Object.entries(roles)) {
+                if (value === "1990") {
+                    isAdmin = true;
+                } else if (value === "1991") {
+                    isEditor = true;
+                }
+            }
+            return {
+                ...state,
+                isAdmin: isAdmin,
+                isEditor: isEditor,
+            };
+        },
     },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, updateUserRoles } = userSlice.actions;
 
 export default userSlice.reducer;
