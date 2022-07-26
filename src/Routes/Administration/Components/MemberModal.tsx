@@ -19,7 +19,7 @@ const MemberModal = ({
             setDisableBtn(false);
         }
         setMemberInput((prev) => {
-            return { ...prev, [e.target.name]: [e.target.checked] };
+            return { ...prev, [e.target.name]: e.target.checked };
         });
     };
     return (
@@ -91,7 +91,7 @@ const MemberModal = ({
                     <label htmlFor='admin'>Admin</label>
                     <input
                         type='checkbox'
-                        name='roles'
+                        name='isEditor'
                         id='editor'
                         defaultChecked={memberInput.isEditor}
                         className='modal-input'
