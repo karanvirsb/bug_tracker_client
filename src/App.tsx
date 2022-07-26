@@ -17,11 +17,12 @@ import PersistLogin from "./Components/PersistLogin/persistLogin";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import socket from "./API/sockets";
 import { Navbar } from "./Components/Navbar";
-import { useAppSelector } from "./Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "./Hooks/hooks";
 import useInvalidateQuery from "./Hooks/useInvalidateQuery";
 import Project from "./Routes/Project/project";
 import Modal from "./Components/Modal";
 import Administration from "./Routes/Administration/administration";
+import { updateUserRoles } from "./Redux/Slices/userSlice";
 
 const NavbarLayout = () => {
     return (
@@ -35,6 +36,7 @@ const NavbarLayout = () => {
 function App() {
     const { invalidateQuery } = useInvalidateQuery();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         socket.on("connect", () => {
@@ -52,6 +54,10 @@ function App() {
 
         socket.on("roomJoined", (join) => {
             console.log("room join: " + join);
+        });
+
+        socket.on("updateRoles", (roles) => {
+            dispatch(updateUserRoles(roles));
         });
 
         return () => {
