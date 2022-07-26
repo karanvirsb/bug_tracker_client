@@ -34,9 +34,50 @@ export const groupSlice = createSlice({
         setUsers: (state, action: PayloadAction<GroupState["users"]>) => {
             return { ...state, users: action.payload };
         },
+        updateUser: (
+            state,
+            action: PayloadAction<{
+                username: string;
+                roles: { [key: string]: string };
+            }>
+        ) => {
+            const { username, roles } = action.payload;
+            const user = state.users.find((user) => user.username === username);
+
+            if (!user) {
+                return state;
+            }
+
+            let isAdmin = false;
+            let isEditor = false;
+
+            for (const [_, value] of Object.entries(roles)) {
+                if (value === "1990") {
+                    isAdmin = true;
+                } else if (value === "1991") {
+                    isEditor = true;
+                }
+            }
+            const updatedUser = user;
+            updatedUser["isAdmin"] = isAdmin;
+            updatedUser["isEditor"] = isEditor;
+
+            const oldUsers = [];
+
+            for (const user of state.users) {
+                if (user.username !== username) {
+                    oldUsers.push(user);
+                }
+            }
+
+            const newUsers: users[] = [...oldUsers, updatedUser];
+            console.log(newUsers);
+
+            state.users = newUsers;
+        },
     },
 });
 
-export const { setGroup, setUsers } = groupSlice.actions;
+export const { setGroup, setUsers, updateUser } = groupSlice.actions;
 
 export default groupSlice.reducer;
