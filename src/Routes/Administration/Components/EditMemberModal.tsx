@@ -91,6 +91,7 @@ const EditMemberModal = ({ username }: props) => {
             { id: memberInput.username, updates: updates },
             {
                 onSuccess: () => {
+                    toast.success("User was updated successfully");
                     setMemberInput({
                         username: "",
                         firstName: "",
