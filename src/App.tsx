@@ -79,9 +79,7 @@ function App() {
         });
 
         return () => {
-            window.removeEventListener("beforeunload", () => {
-                socket.connect();
-            });
+            window.removeEventListener("beforeunload", () => {});
         };
     });
 
