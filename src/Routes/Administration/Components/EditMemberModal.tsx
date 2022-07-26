@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
+import { updateUser } from "../../../Redux/Slices/groupSlice";
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
 import MemberModal from "./MemberModal";
@@ -91,6 +92,7 @@ const EditMemberModal = ({ username }: props) => {
             { id: memberInput.username, updates: updates },
             {
                 onSuccess: () => {
+                    dispatch(updateUser({ username: username, roles: roles }));
                     toast.success("User was updated successfully");
                     setMemberInput({
                         username: "",
@@ -104,14 +106,10 @@ const EditMemberModal = ({ username }: props) => {
                     dispatch(resetModal());
 
                     // TODO update only user that has been updated.
-                    socket.emit("invalidateQuery", {
-                        queryName: "groupUsers",
-                        groupId: group.groupId,
-                    });
-
-                    socket.emit("invalidateQuery", {
-                        queryName: "userLogin",
-                        groupId: group.groupId,
+                    socket.emit("updateUserRoles", {
+                        roomId: group.groupId,
+                        username: username,
+                        roles: roles,
                     });
                 },
                 onError: (error) => {
