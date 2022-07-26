@@ -12,8 +12,7 @@ type props = {
 };
 const MemberInfoModal = ({ selectedId, setSelectedId }: props) => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const { isAdmin, isEditor } = useIsAdmin();
+
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
