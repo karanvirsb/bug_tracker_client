@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useMutation } from "react-query";
-import { useAppDispatch } from "../../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ type deleteMemberMutationType = {
 
 const DeleteMemberModal = ({ username }: props) => {
     const dispatch = useAppDispatch();
-
+    const group = useAppSelector((state) => state.persistedReducer.group);
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
     const modalConstraints = {
@@ -51,7 +51,10 @@ const DeleteMemberModal = ({ username }: props) => {
             { id: username, updates: { groupId: "" } },
             {
                 onSuccess: () => {
-                    socket.emit("removedUserFromGroup", { username: username });
+                    socket.emit("removedUserFromGroup", {
+                        username: username,
+                        roomId: group.groupId,
+                    });
 
                     toast.success(`Successfully removed @${username}`);
 
