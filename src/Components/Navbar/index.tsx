@@ -4,7 +4,7 @@ import useLogout from "../../Hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import axiosPrivate from "../AxiosInterceptors";
 import { useQuery } from "react-query";
-import { setGroup } from "../../Redux/Slices/groupSlice";
+import { setGroup, setUsers } from "../../Redux/Slices/groupSlice";
 import Spinner from "../Spinner";
 import useIsAdmin from "../../Hooks/useIsAdmin";
 import useComponentVisible from "../../Hooks/useComponentVisible";
@@ -35,6 +35,23 @@ export const Navbar = () => {
         fetchGroup
     );
 
+    // fetching all the users of the group
+    const fetchGroupUsers = async () => {
+        const resp = await axiosPrivate("/user/group", {
+            method: "Post",
+            data: { groupId: group.groupId },
+        });
+        return resp.data;
+    };
+
+    const { data: usersData, status: groupUsersStatus } = useQuery(
+        "groupUsers",
+        fetchGroupUsers,
+        {
+            enabled: !!group.groupId,
+        }
+    );
+
     const openModal = () => {
         setShowNavigation(true);
     };
@@ -45,16 +62,38 @@ export const Navbar = () => {
 
     const setArrowDegree = isComponentVisible ? "-rotate-90" : "rotate-90";
 
-    const classNameFunc = ({ isActive }: any) =>
-        isActive
+    const classNameFunc = ({ isActive }: any) => {
+        return isActive
             ? "bg-gray-400 text-black font-semibold rounded-md py-2 px-4"
             : "rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black";
+    };
 
     useEffect(() => {
         if (groupStatus === "success") {
             dispatch(setGroup(groupData));
         }
     }, [groupStatus, groupData, dispatch]);
+
+    useEffect(() => {
+        const newUsers = usersData?.map((user: any) => {
+            const isAdmin = Object.values(user.roles).includes("1990");
+            const isEditor = Object.values(user.roles).includes("1991");
+
+            return {
+                avatar: user.avatar,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                username: user.username,
+                isAdmin,
+                isEditor,
+            };
+        });
+
+        if (groupUsersStatus === "success") {
+            dispatch(setUsers(newUsers));
+        }
+    }, [groupUsersStatus, usersData, dispatch]);
 
     return (
         <header
