@@ -48,7 +48,7 @@ const DeleteMemberModal = ({ username }: props) => {
         e.preventDefault();
 
         deleteMemberMutation.mutateAsync(
-            { id: username, updates: { groupId: "" } },
+            { id: username, updates: { groupId: "", roles: { User: "2001" } } },
             {
                 onSuccess: () => {
                     socket.emit("removedUserFromGroup", {
@@ -59,6 +59,16 @@ const DeleteMemberModal = ({ username }: props) => {
                     toast.success(`Successfully removed @${username}`);
 
                     dispatch(resetModal());
+
+                    socket.emit("invalidateQuery", {
+                        queryName: "groupInfo",
+                        groupId: group.groupId,
+                    });
+
+                    socket.emit("invalidateQuery", {
+                        queryName: "groupUsers",
+                        groupId: group.groupId,
+                    });
                 },
             }
         );
