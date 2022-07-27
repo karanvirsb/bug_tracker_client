@@ -10,6 +10,8 @@ export interface ModalState {
         | "updateTicket"
         | "deleteTicket"
         | "editMember"
+        | "removeMember"
+        | "removedUserModal"
         | "";
     open: boolean;
     options: { projectId?: string; ticketId?: string; username?: string };
