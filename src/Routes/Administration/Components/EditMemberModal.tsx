@@ -92,6 +92,11 @@ const EditMemberModal = ({ username }: props) => {
             { id: memberInput.username, updates: updates },
             {
                 onSuccess: () => {
+                    socket.emit("updateUserRoles", {
+                        roomId: group.groupId,
+                        username: username,
+                        roles: roles,
+                    });
                     dispatch(updateUser({ username: username, roles: roles }));
                     toast.success("User was updated successfully");
                     setMemberInput({
@@ -104,13 +109,6 @@ const EditMemberModal = ({ username }: props) => {
                         isEditor: false,
                     });
                     dispatch(resetModal());
-
-                    // TODO update only user that has been updated.
-                    socket.emit("updateUserRoles", {
-                        roomId: group.groupId,
-                        username: username,
-                        roles: roles,
-                    });
                 },
                 onError: (error) => {
                     if (error instanceof AxiosError) {
