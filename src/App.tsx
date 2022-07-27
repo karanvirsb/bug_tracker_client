@@ -73,6 +73,7 @@ function App() {
             socket.off("connect");
             socket.off("disconnect");
             socket.off("roomJoined");
+            socket.emit("leavingPage");
             socket.disconnect();
             socket.connect();
         };
