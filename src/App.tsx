@@ -23,6 +23,7 @@ import Project from "./Routes/Project/project";
 import Modal from "./Components/Modal";
 import Administration from "./Routes/Administration/administration";
 import { updateUserRoles } from "./Redux/Slices/userSlice";
+import { setModal } from "./Redux/Slices/modalSlice";
 
 const NavbarLayout = () => {
     return (
@@ -57,11 +58,15 @@ function App() {
         });
 
         socket.on("updateRoles", (roles) => {
+            console.log("new roles", roles);
             dispatch(updateUserRoles(roles));
         });
 
         socket.on("removedFromGroup", () => {
             // do modal
+            dispatch(
+                setModal({ type: "removedUserModal", open: true, options: {} })
+            );
         });
 
         return () => {
