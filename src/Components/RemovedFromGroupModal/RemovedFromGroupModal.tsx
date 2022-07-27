@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { useAppSelector } from "../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import useLogout from "../../Hooks/useLogout";
+import { resetModal } from "../../Redux/Slices/modalSlice";
 
 const RemovedFromGroupModal = () => {
+    const dispatch = useAppDispatch();
     const logout = useLogout();
     const group = useAppSelector((state) => state.persistedReducer.group);
 
@@ -21,6 +23,7 @@ const RemovedFromGroupModal = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         logout();
+        dispatch(resetModal());
     };
 
     return (
