@@ -1,11 +1,48 @@
 import React, { useState } from "react";
 import Members from "./Components/Members";
 import { useAppSelector } from "../../Hooks/hooks";
+import { useMutation } from "react-query";
+import axiosPrivate from "../../Components/AxiosInterceptors";
+import { toast } from "react-toastify";
+import socket from "../../API/sockets";
+import { AxiosError } from "axios";
+
+type mutationTypes = {
+    groupNameMutationType: {
+        id: string;
+        newName: string;
+    };
+    refreshMutation: {
+        id: string;
+    };
+};
 
 const Administration = () => {
     const group = useAppSelector((state) => state.persistedReducer.group);
     const [groupName, setGroupName] = useState(group.groupName);
     const [disableBtn, setDisableBtn] = useState(true);
+
+    const groupNameMutation = useMutation(
+        async ({ id, newName }: mutationTypes["groupNameMutationType"]) => {
+            const resp = await axiosPrivate("/group", {
+                method: "put",
+                data: { id: id, updates: { groupName: newName } },
+            });
+
+            return resp.data;
+        }
+    );
+
+    const refreshMutation = useMutation(
+        async ({ id }: mutationTypes["refreshMutation"]) => {
+            const resp = await axiosPrivate("/group/refresh", {
+                method: "put",
+                data: { id: id },
+            });
+
+            return resp.data;
+        }
+    );
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value !== group.groupName) {
@@ -16,11 +53,52 @@ const Administration = () => {
         setGroupName(e.target.value);
     };
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        groupNameMutation.mutateAsync(
+            { id: group.groupId, newName: groupName },
+            {
+                onSuccess: () => {
+                    toast.success("Name has successfully been changed");
+                    socket.emit("invalidateQuery", {
+                        queryName: "groupInfo",
+                        groupId: group.groupId,
+                    });
+                },
+                onError: (error) => {
+                    if (error instanceof AxiosError) {
+                        const errorResp = JSON.parse(
+                            error.response?.data.message
+                        );
+                        errorResp.forEach(
+                            (elem: {
+                                code: string;
+                                inclusive: boolean;
+                                message: string;
+                                minimum?: number;
+                                maxiumum?: number;
+                                path: string[];
+                                type: string;
+                            }) => {
+                                toast.error(elem.path[0] + " " + elem.message);
+                            }
+                        );
+                    }
+                },
+            }
+        );
+    };
+
     return (
         <section className='sections p-4'>
             <div className='mb-4'>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
-                <form action='' className='flex flex-col gap-4'>
+                <form
+                    action=''
+                    className='flex flex-col gap-4'
+                    onSubmit={handleSubmit}
+                >
                     <div className='input-container'>
                         <label htmlFor='groupName' className='input-label'>
                             Group Name
