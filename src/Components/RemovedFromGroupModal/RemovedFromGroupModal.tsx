@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
+import { useAppSelector } from "../../Hooks/hooks";
 import useLogout from "../../Hooks/useLogout";
 
 const RemovedFromGroupModal = () => {
