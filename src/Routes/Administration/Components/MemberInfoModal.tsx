@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import Backdrop from "../../../Components/Backdrop";
 import { setModal } from "../../../Redux/Slices/modalSlice";
-import { useNavigate } from "react-router-dom";
-import useIsAdmin from "../../../Hooks/useIsAdmin";
 
 type props = {
     selectedId: string;
@@ -40,9 +38,9 @@ const MemberInfoModal = ({ selectedId, setSelectedId }: props) => {
     const openDeleteModal = () => {
         dispatch(
             setModal({
-                type: "",
+                type: "removeMember",
                 open: true,
-                options: {},
+                options: { username: user?.username },
             })
         );
         setSelectedId(null);
