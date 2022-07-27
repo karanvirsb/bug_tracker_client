@@ -9,7 +9,7 @@ const useLogout = () => {
         dispatch(
             setAuth({ username: "", accessToken: "", group_id: "", roles: [] })
         ); // reset auth
-
+        socket.emit("leavingPage");
         socket.disconnect();
         try {
             await axios.delete("/logout", { withCredentials: true });
