@@ -60,6 +60,10 @@ function App() {
             dispatch(updateUserRoles(roles));
         });
 
+        socket.on("removedFromGroup", () => {
+            // do modal
+        });
+
         return () => {
             socket.off("connect");
             socket.off("disconnect");
