@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import { useAppSelector } from "../../Hooks/hooks";
+import DeleteMemberModal from "../../Routes/Administration/Components/DeleteMemberModal";
 import EditMemberModal from "../../Routes/Administration/Components/EditMemberModal";
 import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
 import DeleteProjectModal from "../../Routes/Dashboard/Components/DeleteProjectModal";
@@ -9,6 +10,7 @@ import AddTicketModal from "../../Routes/Project/Components/AddTicketModal";
 import DeleteTicketModal from "../../Routes/Project/Components/DeleteTicketModal";
 import EditTicketModal from "../../Routes/Project/Components/EditTicketModal";
 import Backdrop from "../Backdrop";
+import RemovedFromGroupModal from "../RemovedFromGroupModal/RemovedFromGroupModal";
 
 const Modal = () => {
     const modal = useAppSelector((state) => state.modal);
@@ -47,6 +49,16 @@ const Modal = () => {
                         <EditMemberModal
                             username={modal.options.username ?? ""}
                         ></EditMemberModal>
+                    )}
+
+                    {modal.type === "removeMember" && (
+                        <DeleteMemberModal
+                            username={modal.options.username ?? ""}
+                        ></DeleteMemberModal>
+                    )}
+
+                    {modal.type === "removedUserModal" && (
+                        <RemovedFromGroupModal></RemovedFromGroupModal>
                     )}
                 </Backdrop>
             )}
