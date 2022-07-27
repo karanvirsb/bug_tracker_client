@@ -67,14 +67,21 @@ const AddGroup = () => {
 
             dispatch(setAuth({ ...auth, group_id: groupInfo.groupId }));
 
-            // socket.connect();
+            socket.connect();
+
+            socket.emit("joinRoom", {
+                roomId: groupInfo.group_id,
+                username: auth.username,
+            });
+
             socket.emit("invalidateQuery", {
                 queryName: "groupInfo",
                 groupId: groupInfo.groupId,
             });
-            socket.emit("joinRoom", {
-                roomId: groupInfo.group_id,
-                username: auth.username,
+
+            socket.emit("invalidateQuery", {
+                queryName: "groupUsers",
+                groupId: groupInfo.groupId,
             });
             // redirect user to the home page of the group
             navigate("/dashboard", { replace: true });
@@ -136,7 +143,8 @@ const AddGroup = () => {
                 })
             );
 
-            // socket.connect();
+            socket.connect();
+
             socket.emit("joinRoom", {
                 roomId: groupInfo.group_id,
                 username: auth.username,
