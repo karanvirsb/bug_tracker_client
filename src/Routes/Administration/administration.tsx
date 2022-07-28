@@ -10,7 +10,7 @@ import { AxiosError } from "axios";
 type mutationTypes = {
     groupNameMutationType: {
         id: string;
-        newName: string;
+        groupName: string;
     };
     refreshMutation: {
         id: string;
@@ -24,10 +24,10 @@ const Administration = () => {
     const [disableBtn, setDisableBtn] = useState(true);
 
     const groupNameMutation = useMutation(
-        async ({ id, newName }: mutationTypes["groupNameMutationType"]) => {
+        async ({ id, groupName }: mutationTypes["groupNameMutationType"]) => {
             const resp = await axiosPrivate("/group/rename", {
                 method: "put",
-                data: { id: id, updates: { groupName: newName } },
+                data: { id: id, groupName: groupName },
             });
 
             return resp.data;
@@ -58,7 +58,7 @@ const Administration = () => {
         e.preventDefault();
 
         groupNameMutation.mutateAsync(
-            { id: group.groupId, newName: groupName },
+            { id: group.groupId, groupName: groupName },
             {
                 onSuccess: () => {
                     toast.success("Name has successfully been changed");
@@ -67,24 +67,31 @@ const Administration = () => {
                         groupId: group.groupId,
                     });
                 },
-                onError: (error) => {
+                onError: (error: any) => {
                     if (error instanceof AxiosError) {
-                        const errorResp = JSON.parse(
-                            error.response?.data.message
-                        );
-                        errorResp.forEach(
-                            (elem: {
-                                code: string;
-                                inclusive: boolean;
-                                message: string;
-                                minimum?: number;
-                                maxiumum?: number;
-                                path: string[];
-                                type: string;
-                            }) => {
-                                toast.error(elem.path[0] + " " + elem.message);
-                            }
-                        );
+                        if (error?.response?.status === 500) {
+                            toast.error(error?.response?.data?.message);
+                            setGroupName(group.groupName);
+                        } else {
+                            const errorResp = JSON.parse(
+                                error.response?.data.message
+                            );
+                            errorResp.forEach(
+                                (elem: {
+                                    code: string;
+                                    inclusive: boolean;
+                                    message: string;
+                                    minimum?: number;
+                                    maxiumum?: number;
+                                    path: string[];
+                                    type: string;
+                                }) => {
+                                    toast.error(
+                                        elem.path[0] + " " + elem.message
+                                    );
+                                }
+                            );
+                        }
                     }
                 },
             }
@@ -96,7 +103,7 @@ const Administration = () => {
             { id: group.groupId, groupName: groupName },
             {
                 onSuccess: () => {
-                    toast.success("Name has successfully been changed");
+                    toast.success("Refreshed Invite Code");
                     socket.emit("invalidateQuery", {
                         queryName: "groupInfo",
                         groupId: group.groupId,
