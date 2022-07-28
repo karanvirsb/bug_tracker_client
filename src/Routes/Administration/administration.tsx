@@ -14,6 +14,7 @@ type mutationTypes = {
     };
     refreshMutation: {
         id: string;
+        groupName: string;
     };
 };
 
@@ -34,10 +35,10 @@ const Administration = () => {
     );
 
     const refreshMutation = useMutation(
-        async ({ id }: mutationTypes["refreshMutation"]) => {
+        async ({ id, groupName }: mutationTypes["refreshMutation"]) => {
             const resp = await axiosPrivate("/group/refresh", {
                 method: "put",
-                data: { id: id },
+                data: { id: id, groupName: groupName },
             });
 
             return resp.data;
@@ -58,6 +59,41 @@ const Administration = () => {
 
         groupNameMutation.mutateAsync(
             { id: group.groupId, newName: groupName },
+            {
+                onSuccess: () => {
+                    toast.success("Name has successfully been changed");
+                    socket.emit("invalidateQuery", {
+                        queryName: "groupInfo",
+                        groupId: group.groupId,
+                    });
+                },
+                onError: (error) => {
+                    if (error instanceof AxiosError) {
+                        const errorResp = JSON.parse(
+                            error.response?.data.message
+                        );
+                        errorResp.forEach(
+                            (elem: {
+                                code: string;
+                                inclusive: boolean;
+                                message: string;
+                                minimum?: number;
+                                maxiumum?: number;
+                                path: string[];
+                                type: string;
+                            }) => {
+                                toast.error(elem.path[0] + " " + elem.message);
+                            }
+                        );
+                    }
+                },
+            }
+        );
+    };
+
+    const refreshInviteCode = () => {
+        refreshMutation.mutateAsync(
+            { id: group.groupId, groupName: groupName },
             {
                 onSuccess: () => {
                     toast.success("Name has successfully been changed");
@@ -123,6 +159,7 @@ const Administration = () => {
                         <button
                             type='button'
                             className='btn bg-green-400 font-semibold hover:outline-2 hover:outline-green-400'
+                            onClick={refreshInviteCode}
                         >
                             Refresh Invite Code
                         </button>
