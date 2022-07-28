@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Members from "./Components/Members";
 import { useAppSelector } from "../../Hooks/hooks";
 import { useMutation } from "react-query";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import socket from "../../API/sockets";
 import { AxiosError } from "axios";
 import Spinner from "../../Components/Spinner";
+import Pagination from "../../Components/Pagination";
 
 type mutationTypes = {
     groupNameMutationType: {
@@ -20,9 +21,25 @@ type mutationTypes = {
 };
 
 const Administration = () => {
+    const totalPerPage = 5;
     const group = useAppSelector((state) => state.persistedReducer.group);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [usersPageSetting, setUsersPageSetting] = useState({
+        start: 0,
+        end: totalPerPage,
+    });
     const [groupName, setGroupName] = useState(group.groupName);
     const [disableBtn, setDisableBtn] = useState(true);
+    const totalPage = useMemo(
+        () => Math.floor(group.users.length / totalPerPage),
+        [group.users]
+    );
+    const hasMore = useMemo(() => {
+        return pageNumber === totalPage;
+    }, [pageNumber, totalPage]);
+    const groupUsers = useMemo(() => {
+        return group.users.slice(usersPageSetting.start, usersPageSetting.end);
+    }, [usersPageSetting]);
 
     const groupNameMutation = useMutation(
         async ({ id, groupName }: mutationTypes["groupNameMutationType"]) => {
@@ -142,6 +159,16 @@ const Administration = () => {
         );
     };
 
+    useEffect(() => {
+        setUsersPageSetting((prev) => {
+            return {
+                ...prev,
+                start: (pageNumber - 1) * totalPerPage,
+                end: pageNumber * totalPerPage,
+            };
+        });
+    }, [pageNumber]);
+
     return (
         <section className='sections p-4'>
             <div className='mb-4'>
@@ -214,9 +241,15 @@ const Administration = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <Members users={group.users}></Members>
+                            <Members users={groupUsers}></Members>
                         </tbody>
                     </table>
+                    <Pagination
+                        pageNumber={pageNumber}
+                        setPageNumber={setPageNumber}
+                        totalPage={totalPage}
+                        hasMore={hasMore}
+                    ></Pagination>
                 </div>
             </div>
         </section>
