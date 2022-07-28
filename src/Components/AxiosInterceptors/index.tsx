@@ -34,7 +34,7 @@ export const AxiosInterceptor = ({ children }: any) => {
                 const config = error?.config;
 
                 if (error.response.status !== 403) {
-                    Promise.reject(error);
+                    return Promise.reject(error);
                 }
 
                 if (!config.__isRetryRequest) {
