@@ -6,6 +6,7 @@ import axiosPrivate from "../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import socket from "../../API/sockets";
 import { AxiosError } from "axios";
+import Spinner from "../../Components/Spinner";
 
 type mutationTypes = {
     groupNameMutationType: {
@@ -169,14 +170,22 @@ const Administration = () => {
                             className='btn bg-blue-400 font-semibold hover:outline-2 hover:outline-blue-400 disabled:bg-zinc-400 disabled:hover:outline-none'
                             disabled={disableBtn}
                         >
-                            Save Changes
+                            {groupNameMutation.isLoading ? (
+                                <Spinner></Spinner>
+                            ) : (
+                                "Save Changes"
+                            )}
                         </button>
                         <button
                             type='button'
                             className='btn bg-green-400 font-semibold hover:outline-2 hover:outline-green-400'
                             onClick={refreshInviteCode}
                         >
-                            Refresh Invite Code
+                            {refreshMutation.isLoading ? (
+                                <Spinner></Spinner>
+                            ) : (
+                                "Refresh Invite Code"
+                            )}
                         </button>
                     </div>
                 </form>
