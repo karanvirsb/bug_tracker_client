@@ -57,6 +57,13 @@ const Administration = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (groupName.length < 4 || groupName.length > 50) {
+            toast.error("Group Name should be between 4 and 50 characters");
+            setGroupName(group.groupName);
+            setDisableBtn(true);
+            return;
+        }
+
         groupNameMutation.mutateAsync(
             { id: group.groupId, groupName: groupName },
             {
@@ -72,6 +79,7 @@ const Administration = () => {
                         if (error?.response?.status === 500) {
                             toast.error(error?.response?.data?.message);
                             setGroupName(group.groupName);
+                            setDisableBtn(true);
                         } else {
                             const errorResp = JSON.parse(
                                 error.response?.data.message
