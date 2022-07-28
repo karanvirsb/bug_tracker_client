@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAppSelector } from "../../Hooks/hooks";
 
 type tabs = {
     value: string;
@@ -14,6 +15,7 @@ type props = {
 };
 
 const Tab = ({ tabs, components, children }: props) => {
+    const user = useAppSelector((state) => state.persistedReducer.user);
     const [tabName, setTabName] = useState(tabs[0].value);
     const [activeIndex, setActiveIndex] = useState(0);
     const mappedComponents = new Map(Object.entries(components));
@@ -25,7 +27,7 @@ const Tab = ({ tabs, components, children }: props) => {
 
     return (
         <>
-            <nav className='flex justify-between mb-2 max-w-max overflow-auto'>
+            <nav className='flex justify-between items-center mb-2 overflow-auto mr-4'>
                 <ul className='list-none flex gap-4'>
                     {tabs?.map((tab, index) => {
                         if (index === activeIndex) {
@@ -50,7 +52,15 @@ const Tab = ({ tabs, components, children }: props) => {
                         );
                     })}
                 </ul>
-                {children}
+                <div className='ml-auto'>
+                    <img
+                        className='w-[50px] h-[50px] cursor-pointer'
+                        src={`data:${
+                            user.avatar.contentType
+                        };utf8,${encodeURIComponent(user.avatar.data)}`}
+                        alt={user.firstName + " " + user.lastName}
+                    ></img>
+                </div>
             </nav>
             <section className='md:mr-1 md:ml-[-50px] p-1'>
                 {mappedComponents.get(tabName)}
