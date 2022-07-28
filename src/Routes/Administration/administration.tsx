@@ -25,7 +25,7 @@ const Administration = () => {
 
     const groupNameMutation = useMutation(
         async ({ id, newName }: mutationTypes["groupNameMutationType"]) => {
-            const resp = await axiosPrivate("/group", {
+            const resp = await axiosPrivate("/group/rename", {
                 method: "put",
                 data: { id: id, updates: { groupName: newName } },
             });
