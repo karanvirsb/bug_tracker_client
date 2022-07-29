@@ -11,8 +11,9 @@ import useComponentVisible from "../../Hooks/useComponentVisible";
 
 export const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
+    const [clicked, setClicked] = useState(false);
     const { ref, isComponentVisible, setIsComponentVisible } =
-        useComponentVisible(false);
+        useComponentVisible();
     const logout = useLogout();
     const dispatch = useAppDispatch();
     const { isAdmin } = useIsAdmin();
@@ -95,6 +96,10 @@ export const Navbar = () => {
         }
     }, [groupUsersStatus, usersData, dispatch]);
 
+    useEffect(() => {
+        console.log("changed", isComponentVisible);
+    }, [isComponentVisible]);
+
     return (
         <header
             className={`bg-main-color text-white fixed top-2 left-2 bottom-2 m-md:rounded-2xl p-4 min-h-[98.5vh] w-[175px] flex flex-col md:top-0 md:left-0 md:bottom-0${
@@ -133,12 +138,16 @@ export const Navbar = () => {
                             ) : (
                                 <div className='relative w-full'>
                                     <button
+                                        id='groupNameBtn'
                                         className='flex text-left items-center justify-center gap-4 w-full hover:outline hover:outline-gray-500 rounded-md'
-                                        onClick={() =>
-                                            setIsComponentVisible(
-                                                (prev) => !prev
-                                            )
-                                        }
+                                        onClick={() => {
+                                            if (!clicked) {
+                                                setClicked(true);
+                                                setIsComponentVisible(true);
+                                            } else {
+                                                setClicked(false);
+                                            }
+                                        }}
                                     >
                                         {groupData.groupName}
                                         <div
