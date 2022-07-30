@@ -17,7 +17,7 @@ type props = {
 
 const Tab = ({ tabs, components }: props) => {
     const user = useAppSelector((state) => state.persistedReducer.user);
-    const [tabName, setTabName] = useState(tabs[0].value);
+    const [tabName, setTabName] = useState(tabs[0]?.value);
     const [activeIndex, setActiveIndex] = useState(0);
     const mappedComponents = new Map(Object.entries(components));
 
@@ -46,7 +46,7 @@ const Tab = ({ tabs, components }: props) => {
                             <li
                                 className="px-4 py-1 cursor-pointer"
                                 onClick={() => setTab(tab?.value, index)}
-                                key={tab.value}
+                                key={tab?.value}
                             >
                                 {tab?.label}
                             </li>
