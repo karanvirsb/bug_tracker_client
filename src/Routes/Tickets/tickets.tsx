@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import Pagination from "../../Components/Pagination";
 import Spinner from "../../Components/Spinner";
+import Tab from "../../Components/Tab/Tab";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import { updateInitialState } from "../../Redux/Slices/ticketsSlice";
 import UserTickets from "./Components/UserTickets";
@@ -54,36 +55,37 @@ const Tickets = () => {
     }, [userTickets, ticketStatus]);
 
     return (
-        <section className='sections'>
-            <h1 className='text-2xl font-semibold text-gray-800 mb-4'>
+        <section className="sections">
+            <Tab tabs={[]} components={{}}></Tab>
+            <h1 className="text-2xl font-semibold text-gray-800 mb-4">
                 My Tickets
             </h1>
-            <div className='outline-[#D4D4D4] outline-1 outline px-1 text-left rounded-md mx-4 md:mr-1 md:ml-[-50px] p-1'>
-                <table className='w-full'>
-                    <thead className='text-sm text-gray-500 font-normal'>
+            <div className="outline-[#D4D4D4] outline-1 outline px-1 text-left rounded-md mx-4 md:mr-1 md:ml-[-50px] p-1">
+                <table className="w-full">
+                    <thead className="text-sm text-gray-500 font-normal">
                         <tr>
                             <th
-                                scope='col'
-                                className='px-6 py-3 sm:text-center'
+                                scope="col"
+                                className="px-6 py-3 sm:text-center"
                             >
                                 TITLE
                             </th>
-                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                            <th scope="col" className="px-6 py-3 lg:hidden">
                                 REPORTER
                             </th>
-                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                            <th scope="col" className="px-6 py-3 lg:hidden">
                                 DATE CREATED
                             </th>
-                            <th scope='col' className='px-6 py-3 md:hidden'>
+                            <th scope="col" className="px-6 py-3 md:hidden">
                                 TYPE
                             </th>
-                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                            <th scope="col" className="px-6 py-3 sm:hidden">
                                 STATUS
                             </th>
-                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                            <th scope="col" className="px-6 py-3 lg:hidden">
                                 ASSIGNEE
                             </th>
-                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                            <th scope="col" className="px-6 py-3 sm:hidden">
                                 SEVERITY
                             </th>
                         </tr>
@@ -91,7 +93,7 @@ const Tickets = () => {
 
                     <tbody>
                         {ticketStatus === "loading" && (
-                            <tr className='w-full text-center'>
+                            <tr className="w-full text-center">
                                 <td colSpan={99}>
                                     <Spinner></Spinner>
                                 </td>
@@ -103,11 +105,11 @@ const Tickets = () => {
                             ></UserTickets>
                         )}
                         {ticketStatus === "error" && (
-                            <tr className='w-full text-center text-lg '>
+                            <tr className="w-full text-center text-lg ">
                                 <td colSpan={1000}>
-                                    <p className='my-3 text-xl'>{errMsg}</p>
+                                    <p className="my-3 text-xl">{errMsg}</p>
                                     <button
-                                        className='btn bg-gray-300 mb-5'
+                                        className="btn bg-gray-300 mb-5"
                                         onClick={() => refetch}
                                     >
                                         try again
