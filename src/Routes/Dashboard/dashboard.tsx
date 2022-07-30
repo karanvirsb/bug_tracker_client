@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../../Hooks/hooks";
-
 import DashboardTab from "./Components/DashboardTab";
 import Tab from "../../Components/Tab/Tab";
 import MembersTab from "../../Components/MembersTab/MembersTab";
@@ -48,7 +47,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <section className='sections'>
+        <section className="sections">
             <Tab tabs={tabs} components={components}></Tab>
         </section>
     );
