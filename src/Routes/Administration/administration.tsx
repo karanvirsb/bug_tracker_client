@@ -171,9 +171,9 @@ const Administration = () => {
     }, [pageNumber]);
 
     return (
-        <section className="sections p-4">
+        <section className="sections">
             <Tab tabs={[]} components={{}}></Tab>
-            <div className="mb-4">
+            <div className="mb-4 px-4">
                 <h1 className="text-2xl font-semibold mb-4">Group</h1>
                 <form
                     action=""
@@ -219,7 +219,7 @@ const Administration = () => {
                     </div>
                 </form>
             </div>
-            <div>
+            <div className="p-4">
                 <h1 className="text-xl font-semibold mb-4">Members</h1>
                 <div className="outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md mx-4">
                     <table className="w-full">
