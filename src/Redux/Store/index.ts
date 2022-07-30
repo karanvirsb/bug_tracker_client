@@ -19,6 +19,7 @@ import modalReducer from "../Slices/modalSlice";
 import groupReducer from "../Slices/groupSlice";
 import ticketsReducer from "../Slices/ticketsSlice";
 import userReducer from "../Slices/userSlice";
+import tabReducer from "../Slices/tabSlice";
 
 const rootReducer = combineReducers({
     auth: authenticationReducer,
@@ -42,6 +43,7 @@ export const store = configureStore({
         persist: persistLoginReducer,
         project: projectReducer,
         tickets: ticketsReducer,
+        tabs: tabReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
