@@ -102,7 +102,7 @@ function App() {
     return (
         <>
             <ToastContainer
-                position='top-right'
+                position="top-right"
                 draggable={true}
                 draggablePercent={75}
                 autoClose={5000}
@@ -110,19 +110,19 @@ function App() {
             <Modal></Modal>
             <Routes>
                 <Route
-                    path='/'
+                    path="/"
                     element={
                         !auth.group_id ? (
-                            <Navigate replace to='login'></Navigate>
+                            <Navigate replace to="login"></Navigate>
                         ) : (
-                            <Navigate replace to='dashboard'></Navigate>
+                            <Navigate replace to="dashboard"></Navigate>
                         )
                     }
                 ></Route>
-                <Route path='/login' element={<Login></Login>}></Route>
-                <Route path='/register' element={<Register></Register>}></Route>
+                <Route path="/login" element={<Login></Login>}></Route>
+                <Route path="/register" element={<Register></Register>}></Route>
                 <Route
-                    path='/registration-successful'
+                    path="/registration-successful"
                     element={<RegistrationSuccessful></RegistrationSuccessful>}
                 ></Route>
                 {/* PROTECT ROUTES */}
@@ -133,20 +133,20 @@ function App() {
                         }
                     >
                         <Route
-                            path='/add-group'
+                            path="/add-group"
                             element={<AddGroup></AddGroup>}
                         ></Route>
                         <Route element={<NavbarLayout></NavbarLayout>}>
                             <Route
-                                path='/dashboard'
+                                path="/dashboard"
                                 element={<Dashboard></Dashboard>}
                             ></Route>
                             <Route
-                                path='/project/:projectId'
+                                path="/project/:projectId"
                                 element={<Project></Project>}
                             ></Route>
                             <Route
-                                path='/tickets'
+                                path="/tickets"
                                 element={<Tickets></Tickets>}
                             ></Route>
                         </Route>
@@ -159,7 +159,7 @@ function App() {
                     >
                         <Route element={<NavbarLayout></NavbarLayout>}>
                             <Route
-                                path='/admin'
+                                path="/admin"
                                 element={<Administration></Administration>}
                             ></Route>
                         </Route>
@@ -167,11 +167,11 @@ function App() {
                 </Route>
                 {/* Unauthorized */}
                 <Route
-                    path='/unauthorized'
+                    path="/unauthorized"
                     element={<Unauthorized></Unauthorized>}
                 ></Route>
                 {/* This is for 404 not found */}
-                <Route path='*' element={<PageNotFound></PageNotFound>}></Route>
+                <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
             </Routes>
         </>
     );
