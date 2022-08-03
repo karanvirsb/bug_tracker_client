@@ -11,7 +11,7 @@ type props = {
 const Comment = ({ comment, user, classname }: props) => {
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
-
+    const replyIds = comment?.reply || [];
     return (
         <div className='flex flex-col items-center w-full'>
             <div key={comment.commentId} className={classname}>
@@ -34,8 +34,11 @@ const Comment = ({ comment, user, classname }: props) => {
                         <button>Reply</button>
                         <button>Delete</button>
                     </div>
-
-                    <button className='text-center mt-2'>Load Replies</button>
+                    {replyIds.length > 0 && comment?.ticketId && (
+                        <button className='text-center mt-2'>
+                            Load Replies
+                        </button>
+                    )}
                 </div>
             </div>
             {/* Comments / replys */}
