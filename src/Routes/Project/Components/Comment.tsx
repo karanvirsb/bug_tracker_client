@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
+import ReplyToForm from "./ReplyToForm";
 
 type props = {
     comment: IComment;
@@ -9,6 +10,7 @@ type props = {
 };
 
 const Comment = ({ comment, user, classname }: props) => {
+    const [replyTo, setReplyTo] = useState(false);
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
     const replyIds = comment?.reply || [];
@@ -31,7 +33,7 @@ const Comment = ({ comment, user, classname }: props) => {
                     </div>
                     <p>{comment.comment}</p>
                     <div>
-                        <button>Reply</button>
+                        <button onClick={() => setReplyTo(true)}>Reply</button>
                         <button>Delete</button>
                     </div>
                     {replyIds.length > 0 && comment?.ticketId && (
@@ -41,6 +43,12 @@ const Comment = ({ comment, user, classname }: props) => {
                     )}
                 </div>
             </div>
+            {replyTo && (
+                <ReplyToForm
+                    repliedToUserId={comment.userId}
+                    comment={comment}
+                ></ReplyToForm>
+            )}
             {/* Comments / replys */}
         </div>
     );
