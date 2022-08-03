@@ -5,15 +5,13 @@ import { IUser } from "../../../Redux/Slices/userSlice";
 type props = {
     comment: IComment;
     user: IUser;
+    classname?: string;
 };
 
-const Comment = ({ comment, user }: props) => {
+const Comment = ({ comment, user, classname }: props) => {
     return (
         <div className='flex flex-col items-center w-full'>
-            <div
-                key={comment.commentId}
-                className='flex flex-row gap-4 border-b border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px]'
-            >
+            <div key={comment.commentId} className={classname}>
                 <img
                     className='w-[40px] h-[40px]'
                     src={`data:${
