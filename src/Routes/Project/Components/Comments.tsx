@@ -16,7 +16,7 @@ const Comments = () => {
                         <Comment
                             comment={comment}
                             user={user}
-                            classname='flex flex-row gap-4 border-b border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px]'
+                            classname='flex flex-row gap-4 border-b border-gray-200 py-4 w-[75%] min-w-[250px] max-w-[1000px]'
                         ></Comment>
                     );
                 }
