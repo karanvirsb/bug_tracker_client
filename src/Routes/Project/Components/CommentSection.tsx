@@ -1,13 +1,58 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
+import { useInfiniteQuery } from "react-query";
+import { setComments } from "../../../Redux/Slices/commentsSlice";
+import { IComment } from "../../../Redux/Slices/commentsSlice";
+import Comments from "./Comments";
 
-const CommentSection = () => {
+type props = {
+    ticketId: string;
+};
+
+type fetchCommentSectionType = {
+    page: number;
+};
+
+const CommentSection = ({ ticketId }: props) => {
     const [loadComments, setLoadComments] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
     const user = useAppSelector((state) => state.persistedReducer.user);
+    const ticketComments = useAppSelector((state) => state.comments.comments);
+    const dispatch = useAppDispatch();
+
+    const fetchCommentSection = async ({ page }: fetchCommentSectionType) => {
+        const resp = await axiosPrivate("/comment/tickets/" + ticketId, {
+            method: "GET",
+            params: { page: page, limit: 10 },
+        });
+        return resp.data;
+    };
+
+    const {
+        data: comments,
+        error,
+        fetchNextPage,
+        isFetching,
+        status: commentsStatus,
+    } = useInfiniteQuery(
+        "comments" + ticketId,
+        () => fetchCommentSection({ page: currentPage }),
+        {
+            getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+        }
+    );
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
+
+    useEffect(() => {
+        if (commentsStatus === "success") {
+            const fetchedComments: IComment[] = comments.pages;
+            dispatch(setComments((fetchedComments as any).docs));
+        }
+    }, [commentsStatus, comments]);
 
     return (
         <>
@@ -32,17 +77,22 @@ const CommentSection = () => {
                     </button>
                 </div>
             </form>
-            {!loadComments && (
-                <div className='w-full flex justify-center items-center mt-4'>
-                    <button
-                        className='btn hover:!outline-none hover:!text-blue-500'
-                        onClick={() => setLoadComments(true)}
-                    >
-                        Load Comments
-                    </button>
-                </div>
-            )}
-            {loadComments && <div>Comments</div>}
+            {commentsStatus === "success" &&
+                (ticketComments.length > 0 ? (
+                    <div className='w-full flex justify-center items-center mt-4'>
+                        <button
+                            className='btn hover:!outline-none hover:!text-blue-500'
+                            onClick={() => setLoadComments(true)}
+                        >
+                            Load Comments
+                        </button>
+                    </div>
+                ) : (
+                    <div className='w-full text-center text-xl font-semibold mt-4'>
+                        No comments. Be the first to comment any concerns.
+                    </div>
+                ))}
+            {loadComments && <Comments></Comments>}
         </>
     );
 };
