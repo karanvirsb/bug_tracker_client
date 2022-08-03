@@ -23,7 +23,10 @@ const commentsSlice = createSlice({
     name: "comments",
     initialState: initialState,
     reducers: {
-        setComments: (state, action: PayloadAction<ICommentsArr>) => {
+        setComments: (
+            state,
+            action: PayloadAction<ICommentsArr["comments"]>
+        ) => {
             return { ...state, ...action.payload };
         },
     },
