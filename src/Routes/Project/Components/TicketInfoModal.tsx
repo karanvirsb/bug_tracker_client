@@ -156,7 +156,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         ></UserElements>
                     </div>
                 </div>
-                <CommentSection></CommentSection>
+                <CommentSection ticketId={selectedId}></CommentSection>
             </motion.div>
         </Backdrop>
     );
