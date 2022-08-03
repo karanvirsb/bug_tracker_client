@@ -9,6 +9,9 @@ type props = {
 };
 
 const Comment = ({ comment, user, classname }: props) => {
+    const dateCreated = new Date(comment?.dateCreated || "");
+    const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
+
     return (
         <div className='flex flex-col items-center w-full'>
             <div key={comment.commentId} className={classname}>
@@ -24,7 +27,7 @@ const Comment = ({ comment, user, classname }: props) => {
                 <div className='flex flex-col gap-3 flex-grow'>
                     <div className='flex gap-4'>
                         <p>{user?.username}</p>
-                        <p>{comment.dateCreated.getDate().toLocaleString()}</p>
+                        <p>{dateString}</p>
                     </div>
                     <p>{comment.comment}</p>
                     <div>
