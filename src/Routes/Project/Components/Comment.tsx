@@ -10,7 +10,7 @@ type props = {
 };
 
 const Comment = ({ comment, user, classname }: props) => {
-    const [replyTo, setReplyTo] = useState(false);
+    const [replying, setReplying] = useState(false);
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
     const replyIds = comment?.reply || [];
@@ -33,7 +33,7 @@ const Comment = ({ comment, user, classname }: props) => {
                     </div>
                     <p>{comment.comment}</p>
                     <div>
-                        <button onClick={() => setReplyTo(true)}>Reply</button>
+                        <button onClick={() => setReplying(true)}>Reply</button>
                         <button>Delete</button>
                     </div>
                     {replyIds.length > 0 && comment?.ticketId && (
@@ -43,10 +43,11 @@ const Comment = ({ comment, user, classname }: props) => {
                     )}
                 </div>
             </div>
-            {replyTo && (
+            {replying && (
                 <ReplyToForm
                     repliedToUserId={comment.userId}
                     comment={comment}
+                    setReplying={setReplying}
                 ></ReplyToForm>
             )}
             {/* Comments / replys */}
