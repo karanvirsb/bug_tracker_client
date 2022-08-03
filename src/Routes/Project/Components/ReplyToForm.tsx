@@ -8,14 +8,17 @@ type props = {
 };
 
 const ReplyToForm = ({ repliedToUserId, comment }: props) => {
-    const [replyInput, setReplyInput] = useState("");
+    const [replyInput, setReplyInput] = useState(`@${repliedToUserId} `);
     const user = useAppSelector((state) => state.persistedReducer.user);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
     return (
-        <form className='w-full' onSubmit={handleSubmit}>
+        <form
+            className='mt-4 w-[100%] min-w-[250px] max-w-[1100px] '
+            onSubmit={handleSubmit}
+        >
             <div className='flex gap-4 justify-center items-end w-full'>
                 <img
                     src={`data:${
