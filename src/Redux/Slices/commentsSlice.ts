@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IComment {
-    commentId: string;
-    dateCreated: Date;
+    commentId?: string;
+    dateCreated?: Date;
     userId: string;
     ticketId?: string;
     comment: string;
-    reply: string[];
+    reply?: string[];
     repliedUserId?: string; // here if need to add an @ feature
 }
 
@@ -27,7 +27,7 @@ const commentsSlice = createSlice({
             state,
             action: PayloadAction<ICommentsArr["comments"]>
         ) => {
-            return { ...state, ...action.payload };
+            return { ...state, comments: action.payload };
         },
     },
 });
