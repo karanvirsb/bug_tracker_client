@@ -11,9 +11,15 @@ type props = {
     repliedToUserId: string;
     comment: IComment;
     setReplying: React.Dispatch<React.SetStateAction<boolean>>;
+    setLoadReplies: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
+const ReplyToForm = ({
+    repliedToUserId,
+    comment,
+    setReplying,
+    setLoadReplies,
+}: props) => {
     const [replyInput, setReplyInput] = useState(`@${repliedToUserId} `);
     const user = useAppSelector((state) => state.persistedReducer.user);
     const topLevelComments = useAppSelector((state) => state.comments.comments);
@@ -60,12 +66,12 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
                     toast.success("Replied Successfully");
                     socket.emit("invalidateQuery", {
                         queryName: "comments" + ticketId,
-                        groupId: projectId,
+                        groupId: ticketId,
                     });
-                    socket.emit("invalidateQuery", {
-                        queryName: "replies-" + repliedTo,
-                        groupId: projectId,
-                    });
+                    // socket.emit("invalidateQuery", {
+                    //     queryName: "replies-" + repliedTo,
+                    //     groupId: projectId,
+                    // });
                     setReplying(false);
                     setReplyInput("");
                 },
