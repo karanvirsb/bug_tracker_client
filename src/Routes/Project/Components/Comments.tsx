@@ -14,6 +14,7 @@ const Comments = () => {
                 if (comment?.ticketId && user) {
                     return (
                         <Comment
+                            key={comment.commentId}
                             comment={comment}
                             user={user}
                             classname='flex flex-row gap-4 py-4 w-[75%] min-w-[250px] max-w-[1000px]'
