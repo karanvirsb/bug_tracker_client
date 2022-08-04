@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { QueryClient, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
@@ -18,7 +18,6 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
     const user = useAppSelector((state) => state.persistedReducer.user);
     const topLevelComments = useAppSelector((state) => state.comments.comments);
     const { projectId } = useParams();
-    const queryClient = new QueryClient();
 
     const replyMutation = useMutation(
         async ({
@@ -60,11 +59,12 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
                 onSuccess: () => {
                     toast.success("Replied Successfully");
                     socket.emit("invalidateQuery", {
-                        queryName: "replies-" + ticketId,
+                        queryName: "comments" + ticketId,
                         groupId: projectId,
                     });
-                    queryClient.refetchQueries(["replies-" + ticketId], {
-                        exact: true,
+                    socket.emit("invalidateQuery", {
+                        queryName: "replies-" + repliedTo,
+                        groupId: projectId,
                     });
                     setReplying(false);
                     setReplyInput("");
