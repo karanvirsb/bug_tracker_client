@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { QueryClient, useMutation } from "react-query";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
@@ -15,6 +16,9 @@ type props = {
 const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
     const [replyInput, setReplyInput] = useState(`@${repliedToUserId} `);
     const user = useAppSelector((state) => state.persistedReducer.user);
+    const topLevelComments = useAppSelector((state) => state.comments.comments);
+    const { projectId } = useParams();
+    const queryClient = new QueryClient();
 
     const replyMutation = useMutation(
         async ({
@@ -39,6 +43,11 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
         } else {
             if (comment.commentId) repliedTo = comment?.commentId;
         }
+
+        const ticketId = topLevelComments.find(
+            (comment) => comment.commentId === repliedTo
+        )?.ticketId;
+
         const reply: IComment = {
             userId: user.username,
             comment: replyInput,
@@ -51,8 +60,11 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
                 onSuccess: () => {
                     toast.success("Replied Successfully");
                     socket.emit("invalidateQuery", {
-                        queryName: "comments" + comment.ticketId,
-                        groupId: comment.ticketId,
+                        queryName: "replies-" + ticketId,
+                        groupId: projectId,
+                    });
+                    queryClient.refetchQueries(["replies-" + ticketId], {
+                        exact: true,
                     });
                     setReplying(false);
                     setReplyInput("");
