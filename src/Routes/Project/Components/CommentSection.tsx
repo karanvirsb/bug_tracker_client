@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
-import { useInfiniteQuery, useMutation } from "react-query";
+import { QueryClient, useInfiniteQuery, useMutation } from "react-query";
 import { setComments } from "../../../Redux/Slices/commentsSlice";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import Comments from "./Comments";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
+import { useParams } from "react-router-dom";
 
 type props = {
     ticketId: string;
@@ -22,6 +23,7 @@ const CommentSection = ({ ticketId }: props) => {
     const [commentInput, setCommentInput] = useState("");
     const user = useAppSelector((state) => state.persistedReducer.user);
     const ticketComments = useAppSelector((state) => state.comments.comments);
+    const { projectId } = useParams();
     const dispatch = useAppDispatch();
 
     const fetchCommentSection = async ({ page }: fetchCommentSectionType) => {
@@ -66,8 +68,9 @@ const CommentSection = ({ ticketId }: props) => {
             onSuccess: () => {
                 socket.emit("invalidateQuery", {
                     queryName: "comments" + ticketId,
-                    groupId: ticketId,
+                    groupId: projectId,
                 });
+
                 toast.success("Commment has been posted");
 
                 setCommentInput("");
