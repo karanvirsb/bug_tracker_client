@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
 import Replys from "./Replys";
@@ -15,7 +15,12 @@ const Comment = ({ comment, user, classname }: props) => {
     const [loadReplies, setLoadReplies] = useState(false);
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
-    const replyIds = comment?.reply || [];
+
+    const replyIds = useMemo(
+        () => comment?.reply || [],
+        [comment, comment.reply]
+    );
+
     return (
         <div className='flex flex-col items-center w-full'>
             <div className={classname}>
@@ -53,6 +58,7 @@ const Comment = ({ comment, user, classname }: props) => {
                     repliedToUserId={comment.userId}
                     comment={comment}
                     setReplying={setReplying}
+                    setLoadReplies={setLoadReplies}
                 ></ReplyToForm>
             )}
             {/* Comments / replys */}
