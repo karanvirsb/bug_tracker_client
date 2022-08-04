@@ -16,31 +16,49 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
     const [replyInput, setReplyInput] = useState(`@${repliedToUserId} `);
     const user = useAppSelector((state) => state.persistedReducer.user);
 
-    const replyMutation = useMutation(async (commentInfo: IComment) => {
-        return await axiosPrivate("/comment/reply", {
-            method: "post",
-            data: { commentId: comment?.commentId, reply: commentInfo },
-        });
-    });
+    const replyMutation = useMutation(
+        async ({
+            commentInfo,
+            replyId,
+        }: {
+            commentInfo: IComment;
+            replyId: string;
+        }) => {
+            return await axiosPrivate("/comment/reply", {
+                method: "post",
+                data: { commentId: replyId, reply: commentInfo },
+            });
+        }
+    );
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        let repliedTo = "";
+        if (comment.repliedTo) {
+            repliedTo = comment.repliedTo;
+        } else {
+            if (comment.commentId) repliedTo = comment?.commentId;
+        }
         const reply: IComment = {
             userId: user.username,
             comment: replyInput,
+            repliedTo: repliedTo,
         };
 
-        replyMutation.mutateAsync(reply, {
-            onSuccess: () => {
-                toast.success("Replied Successfully");
-                socket.emit("invalidateQuery", {
-                    queryName: "comments" + comment.ticketId,
-                    groupId: comment.ticketId,
-                });
-                setReplying(false);
-                setReplyInput("");
-            },
-        });
+        replyMutation.mutateAsync(
+            { commentInfo: reply, replyId: repliedTo },
+            {
+                onSuccess: () => {
+                    toast.success("Replied Successfully");
+                    socket.emit("invalidateQuery", {
+                        queryName: "comments" + comment.ticketId,
+                        groupId: comment.ticketId,
+                    });
+                    setReplying(false);
+                    setReplyInput("");
+                },
+            }
+        );
     };
     return (
         <form
