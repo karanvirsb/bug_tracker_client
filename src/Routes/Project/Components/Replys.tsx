@@ -11,6 +11,7 @@ type props = {
 };
 
 const Replys = ({ replyIds, ticketId }: props) => {
+    const users = useAppSelector((state) => state.persistedReducer.group.users);
     const fetchReplys = async () => {
         const resp = await axiosPrivate("/comment/reply/comments", {
             method: "post",
@@ -27,15 +28,15 @@ const Replys = ({ replyIds, ticketId }: props) => {
     return (
         <>
             {replys?.map((comment: IComment) => {
-                const user = useAppSelector(
-                    (state) => state.persistedReducer.group.users
-                ).find((user) => user.username === comment?.userId);
+                const user = users.find(
+                    (user) => user.username === comment?.userId
+                );
                 if (user) {
                     return (
                         <Comment
                             user={user}
                             comment={comment}
-                            classname='flex flex-row gap-4 border-b border-l border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px] pl-10'
+                            classname='flex flex-row gap-4 border-l border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px] pl-5'
                         ></Comment>
                     );
                 }
