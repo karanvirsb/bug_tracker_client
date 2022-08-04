@@ -38,7 +38,7 @@ const Comment = ({ comment, user, classname }: props) => {
                         <button onClick={() => setReplying(true)}>Reply</button>
                         <button>Delete</button>
                     </div>
-                    {replyIds.length > 0 && comment?.ticketId && (
+                    {!loadReplies && replyIds.length > 0 && comment?.ticketId && (
                         <button
                             className='text-center mt-2'
                             onClick={() => setLoadReplies(true)}
