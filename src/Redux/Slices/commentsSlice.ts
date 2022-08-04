@@ -9,6 +9,7 @@ export interface IComment {
     comment: string;
     reply?: string[];
     repliedUserId?: string; // here if need to add an @ feature
+    repliedTo?: string;
 }
 
 export interface ICommentsArr {
@@ -24,7 +25,7 @@ const commentsSlice = createSlice({
     initialState: initialState,
     reducers: {
         setComments: (
-            state,
+            state: any,
             action: PayloadAction<ICommentsArr["comments"]>
         ) => {
             return { ...state, comments: action.payload };
