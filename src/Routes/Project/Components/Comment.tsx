@@ -18,7 +18,7 @@ const Comment = ({ comment, user, classname }: props) => {
     const replyIds = comment?.reply || [];
     return (
         <div className='flex flex-col items-center w-full'>
-            <div key={comment.commentId} className={classname}>
+            <div className={classname}>
                 <img
                     className='w-[40px] h-[40px]'
                     src={`data:${
@@ -59,7 +59,7 @@ const Comment = ({ comment, user, classname }: props) => {
             {loadReplies && (
                 <Replys
                     replyIds={replyIds}
-                    ticketId={comment?.ticketId || ""}
+                    ticketId={comment.commentId || ""}
                 ></Replys>
             )}
         </div>
