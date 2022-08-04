@@ -68,7 +68,7 @@ const CommentSection = ({ ticketId }: props) => {
             onSuccess: () => {
                 socket.emit("invalidateQuery", {
                     queryName: "comments" + ticketId,
-                    groupId: projectId,
+                    groupId: ticketId,
                 });
 
                 toast.success("Commment has been posted");
@@ -85,31 +85,29 @@ const CommentSection = ({ ticketId }: props) => {
         }
     }, [commentsStatus, comments]);
 
+    useEffect(() => {
+        if (loadComments) {
+            socket.emit("joinRoom", {
+                roomId: ticketId,
+                username: user.username,
+            });
+
+            socket.on("roomJoined", (join) => {
+                console.log("comment room joined: " + join);
+            });
+        }
+
+        return () => {
+            socket.off("roomJoined");
+            socket.emit("leaveRoom", {
+                roomId: ticketId,
+                username: user.username,
+            });
+        };
+    }, [socket, loadComments]);
+
     return (
         <>
-            <form className='w-full' onSubmit={handleSubmit}>
-                <div className='flex gap-4 justify-center items-end w-full'>
-                    <img
-                        src={`data:${
-                            user.avatar.contentType
-                        };utf8,${encodeURIComponent(user.avatar.data)}`}
-                        alt={user.username}
-                        className='w-[50px] h-[50px]'
-                    />
-                    <input
-                        className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[75%] min-w-[250px] max-w-[1250px] focus:outline-none'
-                        type='text'
-                        onChange={(e) => setCommentInput(e.target.value)}
-                        value={commentInput}
-                    />
-                    <button
-                        className='outline outline-[1px] outline-black px-4 py-2 w-24'
-                        type='submit'
-                    >
-                        Post
-                    </button>
-                </div>
-            </form>
             {commentsStatus === "success" &&
                 (ticketComments.length > 0 ? (
                     !loadComments && (
@@ -127,7 +125,36 @@ const CommentSection = ({ ticketId }: props) => {
                         No comments. Be the first to comment any concerns.
                     </div>
                 ))}
-            {loadComments && <Comments></Comments>}
+            {loadComments && (
+                <>
+                    <form className='w-full' onSubmit={handleSubmit}>
+                        <div className='flex gap-4 justify-center items-end w-full'>
+                            <img
+                                src={`data:${
+                                    user.avatar.contentType
+                                };utf8,${encodeURIComponent(user.avatar.data)}`}
+                                alt={user.username}
+                                className='w-[50px] h-[50px]'
+                            />
+                            <input
+                                className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[75%] min-w-[250px] max-w-[1250px] focus:outline-none'
+                                type='text'
+                                onChange={(e) =>
+                                    setCommentInput(e.target.value)
+                                }
+                                value={commentInput}
+                            />
+                            <button
+                                className='outline outline-[1px] outline-black px-4 py-2 w-24'
+                                type='submit'
+                            >
+                                Post
+                            </button>
+                        </div>
+                    </form>
+                    <Comments></Comments>
+                </>
+            )}
         </>
     );
 };
