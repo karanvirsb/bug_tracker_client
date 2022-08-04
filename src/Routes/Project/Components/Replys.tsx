@@ -27,20 +27,27 @@ const Replys = ({ replyIds, ticketId }: props) => {
 
     return (
         <>
-            {replys?.map((comment: IComment) => {
-                const user = users.find(
-                    (user) => user.username === comment?.userId
-                );
-                if (user) {
-                    return (
-                        <Comment
-                            user={user}
-                            comment={comment}
-                            classname='flex flex-row gap-4 border-l border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px] pl-5'
-                        ></Comment>
+            {replyStatus === "loading" ? (
+                <div>Loading...</div>
+            ) : replyStatus === "error" ? (
+                <div>Error</div>
+            ) : (
+                replyStatus === "success" &&
+                replys?.map((comment: IComment) => {
+                    const user = users.find(
+                        (user) => user.username === comment?.userId
                     );
-                }
-            })}
+                    if (user) {
+                        return (
+                            <Comment
+                                user={user}
+                                comment={comment}
+                                classname='flex flex-row gap-4 border-l border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px] pl-5'
+                            ></Comment>
+                        );
+                    }
+                })
+            )}
         </>
     );
 };
