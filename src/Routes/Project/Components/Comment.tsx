@@ -1,4 +1,9 @@
 import React, { useMemo, useState } from "react";
+import { useMutation } from "react-query";
+import { toast } from "react-toastify";
+import socket from "../../../API/sockets";
+import axiosPrivate from "../../../Components/AxiosInterceptors";
+import { useAppSelector } from "../../../Hooks/hooks";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
 import Replys from "./Replys";
@@ -13,13 +18,38 @@ type props = {
 const Comment = ({ comment, user, classname }: props) => {
     const [replying, setReplying] = useState(false);
     const [loadReplies, setLoadReplies] = useState(false);
+    const topLevelComments = useAppSelector((state) => state.comments.comments);
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
+
+    const deleteCommentMutation = useMutation(async (commentId: string) => {
+        return await axiosPrivate("/comment", {
+            data: { commentId: commentId },
+            method: "delete",
+        });
+    });
 
     const replyIds = useMemo(
         () => comment?.reply || [],
         [comment, comment.reply]
     );
+
+    const handleDelete = () => {
+        deleteCommentMutation.mutateAsync(comment?.commentId || "", {
+            onSuccess: () => {
+                const foundTicketId = topLevelComments.find(
+                    (elem) => elem.commentId === comment.repliedTo
+                )?.ticketId;
+
+                toast.success("Comment was deleted successfully");
+                const ticketId = comment.ticketId || foundTicketId;
+                socket.emit("invalidateQuery", {
+                    queryName: "comments" + ticketId,
+                    groupId: ticketId,
+                });
+            },
+        });
+    };
 
     return (
         <div className='flex flex-col items-center w-full'>
@@ -41,7 +71,7 @@ const Comment = ({ comment, user, classname }: props) => {
                     <p>{comment.comment}</p>
                     <div>
                         <button onClick={() => setReplying(true)}>Reply</button>
-                        <button>Delete</button>
+                        <button onClick={handleDelete}>Delete</button>
                     </div>
                     {!loadReplies && replyIds.length > 0 && comment?.ticketId && (
                         <button
