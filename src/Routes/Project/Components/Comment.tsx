@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
@@ -18,6 +18,7 @@ type props = {
 const Comment = ({ comment, user, classname }: props) => {
     const [replying, setReplying] = useState(false);
     const [loadReplies, setLoadReplies] = useState(false);
+    const [replys, setReplys] = useState<string[]>([]);
     const topLevelComments = useAppSelector((state) => state.comments.comments);
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
@@ -28,11 +29,6 @@ const Comment = ({ comment, user, classname }: props) => {
             method: "delete",
         });
     });
-
-    const replyIds = useMemo(
-        () => comment?.reply || [],
-        [comment, comment.reply]
-    );
 
     const handleDelete = () => {
         deleteCommentMutation.mutateAsync(comment?.commentId || "", {
@@ -50,6 +46,12 @@ const Comment = ({ comment, user, classname }: props) => {
             },
         });
     };
+
+    useEffect(() => {
+        if (comment.reply) {
+            setReplys(comment.reply);
+        }
+    }, [comment.reply, comment]);
 
     return (
         <div className='flex flex-col items-center w-full'>
@@ -73,7 +75,7 @@ const Comment = ({ comment, user, classname }: props) => {
                         <button onClick={() => setReplying(true)}>Reply</button>
                         <button onClick={handleDelete}>Delete</button>
                     </div>
-                    {!loadReplies && replyIds.length > 0 && comment?.ticketId && (
+                    {!loadReplies && replys.length > 0 && comment?.ticketId && (
                         <button
                             className='text-center mt-2'
                             onClick={() => setLoadReplies(true)}
@@ -88,13 +90,12 @@ const Comment = ({ comment, user, classname }: props) => {
                     repliedToUserId={comment.userId}
                     comment={comment}
                     setReplying={setReplying}
-                    setLoadReplies={setLoadReplies}
                 ></ReplyToForm>
             )}
             {/* Comments / replys */}
             {loadReplies && (
                 <Replys
-                    replyIds={replyIds}
+                    replyIds={replys}
                     ticketId={comment.commentId || ""}
                 ></Replys>
             )}
