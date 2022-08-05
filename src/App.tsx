@@ -122,7 +122,13 @@ function App() {
 
     return (
         <>
-            <Suspense fallback={<Spinner></Spinner>}>
+            <Suspense
+                fallback={
+                    <div className='fixed inset-0 bg-backdrop-bg flex justify-center items-center'>
+                        <Spinner></Spinner>
+                    </div>
+                }
+            >
                 <ToastContainer
                     position='top-right'
                     draggable={true}
