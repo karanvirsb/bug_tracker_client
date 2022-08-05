@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
@@ -11,19 +10,12 @@ type props = {
     repliedToUserId: string;
     comment: IComment;
     setReplying: React.Dispatch<React.SetStateAction<boolean>>;
-    setLoadReplies: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ReplyToForm = ({
-    repliedToUserId,
-    comment,
-    setReplying,
-    setLoadReplies,
-}: props) => {
+const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
     const [replyInput, setReplyInput] = useState(`@${repliedToUserId} `);
     const user = useAppSelector((state) => state.persistedReducer.user);
     const topLevelComments = useAppSelector((state) => state.comments.comments);
-    const { projectId } = useParams();
 
     const replyMutation = useMutation(
         async ({
@@ -68,10 +60,6 @@ const ReplyToForm = ({
                         queryName: "comments" + ticketId,
                         groupId: ticketId,
                     });
-                    // socket.emit("invalidateQuery", {
-                    //     queryName: "replies-" + repliedTo,
-                    //     groupId: projectId,
-                    // });
                     setReplying(false);
                     setReplyInput("");
                 },
