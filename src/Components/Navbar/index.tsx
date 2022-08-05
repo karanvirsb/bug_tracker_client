@@ -9,7 +9,7 @@ import Spinner from "../Spinner";
 import useIsAdmin from "../../Hooks/useIsAdmin";
 import useComponentVisible from "../../Hooks/useComponentVisible";
 
-export const Navbar = () => {
+const Navbar = () => {
     const [showNavigation, setShowNavigation] = useState<boolean>(false);
     const [clicked, setClicked] = useState(false);
     const { ref, isComponentVisible, setIsComponentVisible } =
@@ -248,3 +248,5 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
         </div>
     );
 };
+
+export default Navbar;
