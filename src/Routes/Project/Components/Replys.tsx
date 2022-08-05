@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useAppSelector } from "../../../Hooks/hooks";
@@ -12,7 +12,8 @@ type props = {
 
 const Replys = ({ replyIds, ticketId }: props) => {
     const users = useAppSelector((state) => state.persistedReducer.group.users);
-    const fetchReplys = async () => {
+
+    const fetchReplys = async (replyIds: string[]) => {
         const resp = await axiosPrivate("/comment/reply/comments", {
             method: "post",
             data: { replyIdArr: replyIds },
@@ -20,10 +21,15 @@ const Replys = ({ replyIds, ticketId }: props) => {
         return resp.data;
     };
 
-    const { data: replys, status: replyStatus } = useQuery(
-        "replies-" + ticketId,
-        fetchReplys
-    );
+    const {
+        data: replys,
+        status: replyStatus,
+        refetch: refetchReplys,
+    } = useQuery("replies-" + ticketId, () => fetchReplys(replyIds));
+
+    useEffect(() => {
+        refetchReplys();
+    }, [replyIds]);
 
     return (
         <>
@@ -53,4 +59,9 @@ const Replys = ({ replyIds, ticketId }: props) => {
     );
 };
 
-export default Replys;
+const memorizedReplies = ({ replyIds, ticketId }: props) =>
+    useMemo(() => {
+        return <Replys replyIds={replyIds} ticketId={ticketId}></Replys>;
+    }, [replyIds]);
+
+export default memorizedReplies;
