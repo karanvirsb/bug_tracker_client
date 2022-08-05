@@ -1,64 +1,123 @@
-import { AnimatePresence } from "framer-motion";
-import React from "react";
+import React, { lazy, Suspense } from "react";
+const AnimatePresence = lazy(async () => {
+    const { AnimatePresence } = await import("framer-motion");
+    return { default: AnimatePresence };
+});
+
 import { useAppSelector } from "../../Hooks/hooks";
-import DeleteMemberModal from "../../Routes/Administration/Components/DeleteMemberModal";
-import EditMemberModal from "../../Routes/Administration/Components/EditMemberModal";
-import AddProjectModal from "../../Routes/Dashboard/Components/AddProjectModal";
-import DeleteProjectModal from "../../Routes/Dashboard/Components/DeleteProjectModal";
-import EditProjectModal from "../../Routes/Dashboard/Components/EditProjectModal";
-import AddTicketModal from "../../Routes/Project/Components/AddTicketModal";
-import DeleteTicketModal from "../../Routes/Project/Components/DeleteTicketModal";
-import EditTicketModal from "../../Routes/Project/Components/EditTicketModal";
 import Backdrop from "../Backdrop";
-import RemovedFromGroupModal from "../RemovedFromGroupModal/RemovedFromGroupModal";
+import Spinner from "../Spinner";
+const DeleteMemberModal = lazy(
+    () => import("../../Routes/Administration/Components/DeleteMemberModal")
+);
+const EditMemberModal = lazy(
+    () => import("../../Routes/Administration/Components/EditMemberModal")
+);
+const AddProjectModal = lazy(
+    () => import("../../Routes/Dashboard/Components/AddProjectModal")
+);
+const DeleteProjectModal = lazy(
+    () => import("../../Routes/Dashboard/Components/DeleteProjectModal")
+);
+const EditProjectModal = lazy(
+    () => import("../../Routes/Dashboard/Components/EditProjectModal")
+);
+const AddTicketModal = lazy(
+    () => import("../../Routes/Project/Components/AddTicketModal")
+);
+const DeleteTicketModal = lazy(
+    () => import("../../Routes/Project/Components/DeleteTicketModal")
+);
+const EditTicketModal = lazy(
+    () => import("../../Routes/Project/Components/EditTicketModal")
+);
+const RemovedFromGroupModal = lazy(
+    () => import("../RemovedFromGroupModal/RemovedFromGroupModal")
+);
 
 const Modal = () => {
+    const classname = "!w-10 !h-10 !border-yellow-600";
     const modal = useAppSelector((state) => state.modal);
     return (
         <AnimatePresence exitBeforeEnter={true} initial={false}>
             {modal.open && (
                 <Backdrop>
                     {modal.type === "createProject" && (
-                        <AddProjectModal></AddProjectModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <AddProjectModal></AddProjectModal>
+                        </Suspense>
                     )}
                     {modal.type === "updateProject" && modal.options && (
-                        <EditProjectModal
-                            projectId={modal.options?.projectId ?? ""}
-                        ></EditProjectModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <EditProjectModal
+                                projectId={modal.options?.projectId ?? ""}
+                            ></EditProjectModal>
+                        </Suspense>
                     )}
-                    {modal.type === "deleteProject" &&
-                        modal.options.projectId && (
+                    {modal.type === "deleteProject" && modal.options.projectId && (
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
                             <DeleteProjectModal
                                 projectId={modal.options?.projectId ?? ""}
                             ></DeleteProjectModal>
-                        )}
+                        </Suspense>
+                    )}
                     {modal.type === "createTicket" && (
-                        <AddTicketModal></AddTicketModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <AddTicketModal></AddTicketModal>
+                        </Suspense>
                     )}
                     {modal.type === "updateTicket" && (
-                        <EditTicketModal
-                            ticketId={modal.options?.ticketId ?? ""}
-                        ></EditTicketModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <EditTicketModal
+                                ticketId={modal.options?.ticketId ?? ""}
+                            ></EditTicketModal>
+                        </Suspense>
                     )}
                     {modal.type === "deleteTicket" && (
-                        <DeleteTicketModal
-                            ticketId={modal.options?.ticketId ?? ""}
-                        ></DeleteTicketModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <DeleteTicketModal
+                                ticketId={modal.options?.ticketId ?? ""}
+                            ></DeleteTicketModal>
+                        </Suspense>
                     )}
                     {modal.type === "editMember" && (
-                        <EditMemberModal
-                            username={modal.options.username ?? ""}
-                        ></EditMemberModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <EditMemberModal
+                                username={modal.options.username ?? ""}
+                            ></EditMemberModal>
+                        </Suspense>
                     )}
 
                     {modal.type === "removeMember" && (
-                        <DeleteMemberModal
-                            username={modal.options.username ?? ""}
-                        ></DeleteMemberModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <DeleteMemberModal
+                                username={modal.options.username ?? ""}
+                            ></DeleteMemberModal>
+                        </Suspense>
                     )}
 
                     {modal.type === "removedUserModal" && (
-                        <RemovedFromGroupModal></RemovedFromGroupModal>
+                        <Suspense
+                            fallback={<Spinner classname={classname}></Spinner>}
+                        >
+                            <RemovedFromGroupModal></RemovedFromGroupModal>
+                        </Suspense>
                     )}
                 </Backdrop>
             )}
