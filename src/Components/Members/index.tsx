@@ -4,56 +4,33 @@ import { useAppSelector } from "../../Hooks/hooks";
 type props = { usersArr: string[] };
 
 type user = {
-    username: String;
-    email: String;
-    firstName: String;
-    lastName: String;
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
 };
 
 type userElementProps = {
-    users: user[];
+    usersArr: user[];
 };
-const Members = ({ usersArr }: props) => {
-    // const axiosPrivate = useAxiosPrivate();
 
+const Members = ({ usersArr }: props) => {
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
 
-    const users = [];
-    for (let i = 0; i < groupUsers.length; i++) {
-        if (usersArr.includes(groupUsers[i].username)) {
-            users.push(groupUsers[i]);
+    // looping over each user of the group and adding them to users
+    const users: user[] = [];
+    for (const user of groupUsers) {
+        if (usersArr.includes(user.username)) {
+            users.push(user);
         }
     }
-
-    const UserElements = ({ users }: userElementProps) => {
-        return (
-            <>
-                {useMemo(() => {
-                    return users?.map((user: user, index: number) => {
-                        if (index === users.length - 1) {
-                            return (
-                                <span key={user.username as string}>
-                                    {`${user.firstName} ${user.lastName}`}
-                                </span>
-                            );
-                        }
-                        return (
-                            <span key={user.username as string}>
-                                {`${user.firstName} ${user.lastName}, `}
-                            </span>
-                        );
-                    });
-                }, [users])}
-            </>
-        );
-    };
 
     return (
         <>
             {users ? (
-                <UserElements users={users}></UserElements>
+                <UserElements usersArr={users}></UserElements>
             ) : (
                 <div>No Users</div>
             )}
@@ -61,4 +38,26 @@ const Members = ({ usersArr }: props) => {
     );
 };
 
+const UserElements = ({ usersArr }: userElementProps) => {
+    return (
+        <>
+            {useMemo(() => {
+                return usersArr?.map((user: user, index: number) => {
+                    if (index === usersArr.length - 1) {
+                        return (
+                            <span key={user.username}>
+                                {`${user.firstName} ${user.lastName}`}
+                            </span>
+                        );
+                    }
+                    return (
+                        <span key={user.username}>
+                            {`${user.firstName} ${user.lastName}, `}
+                        </span>
+                    );
+                });
+            }, [usersArr])}
+        </>
+    );
+};
 export default Members;
