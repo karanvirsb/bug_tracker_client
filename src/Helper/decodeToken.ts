@@ -10,6 +10,11 @@ export interface IDecode {
     exp: number;
 }
 
+/**
+ *
+ * @param token is an access token
+ * @returns a decoded token with UserRoles and expiry date
+ */
 const decoder = (token: string): IDecode | undefined => {
     if (!token) return undefined;
     const decoded: IDecode | undefined = token ? jwt_decode(token) : undefined;
