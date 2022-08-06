@@ -124,7 +124,7 @@ function App() {
         <>
             <Suspense
                 fallback={
-                    <div className='fixed inset-0 bg-backdrop-bg flex justify-center items-center'>
+                    <div className='fixed inset-0 bg-black flex justify-center items-center'>
                         <Spinner></Spinner>
                     </div>
                 }
