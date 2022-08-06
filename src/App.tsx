@@ -2,16 +2,6 @@ import React, { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-// import {
-//     Dashboard,
-//     Login,
-//     Register,
-//     RegistrationSuccessful,
-//     PageNotFound,
-//     Unauthorized,
-//     AddGroup,
-//     Tickets,
-// } from "./Routes";
 
 const Navbar = lazy(() => import("./Components/Navbar"));
 const Login = lazy(() => import("./Routes/Login/login"));
