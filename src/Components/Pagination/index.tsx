@@ -53,9 +53,7 @@ const Pagination = ({
                                 pageNumber === pageNum ? "page" : "false"
                             }
                             onClick={() =>
-                                setPageNumber(
-                                    (old: number) => pageNum as number
-                                )
+                                setPageNumber(() => pageNum as number)
                             }
                             className='bg-secondary-color text-white w-10 h-10 text-2xl flex justify-center items-center text-center rounded-full '
                         >
