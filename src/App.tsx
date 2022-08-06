@@ -105,7 +105,7 @@ function App() {
         });
 
         return () => {
-            window.removeEventListener("beforeunload", () => {});
+            window.removeEventListener("beforeunload", () => null);
         };
     });
 
