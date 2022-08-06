@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-// import localForage from "localforage";
 import {
     persistStore,
     persistReducer,
@@ -59,16 +58,6 @@ export const store = configureStore({
             },
         }),
 });
-
-// export const store = configureStore({
-//     reducer: {
-//         auth: authenticationReducer,
-//         persist: persistLoginReducer,
-//         projects: projectsReducer,
-//         modal: modalReducer,
-//         group: groupReducer,
-//     },
-// });
 
 export const persistor = persistStore(store);
 
