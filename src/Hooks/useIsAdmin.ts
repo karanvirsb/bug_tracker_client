@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useAppSelector } from "./hooks";
 
 // Checking to see if a user is an admin or an editor
