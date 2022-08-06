@@ -1,10 +1,13 @@
 import React from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import decoder from "../../Helper/decodeToken";
-import { IDecode } from "../../Helper/decodeToken";
+import decoder, { IDecode } from "../../Helper/decodeToken";
 import { useAppSelector } from "../../Hooks/hooks";
 
-const RequireAuth = ({ allowedRoles }: any) => {
+type props = {
+    allowedRoles: string[];
+};
+
+const RequireAuth = ({ allowedRoles }: props) => {
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const location = useLocation();
 
@@ -12,9 +15,7 @@ const RequireAuth = ({ allowedRoles }: any) => {
 
     const roles = decoded?.UserInfo?.roles || [];
 
-    return roles.find((role) => allowedRoles?.includes(role)) ? (
-        <Outlet></Outlet>
-    ) : auth?.username ? (
+    const authenticatedUserExists = auth?.username ? (
         <Navigate
             to='/unauthorized'
             state={{ from: location }}
@@ -22,6 +23,12 @@ const RequireAuth = ({ allowedRoles }: any) => {
         ></Navigate>
     ) : (
         <Navigate to='/login' state={{ from: location }} replace></Navigate>
+    );
+
+    return roles.find((role) => allowedRoles?.includes(role)) ? (
+        <Outlet></Outlet>
+    ) : (
+        authenticatedUserExists
     );
 };
 
