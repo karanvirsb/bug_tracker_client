@@ -12,38 +12,40 @@ const Account = ({ user }: props) => {
     const { ref, isComponentVisible, setIsComponentVisible } =
         useComponentVisible();
 
+    const toggleMenu = () => {
+        if (!clicked) {
+            setIsComponentVisible(true);
+            setClicked(true);
+        } else {
+            setClicked(false);
+        }
+    };
+
     return (
-        <div className="ml-auto">
+        <div className='ml-auto'>
             <div>
                 <img
-                    className="w-[50px] h-[50px] cursor-pointer p-1"
+                    className='w-[50px] h-[50px] cursor-pointer p-1'
                     src={`data:${
                         user.avatar.contentType
                     };utf8,${encodeURIComponent(user.avatar.data)}`}
                     alt={user.firstName + " " + user.lastName}
-                    onClick={() => {
-                        if (!clicked) {
-                            setIsComponentVisible(true);
-                            setClicked(true);
-                        } else {
-                            setClicked(false);
-                        }
-                    }}
+                    onClick={toggleMenu}
                 ></img>
                 {isComponentVisible && (
                     <div
-                        className="absolute translate-x-[-75%] translate-y-[-25%] bg-white flex flex-col gap-2 shadow-sm shadow-gray-500 rounded-md p-4 text-center"
+                        className='absolute translate-x-[-75%] translate-y-[-25%] bg-white flex flex-col gap-2 shadow-sm shadow-gray-500 rounded-md p-4 text-center'
                         ref={ref}
                     >
                         <Link
-                            to=""
-                            className="hover:bg-gray-200 w-full px-3 py-1 rounded-sm"
+                            to=''
+                            className='hover:bg-gray-200 w-full px-3 py-1 rounded-sm'
                         >
                             Account
                         </Link>
                         <Link
-                            to=""
-                            className="hover:bg-gray-200 w-full px-3 py-1 rounded-sm"
+                            to=''
+                            className='hover:bg-gray-200 w-full px-3 py-1 rounded-sm'
                         >
                             Setting
                         </Link>
