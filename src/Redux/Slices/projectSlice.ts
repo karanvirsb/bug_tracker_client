@@ -22,10 +22,10 @@ export const projectSlice = createSlice({
     name: "project",
     initialState,
     reducers: {
-        setProject: (state, action: PayloadAction<Project>) => {
+        setProject: (state: Project, action: PayloadAction<Project>) => {
             return { ...state, ...action.payload };
         },
-        addUsers: (state, action: PayloadAction<Project["users"]>) => {
+        addUsers: (state: Project, action: PayloadAction<Project["users"]>) => {
             return { ...state, users: action.payload };
         },
     },
