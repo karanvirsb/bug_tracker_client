@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, lazy } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
@@ -6,7 +6,8 @@ import { useMutation } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import ProjectModal, { IProject } from "./ProjectModal";
+const ProjectModal = lazy(() => import("./ProjectModal"));
+import { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
 
 const AddProjectModal = (): JSX.Element => {
@@ -31,15 +32,16 @@ const AddProjectModal = (): JSX.Element => {
     // creating the users of the group
     const options = [];
 
-    for (let i = 0; i < groupUsers.length; i++) {
-        if (groupUsers[i].username !== auth.username) {
+    for (const user of groupUsers) {
+        if (user.username !== auth.username) {
             options.push({
-                value: groupUsers[i].username,
-                label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
+                value: user.username,
+                label: `${user.firstName} ${user.lastName}`,
             });
         }
     }
 
+    // mutation for creating a new project
     const mutation = useMutation((newProject: IProject | {}) => {
         return axiosPrivate("/project", {
             method: "post",
@@ -54,12 +56,15 @@ const AddProjectModal = (): JSX.Element => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+
         let newProject: IProject | {} = {};
         let selectedUsers;
+
         type user = {
             value: string;
             label: string;
         };
+        // run through the users that are selected apart of the Select component
         if (usersSelected.current) {
             selectedUsers =
                 (usersSelected?.current as any).state?.selectValue.map(
@@ -68,10 +73,9 @@ const AddProjectModal = (): JSX.Element => {
                     }
                 ) ?? [];
         }
-        const users = selectedUsers;
 
         if (auth.username) {
-            users.push(auth?.username);
+            selectedUsers.push(auth?.username);
         }
 
         if (auth.group_id) {
@@ -79,12 +83,11 @@ const AddProjectModal = (): JSX.Element => {
                 groupId: auth?.group_id,
                 projectName: projectInput.projectName,
                 projectDesc: projectInput.projectDesc,
-                users: users,
+                users: selectedUsers,
             };
         }
         try {
             // mutating in order to invalidate query
-            // TODO create function to invalidate for everyone
             mutation.mutateAsync(newProject, {
                 onSuccess: () => {
                     // reset input
