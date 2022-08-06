@@ -1,15 +1,16 @@
 import { AxiosError } from "axios";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
+import Spinner from "../../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { updateUser } from "../../../Redux/Slices/groupSlice";
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
-import MemberModal from "./MemberModal";
+const MemberModal = lazy(() => import("./MemberModal"));
 
 type props = {
     username: string;
@@ -144,12 +145,20 @@ const EditMemberModal = ({ username }: props) => {
                 onSubmit={handleSubmit}
                 className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
             >
-                <MemberModal
-                    setMemberInput={setMemberInput}
-                    memberInput={memberInput}
-                    edit={true}
-                    setDisableBtn={setDisableBtn}
-                ></MemberModal>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner classname={"!w-30 !h-30"}></Spinner>
+                        </div>
+                    }
+                >
+                    <MemberModal
+                        setMemberInput={setMemberInput}
+                        memberInput={memberInput}
+                        edit={true}
+                        setDisableBtn={setDisableBtn}
+                    ></MemberModal>
+                </Suspense>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button
                         type='submit'
