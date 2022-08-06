@@ -1,8 +1,8 @@
 import { AnimatePresence, LayoutGroup } from "framer-motion";
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import Spinner from "../../../Components/Spinner";
 import { IUser } from "../../../Redux/Slices/userSlice";
-import MemberInfoModal from "./MemberInfoModal";
+const MemberInfoModal = lazy(() => import("./MemberInfoModal"));
 
 type props = {
     users: IUser[];
@@ -36,14 +36,22 @@ const Members = ({ users }: props) => {
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
-                        <tr>
-                            <td>
-                                <MemberInfoModal
-                                    selectedId={selectedId}
-                                    setSelectedId={setSelectedId}
-                                ></MemberInfoModal>
-                            </td>
-                        </tr>
+                        <Suspense
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <tr>
+                                <td>
+                                    <MemberInfoModal
+                                        selectedId={selectedId}
+                                        setSelectedId={setSelectedId}
+                                    ></MemberInfoModal>
+                                </td>
+                            </tr>
+                        </Suspense>
                     )}
                 </AnimatePresence>
             </LayoutGroup>
