@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface persistState {
+export interface PersistState {
     persist: boolean;
 }
 
-export const initialState: persistState = {
+export const initialState: PersistState = {
     persist:
         JSON.parse(localStorage.getItem("bugTrackerPersist") || "{}") || false,
 };
@@ -14,7 +14,10 @@ export const persistSlice = createSlice({
     name: "persist",
     initialState: initialState,
     reducers: {
-        changePersist: (state, action: PayloadAction<boolean>) => {
+        changePersist: (
+            state: PersistState,
+            action: PayloadAction<boolean>
+        ) => {
             state.persist = action.payload;
         },
     },
