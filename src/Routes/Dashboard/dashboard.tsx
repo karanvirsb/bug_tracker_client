@@ -1,8 +1,8 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { useAppSelector } from "../../Hooks/hooks";
 const DashboardTab = lazy(() => import("./Components/DashboardTab"));
-const Tab = lazy(() => import("../../Components/Tab/Tab"));
 const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
+import Tab from "../../Components/Tab/Tab";
 import socket from "../../API/sockets";
 import Spinner from "../../Components/Spinner";
 
@@ -51,8 +51,10 @@ const Dashboard = () => {
         <section className='sections'>
             <Suspense
                 fallback={
-                    <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
-                        <Spinner></Spinner>
+                    <div className='fixed inset-0 flex justify-center items-center'>
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
                     </div>
                 }
             >
