@@ -4,6 +4,11 @@ import { axiosPrivate } from "../../API/axios";
 import { useAppSelector } from "../../Hooks/hooks";
 import useRefreshToken from "../../Hooks/useRefreshToken";
 
+/**
+ * Created a top level component with interceptors for axios
+ * @param param0 Any children
+ * @returns on unmount it will eject the interceptors
+ */
 export const AxiosInterceptor = ({ children }: any) => {
     const refresh = useRefreshToken();
     const auth = useAppSelector(
@@ -11,6 +16,7 @@ export const AxiosInterceptor = ({ children }: any) => {
     );
 
     useEffect(() => {
+        // for each request send the authorization token
         const requestIntercept = axiosPrivate.interceptors.request.use(
             async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
                 axiosPrivate.defaults.headers.common["Authorization"] = "";
@@ -26,13 +32,19 @@ export const AxiosInterceptor = ({ children }: any) => {
             }
         );
 
+        // for each response
         const responseIntercept = axiosPrivate.interceptors.response.use(
             (response: AxiosResponse) => response,
             async (error) => {
                 //token expired
                 const config = error?.config;
 
-                if (error.response.status !== 403) {
+                // if the status is not a 403 then reject it
+                if (
+                    error.response.status !== 403 &&
+                    error.response.status >= 400 &&
+                    error.response.status <= 500
+                ) {
                     return Promise.reject(error);
                 }
 
