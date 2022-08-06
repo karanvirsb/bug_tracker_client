@@ -3,8 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
     username: string | undefined;
-    group_id?: string | undefined;
-    roles?: string[] | undefined;
+    group_id?: string;
+    roles?: string[];
     accessToken: string | undefined;
 }
 
@@ -19,12 +19,14 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setAuth: (state, action: PayloadAction<AuthState>) => {
-            const newState = { ...state, ...action.payload };
-            return newState;
+        setAuth: (state: AuthState, action: PayloadAction<AuthState>) => {
+            return { ...state, ...action.payload };
         },
 
-        updateAccessToken: (state, action: PayloadAction<string>) => {
+        updateAccessToken: (
+            state: AuthState,
+            action: PayloadAction<string>
+        ) => {
             return {
                 ...state,
                 accessToken: action.payload,
