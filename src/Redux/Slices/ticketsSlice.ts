@@ -27,39 +27,39 @@ const ticketsSlice = createSlice({
     name: "tickets",
     initialState: initialState,
     reducers: {
-        addTicket: (state, action: PayloadAction<ITicket>) => {
+        addTicket: (state: TicketsState, action: PayloadAction<ITicket>) => {
             state.tickets.push(action.payload);
         },
-        deleteTicket: (state, action: PayloadAction<String>) => {
+        deleteTicket: (state: TicketsState, action: PayloadAction<string>) => {
             const filterTickets = state.tickets.filter(
-                (project) => project.ticketId !== action.payload
+                (ticket) => ticket.ticketId !== action.payload
             );
 
             state.tickets = filterTickets;
         },
         updateTicket: (
-            state,
-            action: PayloadAction<{ ticketId: String; updates: {} }>
+            state: TicketsState,
+            action: PayloadAction<{ ticketId: string; updates: {} }>
         ) => {
             // find the index of the object
             const index = state.tickets.findIndex(
-                (project) => project.ticketId === action.payload.ticketId
+                (ticket) => ticket.ticketId === action.payload.ticketId
             );
             // assign new array
             const newState = [...state.tickets];
-            // created updated project
+            // created updated ticket
             const updatedTicket = {
                 ...state.tickets[index],
                 ...action.payload.updates,
             };
-            // then assign that project to a new reference
+            // then assign that ticket to a new reference
             newState[index] = updatedTicket;
 
             // copy state and reassign tickets
             return { ...state, tickets: newState };
         },
         updateInitialState: (
-            state,
+            state: TicketsState,
             action: PayloadAction<TicketsState["tickets"]>
         ) => {
             return { ...state, tickets: action.payload };
