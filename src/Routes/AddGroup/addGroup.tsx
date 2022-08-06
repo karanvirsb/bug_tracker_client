@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import socket from "../../API/sockets";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../Auth/authenticationSlice";
+import { useAppSelector } from "../../Hooks/hooks";
 
 type States = {
     groupType: string;
@@ -16,16 +16,16 @@ const AddGroup = () => {
     const [group, setGroup] = useState<States["groupType"]>("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { auth } = useAuth();
+    const auth = useAppSelector((state) => state.persistedReducer.auth);
 
-    const inviteCodeRegex = /.+#\d{4}/;
+    const inviteCodeRegex = /.+#\d{4}/; // test out the invite code
 
     const addGroupToUser = async (info: {}) => {
-        return await axiosPrivate("/user/id", { method: "put", data: info });
+        return axiosPrivate("/user/id", { method: "put", data: info });
     };
 
     const createGroupMutation = async (info: {}) => {
-        return await axiosPrivate("/group", { method: "post", data: info });
+        return axiosPrivate("/group", { method: "post", data: info });
     };
 
     const fetchGroups = async () => {
