@@ -2,6 +2,7 @@ import axios from "../API/axios";
 import { setAuth } from "../Auth/authenticationSlice";
 import { useAppDispatch, useAppSelector } from "../Hooks/hooks";
 import mem from "mem";
+
 const useRefreshToken = () => {
     const dispatch = useAppDispatch();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
@@ -16,7 +17,7 @@ const useRefreshToken = () => {
             dispatch(
                 setAuth({ ...auth, accessToken: response.data.accessToken })
             );
-            // console.log(response.data.accessToken);
+
             return response.data.accessToken; // allwos us to request again
             // withCrendeitals allows us to send the cookie back
         } catch (error) {
