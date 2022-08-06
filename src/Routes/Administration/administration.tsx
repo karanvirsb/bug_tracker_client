@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
-import LazyLoad from "react-lazyload";
+import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../Hooks/hooks";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import socket from "../../API/sockets";
 import { AxiosError } from "axios";
 import axiosPrivate from "../../Components/AxiosInterceptors";
-import Members from "./Components/Members";
+const Members = lazy(() => import("./Components/Members"));
 import Spinner from "../../Components/Spinner";
-import Pagination from "../../Components/Pagination";
-import Tab from "../../Components/Tab/Tab";
+const Pagination = lazy(() => import("../../Components/Pagination"));
+const Tab = lazy(() => import("../../Components/Tab/Tab"));
 
 type mutationTypes = {
     groupNameMutationType: {
@@ -180,9 +179,8 @@ const Administration = () => {
 
     return (
         <section className='sections'>
-            <LazyLoad>
-                <Tab tabs={[]} components={{}}></Tab>
-            </LazyLoad>
+            <Tab tabs={[]} components={{}}></Tab>
+
             <div className='mb-4 px-4'>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
                 <form
@@ -253,19 +251,31 @@ const Administration = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <LazyLoad>
+                            <Suspense
+                                fallback={
+                                    <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                        <Spinner></Spinner>
+                                    </div>
+                                }
+                            >
                                 <Members users={groupUsers}></Members>
-                            </LazyLoad>
+                            </Suspense>
                         </tbody>
                     </table>
-                    <LazyLoad>
+                    <Suspense
+                        fallback={
+                            <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
                         <Pagination
                             pageNumber={pageNumber}
                             setPageNumber={setPageNumber}
                             totalPage={totalPage}
                             hasMore={hasMore}
                         ></Pagination>
-                    </LazyLoad>
+                    </Suspense>
                 </div>
             </div>
         </section>
