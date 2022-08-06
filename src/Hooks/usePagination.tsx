@@ -6,30 +6,28 @@ type props = {
     currentPage: number;
     totalCount: number;
 };
-
-function usePagination({ currentPage, totalCount }: props) {
-    /*
-    * This hook will return pagination of blogs with always displaying the first and last page. 
-
-    * currentPage - the page that the user is on
-    * totalCount - is the total amount of pages
-    
-  */
-
+/**
+ * * This hook will return pagination of blogs with always displaying the first and last page.
+ * * currentPage - the page that the user is on
+ * * totalCount - is the total amount of pages
+ * @param props - {currentPage: the current page number, totalCount: is the total amount of pages}
+ * @returns An array of numbers along with dots
+ */
+const usePagination = ({ currentPage, totalCount }: props) => {
     const FIRST_PAGE = 1;
 
     const LAST_PAGE = totalCount;
 
-    const pages = useMemo(() => {
+    // returning pages
+    return useMemo(() => {
         return getPages(FIRST_PAGE, LAST_PAGE, currentPage);
     }, [FIRST_PAGE, LAST_PAGE, currentPage]);
-
-    return pages;
-}
+};
 
 function getPages(FIRST_PAGE: number, LAST_PAGE: number, currentPage: number) {
     let pages = [];
 
+    // if there is only 1 page found
     if (FIRST_PAGE === LAST_PAGE || FIRST_PAGE > LAST_PAGE) {
         pages = [FIRST_PAGE];
     } else if (LAST_PAGE === 2) {
