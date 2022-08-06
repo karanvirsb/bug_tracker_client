@@ -19,8 +19,8 @@ type deleteMemberMutationType = {
 const DeleteMemberModal = ({ username }: props) => {
     const dispatch = useAppDispatch();
     const group = useAppSelector((state) => state.persistedReducer.group);
-    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
 
+    const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
     const modalConstraints = {
         hidden: { opacity: 0, y: 100, transition },
         visible: { opacity: 1, y: 0, transition },
@@ -60,11 +60,13 @@ const DeleteMemberModal = ({ username }: props) => {
 
                     dispatch(resetModal());
 
+                    // invalidate the group info
                     socket.emit("invalidateQuery", {
                         queryName: "groupInfo",
                         groupId: group.groupId,
                     });
 
+                    // invalidate group users to refresh them
                     socket.emit("invalidateQuery", {
                         queryName: "groupUsers",
                         groupId: group.groupId,
