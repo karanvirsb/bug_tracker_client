@@ -28,23 +28,28 @@ export const groupSlice = createSlice({
     name: "group",
     initialState: initialState,
     reducers: {
-        setGroup: (state, action: PayloadAction<GroupState>) => {
+        setGroup: (state: GroupState, action: PayloadAction<GroupState>) => {
             return { ...state, ...action.payload };
         },
-        setUsers: (state, action: PayloadAction<GroupState["users"]>) => {
+        setUsers: (
+            state: GroupState,
+            action: PayloadAction<GroupState["users"]>
+        ) => {
             return { ...state, users: action.payload };
         },
         updateUser: (
-            state,
+            state: GroupState,
             action: PayloadAction<{
                 username: string;
                 roles: { [key: string]: string };
             }>
         ) => {
             const { username, roles } = action.payload;
-            const user = state.users.find((user) => user.username === username);
+            const foundUser = state.users.find(
+                (user) => user.username === username
+            );
 
-            if (!user) {
+            if (!foundUser) {
                 return state;
             }
 
@@ -58,7 +63,7 @@ export const groupSlice = createSlice({
                     isEditor = true;
                 }
             }
-            const updatedUser = user;
+            const updatedUser = foundUser;
             updatedUser["isAdmin"] = isAdmin;
             updatedUser["isEditor"] = isEditor;
 
