@@ -16,7 +16,6 @@ export const AxiosInterceptor = ({ children }: any) => {
                 axiosPrivate.defaults.headers.common["Authorization"] = "";
                 if (auth) {
                     if (config.headers) {
-                        config.headers["Authorization"] = "";
                         config.headers["Authorization"] = `Bearer ${auth}`;
                     }
                 }
@@ -43,7 +42,6 @@ export const AxiosInterceptor = ({ children }: any) => {
 
                     if (token) {
                         if (config.headers) {
-                            config.headers["Authorization"] = "";
                             config.headers["Authorization"] = `Bearer ${token}`;
                         }
                     }
