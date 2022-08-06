@@ -36,7 +36,7 @@ const RemovedFromGroupModal = lazy(
 );
 
 const Modal = () => {
-    const classname = "!w-10 !h-10 !border-yellow-600";
+    const classname = "!w-30 !h-30";
     const modal = useAppSelector((state) => state.modal);
     return (
         <AnimatePresence exitBeforeEnter={true} initial={false}>
@@ -44,14 +44,22 @@ const Modal = () => {
                 <Backdrop>
                     {modal.type === "createProject" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <AddProjectModal></AddProjectModal>
                         </Suspense>
                     )}
                     {modal.type === "updateProject" && modal.options && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <EditProjectModal
                                 projectId={modal.options?.projectId ?? ""}
@@ -60,7 +68,11 @@ const Modal = () => {
                     )}
                     {modal.type === "deleteProject" && modal.options.projectId && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <DeleteProjectModal
                                 projectId={modal.options?.projectId ?? ""}
@@ -69,14 +81,22 @@ const Modal = () => {
                     )}
                     {modal.type === "createTicket" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <AddTicketModal></AddTicketModal>
                         </Suspense>
                     )}
                     {modal.type === "updateTicket" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <EditTicketModal
                                 ticketId={modal.options?.ticketId ?? ""}
@@ -85,7 +105,11 @@ const Modal = () => {
                     )}
                     {modal.type === "deleteTicket" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <DeleteTicketModal
                                 ticketId={modal.options?.ticketId ?? ""}
@@ -94,7 +118,11 @@ const Modal = () => {
                     )}
                     {modal.type === "editMember" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <EditMemberModal
                                 username={modal.options.username ?? ""}
@@ -104,7 +132,11 @@ const Modal = () => {
 
                     {modal.type === "removeMember" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <DeleteMemberModal
                                 username={modal.options.username ?? ""}
@@ -114,7 +146,11 @@ const Modal = () => {
 
                     {modal.type === "removedUserModal" && (
                         <Suspense
-                            fallback={<Spinner classname={classname}></Spinner>}
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner classname={classname}></Spinner>
+                                </div>
+                            }
                         >
                             <RemovedFromGroupModal></RemovedFromGroupModal>
                         </Suspense>
