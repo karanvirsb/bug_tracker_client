@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { useAppSelector } from "../../Hooks/hooks";
-import DashboardTab from "./Components/DashboardTab";
-import Tab from "../../Components/Tab/Tab";
-import MembersTab from "../../Components/MembersTab/MembersTab";
+const DashboardTab = lazy(() => import("./Components/DashboardTab"));
+const Tab = lazy(() => import("../../Components/Tab/Tab"));
+const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 import socket from "../../API/sockets";
+import Spinner from "../../Components/Spinner";
 
 const Dashboard = () => {
     const auth = useAppSelector((state) => state.persistedReducer.auth);
@@ -47,8 +48,16 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <section className="sections">
-            <Tab tabs={tabs} components={components}></Tab>
+        <section className='sections'>
+            <Suspense
+                fallback={
+                    <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                        <Spinner></Spinner>
+                    </div>
+                }
+            >
+                <Tab tabs={tabs} components={components}></Tab>
+            </Suspense>
         </section>
     );
 };
