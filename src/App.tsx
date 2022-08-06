@@ -69,7 +69,6 @@ function App() {
         });
 
         socket.on("updateRoles", (roles) => {
-            console.log("new roles", roles);
             dispatch(updateUserRoles(roles));
         });
 
