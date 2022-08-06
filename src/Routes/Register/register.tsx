@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
-import ToolTip from "../../Components/Tooltip";
+const ToolTip = lazy(() => import("../../Components/Tooltip"));
 import axios from "../../API/axios";
 import { toast } from "react-toastify";
+import Spinner from "../../Components/Spinner";
 
 type States = {
     register: {
@@ -132,10 +133,12 @@ const Register = () => {
                 />
 
                 {inputValues.username && !isUsernameValid && (
-                    <ToolTip
-                        id='username'
-                        toolTipText='Username must be 4 to 24 characters long'
-                    ></ToolTip>
+                    <Suspense fallback={<Spinner></Spinner>}>
+                        <ToolTip
+                            id='username'
+                            toolTipText='Username must be 4 to 24 characters long'
+                        ></ToolTip>
+                    </Suspense>
                 )}
                 <div className='flex items-center gap-3 w-full'>
                     <input
@@ -157,10 +160,12 @@ const Register = () => {
                         ))}
                 </div>
                 {inputValues.password && !isPasswordValid && (
-                    <ToolTip
-                        id='password'
-                        toolTipText='Password must have atleast 1 capital letter. Atleast 1 of these symbols "!@#$%_". Must be 8 to 24 characters long'
-                    ></ToolTip>
+                    <Suspense fallback={<Spinner></Spinner>}>
+                        <ToolTip
+                            id='password'
+                            toolTipText='Password must have atleast 1 capital letter. Atleast 1 of these symbols "!@#$%_". Must be 8 to 24 characters long'
+                        ></ToolTip>
+                    </Suspense>
                 )}
                 <div className='flex items-center gap-3 w-full'>
                     <input
