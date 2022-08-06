@@ -1,4 +1,5 @@
 import React from "react";
+import LazyLoad from "react-lazyload";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 type Props = {
@@ -15,7 +16,9 @@ function ToolTip({ id, toolTipText }: Props): JSX.Element {
             tabIndex={0}
             aria-live='assertive'
         >
-            <AiOutlineInfoCircle className='fill-white text-lg'></AiOutlineInfoCircle>
+            <LazyLoad>
+                <AiOutlineInfoCircle className='fill-white text-lg'></AiOutlineInfoCircle>
+            </LazyLoad>
             <span className='text-left w-3/4'>{toolTipText}</span>
         </p>
     );
