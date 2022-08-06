@@ -8,7 +8,6 @@ import useIsAdmin from "../../../Hooks/useIsAdmin";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { updateInitialState } from "../../../Redux/Slices/projectsSlice";
-import socket from "../../../API/sockets";
 
 type props = {
     groupId: string | undefined;
