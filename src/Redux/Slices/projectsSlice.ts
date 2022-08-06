@@ -22,10 +22,10 @@ export const projectsSlice = createSlice({
     name: "projects",
     initialState,
     reducers: {
-        addProject: (state, action: PayloadAction<Project>) => {
+        addProject: (state: ProjectState, action: PayloadAction<Project>) => {
             state.projects.push(action.payload);
         },
-        deleteProject: (state, action: PayloadAction<String>) => {
+        deleteProject: (state: ProjectState, action: PayloadAction<string>) => {
             const filterProjects = state.projects.filter(
                 (project) => project.projectId !== action.payload
             );
@@ -33,8 +33,8 @@ export const projectsSlice = createSlice({
             state.projects = filterProjects;
         },
         updateProject: (
-            state,
-            action: PayloadAction<{ projectId: String; updates: {} }>
+            state: ProjectState,
+            action: PayloadAction<{ projectId: string; updates: {} }>
         ) => {
             // find the index of the object
             const index = state.projects.findIndex(
@@ -53,7 +53,10 @@ export const projectsSlice = createSlice({
             // copy state and reassign projects
             return { ...state, projects: newState };
         },
-        updateInitialState: (state, action: PayloadAction<Project[]>) => {
+        updateInitialState: (
+            state: ProjectState,
+            action: PayloadAction<Project[]>
+        ) => {
             return { ...state, projects: action.payload };
         },
     },
