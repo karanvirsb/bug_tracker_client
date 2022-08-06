@@ -8,8 +8,7 @@ import { setUser } from "../Redux/Slices/userSlice";
 const useLogout = () => {
     const dispatch = useDispatch();
     const logout = async () => {
-        // reset auth
-
+        // reseting group slice
         dispatch(
             setGroup({
                 groupId: "",
@@ -18,6 +17,7 @@ const useLogout = () => {
                 users: [],
             })
         );
+        // reseting user slice
         dispatch(
             setUser({
                 avatar: { data: "", contentType: "" },
@@ -32,6 +32,8 @@ const useLogout = () => {
 
         socket.emit("leavingPage");
         socket.disconnect();
+
+        // resetting authentication
         dispatch(
             setAuth({ username: "", accessToken: "", group_id: "", roles: [] })
         );
