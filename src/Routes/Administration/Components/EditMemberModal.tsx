@@ -71,7 +71,9 @@ const EditMemberModal = ({ username }: props) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        // make default roles
         const roles: { [key: string]: string } = { User: "2001" };
+
         if (memberInput.isAdmin === true) {
             roles["Admin"] = "1990";
         }
@@ -93,11 +95,13 @@ const EditMemberModal = ({ username }: props) => {
             { id: memberInput.username, updates: updates },
             {
                 onSuccess: () => {
+                    // update everyones state
                     socket.emit("updateUserRoles", {
                         roomId: group.groupId,
                         username: username,
                         roles: roles,
                     });
+                    // update for the current admin
                     dispatch(updateUser({ username: username, roles: roles }));
                     toast.success("User was updated successfully");
                     setMemberInput({
