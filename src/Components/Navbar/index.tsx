@@ -21,7 +21,8 @@ const Navbar = () => {
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const group = useAppSelector((state) => state.persistedReducer.group);
     const modal = useAppSelector((state) => state.modal.open);
-    // fetching gruop info with invite code
+
+    // fetching group information with groupId
     const fetchGroup = async () => {
         const resp = await axiosPrivate("/group/id", {
             method: "post",
@@ -63,6 +64,7 @@ const Navbar = () => {
 
     const setArrowDegree = isComponentVisible ? "-rotate-90" : "rotate-90";
 
+    // to check if the nav item is active or not to highlight the page the user is on
     const classNameFunc = ({ isActive }: any) => {
         return isActive
             ? "bg-gray-400 text-black font-semibold rounded-md py-2 px-4"
@@ -76,6 +78,7 @@ const Navbar = () => {
     }, [groupStatus, groupData, dispatch]);
 
     useEffect(() => {
+        // updating the user data to match the groupUsersSlice
         const newUsers = usersData?.map((user: any) => {
             const isAdmin = Object.values(user.roles).includes("1990");
             const isEditor = Object.values(user.roles).includes("1991");
@@ -95,10 +98,6 @@ const Navbar = () => {
             dispatch(setUsers(newUsers));
         }
     }, [groupUsersStatus, usersData, dispatch]);
-
-    useEffect(() => {
-        console.log("changed", isComponentVisible);
-    }, [isComponentVisible]);
 
     return (
         <header
@@ -212,6 +211,7 @@ type dropDownProps = {
     inviteCode: string;
     componentRef: typeof useRef;
 };
+// TODO fix the height of copied
 const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
     const [copied, setCopied] = useState(false);
     const copyInviteCode = () => {
@@ -226,6 +226,7 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
             clearTimeout(timer);
         };
     }, [copied]);
+
     return (
         <div
             className='absolute bg-white text-black p-1 z-10 rounded-md w-full'
