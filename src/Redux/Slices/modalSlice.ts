@@ -27,16 +27,19 @@ export const modalSlice = createSlice({
     name: "modal",
     initialState,
     reducers: {
-        setType: (state, action: PayloadAction<ModalState["type"]>) => {
+        setType: (
+            state: ModalState,
+            action: PayloadAction<ModalState["type"]>
+        ) => {
             return { ...state, type: action.payload };
         },
-        setOpen: (state, action: PayloadAction<boolean>) => {
+        setOpen: (state: ModalState, action: PayloadAction<boolean>) => {
             return { ...state, open: action.payload };
         },
         resetModal: () => {
             return initialState;
         },
-        setModal: (state, action: PayloadAction<ModalState>) => {
+        setModal: (state: ModalState, action: PayloadAction<ModalState>) => {
             return { ...state, ...action.payload };
         },
     },
