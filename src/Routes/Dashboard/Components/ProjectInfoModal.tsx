@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import Backdrop from "../../../Components/Backdrop";
@@ -15,7 +15,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     const navigate = useNavigate();
     const { isAdmin, isEditor } = useIsAdmin();
     const projects = useAppSelector((state) => state.projects.projects);
-    const project = projects.find(
+    const foundProject = projects.find(
         (project) => project.projectId === selectedId
     );
 
@@ -32,7 +32,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
             setModal({
                 type: "updateProject",
                 open: true,
-                options: { projectId: project?.projectId },
+                options: { projectId: foundProject?.projectId },
             })
         );
         setSelectedId(null);
@@ -43,7 +43,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
             setModal({
                 type: "deleteProject",
                 open: true,
-                options: { projectId: project?.projectId },
+                options: { projectId: foundProject?.projectId },
             })
         );
         setSelectedId(null);
@@ -51,7 +51,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
 
     const navigateToTickets = () => {
         setSelectedId(null);
-        navigate(`/project/${project?.projectId}`);
+        navigate(`/project/${foundProject?.projectId}`);
     };
 
     return (
@@ -66,10 +66,12 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
             >
                 <div className='border-b-[1px] border-black flex justify-between items-center pb-4'>
                     <div className='flex flex-col gap-1'>
-                        <h1 className='text-2xl'>{project?.projectName}</h1>
+                        <h1 className='text-2xl'>
+                            {foundProject?.projectName}
+                        </h1>
                         <p className='text-gray-600'>
                             {new Date(
-                                project?.dateCreated ?? ""
+                                foundProject?.dateCreated ?? ""
                             ).toDateString()}
                         </p>
                     </div>
@@ -90,13 +92,13 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                 <div>
                     <h2 className='text-gray-500 text-lg'>Description:</h2>
                     <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto outline outline-gray-200 outline-1 rounded-md p-4'>
-                        {project?.projectDesc}
+                        {foundProject?.projectDesc}
                     </p>
                 </div>
                 <div>
                     <h2 className='text-gray-500 text-lg'>Users:</h2>
                     <UserElements
-                        usersArr={project?.users ?? []}
+                        usersArr={foundProject?.users ?? []}
                     ></UserElements>
                 </div>
                 <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
