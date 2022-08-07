@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
+import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
-import Replys from "./Replys";
-import ReplyToForm from "./ReplyToForm";
+const Replys = lazy(() => import("./Replys"));
+const ReplyToForm = lazy(() => import("./ReplyToForm"));
 
 type props = {
     comment: IComment;
@@ -16,15 +17,17 @@ type props = {
 };
 
 const Comment = ({ comment, user, classname }: props) => {
-    const [replying, setReplying] = useState(false);
-    const [loadReplies, setLoadReplies] = useState(false);
-    const [replys, setReplys] = useState<string[]>([]);
+    const [replying, setReplying] = useState(false); // if user is replying open form
+    const [loadReplies, setLoadReplies] = useState(false); // load up the replies
+    const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
+
     const topLevelComments = useAppSelector((state) => state.comments.comments);
+
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
 
     const deleteCommentMutation = useMutation(async (commentId: string) => {
-        return await axiosPrivate("/comment", {
+        return axiosPrivate("/comment", {
             data: { commentId: commentId },
             method: "delete",
         });
@@ -86,18 +89,34 @@ const Comment = ({ comment, user, classname }: props) => {
                 </div>
             </div>
             {replying && (
-                <ReplyToForm
-                    repliedToUserId={comment.userId}
-                    comment={comment}
-                    setReplying={setReplying}
-                ></ReplyToForm>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <ReplyToForm
+                        repliedToUserId={comment.userId}
+                        comment={comment}
+                        setReplying={setReplying}
+                    ></ReplyToForm>
+                </Suspense>
             )}
             {/* Comments / replys */}
             {loadReplies && (
-                <Replys
-                    replyIds={replys}
-                    ticketId={comment.commentId || ""}
-                ></Replys>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <Replys
+                        replyIds={replys}
+                        ticketId={comment.commentId || ""}
+                    ></Replys>
+                </Suspense>
             )}
         </div>
     );
