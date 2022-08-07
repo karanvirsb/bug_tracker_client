@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
-import { QueryClient, useInfiniteQuery, useMutation } from "react-query";
-import { setComments } from "../../../Redux/Slices/commentsSlice";
-import { IComment } from "../../../Redux/Slices/commentsSlice";
-import Comments from "./Comments";
+import { useInfiniteQuery, useMutation } from "react-query";
+import { setComments, IComment } from "../../../Redux/Slices/commentsSlice";
+const Comments = lazy(() => import("./Comments"));
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
-import { useParams } from "react-router-dom";
 import { AxiosError } from "axios";
+import Spinner from "../../../Components/Spinner";
 
 type props = {
     ticketId: string;
@@ -19,12 +18,13 @@ type fetchCommentSectionType = {
 };
 
 const CommentSection = ({ ticketId }: props) => {
-    const [loadComments, setLoadComments] = useState(false);
+    const [loadComments, setLoadComments] = useState(false); // to load when button is clicked
     const [currentPage, setCurrentPage] = useState(1);
-    const [commentInput, setCommentInput] = useState("");
+    const [commentInput, setCommentInput] = useState(""); // used for the form
+
     const user = useAppSelector((state) => state.persistedReducer.user);
     const ticketComments = useAppSelector((state) => state.comments.comments);
-    const { projectId } = useParams();
+
     const dispatch = useAppDispatch();
 
     const fetchCommentSection = async ({ page }: fetchCommentSectionType) => {
@@ -50,7 +50,7 @@ const CommentSection = ({ ticketId }: props) => {
     );
 
     const postCommentMutation = useMutation(async (commentInfo: IComment) => {
-        return await axiosPrivate("/comment", {
+        return axiosPrivate("/comment", {
             method: "post",
             data: commentInfo,
         });
@@ -167,7 +167,17 @@ const CommentSection = ({ ticketId }: props) => {
                         </div>
                     </>
                 ))}
-            {loadComments && <Comments></Comments>}
+            {loadComments && (
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <Comments></Comments>
+                </Suspense>
+            )}
         </>
     );
 };
