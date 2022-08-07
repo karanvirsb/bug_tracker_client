@@ -9,6 +9,7 @@ import { resetModal } from "../../../Redux/Slices/modalSlice";
 import socket from "../../../API/sockets";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import Spinner from "../../../Components/Spinner";
 
 const initalState = {
     title: "",
@@ -236,20 +237,28 @@ const EditTicketModal = ({ ticketId }: props) => {
                 onSubmit={handleTicketSubmit}
                 className='flex flex-col justify-evenly gap-3 w-full min-h-[100vh] p-4 '
             >
-                <TicketModal
-                    ticketInput={ticketInput}
-                    setTicketInput={setTicketInput}
-                    options={users}
-                    userRef={usersSelected}
-                    ticketSeverityRef={ticketSeverityRef}
-                    ticketStatusRef={ticketStatusRef}
-                    ticketTypeRef={ticketTypeRef}
-                    defaultSelect={defaultSelectedUser}
-                    defaultTicketSeverity={ticketSeverityDefault}
-                    defaultTicketStatus={ticketStatusDefault}
-                    defaultTicketType={ticketTypeDefault}
-                    type='edit'
-                ></TicketModal>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <TicketModal
+                        ticketInput={ticketInput}
+                        setTicketInput={setTicketInput}
+                        options={users}
+                        userRef={usersSelected}
+                        ticketSeverityRef={ticketSeverityRef}
+                        ticketStatusRef={ticketStatusRef}
+                        ticketTypeRef={ticketTypeRef}
+                        defaultSelect={defaultSelectedUser}
+                        defaultTicketSeverity={ticketSeverityDefault}
+                        defaultTicketStatus={ticketStatusDefault}
+                        defaultTicketType={ticketTypeDefault}
+                        type='edit'
+                    ></TicketModal>
+                </Suspense>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
                         Submit
