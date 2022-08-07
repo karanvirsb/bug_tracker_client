@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
-import Pagination from "../../../Components/Pagination";
 import Spinner from "../../../Components/Spinner";
 import { useAppDispatch } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
 import { updateInitialState } from "../../../Redux/Slices/ticketsSlice";
-import Tickets from "./Tickets";
+const Tickets = lazy(() => import("./Tickets"));
+const Pagination = lazy(() => import("../../../Components/Pagination"));
 
 type props = {
     projectId: string | undefined;
@@ -112,7 +112,15 @@ const TicketsTab = ({ projectId, project, projectStatus }: props) => {
                                 </tr>
                             )}
                             {ticketStatus === "success" && (
-                                <Tickets tickets={tickets.docs}></Tickets>
+                                <Suspense
+                                    fallback={
+                                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                            <Spinner></Spinner>
+                                        </div>
+                                    }
+                                >
+                                    <Tickets tickets={tickets.docs}></Tickets>
+                                </Suspense>
                             )}
                             {ticketStatus === "error" && (
                                 <tr className='w-full text-center text-lg '>
@@ -129,12 +137,20 @@ const TicketsTab = ({ projectId, project, projectStatus }: props) => {
                             )}
                         </tbody>
                     </table>
-                    <Pagination
-                        pageNumber={pageNumber}
-                        totalPage={tickets?.totalPage || 0}
-                        hasMore={tickets?.hasNextPage || false}
-                        setPageNumber={setPageNumber}
-                    ></Pagination>
+                    <Suspense
+                        fallback={
+                            <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <Pagination
+                            pageNumber={pageNumber}
+                            totalPage={tickets?.totalPage || 0}
+                            hasMore={tickets?.hasNextPage || false}
+                            setPageNumber={setPageNumber}
+                        ></Pagination>
+                    </Suspense>
                 </div>
             </div>
         </>
