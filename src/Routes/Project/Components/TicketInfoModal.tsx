@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import Backdrop from "../../../Components/Backdrop";
+import Spinner from "../../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
 const CommentSection = lazy(() => import("./CommentSection"));
@@ -164,7 +165,15 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         ></UserElements>
                     </div>
                 </div>
-                <CommentSection ticketId={selectedId}></CommentSection>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <CommentSection ticketId={selectedId}></CommentSection>
+                </Suspense>
             </motion.div>
         </Backdrop>
     );
