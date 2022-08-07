@@ -74,6 +74,7 @@ const AddTicketModal = () => {
 
         let newTicket = ticketInput;
 
+        // if found add it to new ticket
         if (ticketSeverityRef.current) {
             newTicket = {
                 ...newTicket,
