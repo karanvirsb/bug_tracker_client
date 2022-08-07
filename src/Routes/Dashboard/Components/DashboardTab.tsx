@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
-import Projects from "../Components/Projects";
+const Projects = lazy(() => import("../Components/Projects"));
 import Spinner from "../../../Components/Spinner";
 import { setModal } from "../../../Redux/Slices/modalSlice";
-import Pagination from "../../../Components/Pagination";
+const Pagination = lazy(() => import("../../../Components/Pagination"));
 import useIsAdmin from "../../../Hooks/useIsAdmin";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
@@ -18,9 +18,7 @@ const DashboardTab = ({ groupId }: props) => {
     const [errMsg, setErrMsg] = useState("");
 
     const projectsState = useAppSelector((state) => state.projects.projects);
-    const username = useAppSelector(
-        (state) => state.persistedReducer.user.username
-    );
+
     const dispatch = useAppDispatch();
     const { isAdmin, isEditor } = useIsAdmin();
 
@@ -57,6 +55,7 @@ const DashboardTab = ({ groupId }: props) => {
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Projects
                     </h2>
+                    {/* only allowing admins or editors to create new projects */}
                     {(isAdmin || isEditor) && (
                         <button
                             className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
@@ -104,7 +103,17 @@ const DashboardTab = ({ groupId }: props) => {
                                 </tr>
                             )}
                             {status === "success" && (
-                                <Projects projects={projectsState}></Projects>
+                                <Suspense
+                                    fallback={
+                                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                            <Spinner></Spinner>
+                                        </div>
+                                    }
+                                >
+                                    <Projects
+                                        projects={projectsState}
+                                    ></Projects>
+                                </Suspense>
                             )}
                             {status === "error" && (
                                 <tr className='w-full text-center text-lg '>
@@ -124,15 +133,24 @@ const DashboardTab = ({ groupId }: props) => {
                             )}
                         </tbody>
                     </table>
-                    <Pagination
-                        pageNumber={pageNumber}
-                        totalPage={projects?.totalPages || 0}
-                        hasMore={projects?.hasNextPage || false}
-                        setPageNumber={setPageNumber}
-                    ></Pagination>
+                    <Suspense
+                        fallback={
+                            <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <Pagination
+                            pageNumber={pageNumber}
+                            totalPage={projects?.totalPages || 0}
+                            hasMore={projects?.hasNextPage || false}
+                            setPageNumber={setPageNumber}
+                        ></Pagination>
+                    </Suspense>
                 </div>
             </div>
             <div>
+                {/* TODO */}
                 <div>
                     <h2>Ticket Status</h2>
                 </div>
