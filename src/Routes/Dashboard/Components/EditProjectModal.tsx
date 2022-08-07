@@ -1,27 +1,26 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, lazy } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
 import { useMutation } from "react-query";
-// import useAxiosPrivate from "../../../Hooks/useAxiosPrivate";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import ProjectModal, { IProject } from "./ProjectModal";
+const ProjectModal = lazy(() => import("./ProjectModal"));
+import { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
 
 const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     const projects = useAppSelector((state) => state.projects.projects);
-    const project = projects.find(
+    const foundProject = projects.find(
         (project) => project.projectId === props.projectId
     );
 
     const [projectInput, setProjectInput] = useState<IProject>({
-        groupId: project?.groupId ?? "",
-        projectName: project?.projectName ?? "",
-        projectDesc: project?.projectDesc ?? "",
+        groupId: foundProject?.groupId ?? "",
+        projectName: foundProject?.projectName ?? "",
+        projectDesc: foundProject?.projectDesc ?? "",
     });
-    // const axiosPrivate = useAxiosPrivate();
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const groupUsers = useAppSelector(
@@ -39,16 +38,18 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
 
     const options = [];
     const defaultSelectValue = [];
-    for (let i = 0; i < groupUsers.length; i++) {
+    // adding members that are apart of the group
+    for (const user of groupUsers) {
         options.push({
-            value: groupUsers[i].username,
-            label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
+            value: user.username,
+            label: `${user.firstName} ${user.lastName}`,
         });
 
-        if (project?.users.includes(groupUsers[i].username)) {
+        // adding members that are already selected
+        if (foundProject?.users.includes(user.username)) {
             defaultSelectValue.push({
-                value: groupUsers[i].username,
-                label: `${groupUsers[i].firstName} ${groupUsers[i].lastName}`,
+                value: user.username,
+                label: `${user.firstName} ${user.lastName}`,
             });
         }
     }
@@ -78,6 +79,8 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                 value: string;
                 label: string;
             };
+
+            // getting users back from react-select
             if (usersSelected.current) {
                 selectedUsers =
                     (usersSelected?.current as any).state?.selectValue.map(
@@ -87,8 +90,8 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                     ) ?? [];
             }
             const updates = { ...projectInput, users: selectedUsers };
+
             // mutating in order to invalidate query
-            // TODO create function to invalidate for everyone
             mutation.mutateAsync(
                 { projectId: props.projectId, updates: updates },
                 {
