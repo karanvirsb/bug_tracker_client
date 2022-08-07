@@ -1,7 +1,8 @@
+import React, { useState, lazy, Suspense } from "react";
 import { AnimatePresence, LayoutGroup } from "framer-motion";
-import React, { useState } from "react";
 import Ticket from "./Ticket";
-import TicketInfoModal from "./TicketInfoModal";
+import Spinner from "../../../Components/Spinner";
+const TicketInfoModal = lazy(() => import("./TicketInfoModal"));
 export interface ITicket {
     ticketId: string;
     dateCreated: Date;
@@ -45,14 +46,22 @@ const Tickets = ({ tickets }: props) => {
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
-                        <tr>
-                            <td>
-                                <TicketInfoModal
-                                    selectedId={selectedId}
-                                    setSelectedId={setSelectedId}
-                                ></TicketInfoModal>
-                            </td>
-                        </tr>
+                        <Suspense
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <tr>
+                                <td>
+                                    <TicketInfoModal
+                                        selectedId={selectedId}
+                                        setSelectedId={setSelectedId}
+                                    ></TicketInfoModal>
+                                </td>
+                            </tr>
+                        </Suspense>
                     )}
                 </AnimatePresence>
             </LayoutGroup>
