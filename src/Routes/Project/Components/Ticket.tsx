@@ -7,7 +7,7 @@ type reportProps = {
     username: string;
 };
 
-interface Ticket extends ITicket {
+interface TicketInterface extends ITicket {
     setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
@@ -47,7 +47,7 @@ const Ticket = ({
     ticketType,
     reporterId,
     setSelectedId,
-}: Ticket) => {
+}: TicketInterface) => {
     return (
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
