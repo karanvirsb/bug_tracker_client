@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Spinner from "../../Components/Spinner";
@@ -6,9 +6,9 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
 import { setProject } from "../../Redux/Slices/projectSlice";
 import axiosPrivate from "../../Components/AxiosInterceptors";
-import TicketsTab from "./Components/TicketsTab";
+const TicketsTab = lazy(() => import("./Components/TicketsTab"));
 import Tab from "../../Components/Tab/Tab";
-import MembersTab from "../../Components/MembersTab/MembersTab";
+const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 
 const Project = () => {
     const { projectId } = useParams();
@@ -20,6 +20,7 @@ const Project = () => {
 
     const dispatch = useAppDispatch();
 
+    // fetching a specific project
     const fetchProject = async () => {
         const resp = await axiosPrivate("/project/id", {
             method: "post",
@@ -95,7 +96,17 @@ const Project = () => {
 
     return (
         <section className='sections'>
-            <Tab tabs={tabs} components={components}></Tab>
+            <Suspense
+                fallback={
+                    <div className='fixed inset-0 flex justify-center items-center'>
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    </div>
+                }
+            >
+                <Tab tabs={tabs} components={components}></Tab>
+            </Suspense>
         </section>
     );
 };
