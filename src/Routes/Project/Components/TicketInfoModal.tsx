@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { lazy } from "react";
 import Backdrop from "../../../Components/Backdrop";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
-import CommentSection from "./CommentSection";
+const CommentSection = lazy(() => import("./CommentSection"));
+
 import {
     ticketSeverityColor,
     ticketStatusColor,
@@ -21,9 +22,12 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
-    const ticket = tickets.find((ticket) => ticket.ticketId === selectedId);
-    const user = groupUsers.find(
-        (user) => user.username === ticket?.reporterId
+
+    const foundTicket = tickets.find(
+        (ticket) => ticket.ticketId === selectedId
+    );
+    const foundUser = groupUsers.find(
+        (user) => user.username === foundTicket?.reporterId
     );
 
     const transition = { duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] };
@@ -38,7 +42,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
             setModal({
                 type: "updateTicket",
                 open: true,
-                options: { ticketId: ticket?.ticketId },
+                options: { ticketId: foundTicket?.ticketId },
             })
         );
         setSelectedId(null);
@@ -49,7 +53,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
             setModal({
                 type: "deleteTicket",
                 open: true,
-                options: { ticketId: ticket?.ticketId },
+                options: { ticketId: foundTicket?.ticketId },
             })
         );
         setSelectedId(null);
@@ -67,11 +71,11 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                 <div className='flex justify-between items-center'>
                     <div className='flex lg:flex-col gap-4 items-center'>
                         <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
-                            <h1 className='text-2xl'>{ticket?.title}</h1>
+                            <h1 className='text-2xl'>{foundTicket?.title}</h1>
                             <span className='sm:hidden'>&#8212;</span>
                             <span className='text-gray-600 m-md:pl-2'>
                                 {new Date(
-                                    ticket?.dateCreated ?? ""
+                                    foundTicket?.dateCreated ?? ""
                                 ).toDateString()}
                             </span>
                         </div>
@@ -83,34 +87,38 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                                 <span
                                     className={`${
                                         ticketTypeColor[
-                                            ticket?.ticketType ?? "Bug"
+                                            foundTicket?.ticketType ?? "Bug"
                                         ]
                                     } text-center rounded-xl px-4`}
                                 >
-                                    {ticket?.ticketType}
+                                    {foundTicket?.ticketType}
                                 </span>{" "}
                                 <span
                                     className={`${
                                         ticketStatusColor[
-                                            ticket?.ticketStatus ?? "Open"
+                                            foundTicket?.ticketStatus ?? "Open"
                                         ]
                                     } text-center rounded-xl px-4`}
                                 >
-                                    {ticket?.ticketStatus}
+                                    {foundTicket?.ticketStatus}
                                 </span>{" "}
                                 <span
                                     className={`${
                                         ticketSeverityColor[
-                                            ticket?.ticketSeverity ?? "None"
+                                            foundTicket?.ticketSeverity ??
+                                                "None"
                                         ]
                                     } text-center px-4`}
                                 >
-                                    {ticket?.ticketSeverity}
+                                    {foundTicket?.ticketSeverity}
                                 </span>
                             </div>
                             <span className='sm:hidden'>&#8212;</span>
                             <div>
-                                By: {user?.firstName + " " + user?.lastName}
+                                By:{" "}
+                                {foundUser?.firstName +
+                                    " " +
+                                    foundUser?.lastName}
                             </div>
                         </div>
                     </div>
@@ -146,13 +154,13 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                     <div>
                         <h2 className='text-gray-500 text-lg'>Description:</h2>
                         <p className='max-w-[100ch] w-full text-lg max-h-[150px] overflow-auto pl-4 outline outline-gray-200 outline-1 rounded-md p-4'>
-                            {ticket?.description}
+                            {foundTicket?.description}
                         </p>
                     </div>
                     <div>
                         <h2 className='text-gray-500 text-lg'>Users:</h2>
                         <UserElements
-                            usersArr={ticket?.assignedDev ?? []}
+                            usersArr={foundTicket?.assignedDev ?? []}
                         ></UserElements>
                     </div>
                 </div>
