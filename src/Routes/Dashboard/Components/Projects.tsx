@@ -1,7 +1,7 @@
+import React, { lazy, useState } from "react";
 import { AnimatePresence, LayoutGroup } from "framer-motion";
-import React, { useState } from "react";
-import Project from "./Project";
-import ProjectInfoModal from "./ProjectInfoModal";
+const Project = lazy(() => import("./Project"));
+const ProjectInfoModal = lazy(() => import("./ProjectInfoModal"));
 
 export interface IProject {
     projectId: string;
