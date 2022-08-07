@@ -29,8 +29,9 @@ const DeleteProjectModal = ({ projectId }: props) => {
             transition: { duration: 0.75, ease: [0.43, 0.13, 0.23, 0.96] },
         },
     };
+    // to delete a project
     const mutation = useMutation(async (id: string) => {
-        return await axiosPrivate("/project", {
+        return axiosPrivate("/project", {
             method: "delete",
             data: { id: id },
         });
