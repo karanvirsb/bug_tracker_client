@@ -81,6 +81,7 @@ const EditTicketModal = ({ ticketId }: props) => {
             label: `${foundUser?.firstName} ${foundUser?.lastName}`,
         });
 
+        // if the user exists within assignedDevs add him to the default select
         if (foundTicket?.assignedDev.includes(user)) {
             defaultSelectedUser.push({
                 value: foundUser?.username ?? "",
@@ -91,18 +92,18 @@ const EditTicketModal = ({ ticketId }: props) => {
 
     // Assigning default values
     const ticketTypeDefault = {
-        value: ticket?.ticketType,
-        label: ticket?.ticketType,
+        value: foundTicket?.ticketType,
+        label: foundTicket?.ticketType,
     };
 
     const ticketStatusDefault = {
-        value: ticket?.ticketStatus,
-        label: ticket?.ticketStatus,
+        value: foundTicket?.ticketStatus,
+        label: foundTicket?.ticketStatus,
     };
 
     const ticketSeverityDefault = {
-        value: ticket?.ticketSeverity,
-        label: ticket?.ticketSeverity,
+        value: foundTicket?.ticketSeverity,
+        label: foundTicket?.ticketSeverity,
     };
 
     const handleTicketSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -113,6 +114,7 @@ const EditTicketModal = ({ ticketId }: props) => {
 
         e.preventDefault();
 
+        // presetting ticket
         let newTicket = {
             title: ticketInput.title,
             description: ticketInput.description,
@@ -169,7 +171,6 @@ const EditTicketModal = ({ ticketId }: props) => {
             projectId: projectState.projectId,
         };
 
-        console.log(newTicket);
         try {
             updateTicketMutation.mutateAsync(
                 { ticketId: ticketId, updates: newTicket },
