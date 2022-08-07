@@ -28,7 +28,7 @@ const DeleteTicketModal = ({ ticketId }: props) => {
     };
 
     const deleteTicketMutation = useMutation(async (id: string) => {
-        return await axiosPrivate("/ticket", {
+        return axiosPrivate("/ticket", {
             method: "delete",
             data: { ticketId: id },
         });
