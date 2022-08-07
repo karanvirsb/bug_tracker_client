@@ -130,13 +130,6 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     );
 };
 
-type user = {
-    username: String;
-    email: String;
-    firstName: String;
-    lastName: String;
-};
-
 type userProps = {
     usersArr: string[];
 };
@@ -147,9 +140,10 @@ const UserElements = ({ usersArr }: userProps) => {
     );
 
     const users = [];
-    for (let i = 0; i < groupUsers.length; i++) {
-        if (usersArr.includes(groupUsers[i].username)) {
-            users.push(groupUsers[i]);
+    // adding users who exist within the project
+    for (const user of groupUsers) {
+        if (usersArr.includes(user.username)) {
+            users.push(user);
         }
     }
 
