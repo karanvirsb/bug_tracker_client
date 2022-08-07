@@ -1,5 +1,6 @@
-import React from "react";
-import Members from "../../../Components/Members";
+import React, { lazy, Suspense } from "react";
+import Spinner from "../../../Components/Spinner";
+const Members = lazy(() => import("../../../Components/Members"));
 import { useAppSelector } from "../../../Hooks/hooks";
 import { ITicket } from "./UserTickets";
 
@@ -7,7 +8,7 @@ type reportProps = {
     username: string;
 };
 
-interface UserTicket extends ITicket {
+interface UserTicketInterface extends ITicket {
     setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
@@ -47,7 +48,7 @@ const UserTicket = ({
     ticketType,
     reporterId,
     setSelectedId,
-}: UserTicket) => {
+}: UserTicketInterface) => {
     return (
         <tr
             className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
@@ -80,7 +81,15 @@ const UserTicket = ({
                 </p>
             </td>
             <td className='px-6 py-3 lg:hidden'>
-                <Members usersArr={assignedDev}></Members>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <Members usersArr={assignedDev}></Members>
+                </Suspense>
             </td>
             <td className='px-6 py-3 sm:hidden'>
                 <p
