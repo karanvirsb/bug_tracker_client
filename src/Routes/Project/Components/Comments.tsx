@@ -1,6 +1,7 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
+import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
-import Comment from "./Comment";
+const Comment = lazy(() => import("./Comment"));
 
 const Comments = () => {
     const comments = useAppSelector((state) => state.comments.comments);
@@ -13,12 +14,20 @@ const Comments = () => {
                 );
                 if (comment?.ticketId && user) {
                     return (
-                        <Comment
-                            key={comment.commentId}
-                            comment={comment}
-                            user={user}
-                            classname='flex flex-row gap-4 py-4 w-[75%] min-w-[250px] max-w-[1000px]'
-                        ></Comment>
+                        <Suspense
+                            fallback={
+                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <Comment
+                                key={comment.commentId}
+                                comment={comment}
+                                user={user}
+                                classname='flex flex-row gap-4 py-4 w-[75%] min-w-[250px] max-w-[1000px]'
+                            ></Comment>
+                        </Suspense>
                     );
                 }
             })}
