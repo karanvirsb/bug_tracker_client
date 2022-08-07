@@ -33,12 +33,9 @@ const Replys = ({ replyIds, ticketId }: props) => {
 
     return (
         <>
-            {replyStatus === "loading" ? (
-                <div>Loading...</div>
-            ) : replyStatus === "error" ? (
-                <div>Error</div>
-            ) : (
-                replyStatus === "success" &&
+            {replyStatus === "loading" && <div>Loading...</div>}
+            {replyStatus === "error" && <div>Error</div>}
+            {replyStatus === "success" &&
                 replys?.map((comment: IComment) => {
                     const user = users.find(
                         (user) => user.username === comment?.userId
@@ -53,8 +50,7 @@ const Replys = ({ replyIds, ticketId }: props) => {
                             ></Comment>
                         );
                     }
-                })
-            )}
+                })}
         </>
     );
 };
