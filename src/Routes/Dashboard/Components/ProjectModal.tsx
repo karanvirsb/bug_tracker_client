@@ -43,17 +43,6 @@ const ProjectModal = ({
         });
     };
 
-    // const selectedUsers = (users: any) => {
-    //     const userIds = users.map(
-    //         (user: { label: String; value: { id: number } }) => {
-    //             return user.value.id.toString();
-    //         }
-    //     );
-    //     setProjectInput((prev: IProject) => {
-    //         return { ...prev, users: userIds };
-    //     });
-    // };
-
     return (
         <>
             <div className='input-container'>
