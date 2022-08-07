@@ -1,7 +1,7 @@
 {
     "name": "Bugasaur",
     "short_name": "Bugasaur",
-    "theme_color": "rgba(237,15,82,0.89)",
+    "theme_color": "#000",
     "background_color": "#f3212e",
     "display": "standalone",
     "scope": "/",
