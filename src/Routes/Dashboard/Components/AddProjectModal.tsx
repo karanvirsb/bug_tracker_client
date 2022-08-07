@@ -1,4 +1,4 @@
-import React, { useState, useRef, lazy } from "react";
+import React, { useState, useRef, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setOpen, resetModal } from "../../../Redux/Slices/modalSlice";
@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 const ProjectModal = lazy(() => import("./ProjectModal"));
 import { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
+import Spinner from "../../../Components/Spinner";
 
 const AddProjectModal = (): JSX.Element => {
     const [projectInput, setProjectInput] = useState<IProject>({
@@ -146,13 +147,21 @@ const AddProjectModal = (): JSX.Element => {
                 onSubmit={handleSubmit}
                 className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
             >
-                {/* TODO fixed value of user */}
-                <ProjectModal
-                    setProjectInput={setProjectInput}
-                    projectInput={projectInput}
-                    options={options}
-                    refs={usersSelected}
-                ></ProjectModal>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    {/* TODO fixed value of user */}
+                    <ProjectModal
+                        setProjectInput={setProjectInput}
+                        projectInput={projectInput}
+                        options={options}
+                        refs={usersSelected}
+                    ></ProjectModal>
+                </Suspense>
                 <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
                     <button type='submit' className='btn bg-blue-500 !px-8'>
                         Submit
