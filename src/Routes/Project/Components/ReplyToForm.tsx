@@ -25,7 +25,7 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
             commentInfo: IComment;
             replyId: string;
         }) => {
-            return await axiosPrivate("/comment/reply", {
+            return axiosPrivate("/comment/reply", {
                 method: "post",
                 data: { commentId: replyId, reply: commentInfo },
             });
@@ -35,9 +35,12 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let repliedTo = "";
+        // checking if the comment is a reply or top level
         if (comment.repliedTo) {
+            // if its a reply it will have repliedTo the top level
             repliedTo = comment.repliedTo;
         } else {
+            // otherwise get the commentId and add it to repliedTo
             if (comment.commentId) repliedTo = comment?.commentId;
         }
 
