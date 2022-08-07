@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import TicketModal from "./TicketModal";
+const TicketModal = lazy(() => import("./TicketModal"));
 import { ITicket } from "./TicketModal";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { useMutation } from "react-query";
@@ -26,33 +26,33 @@ type props = {
     ticketId: string;
 };
 
-interface mutationTicket {
+interface MutationTicket {
     ticketId: string;
     updates: ITicket;
 }
 
 const EditTicketModal = ({ ticketId }: props) => {
     const tickets = useAppSelector((state) => state.tickets.tickets);
-    const ticket = tickets.find((ticket) => ticket.ticketId === ticketId);
+    const foundTicket = tickets.find((ticket) => ticket.ticketId === ticketId);
 
     const [ticketInput, setTicketInput] = useState<ITicket>({
         ...initalState,
-        ...ticket,
+        ...foundTicket,
     });
 
-    const authState = useAppSelector((state) => state.persistedReducer.auth);
     const projectState = useAppSelector((state) => state.project);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
-    const usersSelected = useRef(null);
-    const ticketStatusRef = useRef(null);
+
+    const usersSelected = useRef(null); // to fill in the react-select component with group users
+    const ticketStatusRef = useRef(null); // to allow getting select value
     const ticketSeverityRef = useRef(null);
     const ticketTypeRef = useRef(null);
     const dispatch = useAppDispatch();
 
     const updateTicketMutation = useMutation(
-        ({ ticketId, updates }: mutationTicket) => {
+        ({ ticketId, updates }: MutationTicket) => {
             return axiosPrivate("/ticket", {
                 method: "put",
                 data: { ticketId, updates },
@@ -71,20 +71,20 @@ const EditTicketModal = ({ ticketId }: props) => {
     const users = [];
     const defaultSelectedUser = [];
 
-    for (let i = 0; i < projectState.users.length; i++) {
-        const user = groupUsers.find(
-            (user) => user.username === projectState.users[i]
+    for (const user of projectState.users) {
+        const foundUser = groupUsers.find(
+            (groupUser) => groupUser.username === user
         );
 
         users.push({
-            value: user?.username,
-            label: `${user?.firstName} ${user?.lastName}`,
+            value: foundUser?.username,
+            label: `${foundUser?.firstName} ${foundUser?.lastName}`,
         });
 
-        if (ticket?.assignedDev.includes(projectState.users[i])) {
+        if (foundTicket?.assignedDev.includes(user)) {
             defaultSelectedUser.push({
-                value: user?.username ?? "",
-                label: `${user?.firstName} ${user?.lastName}`,
+                value: foundUser?.username ?? "",
+                label: `${foundUser?.firstName} ${foundUser?.lastName}`,
             });
         }
     }
