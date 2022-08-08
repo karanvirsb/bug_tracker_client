@@ -94,7 +94,7 @@ const Tickets = () => {
                     <tbody>
                         {ticketStatus === "loading" && (
                             <tr className='w-full text-center'>
-                                <td colSpan={99}>
+                                <td align='center'>
                                     <Spinner></Spinner>
                                 </td>
                             </tr>
@@ -102,9 +102,11 @@ const Tickets = () => {
                         {ticketStatus === "success" && (
                             <Suspense
                                 fallback={
-                                    <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
-                                        <Spinner></Spinner>
-                                    </div>
+                                    <tr>
+                                        <td align='center' colSpan={99}>
+                                            <Spinner></Spinner>
+                                        </td>
+                                    </tr>
                                 }
                             >
                                 <UserTickets
