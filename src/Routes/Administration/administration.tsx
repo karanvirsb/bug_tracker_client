@@ -253,7 +253,7 @@ const Administration = () => {
                         <tbody>
                             <Suspense
                                 fallback={
-                                    <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                    <div className='bg-white w-full rounded-lg flex justify-center items-center'>
                                         <Spinner></Spinner>
                                     </div>
                                 }
