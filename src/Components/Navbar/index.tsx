@@ -133,7 +133,9 @@ const Navbar = () => {
                     <div className='flex items-center md:px-4 w-full'>
                         <h1 className=' flex-1 text-center text-xl pb-1 m-md:w-full'>
                             {groupStatus !== "success" ? (
-                                <Spinner></Spinner>
+                                <div className='flex justify-center items-center'>
+                                    <Spinner></Spinner>
+                                </div>
                             ) : (
                                 <div className='relative w-full'>
                                     <button
