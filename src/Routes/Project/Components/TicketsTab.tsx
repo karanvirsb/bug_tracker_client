@@ -139,7 +139,7 @@ const TicketsTab = ({ projectId, project, projectStatus }: props) => {
                     </table>
                     <Suspense
                         fallback={
-                            <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
                                 <Spinner></Spinner>
                             </div>
                         }
