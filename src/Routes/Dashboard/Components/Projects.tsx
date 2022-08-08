@@ -46,9 +46,11 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
                     {selectedId && (
                         <Suspense
                             fallback={
-                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
-                                    <Spinner></Spinner>
-                                </div>
+                                <tr className='fixed inset-0 flex justify-center items-center'>
+                                    <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
+                                        <Spinner></Spinner>
+                                    </td>
+                                </tr>
                             }
                         >
                             <tr>
