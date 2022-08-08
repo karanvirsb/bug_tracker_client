@@ -76,7 +76,7 @@ const DashboardTab = ({ groupId }: props) => {
                 <div className='outline-[#D4D4D4] outline-1 outline w-full px-4 text-left rounded-md'>
                     <table className=' w-full'>
                         <thead className='text-sm text-gray-500 font-normal'>
-                            <tr>
+                            <tr className='w-full'>
                                 <th
                                     scope='col'
                                     className='px-6 py-3 sm:text-center'
@@ -97,7 +97,7 @@ const DashboardTab = ({ groupId }: props) => {
                         <tbody>
                             {status === "loading" && (
                                 <tr className='w-full text-center'>
-                                    <td colSpan={99}>
+                                    <td colSpan={99} align='center'>
                                         <Spinner></Spinner>
                                     </td>
                                 </tr>
@@ -105,9 +105,11 @@ const DashboardTab = ({ groupId }: props) => {
                             {status === "success" && (
                                 <Suspense
                                     fallback={
-                                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
-                                            <Spinner></Spinner>
-                                        </div>
+                                        <tr>
+                                            <td align='center' colSpan={99}>
+                                                <Spinner></Spinner>
+                                            </td>
+                                        </tr>
                                     }
                                 >
                                     <Projects
@@ -135,7 +137,7 @@ const DashboardTab = ({ groupId }: props) => {
                     </table>
                     <Suspense
                         fallback={
-                            <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                            <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
                                 <Spinner></Spinner>
                             </div>
                         }
