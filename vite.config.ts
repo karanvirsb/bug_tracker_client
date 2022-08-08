@@ -26,7 +26,7 @@ export default defineConfig({
                 "robots.txt",
                 "apple-touch-icon.png",
             ],
-            devOptions: { enabled: true },
+            // devOptions: { enabled: true },
             workbox: {
                 globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"],
             },
