@@ -1,7 +1,8 @@
 import React, { lazy, Suspense, useState } from "react";
 import { AnimatePresence, LayoutGroup } from "framer-motion";
 import Spinner from "../../../Components/Spinner";
-const Project = lazy(() => import("./Project"));
+// const Project = lazy(() => import("./Project"));
+import Project from "./Project";
 const ProjectInfoModal = lazy(() => import("./ProjectInfoModal"));
 
 export interface IProject {
@@ -30,23 +31,15 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
                 {props?.projects?.map((project) => {
                     const dateCreated = new Date(project.dateCreated);
                     return (
-                        <Suspense
-                            fallback={
-                                <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
-                                    <Spinner></Spinner>
-                                </div>
-                            }
-                        >
-                            <Project
-                                key={project.projectId}
-                                projectId={project.projectId}
-                                projectName={project.projectName}
-                                projectDesc={project.projectDesc}
-                                dateCreated={dateCreated}
-                                users={project.users}
-                                setSelectedId={setSelectedId}
-                            ></Project>
-                        </Suspense>
+                        <Project
+                            key={project.projectId}
+                            projectId={project.projectId}
+                            projectName={project.projectName}
+                            projectDesc={project.projectDesc}
+                            dateCreated={dateCreated}
+                            users={project.users}
+                            setSelectedId={setSelectedId}
+                        ></Project>
                     );
                 })}
                 <AnimatePresence exitBeforeEnter>
