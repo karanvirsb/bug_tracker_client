@@ -93,8 +93,8 @@ const Tickets = () => {
 
                     <tbody>
                         {ticketStatus === "loading" && (
-                            <tr className='w-full text-center'>
-                                <td align='center'>
+                            <tr>
+                                <td align='center' colSpan={99}>
                                     <Spinner></Spinner>
                                 </td>
                             </tr>
