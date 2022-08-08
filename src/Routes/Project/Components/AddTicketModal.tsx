@@ -183,7 +183,7 @@ const AddTicketModal = () => {
             >
                 <Suspense
                     fallback={
-                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                        <div className='bg-white w-full rounded-lg flex justify-center items-center'>
                             <Spinner></Spinner>
                         </div>
                     }
@@ -197,19 +197,19 @@ const AddTicketModal = () => {
                         ticketStatusRef={ticketStatusRef}
                         ticketTypeRef={ticketTypeRef}
                     ></TicketModal>
+                    <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
+                        <button type='submit' className='btn bg-blue-500 !px-8'>
+                            Submit
+                        </button>
+                        <button
+                            type='button'
+                            className='btn bg-red-500 !px-6'
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </Suspense>
-                <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
-                    <button type='submit' className='btn bg-blue-500 !px-8'>
-                        Submit
-                    </button>
-                    <button
-                        type='button'
-                        className='btn bg-red-500 !px-6'
-                        onClick={closeModal}
-                    >
-                        Cancel
-                    </button>
-                </div>
             </form>
         </motion.div>
     );
