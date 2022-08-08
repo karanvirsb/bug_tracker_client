@@ -170,7 +170,7 @@ const CommentSection = ({ ticketId }: props) => {
             {loadComments && (
                 <Suspense
                     fallback={
-                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                        <div className='w-full flex justify-center items-center'>
                             <Spinner></Spinner>
                         </div>
                     }
