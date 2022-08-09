@@ -73,19 +73,31 @@ const Comment = ({ comment, user, classname, isReply }: props) => {
                     )}`}
                     alt=''
                 />
-                <div className='flex flex-col gap-3 flex-grow'>
+                <div className='w-full flex flex-col gap-3 flex-grow'>
                     <div className='flex gap-4'>
-                        <p>{user?.username}</p>
-                        <p>{dateString}</p>
+                        <p className='text-black font-semibold'>
+                            {user?.username}
+                        </p>
+                        <p className='text-gray-500'>{dateString}</p>
                     </div>
-                    <p>{comment.comment}</p>
-                    <div>
-                        <button onClick={() => setReplying(true)}>Reply</button>
-                        <button onClick={handleDelete}>Delete</button>
+                    <p className='w-full text-lg'>{comment.comment}</p>
+                    <div className='flex flex-row gap-4'>
+                        <button
+                            className='text-lg hover:text-blue-500'
+                            onClick={() => setReplying(true)}
+                        >
+                            Reply
+                        </button>
+                        <button
+                            className='text-lg hover:text-red-400'
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </button>
                     </div>
                     {!loadReplies && replys.length > 0 && comment?.ticketId && (
                         <button
-                            className='text-center mt-2'
+                            className='font-semibold text-center mt-2 hover:text-blue-500'
                             onClick={() => setLoadReplies(true)}
                         >
                             Load Replies
