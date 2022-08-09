@@ -21,6 +21,7 @@ const Comment = ({ comment, user, classname, isReply }: props) => {
     const [replying, setReplying] = useState(false); // if user is replying open form
     const [loadReplies, setLoadReplies] = useState(false); // load up the replies
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
+    const [readMore, setReadMore] = useState(false); // if the use wants to load more of the comment
 
     const topLevelComments = useAppSelector((state) => state.comments.comments);
 
@@ -80,7 +81,31 @@ const Comment = ({ comment, user, classname, isReply }: props) => {
                         </p>
                         <p className='text-gray-500'>{dateString}</p>
                     </div>
-                    <p className='w-full text-lg'>{comment.comment}</p>
+                    <p
+                        className={`w-full text-lg ${
+                            !readMore
+                                ? "truncate text-ellipsis max-w-[60ch]"
+                                : ""
+                        }`}
+                    >
+                        {comment.comment}
+                    </p>
+                    {comment.comment.length > 60 &&
+                        (!readMore ? (
+                            <span
+                                className='cursor-pointer font-semibold w-max hover:text-blue-500'
+                                onClick={() => setReadMore(true)}
+                            >
+                                Read More
+                            </span>
+                        ) : (
+                            <span
+                                className='cursor-pointer font-semibold  w-max hover:text-blue-500'
+                                onClick={() => setReadMore(false)}
+                            >
+                                Show Less
+                            </span>
+                        ))}
                     <div className='flex flex-row gap-4'>
                         <button
                             className='text-lg hover:text-blue-500'
