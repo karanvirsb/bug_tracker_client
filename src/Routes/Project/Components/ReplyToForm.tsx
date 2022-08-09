@@ -80,22 +80,24 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
             className='my-4 w-[100%] min-w-[250px] max-w-[1100px] '
             onSubmit={handleSubmit}
         >
-            <div className='flex gap-4 justify-center items-end w-full'>
-                <img
-                    src={`data:${
-                        user.avatar.contentType
-                    };utf8,${encodeURIComponent(user.avatar.data)}`}
-                    alt={user.username}
-                    className='w-[50px] h-[50px]'
-                />
-                <input
-                    className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[75%] min-w-[250px] max-w-[1250px] focus:outline-none'
-                    type='text'
-                    onChange={(e) => setReplyInput(e.target.value)}
-                    value={replyInput}
-                    ref={inputRef}
-                />
-                <div className='flex gap-4'>
+            <div className='flex sm:flex-col gap-4 justify-center items-end sm:items-start w-full'>
+                <div className='flex w-full'>
+                    <img
+                        src={`data:${
+                            user.avatar.contentType
+                        };utf8,${encodeURIComponent(user.avatar.data)}`}
+                        alt={user.username}
+                        className='w-[50px] h-[50px] sm:w-[35px] sm:h-[35px]'
+                    />
+                    <input
+                        className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[75%]  min-w-[150px] max-w-[1250px] focus:outline-none'
+                        type='text'
+                        onChange={(e) => setReplyInput(e.target.value)}
+                        value={replyInput}
+                        ref={inputRef}
+                    />
+                </div>
+                <div className='flex gap-4 sm:self-start'>
                     <button
                         className='btn bg-blue-500 font-semibold hover:outline hover:outline-blue-500'
                         type='submit'
