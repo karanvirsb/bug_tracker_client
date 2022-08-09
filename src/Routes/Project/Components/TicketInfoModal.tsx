@@ -152,18 +152,22 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                     </button>
                 </div>
                 <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
-                    <div>
-                        <h2 className='text-gray-500 text-lg'>Description:</h2>
-                        <p className='max-w-[100ch] w-full text-lg max-h-[150px] overflow-auto pl-4 outline outline-gray-200 outline-1 rounded-md p-4'>
+                    <fieldset className='border border-gray-500 rounded-md'>
+                        <legend className='text-gray-500 text-lg p-4'>
+                            Description:
+                        </legend>
+                        <p className='max-w-[100ch] w-full text-lg max-h-[150px] overflow-auto p-4'>
                             {foundTicket?.description}
                         </p>
-                    </div>
-                    <div>
-                        <h2 className='text-gray-500 text-lg'>Users:</h2>
+                    </fieldset>
+                    <fieldset className='max-w-max border border-gray-500 rounded-md'>
+                        <legend className='text-gray-500 text-lg p-4'>
+                            Users:
+                        </legend>
                         <UserElements
                             usersArr={foundTicket?.assignedDev ?? []}
                         ></UserElements>
-                    </div>
+                    </fieldset>
                 </div>
                 <Suspense
                     fallback={
@@ -196,12 +200,12 @@ const UserElements = ({ usersArr }: userProps) => {
     }
 
     return (
-        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden outline outline-gray-200 outline-1 rounded-md p-4'>
+        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden rounded-md p-4'>
             {users.map((user) => {
                 return (
                     <li
                         key={user.username}
-                        className='pl-4 text-lg border-b border-b-gray-200 border-1 w-full'
+                        className='ml-2 pl-2 text-lg w-full list-["\2192"]'
                     >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
