@@ -140,12 +140,21 @@ const CommentSection = ({ ticketId }: props) => {
                         onChange={(e) => setCommentInput(e.target.value)}
                         value={commentInput}
                     />
-                    <button
-                        className='outline outline-[1px] outline-black px-4 py-2 w-24'
-                        type='submit'
-                    >
-                        Post
-                    </button>
+                    <div className='flex gap-4'>
+                        <button
+                            className='btn bg-blue-500 font-semibold hover:outline hover:outline-blue-500'
+                            type='submit'
+                        >
+                            Post
+                        </button>
+                        <button
+                            type='button'
+                            className='btn bg-zinc-300 font-semibold hover:outline hover:outline-zinc-300'
+                            onClick={() => setCommentInput("")}
+                        >
+                            Clear
+                        </button>
+                    </div>
                 </div>
             </form>
             {commentsStatus === "loading" && (
