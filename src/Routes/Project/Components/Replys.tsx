@@ -10,7 +10,7 @@ type props = {
     replyIds: string[];
     ticketId: string;
 };
-
+// TODO paginate infintie
 const Replys = ({ replyIds, ticketId }: props) => {
     const users = useAppSelector((state) => state.persistedReducer.group.users);
 
