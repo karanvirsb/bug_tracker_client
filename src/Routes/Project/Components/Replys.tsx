@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
+import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import Comment from "./Comment";
@@ -33,7 +34,11 @@ const Replys = ({ replyIds, ticketId }: props) => {
 
     return (
         <>
-            {replyStatus === "loading" && <div>Loading...</div>}
+            {replyStatus === "loading" && (
+                <div className='w-full flex justify-center items-center'>
+                    <Spinner></Spinner>
+                </div>
+            )}
             {replyStatus === "error" && <div>Error</div>}
             {replyStatus === "success" &&
                 replys?.map((comment: IComment) => {
