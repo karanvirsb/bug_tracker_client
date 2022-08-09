@@ -148,6 +148,11 @@ const CommentSection = ({ ticketId }: props) => {
                     </button>
                 </div>
             </form>
+            {commentsStatus === "loading" && (
+                <div className='w-full flex justify-center items-center'>
+                    <Spinner></Spinner>
+                </div>
+            )}
             {commentsStatus === "success" &&
                 (ticketComments.length > 0 ? (
                     !loadComments && (
