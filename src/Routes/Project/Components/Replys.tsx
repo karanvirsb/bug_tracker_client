@@ -51,7 +51,8 @@ const Replys = ({ replyIds, ticketId }: props) => {
                                 key={comment.commentId}
                                 user={user}
                                 comment={comment}
-                                classname='flex flex-row gap-4 border-l border-gray-200 py-4 w-[50%] min-w-[250px] max-w-[1000px] pl-5'
+                                classname='flex flex-row gap-4 py-4 w-[100%] min-w-[250px] max-w-[1000px]'
+                                isReply={true}
                             ></Comment>
                         );
                     }
