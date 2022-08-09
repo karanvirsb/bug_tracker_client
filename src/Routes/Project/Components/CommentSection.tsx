@@ -13,13 +13,21 @@ type props = {
     ticketId: string;
 };
 
-type fetchCommentSectionType = {
+type commentInfo = {
+    docs: IComment[];
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: number;
+    nextPage: number;
     page: number;
+    pagingCounter: number;
+    prevPage: boolean;
+    totalDocs: number;
+    totalPages: number;
 };
 
 const CommentSection = ({ ticketId }: props) => {
     const [loadComments, setLoadComments] = useState(false); // to load when button is clicked
-    const [currentPage, setCurrentPage] = useState(1);
     const [commentInput, setCommentInput] = useState(""); // used for the form
 
     const user = useAppSelector((state) => state.persistedReducer.user);
@@ -27,27 +35,35 @@ const CommentSection = ({ ticketId }: props) => {
 
     const dispatch = useAppDispatch();
 
-    const fetchCommentSection = async ({ page }: fetchCommentSectionType) => {
+    const fetchCommentSection = async ({
+        pageParam = 1,
+    }: {
+        pageParam?: number;
+    }) => {
         const resp = await axiosPrivate("/comment/tickets/" + ticketId, {
             method: "GET",
-            params: { page: page, limit: 10 },
+            params: { page: pageParam, limit: 5 },
         });
-        return resp.data;
+
+        const commentsInfo: commentInfo = resp.data;
+        const { docs, nextPage, hasNextPage } = commentsInfo;
+        return {
+            response: docs,
+            nextPage,
+            hasNextPage,
+        };
     };
 
     const {
         data: comments,
         error,
         fetchNextPage,
-        isFetching,
+        hasNextPage,
+        isFetchingNextPage,
         status: commentsStatus,
-    } = useInfiniteQuery(
-        "comments" + ticketId,
-        () => fetchCommentSection({ page: currentPage }),
-        {
-            getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-        }
-    );
+    } = useInfiniteQuery(["comments" + ticketId], fetchCommentSection, {
+        getNextPageParam: (lastPage) => lastPage.nextPage,
+    });
 
     const postCommentMutation = useMutation(async (commentInfo: IComment) => {
         return axiosPrivate("/comment", {
@@ -99,8 +115,12 @@ const CommentSection = ({ ticketId }: props) => {
 
     useEffect(() => {
         if (commentsStatus === "success") {
-            const fetchedComments: IComment[] = comments.pages;
-            dispatch(setComments((fetchedComments[0] as any).docs));
+            const totalComments = [];
+            const commentsLength = comments.pages.length;
+            for (let i = 0; i < commentsLength; i++) {
+                totalComments.push(...comments.pages[i].response);
+            }
+            dispatch(setComments(totalComments));
         }
     }, [commentsStatus, comments]);
 
@@ -190,6 +210,15 @@ const CommentSection = ({ ticketId }: props) => {
                     }
                 >
                     <Comments></Comments>
+                    {hasNextPage && (
+                        <button
+                            onClick={() => fetchNextPage()}
+                            disabled={!hasNextPage || isFetchingNextPage}
+                        >
+                            {isFetchingNextPage && "Loading more..."}
+                            {hasNextPage && "Load More Comments"}
+                        </button>
+                    )}
                 </Suspense>
             )}
         </>
