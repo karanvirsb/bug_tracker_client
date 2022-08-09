@@ -14,9 +14,10 @@ type props = {
     comment: IComment;
     user: IUser;
     classname?: string;
+    isReply?: boolean;
 };
 
-const Comment = ({ comment, user, classname }: props) => {
+const Comment = ({ comment, user, classname, isReply }: props) => {
     const [replying, setReplying] = useState(false); // if user is replying open form
     const [loadReplies, setLoadReplies] = useState(false); // load up the replies
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
@@ -57,7 +58,11 @@ const Comment = ({ comment, user, classname }: props) => {
     }, [comment.reply, comment]);
 
     return (
-        <div className='flex flex-col w-[75%] px-4 outline outline-[1px] outline-blue-300 rounded-md'>
+        <div
+            className={`flex flex-col ${
+                isReply ? "w-[100%] ml-4 border-r-0" : "w-[75%]"
+            } md:w-[100%] px-4 border-x-[2px] border-blue-300`}
+        >
             <div className={classname}>
                 <img
                     className='w-[40px] h-[40px]'
