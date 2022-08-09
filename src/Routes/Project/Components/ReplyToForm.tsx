@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
@@ -16,7 +16,7 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
     const [replyInput, setReplyInput] = useState(`@${repliedToUserId} `);
     const user = useAppSelector((state) => state.persistedReducer.user);
     const topLevelComments = useAppSelector((state) => state.comments.comments);
-
+    const inputRef = useRef<null | HTMLInputElement>(null);
     const replyMutation = useMutation(
         async ({
             commentInfo,
@@ -69,9 +69,15 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
             }
         );
     };
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
     return (
         <form
-            className='mt-4 w-[100%] min-w-[250px] max-w-[1100px] '
+            className='my-4 w-[100%] min-w-[250px] max-w-[1100px] '
             onSubmit={handleSubmit}
         >
             <div className='flex gap-4 justify-center items-end w-full'>
@@ -87,13 +93,17 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
                     type='text'
                     onChange={(e) => setReplyInput(e.target.value)}
                     value={replyInput}
+                    ref={inputRef}
                 />
-                <button
-                    className='outline outline-[1px] outline-black px-4 py-2 w-24'
-                    type='submit'
-                >
-                    Post
-                </button>
+                <div>
+                    <button
+                        className='outline outline-[1px] outline-black px-4 py-2 w-24'
+                        type='submit'
+                    >
+                        Post
+                    </button>
+                    <button>Cancel</button>
+                </div>
             </div>
         </form>
     );
