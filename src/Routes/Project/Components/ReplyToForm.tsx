@@ -95,14 +95,20 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
                     value={replyInput}
                     ref={inputRef}
                 />
-                <div>
+                <div className='flex gap-4'>
                     <button
-                        className='outline outline-[1px] outline-black px-4 py-2 w-24'
+                        className='btn bg-blue-500 font-semibold hover:outline hover:outline-blue-500'
                         type='submit'
                     >
                         Post
                     </button>
-                    <button>Cancel</button>
+                    <button
+                        type='button'
+                        className='btn bg-red-400 font-semibold hover:outline hover:outline-red-400'
+                        onClick={() => setReplying(false)}
+                    >
+                        Cancel
+                    </button>
                 </div>
             </div>
         </form>
