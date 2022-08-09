@@ -57,7 +57,7 @@ const Comment = ({ comment, user, classname }: props) => {
     }, [comment.reply, comment]);
 
     return (
-        <div className='flex flex-col items-center w-full'>
+        <div className='flex flex-col w-[75%] px-4 outline outline-[1px] outline-blue-300 rounded-md'>
             <div className={classname}>
                 <img
                     className='w-[40px] h-[40px]'
