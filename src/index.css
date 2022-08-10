@@ -41,3 +41,7 @@ body {
     @apply outline outline-1  outline-[#D4D4D4] rounded-md ml-2 text-xl px-2 py-1 md:text-lg;
     /* outline-gray-400 */
 }
+
+.createNewBtn {
+    @apply bg-secondary-color text-zinc-900 py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2;
+}
