@@ -38,17 +38,17 @@ const Project = ({
         >
             <th
                 scope='row'
-                className='px-6 py-3 text-gray-800 font-semibold sm:text-center'
+                className='table_padding table_row_header sm:text-center'
             >
                 {projectName}
             </th>
-            <td className='truncate max-w-[15ch] px-6 py-3 md:hidden'>
+            <td className='truncate max-w-[15ch] table_padding md:hidden'>
                 {projectDesc}
             </td>
-            <td className='px-6 py-3 md:hidden'>
+            <td className='table_padding md:hidden'>
                 {dateCreated.toDateString()}
             </td>
-            <td className='px-6 py-3 sm:hidden'>
+            <td className='table_padding sm:hidden'>
                 <Members usersArr={users}></Members>
             </td>
         </tr>
