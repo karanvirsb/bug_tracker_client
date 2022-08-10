@@ -82,6 +82,10 @@ body {
     @apply outline-gray-400 border-none !rounded-lg;
 }
 
+.modal-textarea {
+    @apply resize-y max-h-[200px];
+}
+
 .side-modal-btn-container {
     @apply flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0;
 }
