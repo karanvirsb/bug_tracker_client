@@ -20,6 +20,7 @@ module.exports = {
                 "secondary-color": "#C97878",
                 "btn-color": "#303030",
                 "backdrop-bg": "hsla(300,1%,17%, 75%)",
+                "cta-btn-color": "#267af7",
                 "light-backdrop-bg": "rgba(255, 255, 255, 0.288);",
             },
         },
