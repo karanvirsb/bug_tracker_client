@@ -67,5 +67,5 @@ body {
 }
 
 .table_row_hover {
-    @apply border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer;
+    @apply border-gray-200 border-b-2 hover:bg-gray-100 cursor-pointer;
 }
