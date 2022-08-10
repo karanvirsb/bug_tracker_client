@@ -147,7 +147,7 @@ const CommentSection = ({ ticketId }: props) => {
         <>
             <form className='w-full' onSubmit={handleSubmit}>
                 <div className='flex sm:flex-col gap-4 justify-center items-end sm:items-start w-full'>
-                    <div className='flex w-full'>
+                    <div className='flex sm:w-full w-[75%]'>
                         <img
                             src={`data:${
                                 user.avatar.contentType
@@ -156,7 +156,7 @@ const CommentSection = ({ ticketId }: props) => {
                             className='w-[50px] h-[50px]'
                         />
                         <input
-                            className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[75%] sm:w-[100%] min-w-[150px] max-w-[1250px] focus:outline-none'
+                            className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[100%] min-w-[150px] max-w-[1250px] focus:outline-none'
                             type='text'
                             onChange={(e) => setCommentInput(e.target.value)}
                             value={commentInput}

@@ -90,7 +90,7 @@ const ReplyToForm = ({ repliedToUserId, comment, setReplying }: props) => {
                         className='w-[50px] h-[50px] sm:w-[35px] sm:h-[35px]'
                     />
                     <input
-                        className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[75%]  min-w-[150px] max-w-[1250px] focus:outline-none'
+                        className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[100%] min-w-[150px] max-w-[1250px] focus:outline-none'
                         type='text'
                         onChange={(e) => setReplyInput(e.target.value)}
                         value={replyInput}
