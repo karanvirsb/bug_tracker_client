@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useComponentVisible from "../../Hooks/useComponentVisible";
 import { IUser } from "../../Redux/Slices/userSlice";
@@ -14,23 +14,28 @@ const Account = ({ user }: props) => {
 
     const toggleMenu = () => {
         if (!clicked) {
-            setIsComponentVisible(true);
             setClicked(true);
+            setIsComponentVisible(true);
         } else {
             setClicked(false);
         }
     };
 
+    useEffect(() => {
+        if (!isComponentVisible) {
+            setClicked(false);
+        }
+    }, [isComponentVisible]);
+
     return (
         <div className='ml-auto'>
-            <div>
+            <div onClick={toggleMenu}>
                 <img
                     className='w-[50px] h-[50px] cursor-pointer p-1'
                     src={`data:${
                         user.avatar.contentType
                     };utf8,${encodeURIComponent(user.avatar.data)}`}
                     alt={user.firstName + " " + user.lastName}
-                    onClick={toggleMenu}
                 ></img>
                 {isComponentVisible && (
                     <div
