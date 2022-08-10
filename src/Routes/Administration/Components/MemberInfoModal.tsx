@@ -49,14 +49,14 @@ const MemberInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
-                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[600px] min-h-max-content rounded-md'
+                className='bg-white flex flex-col flex-1 justify-between max-w-[400px] w-full  max-h-[450px] min-h-max-content rounded-md'
                 variants={memberInfoConstraint}
                 initial='hidden'
                 animate='visible'
                 exit='exit'
                 onClick={(e) => e.stopPropagation()} // stop from bubbling up to the backdrop and closing
             >
-                <div className='border-b-[1px] border-black flex justify-between items-center pb-4'>
+                <div className='bg-gray-100 flex justify-between items-center p-4 rounded-t-md rounded-tr-md'>
                     <div className='flex items-center gap-3'>
                         <img
                             className='w-[35px] h-[35px]'
@@ -88,33 +88,35 @@ const MemberInfoModal = ({ selectedId, setSelectedId }: props) => {
                         />
                     </svg>
                 </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>Email</h2>
-                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto outline outline-gray-200 outline-1 rounded-md p-4'>
-                        {user?.email}
-                    </p>
-                </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>IsAdmin:</h2>
-                    <span>{user?.isAdmin ? "Yes" : "No"}</span>
-                </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>IsEditor:</h2>
-                    <span>{user?.isEditor ? "Yes" : "No"}</span>
-                </div>
-                <div className='grid grid-cols-2 gap-4 sm:grid-cols-1 justify-self-end'>
-                    <button
-                        className='btn bg-green-400'
-                        onClick={openEditModal}
-                    >
-                        Edit User
-                    </button>
-                    <button
-                        className='btn bg-red-400'
-                        onClick={openDeleteModal}
-                    >
-                        Remove From Group
-                    </button>
+                <div className='flex flex-col flex-grow justify-between gap-6 p-4'>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>Email</h2>
+                        <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto outline outline-gray-200 outline-1 rounded-md p-4'>
+                            {user?.email}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>IsAdmin:</h2>
+                        <span>{user?.isAdmin ? "Yes" : "No"}</span>
+                    </div>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>IsEditor:</h2>
+                        <span>{user?.isEditor ? "Yes" : "No"}</span>
+                    </div>
+                    <div className='grid grid-cols-2 gap-4 sm:grid-cols-1 justify-self-end'>
+                        <button
+                            className='btn bg-green-400'
+                            onClick={openEditModal}
+                        >
+                            Edit User
+                        </button>
+                        <button
+                            className='btn bg-red-400'
+                            onClick={openDeleteModal}
+                        >
+                            Remove Member
+                        </button>
+                    </div>
                 </div>
             </motion.div>
         </Backdrop>
