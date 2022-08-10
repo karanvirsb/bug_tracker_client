@@ -57,35 +57,33 @@ const Tickets = () => {
     return (
         <section className='sections'>
             <Tab tabs={[]} components={{}}></Tab>
-            <h1 className='text-2xl font-semibold text-gray-800 mb-4'>
-                My Tickets
-            </h1>
-            <div className='outline-[#D4D4D4] outline-1 outline px-1 text-left rounded-md mx-4 md:mr-1 md:ml-[-50px] p-1'>
+            <h1 className='table_name mb-4 mx-4'>My Tickets</h1>
+            <div className='table_container mx-4 md:mr-1 md:ml-[-50px]'>
                 <table className='w-full'>
-                    <thead className='text-sm text-gray-500 font-normal'>
+                    <thead className='table_header'>
                         <tr>
                             <th
                                 scope='col'
-                                className='px-6 py-3 sm:text-center'
+                                className='table_padding sm:text-center'
                             >
                                 TITLE
                             </th>
-                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                            <th scope='col' className='table_padding lg:hidden'>
                                 REPORTER
                             </th>
-                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                            <th scope='col' className='table_padding lg:hidden'>
                                 DATE CREATED
                             </th>
-                            <th scope='col' className='px-6 py-3 md:hidden'>
+                            <th scope='col' className='table_padding md:hidden'>
                                 TYPE
                             </th>
-                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                            <th scope='col' className='table_padding sm:hidden'>
                                 STATUS
                             </th>
-                            <th scope='col' className='px-6 py-3 lg:hidden'>
+                            <th scope='col' className='table_padding lg:hidden'>
                                 ASSIGNEE
                             </th>
-                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                            <th scope='col' className='table_padding sm:hidden'>
                                 SEVERITY
                             </th>
                         </tr>
