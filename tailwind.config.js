@@ -19,7 +19,7 @@ module.exports = {
                 "main-color": "#403F3F",
                 "secondary-color": "#C97878",
                 "btn-color": "#303030",
-                "backdrop-bg": "#12121266",
+                "backdrop-bg": "hsla(300,1%,17%, 75%)",
                 "light-backdrop-bg": "rgba(255, 255, 255, 0.288);",
             },
         },
