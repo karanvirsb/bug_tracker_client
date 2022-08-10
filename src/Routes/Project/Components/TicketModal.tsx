@@ -115,7 +115,7 @@ const TicketModal = ({
                     Description
                 </label>
                 <textarea
-                    className='modal-input resize-y'
+                    className='modal-input modal-textarea'
                     onChange={handleTextAreaChange}
                     value={ticketInput.description}
                 ></textarea>
