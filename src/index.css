@@ -45,3 +45,19 @@ body {
 .createNewBtn {
     @apply bg-secondary-color text-zinc-900 py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2;
 }
+
+.table_container {
+    @apply outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md;
+}
+
+.table_header {
+    @apply text-sm text-gray-500 font-normal;
+}
+
+.table_padding {
+    @apply px-6 py-3;
+}
+
+.table_row_hover {
+    @apply border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer;
+}
