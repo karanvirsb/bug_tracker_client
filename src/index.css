@@ -83,7 +83,7 @@ body {
 }
 
 .modal-textarea {
-    @apply resize-y max-h-[200px];
+    @apply resize-y max-h-[150px] min-h-[50px];
 }
 
 .side-modal-btn-container {
