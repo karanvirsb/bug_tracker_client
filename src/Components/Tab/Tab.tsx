@@ -35,7 +35,7 @@ const Tab = ({ tabs, components }: props) => {
                         if (index === activeIndex) {
                             return (
                                 <li
-                                    className='px-4 py-1 cursor-pointer border-b-2 border-b-secondary-color'
+                                    className='px-4 py-1 cursor-pointer border-b-2 border-b-secondary-color text-lg font-semibold'
                                     onClick={() => setTab(tab?.value, index)}
                                     key={tab.value}
                                 >
