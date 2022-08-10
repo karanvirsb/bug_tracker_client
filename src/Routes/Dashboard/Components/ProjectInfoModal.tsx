@@ -64,7 +64,7 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                 exit='exit'
                 onClick={(e) => e.stopPropagation()} // stop from bubbling up to the backdrop and closing
             >
-                <div className='bg-gray-100 flex justify-between items-center p-4'>
+                <div className='bg-gray-100 flex justify-between items-center p-4 rounded-t-md rounded-tr-md'>
                     <div className='flex flex-col gap-1'>
                         <h1 className='text-2xl'>
                             {foundProject?.projectName}
