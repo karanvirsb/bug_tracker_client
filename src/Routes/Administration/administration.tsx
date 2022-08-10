@@ -204,7 +204,7 @@ const Administration = () => {
                     <div className='grid grid-cols-2 w-1/3 min-w-max gap-4 md:grid-cols-1'>
                         <button
                             type='submit'
-                            className='btn bg-blue-400 font-semibold hover:outline-2 hover:outline-blue-400 disabled:bg-zinc-400 disabled:hover:outline-none'
+                            className='btn submit-btn disabled:bg-zinc-400 disabled:hover:outline-none'
                             disabled={disableBtn}
                         >
                             {groupNameMutation.isLoading ? (
