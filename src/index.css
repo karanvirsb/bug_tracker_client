@@ -14,7 +14,7 @@ body {
 }
 
 .btn {
-    @apply font-semibold py-1 px-4 rounded-md hover:bg-transparent hover:outline-2 hover:outline;
+    @apply font-semibold py-1 px-4 rounded-3xl hover:bg-transparent hover:outline-2 hover:outline;
 }
 
 .input {
