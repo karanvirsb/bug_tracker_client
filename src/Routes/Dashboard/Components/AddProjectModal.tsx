@@ -136,17 +136,13 @@ const AddProjectModal = (): JSX.Element => {
 
     return (
         <motion.div
-            className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0 top-0 bottom-0 overflow-auto'
+            className='side-modal'
             variants={modalConstraints}
             initial='hidden'
             animate='visible'
             exit='exit'
         >
-            <form
-                action=''
-                onSubmit={handleSubmit}
-                className='flex flex-col gap-8 w-full min-h-[100vh] p-4'
-            >
+            <form action='' onSubmit={handleSubmit} className='side-modal-form'>
                 <Suspense
                     fallback={
                         <div className='bg-white w-full rounded-lg flex justify-center items-center'>
@@ -161,7 +157,7 @@ const AddProjectModal = (): JSX.Element => {
                         options={options}
                         refs={usersSelected}
                     ></ProjectModal>
-                    <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
+                    <div className='side-modal-btn-container'>
                         <button type='submit' className='btn submit-btn'>
                             Submit
                         </button>
