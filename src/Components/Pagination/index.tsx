@@ -33,7 +33,7 @@ const Pagination = ({
     };
 
     return (
-        <div className='w-full flex justify-center items-center py-4 gap-4'>
+        <div className='w-full flex justify-center items-center mt-4 gap-4'>
             <button
                 className='pagination-btn'
                 onClick={previousPage}
