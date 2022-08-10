@@ -140,15 +140,8 @@ const EditMemberModal = ({ username }: props) => {
     };
 
     return (
-        <motion.div
-            className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0 top-0 bottom-0 overflow-auto'
-            variants={modalConstraints}
-        >
-            <form
-                action=''
-                onSubmit={handleSubmit}
-                className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
-            >
+        <motion.div className='side-modal' variants={modalConstraints}>
+            <form action='' onSubmit={handleSubmit} className='side-modal-form'>
                 <Suspense
                     fallback={
                         <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
@@ -163,10 +156,10 @@ const EditMemberModal = ({ username }: props) => {
                         setDisableBtn={setDisableBtn}
                     ></MemberModal>
                 </Suspense>
-                <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
+                <div className='side-modal-btn-container'>
                     <button
                         type='submit'
-                        className='btn bg-blue-500 !px-8 disabled:bg-zinc-400 disabled:hover:outline-none'
+                        className='btn submit-btn disabled:bg-zinc-400 disabled:hover:outline-none'
                         disabled={disableBtn}
                     >
                         Submit
@@ -174,7 +167,7 @@ const EditMemberModal = ({ username }: props) => {
                     <button
                         type='button'
                         onClick={closeModal}
-                        className='btn bg-red-500 !px-6'
+                        className='btn cancel-btn'
                     >
                         Cancel
                     </button>
