@@ -57,14 +57,14 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop onClick={() => setSelectedId(null)}>
             <motion.div
-                className='bg-white flex flex-col flex-1 justify-between p-4 max-w-[400px] w-full  max-h-[600px] min-h-max-content rounded-md'
+                className='bg-white flex flex-col flex-1 w-full max-w-[400px] max-h-[450px] min-h-max-content rounded-md'
                 variants={projectInfoConstraint}
                 initial='hidden'
                 animate='visible'
                 exit='exit'
                 onClick={(e) => e.stopPropagation()} // stop from bubbling up to the backdrop and closing
             >
-                <div className='border-b-[1px] border-black flex justify-between items-center pb-4'>
+                <div className='bg-gray-100 flex justify-between items-center p-4'>
                     <div className='flex flex-col gap-1'>
                         <h1 className='text-2xl'>
                             {foundProject?.projectName}
@@ -89,41 +89,43 @@ const ProjectInfoModal = ({ selectedId, setSelectedId }: props) => {
                         />
                     </svg>
                 </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>Description:</h2>
-                    <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto outline outline-gray-200 outline-1 rounded-md p-4'>
-                        {foundProject?.projectDesc}
-                    </p>
-                </div>
-                <div>
-                    <h2 className='text-gray-500 text-lg'>Users:</h2>
-                    <UserElements
-                        usersArr={foundProject?.users ?? []}
-                    ></UserElements>
-                </div>
-                <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
-                    {(isAdmin || isEditor) && (
-                        <>
-                            <button
-                                className='btn bg-green-400'
-                                onClick={openEditModal}
-                            >
-                                Edit
-                            </button>
-                            <button
-                                className='btn bg-red-400'
-                                onClick={openDeleteModal}
-                            >
-                                Delete
-                            </button>
-                        </>
-                    )}
-                    <button
-                        className='btn bg-blue-400'
-                        onClick={navigateToTickets}
-                    >
-                        Tickets
-                    </button>
+                <div className='flex flex-col flex-grow justify-between gap-6 p-4'>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>Description:</h2>
+                        <p className='max-w-[100ch] w-full text-lg max-h-[100px] overflow-auto outline outline-gray-200 outline-1 rounded-md p-4'>
+                            {foundProject?.projectDesc}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 className='text-gray-500 text-lg'>Users:</h2>
+                        <UserElements
+                            usersArr={foundProject?.users ?? []}
+                        ></UserElements>
+                    </div>
+                    <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 justify-self-end'>
+                        {(isAdmin || isEditor) && (
+                            <>
+                                <button
+                                    className='btn bg-green-400'
+                                    onClick={openEditModal}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className='btn bg-red-400'
+                                    onClick={openDeleteModal}
+                                >
+                                    Delete
+                                </button>
+                            </>
+                        )}
+                        <button
+                            className='btn bg-blue-400'
+                            onClick={navigateToTickets}
+                        >
+                            Tickets
+                        </button>
+                    </div>
                 </div>
             </motion.div>
         </Backdrop>
