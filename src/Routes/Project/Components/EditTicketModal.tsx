@@ -226,7 +226,7 @@ const EditTicketModal = ({ ticketId }: props) => {
 
     return (
         <motion.div
-            className='bg-white min-h-[100vh] w-1/3 lg:w-3/6 md:w-3/4 sm:w-full fixed right-0 top-0 bottom-0 overflow-auto'
+            className='side-modal'
             variants={ticketModalConstraints}
             initial='hidden'
             animate='visible'
@@ -235,7 +235,7 @@ const EditTicketModal = ({ ticketId }: props) => {
             <form
                 action=''
                 onSubmit={handleTicketSubmit}
-                className='flex flex-col justify-evenly gap-3 w-full min-h-[100vh] p-4 '
+                className='side-modal-form'
             >
                 <Suspense
                     fallback={
@@ -258,13 +258,13 @@ const EditTicketModal = ({ ticketId }: props) => {
                         defaultTicketType={ticketTypeDefault}
                         type='edit'
                     ></TicketModal>
-                    <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
-                        <button type='submit' className='btn bg-blue-500 !px-8'>
+                    <div className='side-modal-btn-container'>
+                        <button type='submit' className='btn submit-btn'>
                             Submit
                         </button>
                         <button
                             type='button'
-                            className='btn bg-red-500 !px-6'
+                            className='btn cancel-btn'
                             onClick={closeModal}
                         >
                             Cancel
