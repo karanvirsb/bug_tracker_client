@@ -71,6 +71,21 @@ const Navbar = () => {
             : "rounded-md py-2 px-4 hover:font-semibold hover:bg-gray-400 hover:text-black";
     };
 
+    const toggleMenu = () => {
+        if (!clicked) {
+            setClicked(true);
+            setIsComponentVisible(true);
+        } else {
+            setClicked(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!isComponentVisible) {
+            setClicked(false);
+        }
+    }, [isComponentVisible]);
+
     useEffect(() => {
         if (groupStatus === "success") {
             dispatch(setGroup(groupData));
@@ -130,7 +145,10 @@ const Navbar = () => {
                 }`}
             >
                 <div className='pb-4 w-full'>
-                    <div className='flex items-center md:px-4 w-full'>
+                    <div
+                        className='flex items-center md:px-4 w-full'
+                        onClick={toggleMenu}
+                    >
                         <h1 className=' flex-1 text-center text-xl pb-1 m-md:w-full'>
                             {groupStatus !== "success" ? (
                                 <div className='flex justify-center items-center'>
@@ -141,14 +159,6 @@ const Navbar = () => {
                                     <button
                                         id='groupNameBtn'
                                         className='flex text-left items-center justify-center gap-4 w-full hover:outline hover:outline-gray-500 rounded-md'
-                                        onClick={() => {
-                                            if (!clicked) {
-                                                setClicked(true);
-                                                setIsComponentVisible(true);
-                                            } else {
-                                                setClicked(false);
-                                            }
-                                        }}
                                     >
                                         {groupData.groupName}
                                         <div
