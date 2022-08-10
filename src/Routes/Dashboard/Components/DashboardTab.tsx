@@ -52,9 +52,7 @@ const DashboardTab = ({ groupId }: props) => {
             {/* <h1 className='text-3xl font-semibold text-zinc-400'>Dashboard</h1> */}
             <div className='my-6 mx-4'>
                 <div className='flex justify-between items-center mb-4'>
-                    <h2 className='text-2xl font-semibold text-gray-800'>
-                        Projects
-                    </h2>
+                    <h2 className='table_name'>Projects</h2>
                     {/* only allowing admins or editors to create new projects */}
                     {(isAdmin || isEditor) && (
                         <button
