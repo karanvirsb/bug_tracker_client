@@ -50,6 +50,10 @@ body {
     @apply outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md;
 }
 
+.table_name {
+    @apply text-2xl font-semibold text-gray-800;
+}
+
 .table_header {
     @apply text-sm text-gray-500 font-normal;
 }
