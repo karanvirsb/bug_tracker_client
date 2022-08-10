@@ -162,16 +162,13 @@ const AddProjectModal = (): JSX.Element => {
                         refs={usersSelected}
                     ></ProjectModal>
                     <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
-                        <button
-                            type='submit'
-                            className='btn !rounded-3xl bg-cta-btn-color text-white hover:text-black hover:outline hover:outline-2 hover:outline-cta-btn-color'
-                        >
+                        <button type='submit' className='btn submit-btn'>
                             Submit
                         </button>
                         <button
                             type='button'
                             onClick={closeModal}
-                            className='btn !rounded-3xl outline outline-1 outline-cta-btn-color text-cta-btn-color hover:outline-red-500 hover:text-black'
+                            className='btn cancel-btn'
                         >
                             Cancel
                         </button>
