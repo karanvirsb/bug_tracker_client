@@ -10,23 +10,23 @@ const MembersTab = ({ users }: props) => {
     return (
         <>
             {/* <h1 className='text-2xl font-semibold mb-4'>Members</h1> */}
-            <div className='outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md mx-4 my-6'>
+            <div className='table_container mx-4 my-6'>
                 <table className='w-full'>
-                    <thead className='text-sm text-gray-500 font-normal'>
+                    <thead className='table_header'>
                         <tr>
-                            <th scope='col' className='px-6 py-3 sm:hidden'>
+                            <th scope='col' className='table_padding sm:hidden'>
                                 {/* Avatar */}
                             </th>
-                            <th scope='col' className='px-6 py-3 md:hidden'>
+                            <th scope='col' className='table_padding md:hidden'>
                                 USERNAME
                             </th>
                             <th
                                 scope='col'
-                                className='px-6 py-3 sm:text-center'
+                                className='table_padding sm:text-center'
                             >
                                 FULL NAME
                             </th>
-                            <th scope='col' className='px-6 py-3 md:hidden'>
+                            <th scope='col' className='table_padding md:hidden'>
                                 EMAIL
                             </th>
                         </tr>
@@ -42,12 +42,12 @@ const MembersTab = ({ users }: props) => {
                         {users?.map((user) => {
                             return (
                                 <tr
-                                    className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
+                                    className='table_row_hover'
                                     key={user.username}
                                 >
                                     <th
                                         scope='row'
-                                        className='px-6 py-3 sm:hidden'
+                                        className='table_padding sm:hidden'
                                     >
                                         <img
                                             className='w-[35px] h-[35px]'
@@ -64,13 +64,13 @@ const MembersTab = ({ users }: props) => {
                                             }
                                         />
                                     </th>
-                                    <td className='px-6 py-3 md:hidden'>
+                                    <td className='table_padding md:hidden'>
                                         {user.username}
                                     </td>
-                                    <td className='px-6 py-3 sm:text-center'>
+                                    <td className='table_padding sm:text-center'>
                                         {`${user.firstName} ${user.lastName}`}
                                     </td>
-                                    <td className='px-6 py-3 md:hidden'>
+                                    <td className='table_padding md:hidden'>
                                         {user.email}
                                     </td>
                                 </tr>
