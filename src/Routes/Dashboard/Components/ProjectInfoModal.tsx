@@ -155,7 +155,7 @@ const UserElements = ({ usersArr }: userProps) => {
                 return (
                     <li
                         key={user.username}
-                        className='pl-4 text-xl border-b border-b-gray-200 border-1 w-full'
+                        className='flex justify-center items-center text-xl bg-gray-200 mb-2 last:mb-0 p-1 rounded-3xl w-full'
                     >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
