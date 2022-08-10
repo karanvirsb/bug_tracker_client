@@ -52,7 +52,6 @@ const Project = () => {
             ></TicketsTab>
         ),
         members: <MembersTab users={projectUsers}></MembersTab>,
-        forums: <div>Forums</div>,
     };
 
     const tabs = [
@@ -64,10 +63,6 @@ const Project = () => {
         {
             value: "members",
             label: "Members",
-        },
-        {
-            value: "forums",
-            label: "Forums",
         },
     ];
 
