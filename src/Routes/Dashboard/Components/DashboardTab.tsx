@@ -58,7 +58,7 @@ const DashboardTab = ({ groupId }: props) => {
                     {/* only allowing admins or editors to create new projects */}
                     {(isAdmin || isEditor) && (
                         <button
-                            className='bg-secondary-color text-white py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2'
+                            className='createNewBtn'
                             onClick={() =>
                                 dispatch(
                                     setModal({
