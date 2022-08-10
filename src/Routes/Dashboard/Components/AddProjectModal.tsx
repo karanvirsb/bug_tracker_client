@@ -145,7 +145,7 @@ const AddProjectModal = (): JSX.Element => {
             <form
                 action=''
                 onSubmit={handleSubmit}
-                className='flex flex-col gap-4 w-full min-h-[100vh] p-4 justify-evenly'
+                className='flex flex-col gap-8 w-full min-h-[100vh] p-4'
             >
                 <Suspense
                     fallback={
