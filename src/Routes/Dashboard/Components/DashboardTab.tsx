@@ -49,10 +49,10 @@ const DashboardTab = ({ groupId }: props) => {
 
     return (
         <>
-            <h1 className='text-2xl font-semibold'>Dashboard</h1>
+            {/* <h1 className='text-3xl font-semibold text-zinc-400'>Dashboard</h1> */}
             <div className='my-6 mx-4'>
                 <div className='flex justify-between items-center mb-4'>
-                    <h2 className='text-xl font-semibold text-gray-800'>
+                    <h2 className='text-2xl font-semibold text-gray-800'>
                         Projects
                     </h2>
                     {/* only allowing admins or editors to create new projects */}
