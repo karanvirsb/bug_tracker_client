@@ -30,7 +30,7 @@ body {
 }
 
 .createNewBtn {
-    @apply bg-secondary-color text-zinc-900 py-2 px-4 rounded-md font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2;
+    @apply bg-secondary-color text-zinc-900 py-2 px-4 rounded-3xl font-semibold hover:bg-transparent hover:text-black hover:outline hover:outline-secondary-color hover:outline-2;
 }
 
 .table_container {
