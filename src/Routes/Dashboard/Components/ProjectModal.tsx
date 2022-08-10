@@ -67,7 +67,7 @@ const ProjectModal = ({
                     name='projectDesc'
                     value={projectInput.projectDesc}
                     onChange={handleTextAreaChange}
-                    className='modal-input resize-y'
+                    className='modal-input modal-textarea'
                 />
             </div>
             <div className='input-container'>
