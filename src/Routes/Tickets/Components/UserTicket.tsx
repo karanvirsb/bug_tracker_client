@@ -50,37 +50,34 @@ const UserTicket = ({
     setSelectedId,
 }: UserTicketInterface) => {
     return (
-        <tr
-            className='border-gray-200 border-b-2 hover:bg-gray-200 cursor-pointer'
-            onClick={() => setSelectedId(ticketId)}
-        >
+        <tr className='table_row_hover' onClick={() => setSelectedId(ticketId)}>
             <th
                 scope='row'
-                className='px-6 py-3 text-gray-800 font-semibold sm:text-center'
+                className='table_padding table_row_header sm:text-center'
             >
                 {title}
             </th>
-            <td className='px-6 py-3 lg:hidden'>
+            <td className='table_padding lg:hidden'>
                 <Reporter username={reporterId}></Reporter>
             </td>
-            <td className='px-6 py-3 lg:hidden'>
+            <td className='table_padding lg:hidden'>
                 {dateCreated.toDateString()}
             </td>
-            <td className='px-6 py-3 md:hidden'>
+            <td className='table_padding md:hidden'>
                 <p
                     className={`${ticketTypeColor[ticketType]} text-center rounded-xl`}
                 >
                     {ticketType}
                 </p>
             </td>
-            <td className={`px-6 py-3 sm:hidden`}>
+            <td className={`table_padding sm:hidden`}>
                 <p
                     className={`${ticketStatusColor[ticketStatus]} text-center rounded-xl`}
                 >
                     {ticketStatus}
                 </p>
             </td>
-            <td className='px-6 py-3 lg:hidden'>
+            <td className='table_padding lg:hidden'>
                 <Suspense
                     fallback={
                         <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
@@ -91,7 +88,7 @@ const UserTicket = ({
                     <Members usersArr={assignedDev}></Members>
                 </Suspense>
             </td>
-            <td className='px-6 py-3 sm:hidden'>
+            <td className='table_padding sm:hidden'>
                 <p
                     className={`${ticketSeverityColor[ticketSeverity]} text-center`}
                 >
