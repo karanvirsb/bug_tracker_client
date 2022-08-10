@@ -251,6 +251,7 @@ const Administration = () => {
                             </tr>
                         </thead>
                         <tbody>
+                            {/* TODO fix */}
                             <Suspense
                                 fallback={
                                     <div className='bg-white w-full rounded-lg flex justify-center items-center'>
