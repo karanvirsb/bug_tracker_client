@@ -73,23 +73,32 @@ const DashboardTab = ({ groupId }: props) => {
                         </button>
                     )}
                 </div>
-                <div className='outline-[#D4D4D4] outline-1 outline w-full px-4 text-left rounded-md'>
+                <div className='table_container w-full'>
                     <table className=' w-full'>
-                        <thead className='text-sm text-gray-500 font-normal'>
+                        <thead className='table_header'>
                             <tr className='w-full'>
                                 <th
                                     scope='col'
-                                    className='px-6 py-3 sm:text-center'
+                                    className='table_padding sm:text-center'
                                 >
                                     PROJECT
                                 </th>
-                                <th scope='col' className='px-6 py-3 md:hidden'>
+                                <th
+                                    scope='col'
+                                    className='table_padding md:hidden'
+                                >
                                     DESCRIPTION
                                 </th>
-                                <th scope='col' className='px-6 py-3 md:hidden'>
+                                <th
+                                    scope='col'
+                                    className='table_padding md:hidden'
+                                >
                                     DATE CREATED
                                 </th>
-                                <th scope='col' className='px-6 py-3 sm:hidden'>
+                                <th
+                                    scope='col'
+                                    className='table_padding sm:hidden'
+                                >
                                     MEMBERS
                                 </th>
                             </tr>
