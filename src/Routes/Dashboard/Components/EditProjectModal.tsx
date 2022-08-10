@@ -171,13 +171,13 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
                         type={"edit"}
                     ></ProjectModal>
                     <div className='flex justify-center items-center gap-2 md:flex-col md:items-stretch md:px-20 sm:px-0'>
-                        <button type='submit' className='btn bg-blue-500 !px-8'>
+                        <button type='submit' className='btn submit-btn'>
                             Submit
                         </button>
                         <button
                             type='button'
                             onClick={closeModal}
-                            className='btn bg-red-500 !px-6'
+                            className='btn cancel-btn'
                         >
                             Cancel
                         </button>
