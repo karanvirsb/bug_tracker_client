@@ -181,11 +181,11 @@ const Administration = () => {
         <section className='sections'>
             <Tab tabs={[]} components={{}}></Tab>
 
-            <div className='mb-4 px-4'>
+            <div className='mb-6 px-4'>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
                 <form
                     action=''
-                    className='flex flex-col gap-4'
+                    className='flex flex-col gap-6'
                     onSubmit={handleSubmit}
                 >
                     <div className='input-container'>
@@ -196,7 +196,7 @@ const Administration = () => {
                             type='text'
                             name='groupName'
                             id='groupName'
-                            className='modal-input mx-4'
+                            className='modal-input mr-4'
                             value={groupName}
                             onChange={handleChange}
                         />
