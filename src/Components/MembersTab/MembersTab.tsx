@@ -9,8 +9,8 @@ type props = {
 const MembersTab = ({ users }: props) => {
     return (
         <>
-            <h1 className='text-2xl font-semibold mb-4'>Members</h1>
-            <div className='outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md mx-4'>
+            {/* <h1 className='text-2xl font-semibold mb-4'>Members</h1> */}
+            <div className='outline-[#D4D4D4] outline-1 outline p-4 text-left rounded-md mx-4 my-6'>
                 <table className='w-full'>
                     <thead className='text-sm text-gray-500 font-normal'>
                         <tr>
