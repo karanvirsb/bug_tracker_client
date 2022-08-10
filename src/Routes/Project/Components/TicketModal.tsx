@@ -130,7 +130,7 @@ const TicketModal = ({
                         isMulti
                         ref={userRef}
                         defaultValue={type && defaultSelect}
-                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        className='modal-selects input-label'
                         closeMenuOnSelect={false}
                         maxMenuHeight={150}
                         placeholder='Select Users'
@@ -158,7 +158,7 @@ const TicketModal = ({
                     </label>
                     <Select
                         options={ticketStatusOptions}
-                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        className='modal-selects input-label'
                         placeholder='Select Status'
                         maxMenuHeight={100}
                         ref={ticketStatusRef}
@@ -171,7 +171,7 @@ const TicketModal = ({
                     </label>
                     <Select
                         options={ticketSeverityOptions}
-                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        className='modal-selects input-label'
                         placeholder='Select Severity'
                         maxMenuHeight={100}
                         ref={ticketSeverityRef}
@@ -184,7 +184,7 @@ const TicketModal = ({
                     </label>
                     <Select
                         options={ticketTypeOptions}
-                        className='outline-gray-400 border-none rounded-lg ml-2 input-label'
+                        className='modal-selects input-label'
                         placeholder='Select Type'
                         maxMenuHeight={100}
                         ref={ticketTypeRef}
