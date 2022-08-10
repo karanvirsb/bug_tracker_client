@@ -63,7 +63,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     return (
         <Backdrop>
             <motion.div
-                className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 top-0 p-4 max-w-[1920px] w-full overflow-auto rounded-md'
+                className='bg-white flex flex-col gap-4 fixed bottom-0 left-0 right-0 top-0 max-w-[1920px] w-full overflow-auto rounded-md'
                 variants={ticketModalConstraints}
                 initial='hidden'
                 animate='visible'
@@ -71,7 +71,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
             >
                 <svg
                     xmlns='http://www.w3.org/2000/svg'
-                    className='h-9 w-9 absolute top-[10px] right-[10px] fill-gray-600 cursor-pointer hover:fill-red-400 hover:text-black'
+                    className='h-9 w-9 absolute top-[10px] right-[10px] z-20 fill-gray-600 cursor-pointer hover:fill-red-400 hover:text-black'
                     viewBox='0 0 20 20'
                     fill='currentColor'
                     onClick={() => setSelectedId(null)}
@@ -82,102 +82,97 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         clipRule='evenodd'
                     />
                 </svg>
-                <div className='flex justify-between'>
-                    <div className='flex lg:flex-col gap-4'>
-                        <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
-                            <h1 className='text-2xl'>{foundTicket?.title}</h1>
-                            <span className='sm:hidden'>&#8212;</span>
-                            <span className='text-gray-600 m-md:pl-2'>
-                                {new Date(
-                                    foundTicket?.dateCreated ?? ""
-                                ).toDateString()}
+                <div className='bg-gray-100 flex lg:flex-col gap-4 w-full p-4'>
+                    <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
+                        <h1 className='text-2xl'>{foundTicket?.title}</h1>
+                        <span className='sm:hidden'>&#8212;</span>
+                        <span className='text-gray-600 m-md:pl-2'>
+                            {new Date(
+                                foundTicket?.dateCreated ?? ""
+                            ).toDateString()}
+                        </span>
+                    </div>
+                    <span className='hidden m-lg:inline-block'>&#8212;</span>
+                    <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full '>
+                        <div className='flex gap-4 items-center'>
+                            <span
+                                className={`${
+                                    ticketTypeColor[
+                                        foundTicket?.ticketType ?? "Bug"
+                                    ]
+                                } text-center rounded-xl px-4`}
+                            >
+                                {foundTicket?.ticketType}
+                            </span>{" "}
+                            <span
+                                className={`${
+                                    ticketStatusColor[
+                                        foundTicket?.ticketStatus ?? "Open"
+                                    ]
+                                } text-center rounded-xl px-4`}
+                            >
+                                {foundTicket?.ticketStatus}
+                            </span>{" "}
+                            <span
+                                className={`${
+                                    ticketSeverityColor[
+                                        foundTicket?.ticketSeverity ?? "None"
+                                    ]
+                                } text-center px-4`}
+                            >
+                                {foundTicket?.ticketSeverity}
                             </span>
                         </div>
-                        <span className='hidden m-lg:inline-block'>
-                            &#8212;
-                        </span>
-                        <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full '>
-                            <div className='flex gap-4 items-center'>
-                                <span
-                                    className={`${
-                                        ticketTypeColor[
-                                            foundTicket?.ticketType ?? "Bug"
-                                        ]
-                                    } text-center rounded-xl px-4`}
-                                >
-                                    {foundTicket?.ticketType}
-                                </span>{" "}
-                                <span
-                                    className={`${
-                                        ticketStatusColor[
-                                            foundTicket?.ticketStatus ?? "Open"
-                                        ]
-                                    } text-center rounded-xl px-4`}
-                                >
-                                    {foundTicket?.ticketStatus}
-                                </span>{" "}
-                                <span
-                                    className={`${
-                                        ticketSeverityColor[
-                                            foundTicket?.ticketSeverity ??
-                                                "None"
-                                        ]
-                                    } text-center px-4`}
-                                >
-                                    {foundTicket?.ticketSeverity}
-                                </span>
-                            </div>
-                            <span className='sm:hidden'>&#8212;</span>
-                            <div>
-                                By:{" "}
-                                {foundUser?.firstName +
-                                    " " +
-                                    foundUser?.lastName}
-                            </div>
+                        <span className='sm:hidden'>&#8212;</span>
+                        <div>
+                            By:{" "}
+                            {foundUser?.firstName + " " + foundUser?.lastName}
                         </div>
                     </div>
                 </div>
-                <div className='flex gap-2 pb-4'>
-                    <button
-                        className='btn bg-green-400'
-                        onClick={openEditModal}
+                <div className='p-4'>
+                    <div className='flex gap-2 mb-6'>
+                        <button
+                            className='btn bg-green-400'
+                            onClick={openEditModal}
+                        >
+                            Edit
+                        </button>
+                        <button
+                            className='btn bg-red-400'
+                            onClick={openDeleteModal}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                    <div className='grid grid-cols-2 gap-4 sm:grid-cols-1 mb-10'>
+                        <fieldset className='border border-gray-500 rounded-md'>
+                            <legend className='text-gray-500 text-lg p-4'>
+                                Description:
+                            </legend>
+                            <p className='max-w-[100ch] w-full text-lg max-h-[150px] overflow-auto p-4'>
+                                {foundTicket?.description}
+                            </p>
+                        </fieldset>
+                        <fieldset className='max-w-max border border-gray-500 rounded-md'>
+                            <legend className='text-gray-500 text-lg p-4'>
+                                Users:
+                            </legend>
+                            <UserElements
+                                usersArr={foundTicket?.assignedDev ?? []}
+                            ></UserElements>
+                        </fieldset>
+                    </div>
+                    <Suspense
+                        fallback={
+                            <div className='w-full flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
                     >
-                        Edit
-                    </button>
-                    <button
-                        className='btn bg-red-400'
-                        onClick={openDeleteModal}
-                    >
-                        Delete
-                    </button>
+                        <CommentSection ticketId={selectedId}></CommentSection>
+                    </Suspense>
                 </div>
-                <div className='grid grid-cols-2 gap-4 sm:grid-cols-1'>
-                    <fieldset className='border border-gray-500 rounded-md'>
-                        <legend className='text-gray-500 text-lg p-4'>
-                            Description:
-                        </legend>
-                        <p className='max-w-[100ch] w-full text-lg max-h-[150px] overflow-auto p-4'>
-                            {foundTicket?.description}
-                        </p>
-                    </fieldset>
-                    <fieldset className='max-w-max border border-gray-500 rounded-md'>
-                        <legend className='text-gray-500 text-lg p-4'>
-                            Users:
-                        </legend>
-                        <UserElements
-                            usersArr={foundTicket?.assignedDev ?? []}
-                        ></UserElements>
-                    </fieldset>
-                </div>
-                <Suspense
-                    fallback={
-                        <div className='w-full flex justify-center items-center'>
-                            <Spinner></Spinner>
-                        </div>
-                    }
-                >
-                    <CommentSection ticketId={selectedId}></CommentSection>
-                </Suspense>
             </motion.div>
         </Backdrop>
     );
