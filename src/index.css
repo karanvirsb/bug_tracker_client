@@ -75,7 +75,7 @@ body {
 }
 
 .side-modal-form {
-    @apply flex flex-col gap-4 w-full min-h-[100vh] p-4;
+    @apply flex flex-col gap-8 w-full min-h-[100vh] p-4;
 }
 
 .side-modal-btn-container {
