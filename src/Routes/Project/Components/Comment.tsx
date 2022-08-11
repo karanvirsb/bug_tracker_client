@@ -15,9 +15,10 @@ type props = {
     user: IUser;
     classname?: string;
     isReply?: boolean;
+    page?: number;
 };
 
-const Comment = ({ comment, user, classname, isReply }: props) => {
+const Comment = ({ comment, user, classname, isReply, page }: props) => {
     const [replying, setReplying] = useState(false); // if user is replying open form
     const [loadReplies, setLoadReplies] = useState(false); // load up the replies
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
