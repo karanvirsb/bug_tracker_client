@@ -100,6 +100,7 @@ function App() {
 
         return () => {
             socket.off("invalidateData");
+            socket.off("invalidateCommentPage");
         };
     }, [socket, invalidateQuery]);
 
