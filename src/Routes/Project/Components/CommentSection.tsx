@@ -212,15 +212,18 @@ const CommentSection = ({ ticketId }: props) => {
                     }
                 >
                     <Comments></Comments>
-                    {hasNextPage && (
-                        <button
-                            onClick={() => fetchNextPage()}
-                            disabled={!hasNextPage || isFetchingNextPage}
-                        >
-                            {isFetchingNextPage && "Loading more..."}
-                            {hasNextPage && "Load More Comments"}
-                        </button>
-                    )}
+                    <div className='w-full flex justify-center items-center'>
+                        {hasNextPage && (
+                            <button
+                                onClick={() => fetchNextPage()}
+                                disabled={!hasNextPage || isFetchingNextPage}
+                                className='hover:text-cta-btn-color font-semibold'
+                            >
+                                {isFetchingNextPage && "Loading more..."}
+                                {hasNextPage && "Load More Comments"}
+                            </button>
+                        )}
+                    </div>
                 </Suspense>
             )}
         </>
