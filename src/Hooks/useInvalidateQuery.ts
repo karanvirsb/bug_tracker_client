@@ -2,6 +2,7 @@ import { useQueryClient } from "react-query";
 
 type props = {
     queryName: string;
+    page?: number;
 };
 /**
  *
@@ -10,8 +11,14 @@ type props = {
 const useInvalidateQuery = () => {
     const queryClient = useQueryClient();
 
-    const invalidateQuery = async ({ queryName }: props) => {
-        await queryClient.invalidateQueries(queryName);
+    const invalidateQuery = async ({ queryName, page }: props) => {
+        if (page) {
+            await queryClient.invalidateQueries([queryName], {
+                refetchPage: (page, index) => index === page,
+            });
+        } else {
+            await queryClient.invalidateQueries(queryName);
+        }
     };
 
     return { invalidateQuery };
