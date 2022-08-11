@@ -17,7 +17,7 @@ const Comments = () => {
                             key={comment.commentId}
                             comment={comment}
                             user={user}
-                            classname='flex flex-row gap-4 py-4 w-[100%] min-w-[250px] max-w-[1000px]'
+                            classname='flex flex-row gap-4 py-4 w-[100%]'
                         ></Comment>
                     );
                 }
