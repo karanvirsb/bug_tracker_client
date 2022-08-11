@@ -147,7 +147,7 @@ const CommentSection = ({ ticketId }: props) => {
         <>
             <form className='w-full' onSubmit={handleSubmit}>
                 <div className='flex sm:flex-col gap-4 justify-center items-end sm:items-start w-full'>
-                    <div className='flex sm:w-full w-[75%] max-w-[1250px]'>
+                    <div className='flex sm:w-full w-[75%] max-w-[1450px]'>
                         <img
                             src={`data:${
                                 user.avatar.contentType
