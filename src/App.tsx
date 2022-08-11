@@ -94,6 +94,10 @@ function App() {
             invalidateQuery({ queryName: query });
         });
 
+        socket.on("invalidateCommentPage", (data) => {
+            invalidateQuery({ queryName: data.queryName, page: data.page });
+        });
+
         return () => {
             socket.off("invalidateData");
         };
