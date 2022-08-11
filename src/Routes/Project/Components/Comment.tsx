@@ -45,9 +45,10 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
 
                 toast.success("Comment was deleted successfully");
                 const ticketId = comment.ticketId || foundTicketId;
-                socket.emit("invalidateQuery", {
+                socket.emit("invalidateCommentsPage", {
                     queryName: "comments" + ticketId,
-                    groupId: ticketId,
+                    roomId: ticketId,
+                    page: page,
                 });
             },
         });
