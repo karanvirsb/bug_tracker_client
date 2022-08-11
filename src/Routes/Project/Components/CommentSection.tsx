@@ -62,7 +62,7 @@ const CommentSection = ({ ticketId }: props) => {
         isFetchingNextPage,
         status: commentsStatus,
     } = useInfiniteQuery(["comments" + ticketId], fetchCommentSection, {
-        getNextPageParam: (lastPage) => lastPage.nextPage,
+        getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     });
 
     const postCommentMutation = useMutation(async (commentInfo: IComment) => {
@@ -117,6 +117,7 @@ const CommentSection = ({ ticketId }: props) => {
         if (commentsStatus === "success") {
             const totalComments = [];
             const commentsLength = comments.pages.length;
+
             for (let i = 0; i < commentsLength; i++) {
                 totalComments.push(...comments.pages[i].response);
             }
