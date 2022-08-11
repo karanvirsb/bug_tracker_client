@@ -144,6 +144,7 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
                         repliedToUserId={comment.userId}
                         comment={comment}
                         setReplying={setReplying}
+                        page={page}
                     ></ReplyToForm>
                 </Suspense>
             )}
