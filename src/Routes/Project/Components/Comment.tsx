@@ -7,6 +7,7 @@ import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import { IUser } from "../../../Redux/Slices/userSlice";
+import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
 const Replys = lazy(() => import("./Replys"));
 const ReplyToForm = lazy(() => import("./ReplyToForm"));
 
@@ -23,6 +24,10 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
     const [loadReplies, setLoadReplies] = useState(false); // load up the replies
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
     const [readMore, setReadMore] = useState(false); // if the use wants to load more of the comment
+    const { checkUserPermissions } = useCheckTicketPermissions();
+    const isUserAllowed = checkUserPermissions({
+        ticketId: comment.ticketId,
+    });
     const topLevelComments = useAppSelector((state) => state.comments.comments);
     const loginUser = useAppSelector((state) => state.persistedReducer.user);
 
@@ -108,12 +113,14 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
                             </span>
                         ))}
                     <div className='flex flex-row gap-4'>
-                        <button
-                            className='text-lg hover:text-blue-500'
-                            onClick={() => setReplying(true)}
-                        >
-                            Reply
-                        </button>
+                        {isUserAllowed && (
+                            <button
+                                className='text-lg hover:text-blue-500'
+                                onClick={() => setReplying(true)}
+                            >
+                                Reply
+                            </button>
+                        )}
                         {/* checking to see if the user that made the comment is the same user that is logged in */}
                         {loginUser.username === user.username && (
                             <button
