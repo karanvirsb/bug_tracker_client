@@ -4,6 +4,7 @@ import Backdrop from "../../../Components/Backdrop";
 import Spinner from "../../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
+import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
 const CommentSection = lazy(() => import("./CommentSection"));
 
 import {
@@ -27,6 +28,10 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const foundTicket = tickets.find(
         (ticket) => ticket.ticketId === selectedId
     );
+    const { checkUserPermissions } = useCheckTicketPermissions();
+    const isUserAllowed = checkUserPermissions({
+        usersString: foundTicket?.assignedDev,
+    });
     const foundUser = groupUsers.find(
         (user) => user.username === foundTicket?.reporterId
     );
@@ -131,20 +136,22 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                     </div>
                 </div>
                 <div className='p-4'>
-                    <div className='flex gap-2 mb-6'>
-                        <button
-                            className='btn bg-green-400'
-                            onClick={openEditModal}
-                        >
-                            Edit
-                        </button>
-                        <button
-                            className='btn bg-red-400'
-                            onClick={openDeleteModal}
-                        >
-                            Delete
-                        </button>
-                    </div>
+                    {isUserAllowed && (
+                        <div className='flex gap-2 mb-6'>
+                            <button
+                                className='btn bg-green-400'
+                                onClick={openEditModal}
+                            >
+                                Edit
+                            </button>
+                            <button
+                                className='btn bg-red-400'
+                                onClick={openDeleteModal}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
                     <div className='grid grid-cols-2 gap-4 sm:grid-cols-1 mb-10'>
                         <fieldset className='border border-gray-500 rounded-md'>
                             <legend className='text-gray-500 text-lg p-4'>
