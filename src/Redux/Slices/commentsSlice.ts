@@ -25,14 +25,26 @@ const commentsSlice = createSlice({
     initialState: initialState,
     reducers: {
         setComments: (
-            state: any,
+            state: ICommentsArr,
             action: PayloadAction<ICommentsArr["comments"]>
         ) => {
-            return { ...state, comments: action.payload };
+            return {
+                ...state,
+                comments: action.payload,
+            };
+        },
+
+        deleteComment: (state: ICommentsArr, action: PayloadAction<string>) => {
+            return {
+                ...state,
+                comments: state.comments.filter(
+                    (comment) => comment.commentId !== action.payload
+                ),
+            };
         },
     },
 });
 
-export const { setComments } = commentsSlice.actions;
+export const { setComments, deleteComment } = commentsSlice.actions;
 
 export default commentsSlice.reducer;
