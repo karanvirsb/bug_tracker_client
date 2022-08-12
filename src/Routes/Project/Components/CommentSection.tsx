@@ -45,12 +45,12 @@ const CommentSection = ({ ticketId }: props) => {
             params: { page: pageParam, limit: 5 },
         });
 
-        const commentsInfo: commentInfo = resp.data;
-        const { docs, nextPage, hasNextPage } = commentsInfo;
+        const commentsInfo: commentInfo = resp?.data;
+
         return {
-            response: docs,
-            nextPage,
-            hasNextPage,
+            response: commentsInfo.docs,
+            nextPage: commentsInfo.nextPage,
+            hasNextPage: commentsInfo.hasNextPage,
         };
     };
 
@@ -62,7 +62,7 @@ const CommentSection = ({ ticketId }: props) => {
         isFetchingNextPage,
         status: commentsStatus,
     } = useInfiniteQuery(["comments" + ticketId], fetchCommentSection, {
-        getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+        getNextPageParam: (lastPage) => lastPage?.nextPage ?? undefined,
     });
 
     const postCommentMutation = useMutation(async (commentInfo: IComment) => {
@@ -121,6 +121,8 @@ const CommentSection = ({ ticketId }: props) => {
             for (let i = 0; i < commentsLength; i++) {
                 totalComments.push(...comments.pages[i].response);
             }
+            // const latestPage = comments?.pages?.splice(-1);
+            // console.log(comments.pages, latestPage);
             dispatch(setComments(totalComments));
         }
     }, [commentsStatus, comments]);
