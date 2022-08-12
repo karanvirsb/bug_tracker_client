@@ -34,11 +34,9 @@ const CommentSection = ({ ticketId }: props) => {
 
     const user = useAppSelector((state) => state.persistedReducer.user);
     const ticketComments = useAppSelector((state) => state.comments.comments);
-    const foundTicket = useAppSelector((state) =>
-        state.tickets.tickets.find((ticket) => ticket.ticketId === ticketId)
-    );
+
     const isUserAllowed = checkUserPermissions({
-        usersString: foundTicket?.assignedDev,
+        ticketId: ticketId,
     });
 
     const dispatch = useAppDispatch();
