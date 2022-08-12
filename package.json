@@ -68,7 +68,6 @@
         "compression-webpack-plugin": "^10.0.0",
         "postcss": "^8.4.14",
         "react-lazyload": "^3.2.0",
-        "react-query-devtools": "^2.6.3",
         "redux": "^4",
         "tailwindcss": "^3.1.2",
         "vite": "^2.3.2",
