@@ -3,8 +3,10 @@ import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import Spinner from "../../../Components/Spinner";
 import { useAppDispatch } from "../../../Hooks/hooks";
+import { users } from "../../../Redux/Slices/groupSlice";
 import { setModal } from "../../../Redux/Slices/modalSlice";
 import { updateInitialState } from "../../../Redux/Slices/ticketsSlice";
+import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
 const Tickets = lazy(() => import("./Tickets"));
 const Pagination = lazy(() => import("../../../Components/Pagination"));
 
@@ -12,11 +14,19 @@ type props = {
     projectId: string | undefined;
     project: any;
     projectStatus: "idle" | "error" | "loading" | "success";
+    projectUsers: users[];
 };
 
-const TicketsTab = ({ projectId, project, projectStatus }: props) => {
+const TicketsTab = ({
+    projectId,
+    project,
+    projectStatus,
+    projectUsers,
+}: props) => {
     const [pageNumber, setPageNumber] = useState(1);
     const [errMsg, setErrMsg] = useState("");
+    const { checkUserPermissions } = useCheckTicketPermissions();
+    const isUserAllowed = checkUserPermissions({ users: projectUsers });
 
     const dispatch = useAppDispatch();
 
@@ -65,12 +75,14 @@ const TicketsTab = ({ projectId, project, projectStatus }: props) => {
                     <h2 className='text-xl font-semibold text-gray-800'>
                         Tickets
                     </h2>
-                    <button
-                        className='createNewBtn'
-                        onClick={openAddTicketModal}
-                    >
-                        New Ticket
-                    </button>
+                    {isUserAllowed && (
+                        <button
+                            className='createNewBtn'
+                            onClick={openAddTicketModal}
+                        >
+                            New Ticket
+                        </button>
+                    )}
                 </div>
                 <div className='table_container w-full'>
                     <table className=' w-full'>
