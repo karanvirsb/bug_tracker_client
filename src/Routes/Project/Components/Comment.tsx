@@ -23,7 +23,6 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
     const [loadReplies, setLoadReplies] = useState(false); // load up the replies
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
     const [readMore, setReadMore] = useState(false); // if the use wants to load more of the comment
-
     const topLevelComments = useAppSelector((state) => state.comments.comments);
 
     const dateCreated = new Date(comment?.dateCreated || "");
@@ -45,10 +44,9 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
 
                 toast.success("Comment was deleted successfully");
                 const ticketId = comment.ticketId || foundTicketId;
-                socket.emit("invalidateCommentsPage", {
-                    queryName: "comments" + ticketId,
+                socket.emit("deleteCommentFromState", {
                     roomId: ticketId,
-                    page: page,
+                    comment: comment.commentId,
                 });
             },
         });
