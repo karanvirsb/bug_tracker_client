@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import { AxiosError } from "axios";
 import Spinner from "../../../Components/Spinner";
+import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
 
 type props = {
     ticketId: string;
@@ -29,9 +30,16 @@ type commentInfo = {
 const CommentSection = ({ ticketId }: props) => {
     const [loadComments, setLoadComments] = useState(false); // to load when button is clicked
     const [commentInput, setCommentInput] = useState(""); // used for the form
+    const { checkUserPermissions } = useCheckTicketPermissions();
 
     const user = useAppSelector((state) => state.persistedReducer.user);
     const ticketComments = useAppSelector((state) => state.comments.comments);
+    const foundTicket = useAppSelector((state) =>
+        state.tickets.tickets.find((ticket) => ticket.ticketId === ticketId)
+    );
+    const isUserAllowed = checkUserPermissions({
+        usersString: foundTicket?.assignedDev,
+    });
 
     const dispatch = useAppDispatch();
 
@@ -148,40 +156,44 @@ const CommentSection = ({ ticketId }: props) => {
 
     return (
         <>
-            <form className='w-full' onSubmit={handleSubmit}>
-                <div className='flex sm:flex-col gap-4 justify-center items-end sm:items-start w-full'>
-                    <div className='flex sm:w-full w-[75%] max-w-[1450px]'>
-                        <img
-                            src={`data:${
-                                user.avatar.contentType
-                            };utf8,${encodeURIComponent(user.avatar.data)}`}
-                            alt={user.username}
-                            className='w-[50px] h-[50px]'
-                        />
-                        <input
-                            className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[100%] min-w-[150px] focus:outline-none'
-                            type='text'
-                            onChange={(e) => setCommentInput(e.target.value)}
-                            value={commentInput}
-                        />
+            {isUserAllowed && (
+                <form className='w-full' onSubmit={handleSubmit}>
+                    <div className='flex sm:flex-col gap-4 justify-center items-end sm:items-start w-full'>
+                        <div className='flex sm:w-full w-[75%] max-w-[1450px]'>
+                            <img
+                                src={`data:${
+                                    user.avatar.contentType
+                                };utf8,${encodeURIComponent(user.avatar.data)}`}
+                                alt={user.username}
+                                className='w-[50px] h-[50px]'
+                            />
+                            <input
+                                className='border-b-[2px] border-b-gray-400 px-2 py-2 text-lg w-[100%] min-w-[150px] focus:outline-none'
+                                type='text'
+                                onChange={(e) =>
+                                    setCommentInput(e.target.value)
+                                }
+                                value={commentInput}
+                            />
+                        </div>
+                        <div className='flex gap-4 self-end'>
+                            <button
+                                className='btn bg-blue-500 font-semibold hover:outline hover:outline-blue-500'
+                                type='submit'
+                            >
+                                Post
+                            </button>
+                            <button
+                                type='button'
+                                className='btn bg-zinc-300 font-semibold hover:outline hover:outline-zinc-300'
+                                onClick={() => setCommentInput("")}
+                            >
+                                Clear
+                            </button>
+                        </div>
                     </div>
-                    <div className='flex gap-4 self-end'>
-                        <button
-                            className='btn bg-blue-500 font-semibold hover:outline hover:outline-blue-500'
-                            type='submit'
-                        >
-                            Post
-                        </button>
-                        <button
-                            type='button'
-                            className='btn bg-zinc-300 font-semibold hover:outline hover:outline-zinc-300'
-                            onClick={() => setCommentInput("")}
-                        >
-                            Clear
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            )}
             {commentsStatus === "loading" && (
                 <div className='w-full flex justify-center items-center'>
                     <Spinner></Spinner>
