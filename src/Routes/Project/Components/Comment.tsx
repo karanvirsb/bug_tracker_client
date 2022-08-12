@@ -24,6 +24,7 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
     const [readMore, setReadMore] = useState(false); // if the use wants to load more of the comment
     const topLevelComments = useAppSelector((state) => state.comments.comments);
+    const loginUser = useAppSelector((state) => state.persistedReducer.user);
 
     const dateCreated = new Date(comment?.dateCreated || "");
     const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
@@ -113,12 +114,15 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
                         >
                             Reply
                         </button>
-                        <button
-                            className='text-lg hover:text-red-400'
-                            onClick={handleDelete}
-                        >
-                            Delete
-                        </button>
+                        {/* checking to see if the user that made the comment is the same user that is logged in */}
+                        {loginUser.username === user.username && (
+                            <button
+                                className='text-lg hover:text-red-400'
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </button>
+                        )}
                     </div>
                     {!loadReplies && replys.length > 0 && comment?.ticketId && (
                         <button
