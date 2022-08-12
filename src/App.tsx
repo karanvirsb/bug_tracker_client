@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { ReactQueryDevtools } from "react-query/devtools";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -35,6 +36,7 @@ import useInvalidateQuery from "./Hooks/useInvalidateQuery";
 import { updateUserRoles } from "./Redux/Slices/userSlice";
 import { setModal } from "./Redux/Slices/modalSlice";
 import Spinner from "./Components/Spinner";
+import { deleteComment } from "./Redux/Slices/commentsSlice";
 
 const NavbarLayout = () => {
     return (
@@ -94,13 +96,13 @@ function App() {
             invalidateQuery({ queryName: query });
         });
 
-        socket.on("invalidateCommentPage", (data) => {
-            invalidateQuery({ queryName: data.queryName, page: data.page });
+        socket.on("deleteComment", (data) => {
+            dispatch(deleteComment(data.comment));
         });
 
         return () => {
             socket.off("invalidateData");
-            socket.off("invalidateCommentPage");
+            socket.off("deleteComment");
         };
     }, [socket, invalidateQuery]);
 
@@ -210,6 +212,7 @@ function App() {
                     ></Route>
                 </Routes>
             </Suspense>
+            <ReactQueryDevtools initialIsOpen={true} />
         </>
     );
 }
