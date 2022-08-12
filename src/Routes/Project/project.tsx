@@ -36,7 +36,6 @@ const Project = () => {
 
     const projectUsers = [];
 
-    //TODO change groupUsers to a MAP
     for (const user of groupUsers) {
         if (project?.users?.includes(user.username)) {
             projectUsers.push(user);
@@ -49,6 +48,7 @@ const Project = () => {
                 project={project}
                 projectStatus={projectStatus}
                 projectId={projectId}
+                projectUsers={projectUsers}
             ></TicketsTab>
         ),
         members: <MembersTab users={projectUsers}></MembersTab>,
