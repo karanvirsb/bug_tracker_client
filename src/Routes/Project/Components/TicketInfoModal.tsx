@@ -19,6 +19,7 @@ type props = {
 };
 
 const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
+    const { checkUserPermissions } = useCheckTicketPermissions();
     const dispatch = useAppDispatch();
     const tickets = useAppSelector((state) => state.tickets.tickets);
     const groupUsers = useAppSelector(
@@ -28,7 +29,6 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
     const foundTicket = tickets.find(
         (ticket) => ticket.ticketId === selectedId
     );
-    const { checkUserPermissions } = useCheckTicketPermissions();
     const isUserAllowed = checkUserPermissions({
         usersString: foundTicket?.assignedDev,
     });
