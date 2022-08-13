@@ -20,19 +20,33 @@ type props = {
 };
 
 const Comment = ({ comment, user, classname, isReply, page }: props) => {
+    const dateCreated = new Date(comment?.dateCreated || "");
+    const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
+
     const [replying, setReplying] = useState(false); // if user is replying open form
     const [loadReplies, setLoadReplies] = useState(false); // load up the replies
     const [replys, setReplys] = useState<string[]>([]); // set replys to comment replys ids
     const [readMore, setReadMore] = useState(false); // if the use wants to load more of the comment
-    const { checkUserPermissions } = useCheckTicketPermissions();
-    const isUserAllowed = checkUserPermissions({
-        ticketId: comment.ticketId,
-    });
+
     const topLevelComments = useAppSelector((state) => state.comments.comments);
     const loginUser = useAppSelector((state) => state.persistedReducer.user);
 
-    const dateCreated = new Date(comment?.dateCreated || "");
-    const dateString = `${dateCreated.toLocaleDateString()} | ${dateCreated.toLocaleTimeString()}`;
+    const { checkUserPermissions } = useCheckTicketPermissions();
+    let isUserAllowed = false;
+    // finding the top level comments ticketId to use for comment updates
+    const foundTicketId = topLevelComments.find(
+        (elem) => elem.commentId === comment.repliedTo
+    )?.ticketId;
+
+    if (isReply) {
+        isUserAllowed = checkUserPermissions({
+            ticketId: foundTicketId,
+        });
+    } else {
+        isUserAllowed = checkUserPermissions({
+            ticketId: comment.ticketId,
+        });
+    }
 
     const deleteCommentMutation = useMutation(async (commentId: string) => {
         return axiosPrivate("/comment", {
@@ -44,17 +58,20 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
     const handleDelete = () => {
         deleteCommentMutation.mutateAsync(comment?.commentId || "", {
             onSuccess: () => {
-                const foundTicketId = topLevelComments.find(
-                    (elem) => elem.commentId === comment.repliedTo
-                )?.ticketId;
-
                 toast.success("Comment was deleted successfully");
                 const ticketId = comment.ticketId || foundTicketId;
-                // TODO fix reply deletion
-                socket.emit("deleteCommentFromState", {
-                    roomId: ticketId,
-                    comment: comment.commentId,
-                });
+                if (isReply) {
+                    socket.emit("invalidateCommentsPage", {
+                        queryName: "comments" + ticketId,
+                        roomId: ticketId,
+                        page: page,
+                    });
+                } else {
+                    socket.emit("deleteCommentFromState", {
+                        roomId: ticketId,
+                        comment: comment.commentId,
+                    });
+                }
             },
         });
     };
