@@ -3,11 +3,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { IComment } from "./commentsSlice";
 
 export interface IReplys {
-    replys: Map<string, IComment[]>;
+    replys: { [key: string]: IComment[] };
 }
 
 const initialState: IReplys = {
-    replys: new Map<string, IComment[]>(),
+    replys: {},
 };
 
 export const replysSlice = createSlice({
@@ -20,14 +20,14 @@ export const replysSlice = createSlice({
         ) => {
             const { id, comments } = action.payload;
             const replys = state.replys;
-            if (replys.has(id)) {
-                const prevComments = replys.get(id);
-                if (prevComments) {
-                    replys.set(id, [...prevComments, ...comments]);
-                }
-            } else {
-                replys.set(id, comments);
-            }
+
+            replys[id] = comments;
+            // if (replys.hasOwnProperty(id)) {
+            //     const prevComments = replys[id];
+            //     replys[id] = [...prevComments, ...comments];
+            // } else {
+            //     replys[id] = comments;
+            // }
         },
     },
 });
