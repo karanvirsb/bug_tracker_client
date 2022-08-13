@@ -10,7 +10,7 @@ const ProjectModal = lazy(() => import("./ProjectModal"));
 import { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
 import Spinner from "../../../Components/Spinner";
-
+// TODO if user deletes another user need to cascade
 const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     const projects = useAppSelector((state) => state.projects.projects);
     const foundProject = projects.find(
