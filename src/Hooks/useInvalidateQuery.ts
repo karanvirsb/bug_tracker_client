@@ -13,16 +13,12 @@ const useInvalidateQuery = () => {
 
     const invalidateQuery = async ({ queryName, page }: props) => {
         if (page != undefined && page >= 0) {
-            // await queryClient.invalidateQueries([queryName], {
-            //     refetchPage: (_page, index) => {
-            //         return index === page + 1;
-            //     },
-            // });
-
-            Promise.all([
-                await queryClient.cancelQueries([queryName]),
-                await queryClient.invalidateQueries([queryName]),
-            ]);
+            await queryClient.cancelQueries([queryName]);
+            await queryClient.refetchQueries([queryName], {
+                refetchPage: (_page, index) => {
+                    return index === page;
+                },
+            });
         } else {
             await queryClient.invalidateQueries(queryName);
         }
