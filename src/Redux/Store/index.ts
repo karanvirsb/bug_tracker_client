@@ -19,6 +19,7 @@ import groupReducer from "../Slices/groupSlice";
 import ticketsReducer from "../Slices/ticketsSlice";
 import userReducer from "../Slices/userSlice";
 import commentsReducer from "../Slices/commentsSlice";
+import replysReducer from "../Slices/replysSlice";
 
 const rootReducer = combineReducers({
     auth: authenticationReducer,
@@ -43,6 +44,7 @@ export const store = configureStore({
         project: projectReducer,
         tickets: ticketsReducer,
         comments: commentsReducer,
+        replys: replysReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
