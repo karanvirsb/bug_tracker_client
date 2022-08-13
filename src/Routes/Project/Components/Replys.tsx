@@ -2,17 +2,20 @@ import React, { useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import Spinner from "../../../Components/Spinner";
-import { useAppSelector } from "../../../Hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
+import { setReplys } from "../../../Redux/Slices/replysSlice";
 import Comment from "./Comment";
 
 type props = {
     replyIds: string[];
-    ticketId: string;
+    commentId: string;
 };
 // TODO paginate infintie
-const Replys = ({ replyIds, ticketId }: props) => {
+const Replys = ({ replyIds, commentId }: props) => {
+    const commentReplys = useAppSelector((state) => state.replys.replys);
     const users = useAppSelector((state) => state.persistedReducer.group.users);
+    const dispatch = useAppDispatch();
 
     const fetchReplys = async (replyIds: string[]) => {
         const resp = await axiosPrivate("/comment/reply/comments", {
@@ -26,10 +29,17 @@ const Replys = ({ replyIds, ticketId }: props) => {
         data: replys,
         status: replyStatus,
         refetch: refetchReplys,
-    } = useQuery("replies-" + ticketId, () => fetchReplys(replyIds));
+    } = useQuery("replies-" + commentId, () => fetchReplys(replyIds));
+
+    useEffect(() => {
+        if (replyStatus === "success") {
+            dispatch(setReplys({ id: commentId, comments: replys }));
+        }
+    }, [replys, replyStatus]);
 
     useEffect(() => {
         refetchReplys();
+        console.log(replyIds);
     }, [replyIds]);
 
     return (
@@ -41,7 +51,7 @@ const Replys = ({ replyIds, ticketId }: props) => {
             )}
             {replyStatus === "error" && <div>Error</div>}
             {replyStatus === "success" &&
-                replys?.map((comment: IComment) => {
+                commentReplys[commentId]?.map((comment: IComment) => {
                     const user = users.find(
                         (user) => user.username === comment?.userId
                     );
@@ -61,9 +71,9 @@ const Replys = ({ replyIds, ticketId }: props) => {
     );
 };
 
-const memorizedReplies = ({ replyIds, ticketId }: props) =>
+const memorizedReplies = ({ replyIds, commentId }: props) =>
     useMemo(() => {
-        return <Replys replyIds={replyIds} ticketId={ticketId}></Replys>;
+        return <Replys replyIds={replyIds} commentId={commentId}></Replys>;
     }, [replyIds]);
 
 export default memorizedReplies;
