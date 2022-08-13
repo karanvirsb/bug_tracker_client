@@ -50,6 +50,7 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
 
                 toast.success("Comment was deleted successfully");
                 const ticketId = comment.ticketId || foundTicketId;
+                // TODO fix reply deletion
                 socket.emit("deleteCommentFromState", {
                     roomId: ticketId,
                     comment: comment.commentId,
@@ -168,7 +169,7 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
                 >
                     <Replys
                         replyIds={replys}
-                        ticketId={comment.commentId || ""}
+                        commentId={comment.commentId || ""}
                     ></Replys>
                 </Suspense>
             )}
