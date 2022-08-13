@@ -100,6 +100,10 @@ function App() {
             dispatch(deleteComment(data.comment));
         });
 
+        socket.on("invalidateCommentPage", (data) => {
+            invalidateQuery({ queryName: data.queryName, page: data.page });
+        });
+
         return () => {
             socket.off("invalidateData");
             socket.off("deleteComment");
