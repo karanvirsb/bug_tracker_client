@@ -19,9 +19,8 @@ export const replysSlice = createSlice({
             action: PayloadAction<{ id: string; comments: IComment[] }>
         ) => {
             const { id, comments } = action.payload;
-            const replys = state.replys;
 
-            replys[id] = comments;
+            state.replys[id] = comments;
             // if (replys.hasOwnProperty(id)) {
             //     const prevComments = replys[id];
             //     replys[id] = [...prevComments, ...comments];
