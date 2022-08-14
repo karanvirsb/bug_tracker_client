@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useInfiniteQuery, useQuery } from "react-query";
+import React, { useEffect, useMemo } from "react";
+import { useInfiniteQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import Spinner from "../../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
-import useInvalidateQuery from "../../../Hooks/useInvalidateQuery";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
 import { setReplys } from "../../../Redux/Slices/replysSlice";
 import Comment from "./Comment";
@@ -15,7 +14,6 @@ type props = {
 
 const TOTAL_REPLYS_VISIBLE = 5;
 
-// TODO paginate infintie
 const Replys = ({ replyIds, commentId }: props) => {
     const totalPages = useMemo(() => {
         if (replyIds) return Math.floor(replyIds.length / TOTAL_REPLYS_VISIBLE);
@@ -32,14 +30,6 @@ const Replys = ({ replyIds, commentId }: props) => {
         );
     };
 
-    // const fetchReplys = async (replyIds: string[]) => {
-    //     const resp = await axiosPrivate("/comment/reply/comments", {
-    //         method: "post",
-    //         data: { replyIdArr: replyIds },
-    //     });
-    //     return resp.data;
-    // };
-
     const fetchReplys = async ({ pageParam = 0 }) => {
         const replyIdsArr = replyIdsSplice(pageParam); // calling method to get the array
         const resp = await axiosPrivate("/comment/reply/comments", {
@@ -55,12 +45,6 @@ const Replys = ({ replyIds, commentId }: props) => {
             };
         }
     };
-
-    // const {
-    //     data: replys,
-    //     status: replyStatus,
-    //     refetch: refetchReplys,
-    // } = useQuery("replies-" + commentId, () => fetchReplys(replyIds));
 
     const {
         data: replys,
@@ -117,7 +101,11 @@ const Replys = ({ replyIds, commentId }: props) => {
                     }
                 })}
             {hasNextPage && (
-                <button onClick={() => fetchNextPage()}>
+                <button
+                    onClick={() => {
+                        fetchNextPage();
+                    }}
+                >
                     {isFetchingNextPage && "Fetching replies"}
                     {hasNextPage && "Load More Replies"}
                 </button>
