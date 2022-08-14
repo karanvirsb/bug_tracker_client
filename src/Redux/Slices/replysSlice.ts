@@ -21,12 +21,6 @@ export const replysSlice = createSlice({
             const { id, comments } = action.payload;
 
             state.replys[id] = comments;
-            // if (replys.hasOwnProperty(id)) {
-            //     const prevComments = replys[id];
-            //     replys[id] = [...prevComments, ...comments];
-            // } else {
-            //     replys[id] = comments;
-            // }
         },
     },
 });
