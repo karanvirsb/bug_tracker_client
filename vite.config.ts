@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import reactRefresh from "@vitejs/plugin-react-refresh";
+import reactRefresh from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 import manifest from "./public/manifest.json";
