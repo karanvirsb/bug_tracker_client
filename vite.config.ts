@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import reactRefresh from "@vitejs/plugin-react";
+import refreshReact from "@vitejs/plugin-react-refresh";
 import { VitePWA } from "vite-plugin-pwa";
 
 import manifest from "./public/manifest.json";
@@ -17,7 +17,7 @@ export default defineConfig({
         outDir: "build",
     },
     plugins: [
-        reactRefresh(),
+        refreshReact(),
         VitePWA({
             manifest,
             includeAssets: [
