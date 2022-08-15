@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Chart as ChartJs } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useAppSelector } from "../../../Hooks/hooks";
 import Spinner from "../../../Components/Spinner";
-
+ChartJS.register(ArcElement, Tooltip, Legend);
 type chartDataType = {
     labels: string[];
     datasets: {
@@ -177,6 +177,33 @@ const Statistics = () => {
                     ticketTypeDataSet[stat.ticketType] = 1;
                 }
             });
+            setChartDataSevertiy((prev) => {
+                return {
+                    ...prev,
+                    datasets: {
+                        ...prev.datasets,
+                        data: Object.values(ticketSeverityDataSet),
+                    },
+                };
+            });
+            setChartDataStatus((prev) => {
+                return {
+                    ...prev,
+                    datasets: {
+                        ...prev.datasets,
+                        data: Object.values(ticketStatusDataSet),
+                    },
+                };
+            });
+            setChartDataType((prev) => {
+                return {
+                    ...prev,
+                    datasets: {
+                        ...prev.datasets,
+                        data: Object.values(ticketTypeDataSet),
+                    },
+                };
+            });
         }
     }, [statsStatus]);
 
@@ -190,14 +217,17 @@ const Statistics = () => {
             )}
             {statsStatus === "success" && (
                 <div className='flex gap-4'>
-                    <div>
+                    <div className='flex flex-col'>
                         <h3>Ticket Type</h3>
+                        <Pie data={chartDataType}></Pie>
                     </div>
-                    <div>
+                    <div className='flex flex-col'>
                         <h3>Ticket Status</h3>
+                        <Pie data={chartDataStatus}></Pie>
                     </div>
-                    <div>
+                    <div className='flex flex-col'>
                         <h3>Ticket Severity</h3>
+                        <Pie data={chartDataSevertiy}></Pie>
                     </div>
                 </div>
             )}
