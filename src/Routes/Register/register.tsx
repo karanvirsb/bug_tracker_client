@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 const ToolTip = lazy(() => import("../../Components/Tooltip"));
 import axios from "../../API/axios";
 import { toast } from "react-toastify";
@@ -154,9 +153,35 @@ const Register = () => {
                     />
                     {inputValues.username &&
                         (isUsernameValid ? (
-                            <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-10 w-10 text-green-400'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                            </svg>
                         ) : (
-                            <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-10 w-10 text-red-400'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                            </svg>
                         ))}
                 </div>
                 {inputValues.password && !isPasswordValid && (
@@ -179,11 +204,38 @@ const Register = () => {
                         onChange={changeHandler}
                         required
                     />
-                    {inputValues.password && isPasswordValid ? (
-                        <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
-                    ) : (
-                        <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
-                    )}
+                    {inputValues.password &&
+                        (isPasswordValid ? (
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-10 w-10 text-green-400'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                            </svg>
+                        ) : (
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-10 w-10 text-red-400'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                            </svg>
+                        ))}
                 </div>
                 <div className='flex items-center gap-3 w-full'>
                     <input
@@ -198,9 +250,35 @@ const Register = () => {
                     />
                     {inputValues.confirmPassword &&
                         (isConfirmPasswordValid ? (
-                            <AiOutlineCheck className='fill-green-400 text-[2rem] self-end'></AiOutlineCheck>
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-10 w-10 text-green-400'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                            </svg>
                         ) : (
-                            <AiOutlineClose className='fill-red-400 text-[2rem] self-end'></AiOutlineClose>
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                className='h-10 w-10 text-red-400'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                stroke='currentColor'
+                                strokeWidth={2}
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+                                />
+                            </svg>
                         ))}
                 </div>
                 <div className='flex flex-col justify-evenly w-full gap-4'>
