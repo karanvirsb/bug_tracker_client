@@ -133,9 +133,30 @@ const Statistics = () => {
 
     useEffect(() => {
         console.log(stats);
-        const ticketStatusDataSet: { [key: string]: number } = {};
-        const ticketSeverityDataSet: { [key: string]: number } = {};
-        const ticketTypeDataSet: { [key: string]: number } = {};
+        const ticketStatusDataSet: {
+            [key: string]: number;
+        } = {
+            Open: 0,
+            Todo: 0,
+            "In Progress": 0,
+            "To Be Tested": 0,
+            Closed: 0,
+        };
+        const ticketSeverityDataSet: { [key: string]: number } = {
+            Critical: 0,
+            High: 0,
+            Medium: 0,
+            Low: 0,
+            None: 0,
+        };
+
+        const ticketTypeDataSet: { [key: string]: number } = {
+            Bug: 0,
+            Feature: 0,
+            Error: 0,
+            Issue: 0,
+        };
+
         if (statsStatus === "success") {
             stats.map((stat: stat) => {
                 if (ticketSeverityDataSet.hasOwnProperty(stat.ticketSeverity)) {
