@@ -17,6 +17,14 @@ type chartDataType = {
     }[];
 };
 
+type stat = {
+    projectId: string;
+    ticketSeverity: string;
+    ticketStatus: string;
+    ticketType: string;
+    _id: string;
+};
+
 const Statistics = () => {
     const [chartDataStatus, setChartDataStatus] = useState<chartDataType>({
         labels: ["Open", "Todo", "In Progress", "To Be Tested", "Closed"],
@@ -24,8 +32,20 @@ const Statistics = () => {
             {
                 label: "# of status`",
                 data: [],
-                backgroundColor: [],
-                borderColor: [],
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                ],
                 borderWidth: 1,
             },
         ],
@@ -36,8 +56,18 @@ const Statistics = () => {
             {
                 label: "",
                 data: [],
-                backgroundColor: [],
-                borderColor: [],
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                ],
                 borderWidth: 1,
             },
         ],
@@ -48,8 +78,20 @@ const Statistics = () => {
             {
                 label: "# of severitys",
                 data: [],
-                backgroundColor: [],
-                borderColor: [],
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                ],
                 borderWidth: 1,
             },
         ],
@@ -89,10 +131,42 @@ const Statistics = () => {
         statistics
     );
 
+    useEffect(() => {
+        console.log(stats);
+        const ticketStatusDataSet: { [key: string]: number } = {};
+        const ticketSeverityDataSet: { [key: string]: number } = {};
+        const ticketTypeDataSet: { [key: string]: number } = {};
+        if (statsStatus === "success") {
+            stats.map((stat: stat) => {
+                if (ticketSeverityDataSet.hasOwnProperty(stat.ticketSeverity)) {
+                    ticketSeverityDataSet[stat.ticketSeverity] += 1;
+                } else {
+                    ticketSeverityDataSet[stat.ticketSeverity] = 1;
+                }
+
+                if (ticketStatusDataSet.hasOwnProperty(stat.ticketStatus)) {
+                    ticketStatusDataSet[stat.ticketStatus] += 1;
+                } else {
+                    ticketStatusDataSet[stat.ticketStatus] = 1;
+                }
+
+                if (ticketTypeDataSet.hasOwnProperty(stat.ticketType)) {
+                    ticketTypeDataSet[stat.ticketType] += 1;
+                } else {
+                    ticketTypeDataSet[stat.ticketType] = 1;
+                }
+            });
+        }
+    }, [statsStatus]);
+
     return (
         <>
             <h1>Statistics</h1>
-            {statsStatus === "loading" && <Spinner></Spinner>}
+            {statsStatus === "loading" && (
+                <div className='w-full flex justify-center items-center'>
+                    <Spinner></Spinner>
+                </div>
+            )}
             {statsStatus === "success" && (
                 <div className='flex gap-4'>
                     <div>
