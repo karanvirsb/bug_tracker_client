@@ -26,12 +26,13 @@ type stat = {
 };
 
 const Statistics = () => {
+    const [loading, setLoading] = useState(true);
     const [chartDataStatus, setChartDataStatus] = useState<chartDataType>({
         labels: ["Open", "Todo", "In Progress", "To Be Tested", "Closed"],
         datasets: [
             {
-                label: "# of status`",
-                data: [],
+                label: "# of status",
+                data: [1, 1, 1, 1, 1],
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(54, 162, 235, 0.2)",
@@ -54,8 +55,8 @@ const Statistics = () => {
         labels: ["Bug", "Feature", "Error", "Issue"],
         datasets: [
             {
-                label: "",
-                data: [],
+                label: "# of type",
+                data: [1, 1, 1, 1],
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(54, 162, 235, 0.2)",
@@ -77,7 +78,7 @@ const Statistics = () => {
         datasets: [
             {
                 label: "# of severitys",
-                data: [],
+                data: [1, 1, 1, 1, 1],
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(54, 162, 235, 0.2)",
@@ -132,7 +133,6 @@ const Statistics = () => {
     );
 
     useEffect(() => {
-        console.log(stats);
         const ticketStatusDataSet: {
             [key: string]: number;
         } = {
@@ -158,6 +158,7 @@ const Statistics = () => {
         };
 
         if (statsStatus === "success") {
+            setLoading(true);
             stats.map((stat: stat) => {
                 if (ticketSeverityDataSet.hasOwnProperty(stat.ticketSeverity)) {
                     ticketSeverityDataSet[stat.ticketSeverity] += 1;
@@ -178,44 +179,41 @@ const Statistics = () => {
                 }
             });
             setChartDataSevertiy((prev) => {
+                const dataset = prev.datasets[0];
+                dataset.data = Object.values(ticketSeverityDataSet);
                 return {
                     ...prev,
-                    datasets: {
-                        ...prev.datasets,
-                        data: Object.values(ticketSeverityDataSet),
-                    },
+                    datasets: [dataset],
                 };
             });
             setChartDataStatus((prev) => {
+                const dataset = prev.datasets[0];
+                dataset.data = Object.values(ticketStatusDataSet);
                 return {
                     ...prev,
-                    datasets: {
-                        ...prev.datasets,
-                        data: Object.values(ticketStatusDataSet),
-                    },
+                    datasets: [dataset],
                 };
             });
             setChartDataType((prev) => {
+                const dataset = prev.datasets[0];
+                dataset.data = Object.values(ticketTypeDataSet);
                 return {
                     ...prev,
-                    datasets: {
-                        ...prev.datasets,
-                        data: Object.values(ticketTypeDataSet),
-                    },
+                    datasets: [dataset],
                 };
             });
+            setLoading(false);
         }
     }, [statsStatus]);
 
     return (
         <>
             <h1>Statistics</h1>
-            {statsStatus === "loading" && (
+            {loading ? (
                 <div className='w-full flex justify-center items-center'>
                     <Spinner></Spinner>
                 </div>
-            )}
-            {statsStatus === "success" && (
+            ) : (
                 <div className='flex gap-4'>
                     <div className='flex flex-col'>
                         <h3>Ticket Type</h3>
