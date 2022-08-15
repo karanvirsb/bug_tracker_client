@@ -1,9 +1,10 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 const Projects = lazy(() => import("../Components/Projects"));
+const Pagination = lazy(() => import("../../../Components/Pagination"));
+const Statistics = lazy(() => import("./Statistics"));
 import Spinner from "../../../Components/Spinner";
 import { setModal } from "../../../Redux/Slices/modalSlice";
-const Pagination = lazy(() => import("../../../Components/Pagination"));
 import useIsAdmin from "../../../Hooks/useIsAdmin";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
@@ -158,11 +159,16 @@ const DashboardTab = ({ groupId }: props) => {
                     </Suspense>
                 </div>
             </div>
-            <div>
-                {/* TODO */}
-                <div>
-                    <h2>Ticket Status</h2>
-                </div>
+            <div className='flex flex-col gap-4'>
+                <Suspense
+                    fallback={
+                        <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <Statistics></Statistics>
+                </Suspense>
             </div>
         </>
     );
