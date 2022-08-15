@@ -255,7 +255,7 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
                     </span>
                 )}
             </p>
-            <button className='btn bg-secondary-color text-white w-full hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
+            <button className='btn bg-secondary-color text-white !w-full !rounded-sm hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
                 Leave Group
             </button>
         </div>
