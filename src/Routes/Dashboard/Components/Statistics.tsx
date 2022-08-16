@@ -6,6 +6,7 @@ import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useAppSelector } from "../../../Hooks/hooks";
 import Spinner from "../../../Components/Spinner";
 ChartJS.register(ArcElement, Tooltip, Legend);
+
 type chartDataType = {
     labels: string[];
     datasets: {
@@ -25,6 +26,22 @@ type stat = {
     _id: string;
 };
 
+const statsBackgroundColor = [
+    "rgba(255, 99, 132, 0.2)",
+    "rgba(54, 162, 235, 0.2)",
+    "rgba(255, 206, 86, 0.2)",
+    "rgba(75, 192, 192, 0.2)",
+    "rgba(153, 102, 255, 0.2)",
+];
+
+const statsBorderColor = [
+    "rgba(255, 99, 132, 1)",
+    "rgba(54, 162, 235, 1)",
+    "rgba(255, 206, 86, 1)",
+    "rgba(75, 192, 192, 1)",
+    "rgba(153, 102, 255, 1)",
+];
+
 const Statistics = () => {
     const [loading, setLoading] = useState(true);
     const [chartDataStatus, setChartDataStatus] = useState<chartDataType>({
@@ -33,20 +50,8 @@ const Statistics = () => {
             {
                 label: "# of status",
                 data: [1, 1, 1, 1, 1],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                ],
+                backgroundColor: statsBackgroundColor,
+                borderColor: statsBorderColor,
                 borderWidth: 1,
             },
         ],
@@ -57,18 +62,8 @@ const Statistics = () => {
             {
                 label: "# of type",
                 data: [1, 1, 1, 1],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                ],
+                backgroundColor: statsBackgroundColor,
+                borderColor: statsBorderColor,
                 borderWidth: 1,
             },
         ],
@@ -79,20 +74,8 @@ const Statistics = () => {
             {
                 label: "# of severitys",
                 data: [1, 1, 1, 1, 1],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                ],
+                backgroundColor: statsBackgroundColor,
+                borderColor: statsBorderColor,
                 borderWidth: 1,
             },
         ],
@@ -111,7 +94,7 @@ const Statistics = () => {
     };
 
     // fetching statistics
-    const fetchStatistics = async (projectIds: string[]) => {
+    const fetchStatistics = async (projectIds: string[]): Promise<stat[]> => {
         const resp = await axiosPrivate("/ticket/stats", {
             method: "POST",
             data: { projectIds: projectIds },
@@ -135,51 +118,15 @@ const Statistics = () => {
     );
 
     useEffect(() => {
-        const ticketStatusDataSet: {
-            [key: string]: number;
-        } = {
-            Open: 0,
-            Todo: 0,
-            "In Progress": 0,
-            "To Be Tested": 0,
-            Closed: 0,
-        };
-        const ticketSeverityDataSet: { [key: string]: number } = {
-            Critical: 0,
-            High: 0,
-            Medium: 0,
-            Low: 0,
-            None: 0,
-        };
-
-        const ticketTypeDataSet: { [key: string]: number } = {
-            Bug: 0,
-            Feature: 0,
-            Error: 0,
-            Issue: 0,
-        };
-
         if (statsStatus === "success") {
             setLoading(true);
-            stats.map((stat: stat) => {
-                if (ticketSeverityDataSet.hasOwnProperty(stat.ticketSeverity)) {
-                    ticketSeverityDataSet[stat.ticketSeverity] += 1;
-                } else {
-                    ticketSeverityDataSet[stat.ticketSeverity] = 1;
-                }
+            // getting chart data
+            const {
+                ticketSeverityDataSet,
+                ticketStatusDataSet,
+                ticketTypeDataSet,
+            } = getChartData(stats);
 
-                if (ticketStatusDataSet.hasOwnProperty(stat.ticketStatus)) {
-                    ticketStatusDataSet[stat.ticketStatus] += 1;
-                } else {
-                    ticketStatusDataSet[stat.ticketStatus] = 1;
-                }
-
-                if (ticketTypeDataSet.hasOwnProperty(stat.ticketType)) {
-                    ticketTypeDataSet[stat.ticketType] += 1;
-                } else {
-                    ticketTypeDataSet[stat.ticketType] = 1;
-                }
-            });
             setChartDataSevertiy((prev) => {
                 const dataset = prev.datasets[0];
                 dataset.data = Object.values(ticketSeverityDataSet);
@@ -234,5 +181,55 @@ const Statistics = () => {
         </>
     );
 };
+
+function getChartData(stats: stat[]) {
+    // Goes through an array and gathers up the status, type and severity
+    type ticketData = {
+        [key: string]: number;
+    };
+    const ticketStatusDataSet: ticketData = {
+        Open: 0,
+        Todo: 0,
+        "In Progress": 0,
+        "To Be Tested": 0,
+        Closed: 0,
+    };
+    const ticketSeverityDataSet: ticketData = {
+        Critical: 0,
+        High: 0,
+        Medium: 0,
+        Low: 0,
+        None: 0,
+    };
+
+    const ticketTypeDataSet: ticketData = {
+        Bug: 0,
+        Feature: 0,
+        Error: 0,
+        Issue: 0,
+    };
+
+    stats.map((stat: stat) => {
+        if (ticketSeverityDataSet.hasOwnProperty(stat.ticketSeverity)) {
+            ticketSeverityDataSet[stat.ticketSeverity] += 1;
+        } else {
+            ticketSeverityDataSet[stat.ticketSeverity] = 1;
+        }
+
+        if (ticketStatusDataSet.hasOwnProperty(stat.ticketStatus)) {
+            ticketStatusDataSet[stat.ticketStatus] += 1;
+        } else {
+            ticketStatusDataSet[stat.ticketStatus] = 1;
+        }
+
+        if (ticketTypeDataSet.hasOwnProperty(stat.ticketType)) {
+            ticketTypeDataSet[stat.ticketType] += 1;
+        } else {
+            ticketTypeDataSet[stat.ticketType] = 1;
+        }
+    });
+
+    return { ticketStatusDataSet, ticketSeverityDataSet, ticketTypeDataSet };
+}
 
 export default Statistics;
