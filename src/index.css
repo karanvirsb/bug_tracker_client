@@ -101,7 +101,7 @@ body {
 /* STATISTICS */
 
 .statistic {
-    @apply flex flex-col outline outline-[1px] outline-zinc-300 p-4 rounded-md;
+    @apply flex flex-col outline outline-[1px] outline-zinc-300 p-4 rounded-md max-w-[350px];
 }
 
 .stat_name {
