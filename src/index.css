@@ -97,3 +97,13 @@ body {
 .cancel-btn {
     @apply !rounded-3xl outline outline-1 outline-cta-btn-color text-cta-btn-color hover:outline-red-500 hover:text-black;
 }
+
+/* STATISTICS */
+
+.statistic {
+    @apply flex flex-col outline outline-[1px] outline-zinc-300 p-4 rounded-md;
+}
+
+.stat_name {
+    @apply text-lg font-semibold text-gray-800 mb-4;
+}
