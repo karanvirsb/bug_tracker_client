@@ -216,7 +216,7 @@ const Statistics = () => {
                     <Spinner></Spinner>
                 </div>
             ) : (
-                <div className='flex gap-4'>
+                <div className='grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4'>
                     <div className='statistic'>
                         <h3 className='stat_name'>Ticket Type</h3>
                         <Pie data={chartDataType}></Pie>
