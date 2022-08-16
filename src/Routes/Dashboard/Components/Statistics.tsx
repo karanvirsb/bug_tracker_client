@@ -100,7 +100,9 @@ const Statistics = () => {
     const groupInfo = useAppSelector((state) => state.persistedReducer.group);
 
     // fetching project ids based on group id
-    const fetchProjectIds = async () => {
+    const fetchProjectIds = async (): Promise<
+        { _id: string; projectId: string }[]
+    > => {
         const resp = await axiosPrivate(
             `/project/group/projectIds/${groupInfo.groupId}`,
             { method: "GET" }
@@ -208,23 +210,23 @@ const Statistics = () => {
 
     return (
         <>
-            <h1>Statistics</h1>
+            <h1 className='table_name'>Statistics</h1>
             {loading ? (
                 <div className='w-full flex justify-center items-center'>
                     <Spinner></Spinner>
                 </div>
             ) : (
                 <div className='flex gap-4'>
-                    <div className='flex flex-col'>
-                        <h3>Ticket Type</h3>
+                    <div className='statistic'>
+                        <h3 className='stat_name'>Ticket Type</h3>
                         <Pie data={chartDataType}></Pie>
                     </div>
-                    <div className='flex flex-col'>
-                        <h3>Ticket Status</h3>
+                    <div className='statistic'>
+                        <h3 className='stat_name'>Ticket Status</h3>
                         <Pie data={chartDataStatus}></Pie>
                     </div>
-                    <div className='flex flex-col'>
-                        <h3>Ticket Severity</h3>
+                    <div className='statistic'>
+                        <h3 className='stat_name'>Ticket Severity</h3>
                         <Pie data={chartDataSevertiy}></Pie>
                     </div>
                 </div>
