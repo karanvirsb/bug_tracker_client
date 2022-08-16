@@ -159,7 +159,7 @@ const DashboardTab = ({ groupId }: props) => {
                     </Suspense>
                 </div>
             </div>
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-4 my-6 mx-4'>
                 <Suspense
                     fallback={
                         <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
