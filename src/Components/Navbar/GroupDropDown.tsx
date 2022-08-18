@@ -1,8 +1,18 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useMutation } from "react-query";
+import socket from "../../API/sockets";
+import { useAppSelector } from "../../Hooks/hooks";
+import useLogout from "../../Hooks/useLogout";
+import axiosPrivate from "../AxiosInterceptors";
 
 type dropDownProps = {
     inviteCode: string;
     componentRef: typeof useRef;
+};
+
+type deleteMemberMutationType = {
+    username: string;
+    groupId: string;
 };
 
 const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
@@ -10,6 +20,43 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
     const copyInviteCode = () => {
         navigator.clipboard.writeText(inviteCode);
         setCopied(true);
+    };
+
+    const logout = useLogout();
+
+    const user = useAppSelector((state) => state.persistedReducer.user);
+    const group = useAppSelector((state) => state.persistedReducer.group);
+
+    const deleteMemberMutation = useMutation(
+        async ({ username, groupId }: deleteMemberMutationType) => {
+            const resp = await axiosPrivate("/user/group", {
+                method: "delete",
+                data: { username: username, groupId: groupId },
+            });
+            return resp.data;
+        }
+    );
+
+    const removeFromGroup = () => {
+        deleteMemberMutation.mutateAsync(
+            { username: user.username, groupId: group.groupId },
+            {
+                onSuccess: () => {
+                    logout();
+                    // invalidate the group info
+                    socket.emit("invalidateQuery", {
+                        queryName: "groupInfo",
+                        groupId: group.groupId,
+                    });
+
+                    // invalidate group users to refresh them
+                    socket.emit("invalidateQuery", {
+                        queryName: "groupUsers",
+                        groupId: group.groupId,
+                    });
+                },
+            }
+        );
     };
 
     useEffect(() => {
@@ -36,7 +83,10 @@ const GroupDropDown = ({ inviteCode, componentRef }: dropDownProps) => {
                     </span>
                 )}
             </p>
-            <button className='btn bg-secondary-color text-white !w-full !rounded-sm hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'>
+            <button
+                className='btn bg-secondary-color text-white !w-full !rounded-sm hover:text-black hover:outline hover:outline-2 hover:outline-black mt-2'
+                onClick={removeFromGroup}
+            >
                 Leave Group
             </button>
         </div>
