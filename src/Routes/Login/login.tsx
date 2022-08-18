@@ -142,6 +142,8 @@ const Login = (): JSX.Element => {
                         }
                     );
                 }
+            } else {
+                toast.error("Server Error");
             }
             setIsLoading(false);
         }
