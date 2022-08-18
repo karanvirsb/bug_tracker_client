@@ -12,8 +12,8 @@ type props = {
 };
 
 type deleteMemberMutationType = {
-    id: string;
-    updates: Object;
+    username: string;
+    groupId: string;
 };
 
 const DeleteMemberModal = ({ username }: props) => {
@@ -31,10 +31,10 @@ const DeleteMemberModal = ({ username }: props) => {
     };
 
     const deleteMemberMutation = useMutation(
-        async ({ id, updates }: deleteMemberMutationType) => {
-            const resp = await axiosPrivate("/user/id", {
-                method: "put",
-                data: { id: id, updates: updates },
+        async ({ username, groupId }: deleteMemberMutationType) => {
+            const resp = await axiosPrivate("/user/group", {
+                method: "delete",
+                data: { username: username, groupId: groupId },
             });
             return resp.data;
         }
@@ -48,7 +48,7 @@ const DeleteMemberModal = ({ username }: props) => {
         e.preventDefault();
 
         deleteMemberMutation.mutateAsync(
-            { id: username, updates: { groupId: "", roles: { User: "2001" } } },
+            { username: username, groupId: group.groupId },
             {
                 onSuccess: () => {
                     socket.emit("removedUserFromGroup", {
