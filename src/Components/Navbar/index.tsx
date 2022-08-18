@@ -117,48 +117,9 @@ const Navbar = () => {
 
     return (
         <header
-            className={`bg-main-color text-white fixed top-2 left-2 bottom-2 m-md:rounded-2xl p-4 min-h-[98.5vh] w-[175px] flex flex-col md:top-0 md:left-0 md:bottom-0${
-                showNavigation
-                    ? " md:w-[50vw] sm:w-full md:block md:-z-1"
-                    : " md:bg-transparent md:text-black md:w-max"
-            }`}
+            className={`bg-main-color text-white fixed top-2 left-2 bottom-2 m-md:rounded-2xl p-4 min-h-[98.5vh] w-[175px] flex flex-col md:hidden`}
             // ${modal && "md:hidden"}
         >
-            <div className='m-md:hidden fixed bottom-2 right-2 bg-white outline outline-1 outline-gray-200 shadow-xl rounded-full p-4'>
-                {showNavigation ? (
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        className={`h-8 w-8 text-black`}
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                        strokeWidth={2}
-                        onClick={closeModal}
-                    >
-                        <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M6 18L18 6M6 6l12 12'
-                        />
-                    </svg>
-                ) : (
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        className={`h-8 w-8`}
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        stroke='currentColor'
-                        strokeWidth={2}
-                        onClick={openModal}
-                    >
-                        <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M4 6h16M4 12h16M4 18h16'
-                        />
-                    </svg>
-                )}
-            </div>
             <nav
                 className={`flex flex-col justify-between min-h-full ${
                     showNavigation ? "" : "md:hidden"
