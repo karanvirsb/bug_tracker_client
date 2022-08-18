@@ -58,7 +58,7 @@ const Tickets = () => {
         <section className='sections'>
             <Tab tabs={[]} components={{}}></Tab>
             <h1 className='table_name mb-4 mx-4'>My Tickets</h1>
-            <div className='table_container mx-4 md:mr-1 md:ml-[-50px]'>
+            <div className='table_container mx-4 md:mr-1'>
                 <table className='w-full'>
                     <thead className='table_header'>
                         <tr>
