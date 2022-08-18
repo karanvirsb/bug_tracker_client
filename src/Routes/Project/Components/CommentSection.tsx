@@ -120,12 +120,12 @@ const CommentSection = ({ ticketId }: props) => {
     };
 
     useEffect(() => {
-        if (commentsStatus === "success") {
+        if (commentsStatus === "success" && comments) {
             const totalComments = [];
             const commentsLength = comments.pages.length;
 
             for (let i = 0; i < commentsLength; i++) {
-                totalComments.push(...comments.pages[i].response);
+                totalComments.push(...comments?.pages[i]?.response);
             }
             // const latestPage = comments?.pages?.splice(-1);
             // console.log(comments.pages, latestPage);
