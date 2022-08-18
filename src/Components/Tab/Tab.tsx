@@ -29,8 +29,8 @@ const Tab = ({ tabs, components }: props) => {
 
     return (
         <>
-            <nav className='flex justify-between items-center mb-2 overflow-auto mr-4'>
-                <ul className='list-none flex gap-4'>
+            <nav className='flex justify-between items-center mb-2 overflow-auto pr-4'>
+                <ul className='list-none flex gap-4 grow'>
                     {tabs?.map((tab, index) => {
                         if (index === activeIndex) {
                             return (
@@ -58,7 +58,7 @@ const Tab = ({ tabs, components }: props) => {
                     <Account user={user}></Account>
                 </Suspense>
             </nav>
-            <section className='md:mr-1 md:ml-[-50px] p-1'>
+            <section className='md:mr-1 p-1'>
                 {mappedComponents.get(tabName)}
             </section>
         </>
