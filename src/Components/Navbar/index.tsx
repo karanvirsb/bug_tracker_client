@@ -198,14 +198,26 @@ const Navbar = () => {
                         </h1>
                     </div>
                     <div className=' flex flex-col gap-4 py-4 m-md:text-center'>
-                        <NavLink to='/dashboard' className={classNameFunc}>
+                        <NavLink
+                            to='/dashboard'
+                            className={classNameFunc}
+                            onClick={closeModal}
+                        >
                             Dashboard
                         </NavLink>
-                        <NavLink className={classNameFunc} to='/tickets'>
+                        <NavLink
+                            className={classNameFunc}
+                            to='/tickets'
+                            onClick={closeModal}
+                        >
                             Tickets
                         </NavLink>
                         {isAdmin && (
-                            <NavLink className={classNameFunc} to='/admin'>
+                            <NavLink
+                                className={classNameFunc}
+                                to='/admin'
+                                onClick={closeModal}
+                            >
                                 Administration
                             </NavLink>
                         )}
