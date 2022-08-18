@@ -5,6 +5,7 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = lazy(() => import("./Components/Navbar"));
+const MobileNavBar = lazy(() => import("./Components/Navbar/MobileNavBar"));
 const Login = lazy(() => import("./Routes/Login/login"));
 const Register = lazy(() => import("./Routes/Register/register"));
 const Dashboard = lazy(() => import("./Routes/Dashboard/dashboard"));
@@ -42,6 +43,7 @@ const NavbarLayout = () => {
     return (
         <>
             <Navbar></Navbar>
+            <MobileNavBar></MobileNavBar>
             <Outlet></Outlet>
         </>
     );
