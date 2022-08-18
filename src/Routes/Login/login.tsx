@@ -7,6 +7,8 @@ import socket from "../../API/sockets";
 import { useAppDispatch } from "../../Hooks/hooks";
 import { setAuth } from "../../Auth/authenticationSlice";
 import { setUser } from "../../Redux/Slices/userSlice";
+import Spinner from "../../Components/Spinner";
+import { AxiosError } from "axios";
 
 type States = {
     login: {
@@ -24,6 +26,8 @@ const Login = (): JSX.Element => {
         password: "",
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const changedValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setInputValues({
             ...inputValues,
@@ -34,13 +38,16 @@ const Login = (): JSX.Element => {
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
+        setIsLoading(true);
         e.preventDefault();
         if (!inputValues.username) {
             toast.error("Invalid username");
+            setIsLoading(false);
             return;
         }
         if (!inputValues.password) {
             toast.error("Invalid password");
+            setIsLoading(false);
             return;
         }
 
@@ -61,6 +68,7 @@ const Login = (): JSX.Element => {
             // once accesstoken received decode to get group id
             if (!userData.accessToken) {
                 toast.error("Server Error, Please try to login again.");
+                setIsLoading(false);
                 return;
             }
 
@@ -68,6 +76,7 @@ const Login = (): JSX.Element => {
 
             if (!userInfo) {
                 toast.error("Error: Please try to login again.");
+                setIsLoading(false);
             }
 
             // set auth to roles along with group id
@@ -100,26 +109,41 @@ const Login = (): JSX.Element => {
                     username: userInfo.UserInfo.username,
                 });
                 navigate("/dashboard", { replace: true });
+                setIsLoading(false);
             } else {
                 // else go to add group page
                 navigate("/add-group", { replace: true });
+                setIsLoading(false);
             }
 
             setInputValues((prev) => {
                 return { ...prev, username: "", password: "" };
             });
-        } catch (err: any) {
-            let errMsg = "";
-
-            if (err?.response?.data.includes("password")) {
-                errMsg = "The username or password was incorrect";
-            } else if (err?.response?.data.includes("Unauthorized")) {
-                errMsg = "Unauthorized";
-            } else {
-                errMsg = "No Server Response";
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                if (
+                    err.response?.status === 401 ||
+                    err.response?.status === 400
+                ) {
+                    toast.error(err.response.data.message);
+                } else {
+                    const errorResp = JSON.parse(err.response?.data.message);
+                    errorResp.forEach(
+                        (elem: {
+                            code: string;
+                            inclusive: boolean;
+                            message: string;
+                            minimum?: number;
+                            maxiumum?: number;
+                            path: string[];
+                            type: string;
+                        }) => {
+                            toast.error(elem.path[0] + " " + elem.message);
+                        }
+                    );
+                }
             }
-
-            toast.error(errMsg);
+            setIsLoading(false);
         }
     };
 
@@ -149,8 +173,8 @@ const Login = (): JSX.Element => {
                     />
                 </div>
                 <div className='flex flex-col justify-evenly w-full gap-4'>
-                    <button className='btn bg-secondary-color text-black text-lg hover:outline-secondary-color transition-colors'>
-                        Login
+                    <button className='btn bg-secondary-color text-black flex justify-center items-center text-lg hover:outline-secondary-color transition-colors'>
+                        {isLoading ? <Spinner></Spinner> : "Login"}
                     </button>
                     <button
                         className='btn bg-gray-300 text-gray-900 text-lg  hover:outline-gray-300 transition-colors'
