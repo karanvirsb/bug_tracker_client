@@ -28,10 +28,10 @@ const Account = ({ user }: props) => {
     }, [isComponentVisible]);
 
     return (
-        <div className='ml-auto'>
+        <div className='m-md:ml-auto min-w-[50px]'>
             <div onClick={toggleMenu}>
                 <img
-                    className='w-[50px] h-[50px] cursor-pointer p-1'
+                    className='w-[50px] h-[50px] cursor-pointer'
                     src={`data:${
                         user.avatar.contentType
                     };utf8,${encodeURIComponent(user.avatar.data)}`}
