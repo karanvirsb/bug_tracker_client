@@ -24,6 +24,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%_]).{8,24}$/;
 
 const Register = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [inputValues, setInputValues] = useState<States["register"]>({
         firstName: "",
         lastName: "",
@@ -49,13 +50,17 @@ const Register = () => {
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
+        setIsLoading(true);
         e.preventDefault();
         if (!isUsernameValid) {
             toast.error("Username is not valid");
+            setIsLoading(false);
         } else if (!isPasswordValid) {
             toast.error("Password is not valid");
+            setIsLoading(false);
         } else if (!isConfirmPasswordValid) {
             toast.error("Confirm Password is not valid");
+            setIsLoading(false);
         }
 
         try {
@@ -67,12 +72,18 @@ const Register = () => {
                 email: inputValues.email,
             });
             if (response.status === 201) {
+                setIsLoading(false);
+
                 navigate("/registration-successful");
             }
         } catch (err: any) {
             if (err.response.status === 409) {
+                setIsLoading(false);
+
                 toast.error(`${inputValues.username} already exists`);
             } else {
+                setIsLoading(false);
+
                 toast.error("Server Error");
             }
         }
@@ -283,7 +294,7 @@ const Register = () => {
                 </div>
                 <div className='flex flex-col justify-evenly w-full gap-4'>
                     <button className=' btn bg-secondary-color text-black  text-lg hover:outline-secondary-color transition-colors'>
-                        Register
+                        {isLoading ? <Spinner></Spinner> : "Register"}
                     </button>
                     <Link
                         to='/login'
