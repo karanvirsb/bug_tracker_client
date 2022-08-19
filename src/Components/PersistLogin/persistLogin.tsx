@@ -9,7 +9,7 @@ import { setUser } from "../../Redux/Slices/userSlice";
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const persist = useAppSelector((state) => state.persist.persist);
     const user = useAppSelector((state) => state.persistedReducer.user);
     const dispatch = useAppDispatch();
@@ -36,13 +36,14 @@ const PersistLogin = () => {
     }, [auth.accessToken, refresh]);
 
     useEffect(() => {
-        const getUserInfo = async () => {
+        const getUserInfo = async (token: string) => {
             const resp = await axiosPrivate("/user/id", {
                 method: "post",
                 data: {
                     filter: "username",
                     filterValue: auth.username,
                 },
+                headers: { Authorization: `Bearer ${token}` },
             });
             if (resp) {
                 const user = resp.data;
@@ -61,11 +62,11 @@ const PersistLogin = () => {
                 );
             }
         };
-        if (auth.username && persist && !user.username) {
-            console.log("here");
-            getUserInfo();
+        if (auth.username && auth.accessToken && persist && !user.username) {
+            console.log("here", auth);
+            getUserInfo(auth.accessToken);
         }
-    }, [auth.username, persist]);
+    }, [auth.username, auth.accessToken, persist]);
 
     const persistTernary: JSX.Element = isLoading ? (
         <div className='fixed inset-0 flex justify-center items-center'>
