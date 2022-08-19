@@ -254,9 +254,11 @@ const Administration = () => {
                             {/* TODO fix */}
                             <Suspense
                                 fallback={
-                                    <div className='bg-white w-full rounded-lg flex justify-center items-center'>
-                                        <Spinner></Spinner>
-                                    </div>
+                                    <tr>
+                                        <td align='center' colSpan={99}>
+                                            <Spinner></Spinner>
+                                        </td>
+                                    </tr>
                                 }
                             >
                                 <Members users={groupUsers}></Members>
