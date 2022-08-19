@@ -35,6 +35,16 @@ const Login = (): JSX.Element => {
         });
     };
 
+    const togglePersist = (
+        e: React.MouseEvent<HTMLInputElement, MouseEvent>
+    ) => {
+        if (e.target?.checked) {
+            localStorage.setItem("bugTrackerPersist", "true");
+        } else {
+            localStorage.setItem("bugTrackerPersist", "false");
+        }
+    };
+
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>
     ): Promise<void> => {
@@ -179,6 +189,7 @@ const Login = (): JSX.Element => {
                         type='checkbox'
                         id='remember-check'
                         className='cursor-pointer'
+                        onClick={togglePersist}
                     />
                     <label htmlFor='remember-check' className='cursor-pointer'>
                         Remember Me
