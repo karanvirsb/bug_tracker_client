@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import socket from "../API/sockets";
 import { setGroup } from "../Redux/Slices/groupSlice";
 import { setUser } from "../Redux/Slices/userSlice";
+import { changePersist } from "../Auth/persistSlice";
 
 const useLogout = () => {
     const dispatch = useDispatch();
@@ -37,6 +38,8 @@ const useLogout = () => {
         dispatch(
             setAuth({ username: "", accessToken: "", group_id: "", roles: [] })
         );
+
+        dispatch(changePersist(false));
         try {
             await axios.delete("/logout", { withCredentials: true });
         } catch (err) {
