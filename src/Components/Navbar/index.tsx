@@ -21,7 +21,6 @@ const Navbar = () => {
 
     const auth = useAppSelector((state) => state.persistedReducer.auth);
     const group = useAppSelector((state) => state.persistedReducer.group);
-    const modal = useAppSelector((state) => state.modal.open);
 
     // fetching group information with groupId
     const fetchGroup = async () => {
@@ -54,10 +53,6 @@ const Navbar = () => {
             enabled: !!group.groupId,
         }
     );
-
-    const openModal = () => {
-        setShowNavigation(true);
-    };
 
     const closeModal = () => {
         setShowNavigation(false);
