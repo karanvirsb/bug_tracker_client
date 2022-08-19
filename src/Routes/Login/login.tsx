@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPrivate } from "../../API/axios";
@@ -158,6 +158,10 @@ const Login = (): JSX.Element => {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        localStorage.setItem("bugTrackerPersist", "false");
+    }, []);
 
     return (
         <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 login-background'>
