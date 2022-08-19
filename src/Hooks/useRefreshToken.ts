@@ -2,6 +2,7 @@ import axios from "../API/axios";
 import { setAuth } from "../Auth/authenticationSlice";
 import { useAppDispatch, useAppSelector } from "../Hooks/hooks";
 import mem from "mem";
+import decoder, { IDecode } from "../Helper/decodeToken";
 
 const useRefreshToken = () => {
     const dispatch = useAppDispatch();
@@ -13,9 +14,19 @@ const useRefreshToken = () => {
                 withCredentials: true,
                 timeout: 30000,
             });
-
+            const userData = response?.data;
+            const userInfo: IDecode | undefined = decoder(userData.accessToken);
+            const groupId =
+                typeof userInfo?.UserInfo.group_id === "object"
+                    ? (userInfo?.UserInfo.group_id as []).join("")
+                    : userInfo?.UserInfo.group_id;
             dispatch(
-                setAuth({ ...auth, accessToken: response.data.accessToken })
+                setAuth({
+                    username: userInfo?.UserInfo.username,
+                    roles: userInfo?.UserInfo.roles,
+                    group_id: groupId,
+                    accessToken: response.data.accessToken,
+                })
             );
 
             return response.data.accessToken; // allwos us to request again
