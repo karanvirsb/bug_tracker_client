@@ -16,7 +16,7 @@ const AddGroup = () => {
     const [group, setGroup] = useState<States["groupType"]>("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
 
     const inviteCodeRegex = /.+#\d{4}/; // test out the invite code
 

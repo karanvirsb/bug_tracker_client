@@ -8,7 +8,7 @@ type props = {
 };
 
 const RequireAuth = ({ allowedRoles }: props) => {
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const location = useLocation();
 
     const decoded: IDecode | undefined = decoder(auth?.accessToken || "");

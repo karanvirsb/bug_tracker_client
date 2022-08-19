@@ -26,7 +26,7 @@ const initalState = {
 const AddTicketModal = () => {
     const [ticketInput, setTicketInput] = useState<ITicket>(initalState);
 
-    const authState = useAppSelector((state) => state.persistedReducer.auth);
+    const authState = useAppSelector((state) => state.auth);
     const projectState = useAppSelector((state) => state.project);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users

@@ -7,14 +7,12 @@ import socket from "../../API/sockets";
 import Spinner from "../../Components/Spinner";
 
 const Dashboard = () => {
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
     // getting the group Id
-    const groupId = useAppSelector(
-        (state) => state.persistedReducer.auth.group_id
-    );
+    const groupId = useAppSelector((state) => state.auth.group_id);
 
     const components = {
         dashboard: <DashboardTab groupId={groupId}></DashboardTab>,

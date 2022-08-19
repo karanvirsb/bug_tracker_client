@@ -11,15 +11,14 @@ import useRefreshToken from "../../Hooks/useRefreshToken";
  */
 export const AxiosInterceptor = ({ children }: any) => {
     const refresh = useRefreshToken();
-    const auth = useAppSelector(
-        (state) => state.persistedReducer.auth.accessToken
-    );
-
+    const auth = useAppSelector((state) => state.auth.accessToken);
     useEffect(() => {
+        console.log(auth);
         // for each request send the authorization token
         const requestIntercept = axiosPrivate.interceptors.request.use(
             async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
-                axiosPrivate.defaults.headers.common["Authorization"] = "";
+                axiosPrivate.defaults.headers.common["Authorization"] =
+                    auth ?? "";
                 if (auth) {
                     if (config.headers) {
                         config.headers["Authorization"] = `Bearer ${auth}`;

@@ -19,7 +19,7 @@ const Navbar = () => {
     const dispatch = useAppDispatch();
     const { isAdmin } = useIsAdmin();
 
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const group = useAppSelector((state) => state.persistedReducer.group);
 
     // fetching group information with groupId

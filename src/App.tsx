@@ -51,7 +51,7 @@ const NavbarLayout = () => {
 
 function App() {
     const { invalidateQuery } = useInvalidateQuery();
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const persist = useAppSelector((state) => state.persist.persist);
     const dispatch = useAppDispatch();
 

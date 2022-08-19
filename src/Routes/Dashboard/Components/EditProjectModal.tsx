@@ -23,7 +23,7 @@ const EditProjectModal = (props: { projectId: string }): JSX.Element => {
         projectDesc: foundProject?.projectDesc ?? "",
     });
 
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );

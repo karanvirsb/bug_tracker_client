@@ -22,7 +22,6 @@ import commentsReducer from "../Slices/commentsSlice";
 import replysReducer from "../Slices/replysSlice";
 
 const rootReducer = combineReducers({
-    auth: authenticationReducer,
     group: groupReducer,
     user: userReducer,
 });
@@ -37,6 +36,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: {
+        auth: authenticationReducer,
         persistedReducer,
         projects: projectsReducer,
         modal: modalReducer,

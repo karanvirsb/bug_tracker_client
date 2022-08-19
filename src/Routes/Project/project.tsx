@@ -13,7 +13,7 @@ const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 const Project = () => {
     const { projectId } = useParams();
 
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const auth = useAppSelector((state) => state.auth);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
     );
