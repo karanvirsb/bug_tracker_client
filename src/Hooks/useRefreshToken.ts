@@ -1,12 +1,11 @@
 import axios from "../API/axios";
 import { setAuth } from "../Auth/authenticationSlice";
-import { useAppDispatch, useAppSelector } from "../Hooks/hooks";
+import { useAppDispatch } from "../Hooks/hooks";
 import mem from "mem";
 import decoder, { IDecode } from "../Helper/decodeToken";
 
 const useRefreshToken = () => {
     const dispatch = useAppDispatch();
-    const auth = useAppSelector((state) => state.persistedReducer.auth);
     // doing this so we can set the accessToken;
     const refresh = async () => {
         try {
@@ -15,11 +14,13 @@ const useRefreshToken = () => {
                 timeout: 30000,
             });
             const userData = response?.data;
+
             const userInfo: IDecode | undefined = decoder(userData.accessToken);
             const groupId =
                 typeof userInfo?.UserInfo.group_id === "object"
                     ? (userInfo?.UserInfo.group_id as []).join("")
                     : userInfo?.UserInfo.group_id;
+
             dispatch(
                 setAuth({
                     username: userInfo?.UserInfo.username,
