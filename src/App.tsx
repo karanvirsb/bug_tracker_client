@@ -52,6 +52,7 @@ const NavbarLayout = () => {
 function App() {
     const { invalidateQuery } = useInvalidateQuery();
     const auth = useAppSelector((state) => state.persistedReducer.auth);
+    const persist = useAppSelector((state) => state.persist.persist);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -144,7 +145,7 @@ function App() {
                     <Route
                         path='/'
                         element={
-                            !auth.group_id ? (
+                            !persist ? (
                                 <Navigate replace to='login'></Navigate>
                             ) : (
                                 <Navigate replace to='dashboard'></Navigate>
