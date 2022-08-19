@@ -152,11 +152,11 @@ const Login = (): JSX.Element => {
     return (
         <section className='bg-main-color w-full min-h-screen flex justify-center items-center px-3 login-background'>
             <form
-                className='bg-white p-4 flex justify-between items-center flex-col gap-4 w-80 sm:w-4/5 h-60 lg:h-80 xl:h-[20rem] rounded-md'
+                className='bg-white p-4 flex justify-between items-center flex-col gap-4 w-80 sm:w-4/5 min-h-max h-100 rounded-md'
                 onSubmit={handleSubmit}
             >
                 <h1 className=' xl:text-4xl lg:text-3xl'>Login</h1>
-                <div className='h-full flex flex-col justify-evenly w-full'>
+                <div className='h-full flex flex-col gap-4 justify-evenly w-full'>
                     <input
                         className='input'
                         type='text'
@@ -173,6 +173,16 @@ const Login = (): JSX.Element => {
                         value={inputValues.password}
                         onChange={changedValue}
                     />
+                </div>
+                <div className='w-full flex gap-4 mt-2 mb-4'>
+                    <input
+                        type='checkbox'
+                        id='remember-check'
+                        className='cursor-pointer'
+                    />
+                    <label htmlFor='remember-check' className='cursor-pointer'>
+                        Remember Me
+                    </label>
                 </div>
                 <div className='flex flex-col justify-evenly w-full gap-4'>
                     <button className='btn bg-secondary-color text-black flex justify-center items-center text-lg hover:outline-secondary-color transition-colors'>
