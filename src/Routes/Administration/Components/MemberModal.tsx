@@ -1,4 +1,5 @@
 import React from "react";
+import Checkbox from "../../../Components/Checkbox/Checkbox";
 import { IUser } from "../../../Redux/Slices/userSlice";
 
 type props = {
@@ -79,25 +80,21 @@ const MemberModal = ({
             {/* TODO make a input  */}
             <fieldset className='input-container'>
                 <legend className='input-label'>Roles</legend>
-                <div>
-                    <input
-                        type='checkbox'
-                        name='isAdmin'
-                        id='admin'
+                <div className='flex justify-center items-center gap-4 md:flex-col'>
+                    <Checkbox
+                        text='Admin'
                         defaultChecked={memberInput.isAdmin}
-                        className='modal-input'
+                        id='admin'
+                        name='isAdmin'
                         onChange={handleCheckBoxChange}
-                    />
-                    <label htmlFor='admin'>Admin</label>
-                    <input
-                        type='checkbox'
-                        name='isEditor'
-                        id='editor'
+                    ></Checkbox>
+                    <Checkbox
+                        text='Editor'
                         defaultChecked={memberInput.isEditor}
-                        className='modal-input'
+                        id='editor'
+                        name='isEditor'
                         onChange={handleCheckBoxChange}
-                    />
-                    <label htmlFor='editor'>Editor</label>
+                    ></Checkbox>
                 </div>
             </fieldset>
         </>
