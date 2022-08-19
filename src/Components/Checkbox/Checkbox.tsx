@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type props = {
     text: string;
+    id: string;
+    name: string;
+    defaultChecked: boolean;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Checkbox = ({ text = "click me" }: props) => {
-    const [clicked, setClicked] = useState(false);
+const Checkbox = ({
+    text = "click me",
+    id,
+    name,
+    defaultChecked,
+    onChange,
+}: props) => {
+    const [clicked, setClicked] = useState(defaultChecked);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(e);
         if (e.target.checked) {
             setClicked(true);
         } else {
@@ -15,20 +26,22 @@ const Checkbox = ({ text = "click me" }: props) => {
         }
     };
     return (
-        <div className='relative'>
+        <div className='relative w-full'>
             <input
                 type='checkbox'
-                id='checkbox'
+                name={name}
+                id={id}
                 className='invisible absolute'
                 onChange={handleChange}
+                defaultChecked={defaultChecked}
             />
             <label
-                htmlFor='checkbox'
+                htmlFor={id}
                 className={`${
                     clicked
-                        ? "bg-blue-400 outline-none before:bg-green-400 before:outline-none"
-                        : ""
-                } outline outline-1 outline-black rounded-md p-4 before:content-[] before:block before:absolute before:top-[3px] before:left-[3px] before:w-[15px] before:h-[15px] before:rounded-full before:outline before:outline-1 before:outline-black`}
+                        ? " font-semibold before:flex before:justify-center before:items-center before:bg-green-700 before:outline-none before:content-['\\2713'] before:text-xs before:text-green-500 shadow-md shadow-green-400"
+                        : " before:outline before:outline-1 before:outline-black"
+                } rounded-md w-[150px] h-[35px] md:w-full relative flex justify-center items-center outline outline-1 outline-gray-400 before:content before:block before:absolute before:top-[3px] before:right-[3px] before:w-[17px] before:h-[17px] before:rounded-full`}
             >
                 {text}
             </label>
