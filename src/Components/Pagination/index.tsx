@@ -22,7 +22,7 @@ const Pagination = ({
     const nextPage = () => {
         if (hasMore) {
             console.log("here next");
-            setPageNumber((old: number) => old + 1);
+            setPageNumber((old: number) => Math.min(old + 1, totalPage));
         }
     };
 
