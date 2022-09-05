@@ -16,25 +16,25 @@ type colorObj = {
 };
 
 export const ticketStatusColor: colorObj = {
-    Open: "bg-[#B6DBF0]",
-    Todo: "bg-[#C2F0B6]",
-    "In Progress": "bg-[#F0D5B6]",
-    "To Be Tested": "bg-[#CCB6F0]",
-    Closed: "bg-[#F0B6EE]",
+    Open: " bg-[#B6DBF0] ",
+    Todo: " bg-[#C2F0B6] ",
+    "In Progress": " bg-[#F0D5B6] ",
+    "To Be Tested": " bg-[#CCB6F0] ",
+    Closed: " bg-[#F0B6EE] ",
 };
 
 export const ticketSeverityColor: colorObj = {
-    Critical: "bg-[#F18989]",
-    High: "bg-[#E5AC80]",
-    Medium: "bg-[#E5DC80]",
-    Low: "bg-[#80E5AA]",
+    Critical: " bg-[#F18989] ",
+    High: " bg-[#E5AC80] ",
+    Medium: " bg-[#E5DC80] ",
+    Low: " bg-[#80E5AA] ",
 };
 
 export const ticketTypeColor: colorObj = {
-    Bug: "outline outline-[#CCB6F0]",
-    Feature: "outline outline-[#B6DBF0]",
-    Error: "outline outline-[#F18989]",
-    Issue: "outline outline-[#E5DC80]",
+    Bug: " outline outline-[#CCB6F0] ",
+    Feature: " outline outline-[#B6DBF0] ",
+    Error: " outline outline-[#F18989] ",
+    Issue: " outline outline-[#E5DC80] ",
 };
 
 const Ticket = ({
