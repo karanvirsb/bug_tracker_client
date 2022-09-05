@@ -17,10 +17,6 @@ interface UserTicketInterface extends ITicket {
     setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-type colorObj = {
-    [key: string]: string;
-};
-
 const UserTicket = ({
     ticketId,
     dateCreated,
