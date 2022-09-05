@@ -3,6 +3,11 @@ import Spinner from "../../../Components/Spinner";
 const Members = lazy(() => import("../../../Components/Members"));
 import { useAppSelector } from "../../../Hooks/hooks";
 import { ITicket } from "./UserTickets";
+import {
+    ticketStatusColor,
+    ticketSeverityColor,
+    ticketTypeColor,
+} from "../../Project/Components/Ticket";
 
 type reportProps = {
     username: string;
@@ -14,28 +19,6 @@ interface UserTicketInterface extends ITicket {
 
 type colorObj = {
     [key: string]: string;
-};
-
-export const ticketStatusColor: colorObj = {
-    Open: "bg-[#B6DBF0]",
-    Todo: "bg-[#C2F0B6]",
-    "In Progress": "bg-[#F0D5B6]",
-    "To Be Tested": "bg-[#CCB6F0]",
-    Closed: "bg-[#F0B6EE]",
-};
-
-export const ticketSeverityColor: colorObj = {
-    Critical: "bg-[#F18989]",
-    High: "bg-[#E5AC80]",
-    Medium: "bg-[#E5DC80]",
-    Low: "bg-[#80E5AA]",
-};
-
-export const ticketTypeColor: colorObj = {
-    Bug: "outline outline-[#CCB6F0]",
-    Feature: "outline outline-[#B6DBF0]",
-    Error: "outline outline-[#F18989]",
-    Issue: "outlien outline-[#E5DC80]",
 };
 
 const UserTicket = ({
