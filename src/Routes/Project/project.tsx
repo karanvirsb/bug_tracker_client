@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Spinner from "../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
@@ -12,7 +12,7 @@ const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 
 const Project = () => {
     const { projectId } = useParams();
-
+    const [searchParams] = useSearchParams();
     const auth = useAppSelector((state) => state.auth);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
@@ -49,6 +49,7 @@ const Project = () => {
                 projectStatus={projectStatus}
                 projectId={projectId}
                 projectUsers={projectUsers}
+                findTicketId={searchParams.get("ticketId") ?? ""}
             ></TicketsTab>
         ),
         members: <MembersTab users={projectUsers}></MembersTab>,
