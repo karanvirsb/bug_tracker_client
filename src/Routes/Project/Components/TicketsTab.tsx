@@ -25,6 +25,7 @@ const TicketsTab = ({
     projectUsers,
     findTicketId,
 }: props) => {
+    const PAGE_LIMIT = 5;
     const [pageNumber, setPageNumber] = useState(1);
     const [errMsg, setErrMsg] = useState("");
     const { checkUserPermissions } = useCheckTicketPermissions();
@@ -32,12 +33,36 @@ const TicketsTab = ({
 
     const dispatch = useAppDispatch();
 
+    // this is to fetch the page, where the ticket is located
+    const fetchTicketInfo = async () => {
+        const resp = await axiosPrivate(
+            `/ticket/findTicketInfo?ticketId=${findTicketId}&projectId=${projectId}&limit=${PAGE_LIMIT}`,
+            {
+                method: "get",
+            }
+        );
+        return resp.data;
+    };
+
+    const { data: ticketInfo, status: ticketInfoStatus } = useQuery(
+        "findTicketInfo",
+        fetchTicketInfo,
+        {
+            enabled: findTicketId !== undefined,
+            onError: (err: any) => {
+                if (err?.response?.status === 404) {
+                    setErrMsg("Invalid url could not fetch.");
+                }
+            },
+        }
+    );
+
     const fetchTickets = async (pages: number) => {
         const resp = await axiosPrivate("/ticket/project/" + projectId, {
             method: "get",
             params: {
                 page: pages,
-                limit: 5,
+                limit: PAGE_LIMIT,
             },
         });
         return resp.data;
@@ -69,6 +94,12 @@ const TicketsTab = ({
     useEffect(() => {
         refetch();
     }, [pageNumber]);
+
+    useEffect(() => {
+        if (ticketInfoStatus === "success") {
+            console.log(ticketInfo);
+        }
+    }, [ticketInfoStatus, ticketInfo]);
 
     return (
         <>
