@@ -3,10 +3,10 @@ import React from "react";
 import Backdrop from "../../../Components/Backdrop";
 import { useAppSelector } from "../../../Hooks/hooks";
 import {
-    ticketSeverityColor,
     ticketStatusColor,
+    ticketSeverityColor,
     ticketTypeColor,
-} from "./UserTicket";
+} from "../../Project/Components/Ticket";
 
 type props = {
     selectedId: string;
