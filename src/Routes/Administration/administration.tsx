@@ -31,9 +31,12 @@ const Administration = () => {
     });
     const [groupName, setGroupName] = useState(group.groupName);
     const [disableBtn, setDisableBtn] = useState(true);
+
+    const auth = useAppSelector((state) => state.auth);
+
     const totalPage = useMemo(
         () => Math.floor(group.users.length / totalPerPage),
-        [group.users]
+        [group, group.users]
     );
     // checking if there are more pages
     const hasMore = useMemo(() => {
@@ -43,7 +46,7 @@ const Administration = () => {
     // memoizing users
     const groupUsers = useMemo(() => {
         return group.users.slice(usersPageSetting.start, usersPageSetting.end);
-    }, [usersPageSetting]);
+    }, [usersPageSetting, group, group.users]);
 
     // if group name needs to be changed
     const groupNameMutation = useMutation(
@@ -166,6 +169,21 @@ const Administration = () => {
             }
         );
     };
+
+    useEffect(() => {
+        socket.emit("joinRoom", {
+            roomId: auth?.group_id,
+            username: auth.username,
+        });
+
+        socket.on("roomJoined", (join) => {
+            console.log("room join: " + join);
+        });
+
+        return () => {
+            socket.off("roomJoined");
+        };
+    }, []);
 
     useEffect(() => {
         setUsersPageSetting((prev) => {
