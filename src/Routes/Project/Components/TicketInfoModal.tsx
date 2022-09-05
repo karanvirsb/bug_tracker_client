@@ -87,7 +87,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         clipRule='evenodd'
                     />
                 </svg>
-                <div className='bg-gray-100 flex lg:flex-col gap-4 w-full p-4'>
+                <div className='bg-gray-100 flex items-center lg:flex-col gap-4 w-full p-4'>
                     <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full'>
                         <h1 className='text-2xl'>{foundTicket?.title}</h1>
                         <span className='sm:hidden'>&#8212;</span>
@@ -98,7 +98,7 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         </span>
                     </div>
                     <span className='hidden m-lg:inline-block'>&#8212;</span>
-                    <div className='flex gap-4 sm:flex-col m-md:items-center sm:w-full '>
+                    <div className='flex gap-4 sm:flex-col m-md:items-center md:flex-col sm:w-full '>
                         <div className='flex gap-4 items-center'>
                             <span
                                 className={`${
@@ -133,25 +133,25 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                             By:{" "}
                             {foundUser?.firstName + " " + foundUser?.lastName}
                         </div>
+                        {isUserAllowed && (
+                            <div className='flex gap-2'>
+                                <button
+                                    className='btn bg-green-400'
+                                    onClick={openEditModal}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className='btn bg-red-400'
+                                    onClick={openDeleteModal}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className='p-4'>
-                    {isUserAllowed && (
-                        <div className='flex gap-2 mb-6'>
-                            <button
-                                className='btn bg-green-400'
-                                onClick={openEditModal}
-                            >
-                                Edit
-                            </button>
-                            <button
-                                className='btn bg-red-400'
-                                onClick={openDeleteModal}
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    )}
                     <div className='grid grid-cols-2 gap-4 sm:grid-cols-1 mb-10'>
                         <fieldset className='border border-gray-500 rounded-md'>
                             <legend className='text-gray-500 text-lg p-4'>
