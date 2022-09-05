@@ -54,6 +54,10 @@ const Tickets = () => {
         }
     }, [userTickets, ticketStatus]);
 
+    useEffect(() => {
+        refetch();
+    }, [pageNumber]);
+
     return (
         <section className='sections'>
             <Tab tabs={[]} components={{}}></Tab>
@@ -136,7 +140,7 @@ const Tickets = () => {
                 >
                     <Pagination
                         pageNumber={pageNumber}
-                        totalPage={userTickets?.totalPage || 0}
+                        totalPage={userTickets?.totalPages || 0}
                         hasMore={userTickets?.hasNextPage || false}
                         setPageNumber={setPageNumber}
                     ></Pagination>
