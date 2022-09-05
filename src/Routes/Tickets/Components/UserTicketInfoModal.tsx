@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import Backdrop from "../../../Components/Backdrop";
 import { useAppSelector } from "../../../Hooks/hooks";
+import { useNavigate } from "react-router-dom";
 import {
     ticketStatusColor,
     ticketSeverityColor,
@@ -14,6 +15,7 @@ type props = {
 };
 
 const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
+    const navigate = useNavigate();
     const tickets = useAppSelector((state) => state.tickets.tickets);
     const groupUsers = useAppSelector(
         (state) => state.persistedReducer.group.users
@@ -30,6 +32,13 @@ const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
         hidden: { opacity: 0, y: 1000, transition },
         visible: { opacity: 1, y: 0, transition },
         exit: { opacity: 0, y: 1000, transition: { duration: 1 } },
+    };
+
+    const goToTicketsPage = () => {
+        navigate(
+            `/project/${foundTicket?.projectId}?ticketId=${foundTicket?.ticketId}`,
+            { replace: false }
+        );
     };
 
     return (
@@ -122,7 +131,10 @@ const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                     </div>
                     <div>
                         {/* TODO go to ticket */}
-                        <button className='btn bg-blue-400 hover:outline hover:outline-2 hover:outline-blue-400 mt-4 '>
+                        <button
+                            className='btn bg-blue-400 hover:outline hover:outline-2 hover:outline-blue-400 mt-4 '
+                            onClick={goToTicketsPage}
+                        >
                             Go To Ticket
                         </button>
                     </div>
