@@ -15,6 +15,7 @@ type props = {
     project: any;
     projectStatus: "idle" | "error" | "loading" | "success";
     projectUsers: users[];
+    findTicketId?: string;
 };
 
 const TicketsTab = ({
@@ -22,6 +23,7 @@ const TicketsTab = ({
     project,
     projectStatus,
     projectUsers,
+    findTicketId,
 }: props) => {
     const [pageNumber, setPageNumber] = useState(1);
     const [errMsg, setErrMsg] = useState("");
@@ -35,7 +37,7 @@ const TicketsTab = ({
             method: "get",
             params: {
                 page: pages,
-                limit: 10,
+                limit: 5,
             },
         });
         return resp.data;
@@ -63,6 +65,10 @@ const TicketsTab = ({
             dispatch(updateInitialState(tickets.docs));
         }
     }, [tickets, ticketStatus]);
+
+    useEffect(() => {
+        refetch();
+    }, [pageNumber]);
 
     return (
         <>
@@ -178,7 +184,7 @@ const TicketsTab = ({
                     >
                         <Pagination
                             pageNumber={pageNumber}
-                            totalPage={tickets?.totalPage || 0}
+                            totalPage={tickets?.totalPages || 0}
                             hasMore={tickets?.hasNextPage || false}
                             setPageNumber={setPageNumber}
                         ></Pagination>
