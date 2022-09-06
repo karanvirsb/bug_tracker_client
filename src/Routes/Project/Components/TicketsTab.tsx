@@ -98,7 +98,7 @@ const TicketsTab = ({
     useEffect(() => {
         if (ticketInfoStatus === "success") {
             if (ticketInfo?.ticketsPage != pageNumber) {
-                setPageNumber(ticketInfo?.ticketsPage);
+                setPageNumber(ticketInfo?.ticketsPage ?? 1);
             }
         }
     }, [ticketInfoStatus, ticketInfo]);
