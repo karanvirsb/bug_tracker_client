@@ -202,12 +202,12 @@ const UserElements = ({ usersArr }: userProps) => {
     }
 
     return (
-        <ul className='max-w-[100ch] max-h-[100px] overflow-auto overflow-x-hidden rounded-md p-4'>
+        <ul className='max-w-max max-h-[100px] overflow-auto overflow-x-hidden p-4'>
             {users.map((user) => {
                 return (
                     <li
                         key={user.username}
-                        className='ml-2 pl-2 text-lg w-full list-["\2192"]'
+                        className='flex justify-center items-center text-xl bg-gray-200 mb-2 last:mb-0 py-1 px-4 rounded-3xl w-full'
                     >{`${user.firstName} ${user.lastName}`}</li>
                 );
             })}
