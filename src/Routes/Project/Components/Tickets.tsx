@@ -19,9 +19,10 @@ export interface ITicket {
 
 export type props = {
     tickets: ITicket[];
+    highlightTicket?: string;
 };
 
-const Tickets = ({ tickets }: props) => {
+const Tickets = ({ tickets, highlightTicket }: props) => {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     return !tickets ? (
         <tr className='w-full text-center text-lg '>
@@ -34,15 +35,29 @@ const Tickets = ({ tickets }: props) => {
         <>
             <LayoutGroup>
                 {tickets?.map((ticket) => {
-                    const dateCreated = new Date(ticket.dateCreated);
-                    return (
-                        <Ticket
-                            key={ticket.ticketId}
-                            {...ticket}
-                            dateCreated={dateCreated}
-                            setSelectedId={setSelectedId}
-                        ></Ticket>
-                    );
+                    if (ticket.ticketId === highlightTicket) {
+                        const dateCreated = new Date(ticket.dateCreated);
+                        return (
+                            <Ticket
+                                key={ticket.ticketId}
+                                {...ticket}
+                                dateCreated={dateCreated}
+                                setSelectedId={setSelectedId}
+                                highlight={true}
+                            ></Ticket>
+                        );
+                    } else {
+                        const dateCreated = new Date(ticket.dateCreated);
+                        return (
+                            <Ticket
+                                key={ticket.ticketId}
+                                {...ticket}
+                                dateCreated={dateCreated}
+                                setSelectedId={setSelectedId}
+                                highlight={false}
+                            ></Ticket>
+                        );
+                    }
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
