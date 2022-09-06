@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Members from "../../../Components/Members";
 import { useAppSelector } from "../../../Hooks/hooks";
 import { ITicket } from "./Tickets";
@@ -9,6 +9,7 @@ type reportProps = {
 
 interface TicketInterface extends ITicket {
     setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+    highlight: boolean;
 }
 
 type colorObj = {
@@ -47,9 +48,26 @@ const Ticket = ({
     ticketType,
     reporterId,
     setSelectedId,
+    highlight,
 }: TicketInterface) => {
+    const [highlighterClass, setHighlighterClass] = useState("");
+
+    useEffect(() => {
+        let timer: any;
+        if (highlight === true) {
+            setHighlighterClass("bg-gray-200 animate-pulse");
+            timer = setTimeout(() => {
+                setHighlighterClass("");
+            }, 5000);
+        }
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
-        <tr className='table_row_hover' onClick={() => setSelectedId(ticketId)}>
+        <tr
+            className={`table_row_hover ${highlighterClass}`}
+            onClick={() => setSelectedId(ticketId)}
+        >
             <th
                 scope='row'
                 className='table_padding table_row_header sm:text-center'
