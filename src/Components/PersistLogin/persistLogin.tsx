@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import useRefreshToken from "../../Hooks/useRefreshToken";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
@@ -13,10 +13,17 @@ const PersistLogin = () => {
     const persist = useAppSelector((state) => state.persist.persist);
     const user = useAppSelector((state) => state.persistedReducer.user);
     const dispatch = useAppDispatch();
+    const effectRan = useRef(false);
 
     useEffect(() => {
+        if (
+            effectRan.current === true ||
+            process.env.NODE_ENV !== "development"
+        ) {
+        }
         let isMounted = true;
         const verifyRefreshToken = async () => {
+            console.log("verifying refresh token");
             try {
                 await refresh();
             } catch (error) {
@@ -32,6 +39,7 @@ const PersistLogin = () => {
 
         return () => {
             isMounted = false;
+            effectRan.current = true;
         };
     }, [auth.accessToken, refresh]);
 
@@ -48,7 +56,6 @@ const PersistLogin = () => {
             if (resp) {
                 const user = resp.data;
                 const roles: string[] = Object.values(user.roles);
-                console.log(user);
                 dispatch(
                     setUser({
                         avatar: user.avatar,
@@ -63,7 +70,6 @@ const PersistLogin = () => {
             }
         };
         if (auth.username && auth.accessToken && persist && !user.username) {
-            console.log("here", auth);
             getUserInfo(auth.accessToken);
         }
     }, [auth.username, auth.accessToken, persist, user]);
