@@ -32,7 +32,7 @@ const Members = ({ usersArr }: props) => {
             {users ? (
                 <UserElements usersArr={users}></UserElements>
             ) : (
-                <div>No Users</div>
+                <div className='w-full text-center'>No Users</div>
             )}
         </>
     );
