@@ -8,7 +8,6 @@ const useRefreshToken = () => {
     const dispatch = useAppDispatch();
     // doing this so we can set the accessToken;
     const refresh = async () => {
-        //TODO Issue here is that there are too many tries
         try {
             const response = await axios.get("/refresh", {
                 withCredentials: true,
