@@ -199,7 +199,15 @@ const Administration = () => {
 
     return (
         <section className='sections'>
-            <Tab tabs={[]} components={{}}></Tab>
+            <Suspense
+                fallback={
+                    <div className='flex justify-center items-center w-full'>
+                        <Spinner></Spinner>
+                    </div>
+                }
+            >
+                <Tab tabs={[]} components={{}}></Tab>
+            </Suspense>
 
             <div className='mb-6 px-4'>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
