@@ -172,7 +172,7 @@ const AddGroup = () => {
                 <input
                     type='text'
                     className='input'
-                    placeholder='Invite / Group name'
+                    placeholder='Invite/Group name'
                     onChange={(e) => setGroup(e.target.value)}
                     value={group}
                 />
