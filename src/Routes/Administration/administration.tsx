@@ -301,20 +301,24 @@ const Administration = () => {
                             </ErrorBoundary>
                         </tbody>
                     </table>
-                    <Suspense
-                        fallback={
-                            <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
-                                <Spinner></Spinner>
-                            </div>
-                        }
+                    <ErrorBoundary
+                        FallbackComponent={ErrorFallbackWithoutRetry}
                     >
-                        <Pagination
-                            pageNumber={pageNumber}
-                            setPageNumber={setPageNumber}
-                            totalPage={totalPage}
-                            hasMore={hasMore}
-                        ></Pagination>
-                    </Suspense>
+                        <Suspense
+                            fallback={
+                                <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <Pagination
+                                pageNumber={pageNumber}
+                                setPageNumber={setPageNumber}
+                                totalPage={totalPage}
+                                hasMore={hasMore}
+                            ></Pagination>
+                        </Suspense>
+                    </ErrorBoundary>
                 </div>
             </div>
         </section>
