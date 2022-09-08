@@ -1,5 +1,8 @@
 import { AnimatePresence, LayoutGroup } from "framer-motion";
 import React, { lazy, Suspense, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import Backdrop from "../../../Components/Backdrop";
+import ErrorModal from "../../../Components/ErrorModal";
 import Spinner from "../../../Components/Spinner";
 import { IUser } from "../../../Redux/Slices/userSlice";
 const MemberInfoModal = lazy(() => import("./MemberInfoModal"));
@@ -35,26 +38,34 @@ const Members = ({ users }: props) => {
                     );
                 })}
                 <AnimatePresence exitBeforeEnter>
-                    {selectedId && (
-                        <Suspense
-                            fallback={
+                    <ErrorBoundary
+                        fallback={
+                            <Backdrop>
+                                <ErrorModal />
+                            </Backdrop>
+                        }
+                    >
+                        {selectedId && (
+                            <Suspense
+                                fallback={
+                                    <tr>
+                                        <td align='center' colSpan={99}>
+                                            <Spinner></Spinner>
+                                        </td>
+                                    </tr>
+                                }
+                            >
                                 <tr>
-                                    <td align='center' colSpan={99}>
-                                        <Spinner></Spinner>
+                                    <td>
+                                        <MemberInfoModal
+                                            selectedId={selectedId}
+                                            setSelectedId={setSelectedId}
+                                        ></MemberInfoModal>
                                     </td>
                                 </tr>
-                            }
-                        >
-                            <tr>
-                                <td>
-                                    <MemberInfoModal
-                                        selectedId={selectedId}
-                                        setSelectedId={setSelectedId}
-                                    ></MemberInfoModal>
-                                </td>
-                            </tr>
-                        </Suspense>
-                    )}
+                            </Suspense>
+                        )}
+                    </ErrorBoundary>
                 </AnimatePresence>
             </LayoutGroup>
         </>
