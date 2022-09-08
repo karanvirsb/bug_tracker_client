@@ -3,9 +3,11 @@ import { setAuth } from "../Auth/authenticationSlice";
 import { useAppDispatch } from "../Hooks/hooks";
 import mem from "mem";
 import decoder, { IDecode } from "../Helper/decodeToken";
+import useLogout from "./useLogout";
 
 const useRefreshToken = () => {
     const dispatch = useAppDispatch();
+    const logout = useLogout();
     // doing this so we can set the accessToken;
     const refresh = async () => {
         try {
@@ -13,6 +15,9 @@ const useRefreshToken = () => {
                 withCredentials: true,
                 timeout: 30000,
             });
+            if (response.status === 401) {
+                logout();
+            }
             const userData = response?.data;
 
             const userInfo: IDecode | undefined = decoder(userData.accessToken);
