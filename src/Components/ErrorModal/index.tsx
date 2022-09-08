@@ -1,8 +1,31 @@
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import React from "react";
+import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
+import {
+    ModalState,
+    resetModal,
+    setModal,
+} from "../../Redux/Slices/modalSlice";
 
 type props = { error: any; resetErrorBoundary: any };
 const ErrorModal = ({ error, resetErrorBoundary }: props) => {
+    const modalSettings = useRef<null | ModalState>(null);
+    const modal = useAppSelector((state) => state.modal);
+    const dispatch = useAppDispatch();
+
+    const reloadModal = () => {
+        location.reload();
+    };
+
+    const closeModal = () => {
+        dispatch(resetModal());
+    };
+
+    useEffect(() => {
+        if (modal.open === true) {
+            modalSettings.current = Object.assign({}, modal);
+        }
+    }, [modal]);
     return (
         <motion.div className='bg-white flex flex-col gap-4 p-4 rounded-md z-50'>
             <div className='font-semibold flex gap-4 items-center text-red-500 w-full'>
@@ -26,10 +49,16 @@ const ErrorModal = ({ error, resetErrorBoundary }: props) => {
                 </p>
             </div>
             <div className='flex gap-4 items-center w-full justify-center'>
-                <button className='btn bg-cta-btn-color text-white hover:bg-transparent hover:text-cta-btn-color hover:outline hover:outline-[1px] hover:outline-cta-btn-color'>
-                    Retry
+                <button
+                    className='btn bg-cta-btn-color text-white hover:bg-transparent hover:text-cta-btn-color hover:outline hover:outline-[1px] hover:outline-cta-btn-color'
+                    onClick={reloadModal}
+                >
+                    Reload
                 </button>
-                <button className='btn outline outline-[1px] outline-gray-600 text-gray-600 hover:text-black'>
+                <button
+                    className='btn outline outline-[1px] outline-gray-600 text-gray-600 hover:text-black'
+                    onClick={closeModal}
+                >
                     Close
                 </button>
             </div>
