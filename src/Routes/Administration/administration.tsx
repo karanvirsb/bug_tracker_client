@@ -200,7 +200,11 @@ const Administration = () => {
 
     return (
         <section className='sections'>
-            <ErrorBoundary FallbackComponent={ErrorFallbackWithoutRetry}>
+            <ErrorBoundary
+                fallback={
+                    <ErrorFallbackWithoutRetry text='Error: Could not load tab bar. Please try again.' />
+                }
+            >
                 <Suspense
                     fallback={
                         <div className='flex justify-center items-center w-full'>
@@ -302,7 +306,9 @@ const Administration = () => {
                         </tbody>
                     </table>
                     <ErrorBoundary
-                        FallbackComponent={ErrorFallbackWithoutRetry}
+                        fallback={
+                            <ErrorFallbackWithoutRetry text='Error: Could not load pagination. Please try again.' />
+                        }
                     >
                         <Suspense
                             fallback={
