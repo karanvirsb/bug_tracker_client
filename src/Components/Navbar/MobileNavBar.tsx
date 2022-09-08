@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import useLogout from "../../Hooks/useLogout";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
@@ -21,7 +21,6 @@ const MobileNavBar = () => {
 
     const auth = useAppSelector((state) => state.auth);
     const group = useAppSelector((state) => state.persistedReducer.group);
-    const modal = useAppSelector((state) => state.modal.open);
 
     // fetching group information with groupId
     const fetchGroup = async () => {
@@ -170,10 +169,14 @@ const MobileNavBar = () => {
                         onClick={toggleMenu}
                     >
                         <h1 className=' flex-1 text-center text-xl pb-1 m-md:w-full'>
-                            {groupStatus !== "success" ? (
+                            {groupStatus === "loading" ? (
                                 <div className='flex justify-center items-center'>
                                     <Spinner></Spinner>
                                 </div>
+                            ) : groupStatus === "error" ? (
+                                <p className='w-full text-left text-red-500'>
+                                    Error
+                                </p>
                             ) : (
                                 <div className='relative w-full'>
                                     <button
