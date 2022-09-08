@@ -1,31 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
-import {
-    ModalState,
-    resetModal,
-    setModal,
-} from "../../Redux/Slices/modalSlice";
+import { useAppDispatch } from "../../Hooks/hooks";
+import { resetModal } from "../../Redux/Slices/modalSlice";
 
-type props = { error: any; resetErrorBoundary: any };
-const ErrorModal = ({ error, resetErrorBoundary }: props) => {
-    const modalSettings = useRef<null | ModalState>(null);
-    const modal = useAppSelector((state) => state.modal);
+const ErrorModal = () => {
     const dispatch = useAppDispatch();
 
     const reloadModal = () => {
         location.reload();
     };
 
-    const closeModal = () => {
-        dispatch(resetModal());
-    };
-
-    useEffect(() => {
-        if (modal.open === true) {
-            modalSettings.current = Object.assign({}, modal);
-        }
-    }, [modal]);
     return (
         <motion.div className='bg-white flex flex-col gap-4 p-4 rounded-md z-50'>
             <div className='font-semibold flex gap-4 items-center text-red-500 w-full'>
@@ -48,18 +32,12 @@ const ErrorModal = ({ error, resetErrorBoundary }: props) => {
                     Could not load modal
                 </p>
             </div>
-            <div className='flex gap-4 items-center w-full justify-center'>
+            <div className='flex gap-4 justify-center items-center w-full'>
                 <button
                     className='btn bg-cta-btn-color text-white hover:bg-transparent hover:text-cta-btn-color hover:outline hover:outline-[1px] hover:outline-cta-btn-color'
                     onClick={reloadModal}
                 >
                     Reload
-                </button>
-                <button
-                    className='btn outline outline-[1px] outline-gray-600 text-gray-600 hover:text-black'
-                    onClick={closeModal}
-                >
-                    Close
                 </button>
             </div>
         </motion.div>
