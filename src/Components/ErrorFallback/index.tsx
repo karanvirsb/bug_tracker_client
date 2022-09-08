@@ -7,7 +7,7 @@ type props = {
 const ErrorFallback = ({ error, resetErrorBoundary }: props) => {
     return (
         <>
-            <p className='text-red-500 flex gap-4 items-center my-3 text-xl'>
+            <p className='text-red-500 flex gap-4 justify-center items-center my-3 text-xl w-full'>
                 <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
