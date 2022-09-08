@@ -7,6 +7,8 @@ import { AxiosError } from "axios";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 const Members = lazy(() => import("./Components/Members"));
 import Spinner from "../../Components/Spinner";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackWithoutRetryForTable from "../../Components/ErrorFallback/ErrorFallbackWithoutRetryForTable";
 const Pagination = lazy(() => import("../../Components/Pagination"));
 const Tab = lazy(() => import("../../Components/Tab/Tab"));
 
@@ -269,18 +271,23 @@ const Administration = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* TODO fix */}
-                            <Suspense
-                                fallback={
-                                    <tr>
-                                        <td align='center' colSpan={99}>
-                                            <Spinner></Spinner>
-                                        </td>
-                                    </tr>
+                            <ErrorBoundary
+                                FallbackComponent={
+                                    ErrorFallbackWithoutRetryForTable
                                 }
                             >
-                                <Members users={groupUsers}></Members>
-                            </Suspense>
+                                <Suspense
+                                    fallback={
+                                        <tr>
+                                            <td align='center' colSpan={99}>
+                                                <Spinner></Spinner>
+                                            </td>
+                                        </tr>
+                                    }
+                                >
+                                    <Members users={groupUsers}></Members>
+                                </Suspense>
+                            </ErrorBoundary>
                         </tbody>
                     </table>
                     <Suspense
