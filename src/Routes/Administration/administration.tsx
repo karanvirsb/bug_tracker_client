@@ -9,6 +9,7 @@ const Members = lazy(() => import("./Components/Members"));
 import Spinner from "../../Components/Spinner";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetryForTable from "../../Components/ErrorFallback/ErrorFallbackWithoutRetryForTable";
+import ErrorFallbackWithoutRetry from "../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 const Pagination = lazy(() => import("../../Components/Pagination"));
 const Tab = lazy(() => import("../../Components/Tab/Tab"));
 
@@ -199,15 +200,17 @@ const Administration = () => {
 
     return (
         <section className='sections'>
-            <Suspense
-                fallback={
-                    <div className='flex justify-center items-center w-full'>
-                        <Spinner></Spinner>
-                    </div>
-                }
-            >
-                <Tab tabs={[]} components={{}}></Tab>
-            </Suspense>
+            <ErrorBoundary FallbackComponent={ErrorFallbackWithoutRetry}>
+                <Suspense
+                    fallback={
+                        <div className='flex justify-center items-center w-full'>
+                            <Spinner></Spinner>
+                        </div>
+                    }
+                >
+                    <Tab tabs={[]} components={{}}></Tab>
+                </Suspense>
+            </ErrorBoundary>
 
             <div className='mb-6 px-4'>
                 <h1 className='text-2xl font-semibold mb-4'>Group</h1>
