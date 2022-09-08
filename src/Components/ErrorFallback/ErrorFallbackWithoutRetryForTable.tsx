@@ -1,14 +1,10 @@
 import React from "react";
 
 type props = {
-    error: any;
-    resetErrorBoundary?: any;
+    text: string;
 };
 
-const ErrorFallbackWithoutRetryForTable = ({
-    error,
-    resetErrorBoundary,
-}: props) => {
+const ErrorFallbackWithoutRetryForTable = ({ text }: props) => {
     return (
         <>
             <tr className='text-red-500 w-full text-center'>
@@ -28,7 +24,7 @@ const ErrorFallbackWithoutRetryForTable = ({
                         />
                     </svg>
 
-                    <span>Error: Could not load</span>
+                    <span>{text}</span>
                 </td>
             </tr>
         </>
