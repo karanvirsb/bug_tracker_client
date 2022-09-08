@@ -287,8 +287,8 @@ const Administration = () => {
                         </thead>
                         <tbody>
                             <ErrorBoundary
-                                FallbackComponent={
-                                    ErrorFallbackWithoutRetryForTable
+                                fallback={
+                                    <ErrorFallbackWithoutRetryForTable text='Error: Could not load members. Please try again.' />
                                 }
                             >
                                 <Suspense
