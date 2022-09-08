@@ -8,11 +8,11 @@ const useIsAdmin = () => {
     const user = useAppSelector((state) => state.persistedReducer.user);
 
     useEffect(() => {
-        setIsAdmin(user.isAdmin);
+        setIsAdmin(user.isAdmin ?? false);
     }, [user.isAdmin]);
 
     useEffect(() => {
-        setIsEditor(user.isEditor);
+        setIsEditor(user.isEditor ?? false);
     }, [user.isEditor]);
 
     return { isAdmin: isAdmin, isEditor: isEditor };
