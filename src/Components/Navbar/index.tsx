@@ -50,7 +50,7 @@ const Navbar = () => {
         "groupUsers",
         fetchGroupUsers,
         {
-            enabled: !!group.groupId,
+            enabled: !group.groupId,
         }
     );
 
@@ -126,10 +126,14 @@ const Navbar = () => {
                         onClick={toggleMenu}
                     >
                         <h1 className=' flex-1 text-center text-xl pb-1 m-md:w-full'>
-                            {groupStatus !== "success" ? (
+                            {groupStatus === "loading" ? (
                                 <div className='flex justify-center items-center'>
                                     <Spinner></Spinner>
                                 </div>
+                            ) : groupStatus === "error" ? (
+                                <p className='w-full text-left text-red-500'>
+                                    Error
+                                </p>
                             ) : (
                                 <div className='relative w-full'>
                                     <button
