@@ -1,8 +1,10 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
+import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 import Spinner from "../../../Components/Spinner";
 import { useAppSelector } from "../../../Hooks/hooks";
 import { IComment } from "../../../Redux/Slices/commentsSlice";
@@ -160,35 +162,47 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
                 </div>
             </div>
             {replying && (
-                <Suspense
+                <ErrorBoundary
                     fallback={
-                        <div className='w-full flex justify-center items-center'>
-                            <Spinner></Spinner>
-                        </div>
+                        <ErrorFallbackWithoutRetry text='Error: Could not load reply form.'></ErrorFallbackWithoutRetry>
                     }
                 >
-                    <ReplyToForm
-                        repliedToUserId={comment.userId}
-                        comment={comment}
-                        setReplying={setReplying}
-                        page={page}
-                    ></ReplyToForm>
-                </Suspense>
+                    <Suspense
+                        fallback={
+                            <div className='w-full flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <ReplyToForm
+                            repliedToUserId={comment.userId}
+                            comment={comment}
+                            setReplying={setReplying}
+                            page={page}
+                        ></ReplyToForm>
+                    </Suspense>
+                </ErrorBoundary>
             )}
             {/* Comments / replys */}
             {loadReplies && (
-                <Suspense
+                <ErrorBoundary
                     fallback={
-                        <div className='w-full flex justify-center items-center'>
-                            <Spinner></Spinner>
-                        </div>
+                        <ErrorFallbackWithoutRetry text='Error: Could not load replies'></ErrorFallbackWithoutRetry>
                     }
                 >
-                    <Replys
-                        replyIds={replys}
-                        commentId={comment.commentId || ""}
-                    ></Replys>
-                </Suspense>
+                    <Suspense
+                        fallback={
+                            <div className='w-full flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <Replys
+                            replyIds={replys}
+                            commentId={comment.commentId || ""}
+                        ></Replys>
+                    </Suspense>
+                </ErrorBoundary>
             )}
         </div>
     );
