@@ -9,6 +9,8 @@ import useIsAdmin from "../../../Hooks/useIsAdmin";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { updateInitialState } from "../../../Redux/Slices/projectsSlice";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 
 type props = {
     groupId: string | undefined;
@@ -143,6 +145,38 @@ const DashboardTab = ({ groupId }: props) => {
                             )}
                         </tbody>
                     </table>
+                    <ErrorBoundary
+                        fallback={
+                            <ErrorFallbackWithoutRetry
+                                text={"Error: Could not load pagination"}
+                            ></ErrorFallbackWithoutRetry>
+                        }
+                    >
+                        <Suspense
+                            fallback={
+                                <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <Pagination
+                                pageNumber={pageNumber}
+                                totalPage={projects?.totalPages || 0}
+                                hasMore={projects?.hasNextPage || false}
+                                setPageNumber={setPageNumber}
+                            ></Pagination>
+                        </Suspense>
+                    </ErrorBoundary>
+                </div>
+            </div>
+            <div className='flex flex-col gap-4 my-6 mx-4'>
+                <ErrorBoundary
+                    fallback={
+                        <ErrorFallbackWithoutRetry
+                            text={"Error: Could not load statistics"}
+                        ></ErrorFallbackWithoutRetry>
+                    }
+                >
                     <Suspense
                         fallback={
                             <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
@@ -150,25 +184,9 @@ const DashboardTab = ({ groupId }: props) => {
                             </div>
                         }
                     >
-                        <Pagination
-                            pageNumber={pageNumber}
-                            totalPage={projects?.totalPages || 0}
-                            hasMore={projects?.hasNextPage || false}
-                            setPageNumber={setPageNumber}
-                        ></Pagination>
+                        <Statistics></Statistics>
                     </Suspense>
-                </div>
-            </div>
-            <div className='flex flex-col gap-4 my-6 mx-4'>
-                <Suspense
-                    fallback={
-                        <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
-                            <Spinner></Spinner>
-                        </div>
-                    }
-                >
-                    <Statistics></Statistics>
-                </Suspense>
+                </ErrorBoundary>
             </div>
         </>
     );
