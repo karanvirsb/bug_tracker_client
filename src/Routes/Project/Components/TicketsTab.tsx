@@ -1,6 +1,9 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
+import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
+import ErrorFallbackWithoutRetryForTable from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetryForTable";
 import Spinner from "../../../Components/Spinner";
 import { useAppDispatch } from "../../../Hooks/hooks";
 import { users } from "../../../Redux/Slices/groupSlice";
@@ -181,20 +184,28 @@ const TicketsTab = ({
                                 </tr>
                             )}
                             {ticketStatus === "success" && (
-                                <Suspense
+                                <ErrorBoundary
                                     fallback={
-                                        <tr>
-                                            <td align='center' colSpan={99}>
-                                                <Spinner></Spinner>
-                                            </td>
-                                        </tr>
+                                        <ErrorFallbackWithoutRetryForTable text='Error: Could not load tickets'></ErrorFallbackWithoutRetryForTable>
                                     }
                                 >
-                                    <Tickets
-                                        tickets={tickets.docs}
-                                        highlightTicket={ticketInfo?.ticketId}
-                                    ></Tickets>
-                                </Suspense>
+                                    <Suspense
+                                        fallback={
+                                            <tr>
+                                                <td align='center' colSpan={99}>
+                                                    <Spinner></Spinner>
+                                                </td>
+                                            </tr>
+                                        }
+                                    >
+                                        <Tickets
+                                            tickets={tickets.docs}
+                                            highlightTicket={
+                                                ticketInfo?.ticketId
+                                            }
+                                        ></Tickets>
+                                    </Suspense>
+                                </ErrorBoundary>
                             )}
                             {ticketStatus === "error" && (
                                 <tr className='w-full text-center text-lg '>
@@ -211,20 +222,26 @@ const TicketsTab = ({
                             )}
                         </tbody>
                     </table>
-                    <Suspense
+                    <ErrorBoundary
                         fallback={
-                            <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
-                                <Spinner></Spinner>
-                            </div>
+                            <ErrorFallbackWithoutRetry text='Error: Could not load paginaton.'></ErrorFallbackWithoutRetry>
                         }
                     >
-                        <Pagination
-                            pageNumber={pageNumber}
-                            totalPage={tickets?.totalPages || 0}
-                            hasMore={tickets?.hasNextPage || false}
-                            setPageNumber={setPageNumber}
-                        ></Pagination>
-                    </Suspense>
+                        <Suspense
+                            fallback={
+                                <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <Pagination
+                                pageNumber={pageNumber}
+                                totalPage={tickets?.totalPages || 0}
+                                hasMore={tickets?.hasNextPage || false}
+                                setPageNumber={setPageNumber}
+                            ></Pagination>
+                        </Suspense>
+                    </ErrorBoundary>
                 </div>
             </div>
         </>
