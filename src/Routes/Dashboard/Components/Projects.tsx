@@ -1,8 +1,10 @@
 import React, { lazy, Suspense, useState } from "react";
 import { AnimatePresence, LayoutGroup } from "framer-motion";
 import Spinner from "../../../Components/Spinner";
-// const Project = lazy(() => import("./Project"));
 import Project from "./Project";
+import { ErrorBoundary } from "react-error-boundary";
+import Backdrop from "../../../Components/Backdrop";
+import ErrorModal from "../../../Components/ErrorModal";
 const ProjectInfoModal = lazy(() => import("./ProjectInfoModal"));
 
 export interface IProject {
@@ -44,24 +46,32 @@ const Projects = (props: { projects: IProject[] }): JSX.Element => {
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
-                        <Suspense
+                        <ErrorBoundary
                             fallback={
-                                <tr className='fixed inset-0 flex justify-center items-center'>
-                                    <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
-                                        <Spinner></Spinner>
-                                    </td>
-                                </tr>
+                                <Backdrop>
+                                    <ErrorModal />
+                                </Backdrop>
                             }
                         >
-                            <tr>
-                                <td>
-                                    <ProjectInfoModal
-                                        selectedId={selectedId}
-                                        setSelectedId={setSelectedId}
-                                    ></ProjectInfoModal>
-                                </td>
-                            </tr>
-                        </Suspense>
+                            <Suspense
+                                fallback={
+                                    <tr className='fixed inset-0 flex justify-center items-center'>
+                                        <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
+                                            <Spinner></Spinner>
+                                        </td>
+                                    </tr>
+                                }
+                            >
+                                <tr>
+                                    <td>
+                                        <ProjectInfoModal
+                                            selectedId={selectedId}
+                                            setSelectedId={setSelectedId}
+                                        ></ProjectInfoModal>
+                                    </td>
+                                </tr>
+                            </Suspense>
+                        </ErrorBoundary>
                     )}
                 </AnimatePresence>
             </LayoutGroup>
