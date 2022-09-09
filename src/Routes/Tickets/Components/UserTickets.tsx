@@ -1,5 +1,8 @@
 import { AnimatePresence, LayoutGroup } from "framer-motion";
 import React, { lazy, Suspense, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import Backdrop from "../../../Components/Backdrop";
+import ErrorModal from "../../../Components/ErrorModal";
 import Spinner from "../../../Components/Spinner";
 import UserTicket from "./UserTicket";
 const UserTicketInfoModal = lazy(() => import("./UserTicketInfoModal"));
@@ -47,24 +50,32 @@ const UserTickets = ({ tickets }: props) => {
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
-                        <Suspense
+                        <ErrorBoundary
                             fallback={
-                                <tr className='fixed inset-0 flex justify-center items-center'>
-                                    <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
-                                        <Spinner></Spinner>
-                                    </td>
-                                </tr>
+                                <Backdrop>
+                                    <ErrorModal />
+                                </Backdrop>
                             }
                         >
-                            <tr>
-                                <td>
-                                    <UserTicketInfoModal
-                                        selectedId={selectedId}
-                                        setSelectedId={setSelectedId}
-                                    ></UserTicketInfoModal>
-                                </td>
-                            </tr>
-                        </Suspense>
+                            <Suspense
+                                fallback={
+                                    <tr className='fixed inset-0 flex justify-center items-center'>
+                                        <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
+                                            <Spinner></Spinner>
+                                        </td>
+                                    </tr>
+                                }
+                            >
+                                <tr>
+                                    <td>
+                                        <UserTicketInfoModal
+                                            selectedId={selectedId}
+                                            setSelectedId={setSelectedId}
+                                        ></UserTicketInfoModal>
+                                    </td>
+                                </tr>
+                            </Suspense>
+                        </ErrorBoundary>
                     )}
                 </AnimatePresence>
             </LayoutGroup>
