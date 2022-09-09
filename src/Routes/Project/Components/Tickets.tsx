@@ -2,6 +2,9 @@ import React, { useState, lazy, Suspense } from "react";
 import { AnimatePresence, LayoutGroup } from "framer-motion";
 import Ticket from "./Ticket";
 import Spinner from "../../../Components/Spinner";
+import { ErrorBoundary } from "react-error-boundary";
+import Backdrop from "../../../Components/Backdrop";
+import ErrorModal from "../../../Components/ErrorModal";
 const TicketInfoModal = lazy(() => import("./TicketInfoModal"));
 export interface ITicket {
     ticketId: string;
@@ -61,24 +64,32 @@ const Tickets = ({ tickets, highlightTicket }: props) => {
                 })}
                 <AnimatePresence exitBeforeEnter>
                     {selectedId && (
-                        <Suspense
+                        <ErrorBoundary
                             fallback={
-                                <tr className='fixed inset-0 flex justify-center items-center'>
-                                    <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
-                                        <Spinner></Spinner>
-                                    </td>
-                                </tr>
+                                <Backdrop>
+                                    <ErrorModal />
+                                </Backdrop>
                             }
                         >
-                            <tr>
-                                <td>
-                                    <TicketInfoModal
-                                        selectedId={selectedId}
-                                        setSelectedId={setSelectedId}
-                                    ></TicketInfoModal>
-                                </td>
-                            </tr>
-                        </Suspense>
+                            <Suspense
+                                fallback={
+                                    <tr className='fixed inset-0 flex justify-center items-center'>
+                                        <td className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
+                                            <Spinner></Spinner>
+                                        </td>
+                                    </tr>
+                                }
+                            >
+                                <tr>
+                                    <td>
+                                        <TicketInfoModal
+                                            selectedId={selectedId}
+                                            setSelectedId={setSelectedId}
+                                        ></TicketInfoModal>
+                                    </td>
+                                </tr>
+                            </Suspense>
+                        </ErrorBoundary>
                     )}
                 </AnimatePresence>
             </LayoutGroup>
