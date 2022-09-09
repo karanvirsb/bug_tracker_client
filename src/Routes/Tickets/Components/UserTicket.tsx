@@ -8,6 +8,8 @@ import {
     ticketSeverityColor,
     ticketTypeColor,
 } from "../../Project/Components/Ticket";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 
 type reportProps = {
     username: string;
@@ -57,15 +59,21 @@ const UserTicket = ({
                 </p>
             </td>
             <td className='table_padding lg:hidden'>
-                <Suspense
+                <ErrorBoundary
                     fallback={
-                        <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
-                            <Spinner></Spinner>
-                        </div>
+                        <ErrorFallbackWithoutRetry text='Error: Could not load members'></ErrorFallbackWithoutRetry>
                     }
                 >
-                    <Members usersArr={assignedDev}></Members>
-                </Suspense>
+                    <Suspense
+                        fallback={
+                            <div className='bg-white w-20 h-20 rounded-lg flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <Members usersArr={assignedDev}></Members>
+                    </Suspense>
+                </ErrorBoundary>
             </td>
             <td className='table_padding sm:hidden'>
                 <p
