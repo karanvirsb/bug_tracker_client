@@ -72,6 +72,9 @@ const DeleteMemberModal = ({ username }: props) => {
                         groupId: group.groupId,
                     });
                 },
+                onError: () => {
+                    toast.error("Could not delete member");
+                },
             }
         );
     };
