@@ -75,6 +75,9 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
                     });
                 }
             },
+            onError: () => {
+                toast.error("Could not delete comment successfully");
+            },
         });
     };
 
