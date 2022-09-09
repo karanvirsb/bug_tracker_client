@@ -1,8 +1,10 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 const Pagination = lazy(() => import("../../Components/Pagination"));
 const UserTickets = lazy(() => import("./Components/UserTickets"));
 import { useQuery } from "react-query";
 import axiosPrivate from "../../Components/AxiosInterceptors";
+import ErrorFallbackWithoutRetry from "../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 import Spinner from "../../Components/Spinner";
 import Tab from "../../Components/Tab/Tab";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
@@ -131,20 +133,26 @@ const Tickets = () => {
                         )}
                     </tbody>
                 </table>
-                <Suspense
+                <ErrorBoundary
                     fallback={
-                        <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
-                            <Spinner></Spinner>
-                        </div>
+                        <ErrorFallbackWithoutRetry text='Error: Could not load pagination.'></ErrorFallbackWithoutRetry>
                     }
                 >
-                    <Pagination
-                        pageNumber={pageNumber}
-                        totalPage={userTickets?.totalPages || 0}
-                        hasMore={userTickets?.hasNextPage || false}
-                        setPageNumber={setPageNumber}
-                    ></Pagination>
-                </Suspense>
+                    <Suspense
+                        fallback={
+                            <div className='bg-white w-full rounded-lg flex justify-center items-center mt-2'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <Pagination
+                            pageNumber={pageNumber}
+                            totalPage={userTickets?.totalPages || 0}
+                            hasMore={userTickets?.hasNextPage || false}
+                            setPageNumber={setPageNumber}
+                        ></Pagination>
+                    </Suspense>
+                </ErrorBoundary>
             </div>
         </section>
     );
