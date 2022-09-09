@@ -11,6 +11,7 @@ import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { updateInitialState } from "../../../Redux/Slices/projectsSlice";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
+import ErrorFallbackWithoutRetryForTable from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetryForTable";
 
 type props = {
     groupId: string | undefined;
@@ -113,19 +114,25 @@ const DashboardTab = ({ groupId }: props) => {
                                 </tr>
                             )}
                             {status === "success" && (
-                                <Suspense
+                                <ErrorBoundary
                                     fallback={
-                                        <tr>
-                                            <td align='center' colSpan={99}>
-                                                <Spinner></Spinner>
-                                            </td>
-                                        </tr>
+                                        <ErrorFallbackWithoutRetryForTable text='Error: Could not load projects'></ErrorFallbackWithoutRetryForTable>
                                     }
                                 >
-                                    <Projects
-                                        projects={projectsState}
-                                    ></Projects>
-                                </Suspense>
+                                    <Suspense
+                                        fallback={
+                                            <tr>
+                                                <td align='center' colSpan={99}>
+                                                    <Spinner></Spinner>
+                                                </td>
+                                            </tr>
+                                        }
+                                    >
+                                        <Projects
+                                            projects={projectsState}
+                                        ></Projects>
+                                    </Suspense>
+                                </ErrorBoundary>
                             )}
                             {status === "error" && (
                                 <tr className='w-full text-center text-lg '>
