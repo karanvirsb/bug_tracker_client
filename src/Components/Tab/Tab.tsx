@@ -1,6 +1,7 @@
 import React, { useState, lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useAppSelector } from "../../Hooks/hooks";
+import ErrorFallbackWithoutRetry from "../ErrorFallback/ErrorFallbackWithoutRetry";
 import Spinner from "../Spinner";
 const Account = lazy(() => import("../Account/Account"));
 
@@ -81,9 +82,17 @@ const Tab = ({ tabs, components }: props) => {
                     </Suspense>
                 </ErrorBoundary>
             </nav>
-            <section className='md:mr-1 p-1'>
-                {mappedComponents.get(tabName)}
-            </section>
+            <ErrorBoundary
+                fallback={
+                    <ErrorFallbackWithoutRetry
+                        text={`Error: Could not load ${tabName}`}
+                    ></ErrorFallbackWithoutRetry>
+                }
+            >
+                <section className='md:mr-1 p-1'>
+                    {mappedComponents.get(tabName)}
+                </section>
+            </ErrorBoundary>
         </>
     );
 };
