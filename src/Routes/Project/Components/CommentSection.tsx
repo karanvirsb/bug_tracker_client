@@ -9,6 +9,8 @@ import socket from "../../../API/sockets";
 import { AxiosError } from "axios";
 import Spinner from "../../../Components/Spinner";
 import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 
 type props = {
     ticketId: string;
@@ -217,27 +219,35 @@ const CommentSection = ({ ticketId }: props) => {
                     </>
                 ))}
             {loadComments && (
-                <Suspense
+                <ErrorBoundary
                     fallback={
-                        <div className='w-full flex justify-center items-center mt-4'>
-                            <Spinner></Spinner>
-                        </div>
+                        <ErrorFallbackWithoutRetry text='Error: Could not load comments.'></ErrorFallbackWithoutRetry>
                     }
                 >
-                    <Comments></Comments>
-                    <div className='w-full flex justify-center items-center'>
-                        {hasNextPage && (
-                            <button
-                                onClick={() => fetchNextPage()}
-                                disabled={!hasNextPage || isFetchingNextPage}
-                                className='hover:text-cta-btn-color font-semibold'
-                            >
-                                {isFetchingNextPage && "Loading more..."}
-                                {hasNextPage && "Load More Comments"}
-                            </button>
-                        )}
-                    </div>
-                </Suspense>
+                    <Suspense
+                        fallback={
+                            <div className='w-full flex justify-center items-center mt-4'>
+                                <Spinner></Spinner>
+                            </div>
+                        }
+                    >
+                        <Comments></Comments>
+                        <div className='w-full flex justify-center items-center'>
+                            {hasNextPage && (
+                                <button
+                                    onClick={() => fetchNextPage()}
+                                    disabled={
+                                        !hasNextPage || isFetchingNextPage
+                                    }
+                                    className='hover:text-cta-btn-color font-semibold'
+                                >
+                                    {isFetchingNextPage && "Loading more..."}
+                                    {hasNextPage && "Load More Comments"}
+                                </button>
+                            )}
+                        </div>
+                    </Suspense>
+                </ErrorBoundary>
             )}
         </>
     );
