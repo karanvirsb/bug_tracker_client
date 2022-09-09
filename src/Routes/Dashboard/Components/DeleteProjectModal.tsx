@@ -79,10 +79,6 @@ const DeleteProjectModal = ({ projectId }: props) => {
                 console.log(JSON.parse(error.response?.data.message));
                 toast.error(JSON.parse(error.response?.data.message));
             }
-            console.log(
-                "🚀 ~ file: DeleteProjectModal.tsx ~ line 57 ~ handleSubmit ~ error",
-                error
-            );
         }
     };
 
