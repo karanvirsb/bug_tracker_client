@@ -104,19 +104,25 @@ const Tickets = () => {
                             </tr>
                         )}
                         {ticketStatus === "success" && (
-                            <Suspense
+                            <ErrorBoundary
                                 fallback={
-                                    <tr>
-                                        <td align='center' colSpan={99}>
-                                            <Spinner></Spinner>
-                                        </td>
-                                    </tr>
+                                    <ErrorFallbackWithoutRetry text='Error: Could not load tickets.'></ErrorFallbackWithoutRetry>
                                 }
                             >
-                                <UserTickets
-                                    tickets={userTickets.docs}
-                                ></UserTickets>
-                            </Suspense>
+                                <Suspense
+                                    fallback={
+                                        <tr>
+                                            <td align='center' colSpan={99}>
+                                                <Spinner></Spinner>
+                                            </td>
+                                        </tr>
+                                    }
+                                >
+                                    <UserTickets
+                                        tickets={userTickets.docs}
+                                    ></UserTickets>
+                                </Suspense>
+                            </ErrorBoundary>
                         )}
                         {ticketStatus === "error" && (
                             <tr className='w-full text-center text-lg '>
