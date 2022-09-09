@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import React, { lazy, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import Backdrop from "../../../Components/Backdrop";
+import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 import Spinner from "../../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
@@ -170,15 +172,23 @@ const TicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                             ></UserElements>
                         </fieldset>
                     </div>
-                    <Suspense
+                    <ErrorBoundary
                         fallback={
-                            <div className='w-full flex justify-center items-center'>
-                                <Spinner></Spinner>
-                            </div>
+                            <ErrorFallbackWithoutRetry text='Error: Could not load the comment section.'></ErrorFallbackWithoutRetry>
                         }
                     >
-                        <CommentSection ticketId={selectedId}></CommentSection>
-                    </Suspense>
+                        <Suspense
+                            fallback={
+                                <div className='w-full flex justify-center items-center'>
+                                    <Spinner></Spinner>
+                                </div>
+                            }
+                        >
+                            <CommentSection
+                                ticketId={selectedId}
+                            ></CommentSection>
+                        </Suspense>
+                    </ErrorBoundary>
                 </div>
             </motion.div>
         </Backdrop>
