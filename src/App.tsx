@@ -38,6 +38,8 @@ import { updateUserRoles } from "./Redux/Slices/userSlice";
 import { setModal } from "./Redux/Slices/modalSlice";
 import Spinner from "./Components/Spinner";
 import { deleteComment } from "./Redux/Slices/commentsSlice";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackWithoutRetry from "./Components/ErrorFallback/ErrorFallbackWithoutRetry";
 
 const NavbarLayout = () => {
     return (
@@ -125,101 +127,109 @@ function App() {
 
     return (
         <>
-            <Suspense
+            <ErrorBoundary
                 fallback={
-                    <div className='fixed inset-0 flex justify-center items-center'>
-                        <div className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
-                            <Spinner></Spinner>
-                        </div>
-                    </div>
+                    <ErrorFallbackWithoutRetry text='Error: Could not load the page'></ErrorFallbackWithoutRetry>
                 }
             >
-                <ToastContainer
-                    position='top-right'
-                    draggable={true}
-                    draggablePercent={75}
-                    autoClose={5000}
-                ></ToastContainer>
-                <Modal></Modal>
-                <Routes>
-                    <Route
-                        path='/'
-                        element={
-                            persist ? (
-                                <Navigate replace to='dashboard'></Navigate>
-                            ) : (
-                                <Navigate replace to='login'></Navigate>
-                            )
-                        }
-                    ></Route>
-                    <Route path='/login' element={<Login></Login>}></Route>
-                    <Route
-                        path='/register'
-                        element={<Register></Register>}
-                    ></Route>
-                    <Route
-                        path='/registration-successful'
-                        element={
-                            <RegistrationSuccessful></RegistrationSuccessful>
-                        }
-                    ></Route>
-                    {/* PROTECT ROUTES */}
-                    <Route element={<PersistLogin></PersistLogin>}>
+                <Suspense
+                    fallback={
+                        <div className='fixed inset-0 flex justify-center items-center'>
+                            <div className='bg-black w-20 h-20 rounded-lg flex justify-center items-center'>
+                                <Spinner></Spinner>
+                            </div>
+                        </div>
+                    }
+                >
+                    <ToastContainer
+                        position='top-right'
+                        draggable={true}
+                        draggablePercent={75}
+                        autoClose={5000}
+                    ></ToastContainer>
+                    <Modal></Modal>
+                    <Routes>
                         <Route
+                            path='/'
                             element={
-                                <RequireAuth
-                                    allowedRoles={["2001"]}
-                                ></RequireAuth>
+                                persist ? (
+                                    <Navigate replace to='dashboard'></Navigate>
+                                ) : (
+                                    <Navigate replace to='login'></Navigate>
+                                )
                             }
-                        >
+                        ></Route>
+                        <Route path='/login' element={<Login></Login>}></Route>
+                        <Route
+                            path='/register'
+                            element={<Register></Register>}
+                        ></Route>
+                        <Route
+                            path='/registration-successful'
+                            element={
+                                <RegistrationSuccessful></RegistrationSuccessful>
+                            }
+                        ></Route>
+                        {/* PROTECT ROUTES */}
+                        <Route element={<PersistLogin></PersistLogin>}>
                             <Route
-                                path='/add-group'
-                                element={<AddGroup></AddGroup>}
-                            ></Route>
-                            <Route element={<NavbarLayout></NavbarLayout>}>
+                                element={
+                                    <RequireAuth
+                                        allowedRoles={["2001"]}
+                                    ></RequireAuth>
+                                }
+                            >
                                 <Route
-                                    path='/dashboard'
-                                    element={<Dashboard></Dashboard>}
+                                    path='/add-group'
+                                    element={<AddGroup></AddGroup>}
                                 ></Route>
-                                <Route
-                                    path='/project/:projectId'
-                                    element={<Project></Project>}
-                                ></Route>
-                                <Route
-                                    path='/tickets'
-                                    element={<Tickets></Tickets>}
-                                ></Route>
+                                <Route element={<NavbarLayout></NavbarLayout>}>
+                                    <Route
+                                        path='/dashboard'
+                                        element={<Dashboard></Dashboard>}
+                                    ></Route>
+                                    <Route
+                                        path='/project/:projectId'
+                                        element={<Project></Project>}
+                                    ></Route>
+                                    <Route
+                                        path='/tickets'
+                                        element={<Tickets></Tickets>}
+                                    ></Route>
+                                </Route>
+                                {/* TODO add routes */}
                             </Route>
-                            {/* TODO add routes */}
+                            <Route
+                                element={
+                                    <RequireAuth
+                                        allowedRoles={["1990"]}
+                                    ></RequireAuth>
+                                }
+                            >
+                                <Route element={<NavbarLayout></NavbarLayout>}>
+                                    <Route
+                                        path='/admin'
+                                        element={
+                                            <Administration></Administration>
+                                        }
+                                    ></Route>
+                                </Route>
+                            </Route>
                         </Route>
+                        {/* Unauthorized */}
                         <Route
-                            element={
-                                <RequireAuth
-                                    allowedRoles={["1990"]}
-                                ></RequireAuth>
-                            }
-                        >
-                            <Route element={<NavbarLayout></NavbarLayout>}>
-                                <Route
-                                    path='/admin'
-                                    element={<Administration></Administration>}
-                                ></Route>
-                            </Route>
-                        </Route>
-                    </Route>
-                    {/* Unauthorized */}
-                    <Route
-                        path='/unauthorized'
-                        element={<Unauthorized></Unauthorized>}
-                    ></Route>
-                    {/* This is for 404 not found */}
-                    <Route
-                        path='*'
-                        element={<PageNotFound></PageNotFound>}
-                    ></Route>
-                </Routes>
-            </Suspense>
-            <ReactQueryDevtools initialIsOpen={true} />
+                            path='/unauthorized'
+                            element={<Unauthorized></Unauthorized>}
+                        ></Route>
+                        {/* This is for 404 not found */}
+                        <Route
+                            path='*'
+                            element={<PageNotFound></PageNotFound>}
+                        ></Route>
+                    </Routes>
+                </Suspense>
+            </ErrorBoundary>
+            {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </>
     );
 }
