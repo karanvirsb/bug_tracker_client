@@ -145,8 +145,10 @@ function App() {
                     <Route
                         path='/'
                         element={
-                            persist && (
+                            persist ? (
                                 <Navigate replace to='dashboard'></Navigate>
+                            ) : (
+                                <Navigate replace to='login'></Navigate>
                             )
                         }
                     ></Route>
