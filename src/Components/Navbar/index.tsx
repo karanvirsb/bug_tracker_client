@@ -194,4 +194,6 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+const memoizedNavbar = React.memo(Navbar);
+
+export default memoizedNavbar;
