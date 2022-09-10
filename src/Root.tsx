@@ -7,6 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { AxiosInterceptor } from "./Components/AxiosInterceptors";
+import NetworkCheck from "./Components/NetworkChecker/NetworkCheck";
 
 const queryClient = new QueryClient();
 
@@ -17,17 +18,19 @@ const root = ReactDOM.createRoot(
 const render = (App: ComponentType) => {
     root.render(
         <React.StrictMode>
-            <BrowserRouter>
-                <Provider store={store}>
-                    <PersistGate persistor={persistor}>
-                        <AxiosInterceptor>
-                            <QueryClientProvider client={queryClient}>
-                                <App />
-                            </QueryClientProvider>
-                        </AxiosInterceptor>
-                    </PersistGate>
-                </Provider>
-            </BrowserRouter>
+            <NetworkCheck>
+                <BrowserRouter>
+                    <Provider store={store}>
+                        <PersistGate persistor={persistor}>
+                            <AxiosInterceptor>
+                                <QueryClientProvider client={queryClient}>
+                                    <App />
+                                </QueryClientProvider>
+                            </AxiosInterceptor>
+                        </PersistGate>
+                    </Provider>
+                </BrowserRouter>
+            </NetworkCheck>
         </React.StrictMode>
     );
 };
