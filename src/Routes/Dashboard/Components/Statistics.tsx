@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
 import { useQuery } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useAppSelector } from "../../../Hooks/hooks";
 import Spinner from "../../../Components/Spinner";
-ChartJS.register(ArcElement, Tooltip, Legend);
+import Charts from "./Charts";
 
-type chartDataType = {
+export type chartDataType = {
     labels: string[];
     datasets: {
         label: string;
@@ -153,7 +151,13 @@ const Statistics = () => {
             });
             setLoading(false);
         }
-    }, [statsStatus]);
+    }, [
+        statsStatus,
+        setChartDataSevertiy,
+        setChartDataStatus,
+        setChartDataType,
+        setLoading,
+    ]);
 
     return (
         <>
@@ -166,15 +170,16 @@ const Statistics = () => {
                 <div className='grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4'>
                     <div className='statistic'>
                         <h3 className='stat_name'>Ticket Type</h3>
-                        <Pie data={chartDataType}></Pie>
+                        <Charts chartData={chartDataType}></Charts>
+                        {/* <Pie data={chartDataType}></Pie> */}
                     </div>
                     <div className='statistic'>
                         <h3 className='stat_name'>Ticket Status</h3>
-                        <Pie data={chartDataStatus}></Pie>
+                        <Charts chartData={chartDataStatus}></Charts>
                     </div>
                     <div className='statistic'>
                         <h3 className='stat_name'>Ticket Severity</h3>
-                        <Pie data={chartDataSevertiy}></Pie>
+                        <Charts chartData={chartDataSevertiy}></Charts>
                     </div>
                 </div>
             )}
