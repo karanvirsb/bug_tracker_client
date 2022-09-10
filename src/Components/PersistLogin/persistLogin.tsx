@@ -27,7 +27,10 @@ const PersistLogin = () => {
             try {
                 await refresh();
             } catch (error) {
-                console.log(error);
+                console.log(
+                    "🚀 ~ file: persistLogin.tsx ~ line 30 ~ verifyRefreshToken ~ error",
+                    error
+                );
             } finally {
                 isMounted && setIsLoading(false);
             }
