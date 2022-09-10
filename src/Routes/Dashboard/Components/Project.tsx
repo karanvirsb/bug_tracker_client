@@ -55,4 +55,12 @@ const Project = ({
     );
 };
 
-export default Project;
+const areEqual = (prevProps: project, nextProps: project) => {
+    return (
+        prevProps.projectId === nextProps.projectId &&
+        prevProps.dateCreated === nextProps.dateCreated
+    );
+};
+const memoizedProject = React.memo(Project, areEqual);
+
+export default memoizedProject;
