@@ -211,4 +211,14 @@ const Comment = ({ comment, user, classname, isReply, page }: props) => {
     );
 };
 
-export default Comment;
+const areEqual = (prevProps: any, nextProps: any) => {
+    return (
+        prevProps.commentId === nextProps.commentId &&
+        prevProps.dateCreated === nextProps.dateCreated &&
+        prevProps.comment === nextProps.comment
+    );
+};
+
+const memoizedComment = React.memo(Comment, areEqual);
+
+export default memoizedComment;
