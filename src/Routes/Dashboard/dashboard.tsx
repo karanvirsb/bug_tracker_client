@@ -1,10 +1,10 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { useAppSelector } from "../../Hooks/hooks";
-const DashboardTab = lazy(() => import("./Components/DashboardTab"));
-const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 import Tab from "../../Components/Tab/Tab";
 import socket from "../../API/sockets";
 import Spinner from "../../Components/Spinner";
+const DashboardTab = lazy(() => import("./Components/DashboardTab"));
+const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 
 const Dashboard = () => {
     const auth = useAppSelector((state) => state.auth);
@@ -44,7 +44,7 @@ const Dashboard = () => {
         return () => {
             socket.off("roomJoined");
         };
-    }, []);
+    }, [auth?.group_id, auth.username]);
 
     return (
         <section className='sections'>
