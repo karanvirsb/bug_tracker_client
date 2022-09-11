@@ -25,12 +25,10 @@ const PersistLogin = () => {
         const verifyRefreshToken = async () => {
             console.log("verifying refresh token");
             try {
+                // const resp =
                 await refresh();
+                // console.log(resp);
             } catch (error) {
-                console.log(
-                    "🚀 ~ file: persistLogin.tsx ~ line 30 ~ verifyRefreshToken ~ error",
-                    error
-                );
             } finally {
                 isMounted && setIsLoading(false);
             }
@@ -72,6 +70,7 @@ const PersistLogin = () => {
                 );
             }
         };
+
         if (auth.username && auth.accessToken && persist && !user.username) {
             getUserInfo(auth.accessToken);
         }
