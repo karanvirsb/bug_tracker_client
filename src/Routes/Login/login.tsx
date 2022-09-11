@@ -38,7 +38,7 @@ const Login = (): JSX.Element => {
     const togglePersist = (
         e: React.MouseEvent<HTMLInputElement, MouseEvent>
     ) => {
-        if (e.target?.checked) {
+        if ((e.target as any)?.checked) {
             localStorage.setItem("bugTrackerPersist", "true");
         } else {
             localStorage.setItem("bugTrackerPersist", "false");
