@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { AxiosInterceptor } from "./Components/AxiosInterceptors";
 import NetworkCheck from "./Components/NetworkChecker/NetworkCheck";
+import ServerDown from "./Components/ServerDown/ServerDown";
 
 const queryClient = new QueryClient();
 
@@ -18,19 +19,21 @@ const root = ReactDOM.createRoot(
 const render = (App: ComponentType) => {
     root.render(
         <React.StrictMode>
-            <NetworkCheck>
-                <BrowserRouter>
-                    <Provider store={store}>
-                        <PersistGate persistor={persistor}>
-                            <AxiosInterceptor>
-                                <QueryClientProvider client={queryClient}>
-                                    <App />
-                                </QueryClientProvider>
-                            </AxiosInterceptor>
-                        </PersistGate>
-                    </Provider>
-                </BrowserRouter>
-            </NetworkCheck>
+            <ServerDown>
+                <NetworkCheck>
+                    <BrowserRouter>
+                        <Provider store={store}>
+                            <PersistGate persistor={persistor}>
+                                <AxiosInterceptor>
+                                    <QueryClientProvider client={queryClient}>
+                                        <App />
+                                    </QueryClientProvider>
+                                </AxiosInterceptor>
+                            </PersistGate>
+                        </Provider>
+                    </BrowserRouter>
+                </NetworkCheck>
+            </ServerDown>
         </React.StrictMode>
     );
 };
