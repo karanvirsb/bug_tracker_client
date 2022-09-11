@@ -1,8 +1,17 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { ReactQueryDevtools } from "react-query/devtools";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
+import socket from "./API/sockets";
+import { useAppDispatch, useAppSelector } from "./Hooks/hooks";
+import useInvalidateQuery from "./Hooks/useInvalidateQuery";
+import { updateUserRoles } from "./Redux/Slices/userSlice";
+import { setModal } from "./Redux/Slices/modalSlice";
+import Spinner from "./Components/Spinner";
+import { deleteComment } from "./Redux/Slices/commentsSlice";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallbackWithoutRetry from "./Components/ErrorFallback/ErrorFallbackWithoutRetry";
 
 const Navbar = lazy(() => import("./Components/Navbar"));
 const MobileNavBar = lazy(() => import("./Components/Navbar/MobileNavBar"));
@@ -31,15 +40,6 @@ const ToastContainer = lazy(async () => {
     const { ToastContainer } = await import("react-toastify");
     return { default: ToastContainer };
 });
-import socket from "./API/sockets";
-import { useAppDispatch, useAppSelector } from "./Hooks/hooks";
-import useInvalidateQuery from "./Hooks/useInvalidateQuery";
-import { updateUserRoles } from "./Redux/Slices/userSlice";
-import { setModal } from "./Redux/Slices/modalSlice";
-import Spinner from "./Components/Spinner";
-import { deleteComment } from "./Redux/Slices/commentsSlice";
-import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallbackWithoutRetry from "./Components/ErrorFallback/ErrorFallbackWithoutRetry";
 
 const NavbarLayout = () => {
     return (
@@ -94,7 +94,7 @@ function App() {
             socket.disconnect();
             socket.connect();
         };
-    }, []);
+    }, [auth?.group_id, auth.username, dispatch]);
 
     useEffect(() => {
         socket.on("invalidateData", (query) => {
@@ -113,7 +113,7 @@ function App() {
             socket.off("invalidateData");
             socket.off("deleteComment");
         };
-    }, [socket, invalidateQuery]);
+    }, [invalidateQuery, dispatch]);
 
     useEffect(() => {
         window.addEventListener("beforeunload", () => {
