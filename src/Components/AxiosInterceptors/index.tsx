@@ -2,6 +2,7 @@ import { AxiosRequestConfig, AxiosResponse } from "axios";
 import React, { useEffect } from "react";
 import { axiosPrivate } from "../../API/axios";
 import { useAppSelector } from "../../Hooks/hooks";
+import useLogout from "../../Hooks/useLogout";
 import useRefreshToken from "../../Hooks/useRefreshToken";
 
 /**
@@ -11,6 +12,7 @@ import useRefreshToken from "../../Hooks/useRefreshToken";
  */
 export const AxiosInterceptor = ({ children }: any) => {
     const refresh = useRefreshToken();
+    const logout = useLogout();
     const auth = useAppSelector((state) => state.auth);
     useEffect(() => {
         // for each request send the authorization token
@@ -18,7 +20,7 @@ export const AxiosInterceptor = ({ children }: any) => {
             async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
                 axiosPrivate.defaults.headers.common["Authorization"] =
                     "Bearer ";
-                if (auth) {
+                if (auth.accessToken) {
                     if (config.headers) {
                         config.headers[
                             "Authorization"
@@ -28,6 +30,10 @@ export const AxiosInterceptor = ({ children }: any) => {
                 return config;
             },
             (error) => {
+                console.log(
+                    "🚀 ~ file: index.tsx ~ line 31 ~ useEffect ~ error",
+                    error
+                );
                 return Promise.reject(error);
             }
         );
@@ -39,12 +45,20 @@ export const AxiosInterceptor = ({ children }: any) => {
                 //token expired
                 const config = error?.config;
 
+                // if (error.response.status === 401 && auth.accessToken) {
+                //     logout();
+                // }
+
                 // if the status is not a 403 then reject it
                 if (
                     error.response.status !== 403 &&
                     error.response.status >= 400 &&
                     error.response.status <= 500
                 ) {
+                    console.log(
+                        "🚀 ~ file: index.tsx ~ line 50 ~ error",
+                        error
+                    );
                     return Promise.reject(error);
                 }
 
@@ -60,6 +74,7 @@ export const AxiosInterceptor = ({ children }: any) => {
                     return axiosPrivate(config);
                 }
 
+                console.log("🚀 ~ file: index.tsx ~ line 66 ~ error", error);
                 return Promise.reject(error);
             }
         );
