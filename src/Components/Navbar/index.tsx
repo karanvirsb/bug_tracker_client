@@ -26,7 +26,10 @@ const Navbar = () => {
     const fetchGroup = async () => {
         const resp = await axiosPrivate("/group/id", {
             method: "post",
-            data: { filter: "groupId", filterValue: auth?.group_id },
+            data: {
+                filter: "groupId",
+                filterValue: auth?.group_id || group.groupId,
+            },
         });
 
         return resp.data;
