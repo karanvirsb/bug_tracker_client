@@ -8,15 +8,16 @@ import Spinner from "../../Components/Spinner";
 
 const Dashboard = () => {
     const auth = useAppSelector((state) => state.auth);
-    const groupUsers = useAppSelector(
-        (state) => state.persistedReducer.group.users
-    );
+    const group = useAppSelector((state) => state.persistedReducer.group);
+
     // getting the group Id
     const groupId = useAppSelector((state) => state.auth.group_id);
 
     const components = {
-        dashboard: <DashboardTab groupId={groupId}></DashboardTab>,
-        members: <MembersTab users={groupUsers}></MembersTab>,
+        dashboard: (
+            <DashboardTab groupId={groupId || group.groupId}></DashboardTab>
+        ),
+        members: <MembersTab users={group.users}></MembersTab>,
     };
 
     const tabs = [
