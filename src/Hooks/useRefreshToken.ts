@@ -15,9 +15,11 @@ const useRefreshToken = () => {
                 withCredentials: true,
                 timeout: 30000,
             });
-            if (response.status === 401) {
-                logout();
-            }
+            console.log(
+                "🚀 ~ file: useRefreshToken.ts ~ line 18 ~ refresh ~ response",
+                response
+            );
+
             const userData = response?.data;
 
             const userInfo: IDecode | undefined = decoder(userData.accessToken);
@@ -37,15 +39,14 @@ const useRefreshToken = () => {
 
             return response.data.accessToken; // allwos us to request again
             // withCrendeitals allows us to send the cookie back
-        } catch (error) {
-            dispatch(
-                setAuth({
-                    username: "",
-                    accessToken: "",
-                    group_id: "",
-                    roles: [],
-                })
+        } catch (error: any) {
+            console.log(
+                "🚀 ~ file: useRefreshToken.ts ~ line 41 ~ refresh ~ error",
+                error
             );
+            // if (error.response.status === 401) {
+            //     logout();
+            // }
         }
     };
 
