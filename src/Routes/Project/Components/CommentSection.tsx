@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { useInfiniteQuery, useMutation } from "react-query";
 import { setComments, IComment } from "../../../Redux/Slices/commentsSlice";
-const Comments = lazy(() => import("./Comments"));
 import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import { AxiosError } from "axios";
@@ -11,6 +10,7 @@ import Spinner from "../../../Components/Spinner";
 import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
+const Comments = lazy(() => import("./Comments"));
 
 type props = {
     ticketId: string;
@@ -64,7 +64,6 @@ const CommentSection = ({ ticketId }: props) => {
 
     const {
         data: comments,
-        error,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -133,7 +132,7 @@ const CommentSection = ({ ticketId }: props) => {
             // console.log(comments.pages, latestPage);
             dispatch(setComments(totalComments));
         }
-    }, [commentsStatus, comments]);
+    }, [commentsStatus, comments, dispatch]);
 
     useEffect(() => {
         socket.emit("joinRoom", {
@@ -152,7 +151,7 @@ const CommentSection = ({ ticketId }: props) => {
                 username: user.username,
             });
         };
-    }, []);
+    }, [ticketId, user.username]);
 
     return (
         <>
