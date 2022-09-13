@@ -77,7 +77,7 @@ const MemberModal = ({
                     readOnly
                 />
             </div>
-            {/* TODO make a input  */}
+
             <fieldset className='input-container'>
                 <legend className='input-label'>Roles</legend>
                 <div className='flex justify-center items-center gap-4 md:flex-col'>
