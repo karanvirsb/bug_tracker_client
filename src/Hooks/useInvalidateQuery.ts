@@ -12,7 +12,7 @@ const useInvalidateQuery = () => {
     const queryClient = useQueryClient();
 
     const invalidateQuery = async ({ queryName, page }: props) => {
-        if (page != undefined && page >= 0) {
+        if (page !== undefined && page >= 0) {
             await queryClient.cancelQueries([queryName]);
             await queryClient.refetchQueries([queryName], {
                 refetchPage: (_page, index) => {
