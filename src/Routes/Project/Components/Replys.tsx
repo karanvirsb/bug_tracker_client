@@ -17,7 +17,7 @@ const TOTAL_REPLYS_VISIBLE = 5;
 const Replys = ({ replyIds, commentId }: props) => {
     const totalPages = useMemo(() => {
         if (replyIds) return Math.floor(replyIds.length / TOTAL_REPLYS_VISIBLE);
-    }, [replyIds, replyIds?.length]);
+    }, [replyIds]);
 
     const commentReplys = useAppSelector((state) => state.replys.replys);
     const users = useAppSelector((state) => state.persistedReducer.group.users);
@@ -69,11 +69,11 @@ const Replys = ({ replyIds, commentId }: props) => {
             }
             dispatch(setReplys({ id: commentId, comments: totalReplys }));
         }
-    }, [replys, replyStatus]);
+    }, [replys, replyStatus, dispatch, commentId]);
 
     useEffect(() => {
         refetch();
-    }, [replyIds]);
+    }, [refetch, replyIds]);
 
     return (
         <>
@@ -84,6 +84,7 @@ const Replys = ({ replyIds, commentId }: props) => {
             )}
             {replyStatus === "error" && <div>Error</div>}
             {replyStatus === "success" &&
+                // eslint-disable-next-line array-callback-return
                 commentReplys[commentId]?.map((comment: IComment) => {
                     const user = users.find(
                         (user) => user.username === comment?.userId
@@ -114,9 +115,9 @@ const Replys = ({ replyIds, commentId }: props) => {
     );
 };
 
-const memorizedReplies = ({ replyIds, commentId }: props) =>
+const MemorizedReplies = ({ replyIds, commentId }: props) =>
     useMemo(() => {
         return <Replys replyIds={replyIds} commentId={commentId}></Replys>;
-    }, [replyIds]);
+    }, [commentId, replyIds]);
 
-export default memorizedReplies;
+export default MemorizedReplies;
