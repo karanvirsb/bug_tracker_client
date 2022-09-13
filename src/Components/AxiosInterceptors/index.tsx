@@ -2,7 +2,6 @@ import { AxiosRequestConfig, AxiosResponse } from "axios";
 import React, { useEffect } from "react";
 import { axiosPrivate } from "../../API/axios";
 import { useAppSelector } from "../../Hooks/hooks";
-import useLogout from "../../Hooks/useLogout";
 import useRefreshToken from "../../Hooks/useRefreshToken";
 
 /**
@@ -12,7 +11,7 @@ import useRefreshToken from "../../Hooks/useRefreshToken";
  */
 export const AxiosInterceptor = ({ children }: any) => {
     const refresh = useRefreshToken();
-    const logout = useLogout();
+
     const auth = useAppSelector((state) => state.auth);
     useEffect(() => {
         // for each request send the authorization token
@@ -30,10 +29,6 @@ export const AxiosInterceptor = ({ children }: any) => {
                 return config;
             },
             (error) => {
-                console.log(
-                    "🚀 ~ file: index.tsx ~ line 31 ~ useEffect ~ error",
-                    error
-                );
                 return Promise.reject(error);
             }
         );
@@ -55,10 +50,6 @@ export const AxiosInterceptor = ({ children }: any) => {
                     error.response.status >= 400 &&
                     error.response.status <= 500
                 ) {
-                    console.log(
-                        "🚀 ~ file: index.tsx ~ line 50 ~ error",
-                        error
-                    );
                     return Promise.reject(error);
                 }
 
@@ -74,7 +65,6 @@ export const AxiosInterceptor = ({ children }: any) => {
                     return axiosPrivate(config);
                 }
 
-                console.log("🚀 ~ file: index.tsx ~ line 66 ~ error", error);
                 return Promise.reject(error);
             }
         );
