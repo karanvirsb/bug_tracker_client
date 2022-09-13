@@ -119,7 +119,7 @@ const Navbar = () => {
             // ${modal && "md:hidden"}
         >
             <nav
-                className={`flex flex-col justify-between min-h-full ${
+                className={`flex flex-col justify-between min-h-full overflow-auto ${
                     showNavigation ? "" : "md:hidden"
                 }`}
             >
