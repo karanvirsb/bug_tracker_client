@@ -6,11 +6,11 @@ import { useMutation } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-const ProjectModal = lazy(() => import("./ProjectModal"));
 import { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
 import Spinner from "../../../Components/Spinner";
-// TODO if user deletes another user need to cascade
+const ProjectModal = lazy(() => import("./ProjectModal"));
+
 const EditProjectModal = (props: { projectId: string }): JSX.Element => {
     const projects = useAppSelector((state) => state.projects.projects);
     const foundProject = projects.find(
