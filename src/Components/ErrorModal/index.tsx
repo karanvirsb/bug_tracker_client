@@ -1,11 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useAppDispatch } from "../../Hooks/hooks";
-import { resetModal } from "../../Redux/Slices/modalSlice";
 
 const ErrorModal = () => {
-    const dispatch = useAppDispatch();
-
     const reloadModal = () => {
         location.reload();
     };
