@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 import socket from "../../API/sockets";
 import { AxiosError } from "axios";
 import axiosPrivate from "../../Components/AxiosInterceptors";
-const Members = lazy(() => import("./Components/Members"));
 import Spinner from "../../Components/Spinner";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetryForTable from "../../Components/ErrorFallback/ErrorFallbackWithoutRetryForTable";
 import ErrorFallbackWithoutRetry from "../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
+const Members = lazy(() => import("./Components/Members"));
 const Pagination = lazy(() => import("../../Components/Pagination"));
 const Tab = lazy(() => import("../../Components/Tab/Tab"));
 
@@ -39,7 +39,7 @@ const Administration = () => {
 
     const totalPage = useMemo(
         () => Math.floor(group.users.length / totalPerPage),
-        [group, group.users]
+        [group]
     );
     // checking if there are more pages
     const hasMore = useMemo(() => {
@@ -49,7 +49,7 @@ const Administration = () => {
     // memoizing users
     const groupUsers = useMemo(() => {
         return group.users.slice(usersPageSetting.start, usersPageSetting.end);
-    }, [usersPageSetting, group, group.users]);
+    }, [usersPageSetting, group]);
 
     // if group name needs to be changed
     const groupNameMutation = useMutation(
@@ -186,7 +186,7 @@ const Administration = () => {
         return () => {
             socket.off("roomJoined");
         };
-    }, []);
+    }, [auth?.group_id, auth.username]);
 
     useEffect(() => {
         setUsersPageSetting((prev) => {
