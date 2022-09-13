@@ -12,7 +12,7 @@ export const initialState: PersistState = {
 
 export const persistSlice = createSlice({
     name: "persist",
-    initialState: initialState,
+    initialState,
     reducers: {
         changePersist: (
             state: PersistState,
