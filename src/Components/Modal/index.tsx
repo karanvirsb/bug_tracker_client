@@ -1,15 +1,15 @@
 import React, { lazy, Suspense } from "react";
-import { motion } from "framer-motion";
 import { ErrorBoundary } from "react-error-boundary";
+import { useAppSelector } from "../../Hooks/hooks";
+import Backdrop from "../Backdrop";
+import Spinner from "../Spinner";
+import ErrorModal from "../ErrorModal";
+
 const AnimatePresence = lazy(async () => {
     const { AnimatePresence } = await import("framer-motion");
     return { default: AnimatePresence };
 });
 
-import { useAppSelector } from "../../Hooks/hooks";
-import Backdrop from "../Backdrop";
-import Spinner from "../Spinner";
-import ErrorModal from "../ErrorModal";
 const DeleteMemberModal = lazy(
     () => import("../../Routes/Administration/Components/DeleteMemberModal")
 );
