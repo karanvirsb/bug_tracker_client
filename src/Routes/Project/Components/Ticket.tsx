@@ -61,7 +61,7 @@ const Ticket = ({
             }, 5000);
         }
         return () => clearTimeout(timer);
-    }, []);
+    }, [highlight]);
 
     return (
         <tr
