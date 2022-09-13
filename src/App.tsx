@@ -12,6 +12,7 @@ import Spinner from "./Components/Spinner";
 import { deleteComment } from "./Redux/Slices/commentsSlice";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetry from "./Components/ErrorFallback/ErrorFallbackWithoutRetry";
+import useScreenSize from "./Hooks/useScreenSize";
 
 const Navbar = lazy(() => import("./Components/Navbar"));
 const MobileNavBar = lazy(() => import("./Components/Navbar/MobileNavBar"));
@@ -42,11 +43,14 @@ const ToastContainer = lazy(async () => {
 });
 
 const NavbarLayout = () => {
-    // TODO make a check
+    const { screenWidth } = useScreenSize();
     return (
         <>
-            <Navbar></Navbar>
-            <MobileNavBar></MobileNavBar>
+            {screenWidth > 766 ? (
+                <Navbar></Navbar>
+            ) : (
+                <MobileNavBar></MobileNavBar>
+            )}
             <Outlet></Outlet>
         </>
     );
