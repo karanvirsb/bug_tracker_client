@@ -157,6 +157,7 @@ const Statistics = () => {
         setChartDataStatus,
         setChartDataType,
         setLoading,
+        stats,
     ]);
 
     return (
@@ -214,6 +215,7 @@ function getChartData(stats: stat[]) {
         Issue: 0,
     };
 
+    // eslint-disable-next-line array-callback-return
     stats.map((stat: stat) => {
         if (ticketSeverityDataSet.hasOwnProperty(stat.ticketSeverity)) {
             ticketSeverityDataSet[stat.ticketSeverity] += 1;
