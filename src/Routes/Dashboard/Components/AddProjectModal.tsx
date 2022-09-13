@@ -6,10 +6,10 @@ import { useMutation } from "react-query";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-const ProjectModal = lazy(() => import("./ProjectModal"));
 import { IProject } from "./ProjectModal";
 import socket from "../../../API/sockets";
 import Spinner from "../../../Components/Spinner";
+const ProjectModal = lazy(() => import("./ProjectModal"));
 
 const AddProjectModal = (): JSX.Element => {
     const [projectInput, setProjectInput] = useState<IProject>({
@@ -150,7 +150,6 @@ const AddProjectModal = (): JSX.Element => {
                         </div>
                     }
                 >
-                    {/* TODO fixed value of user */}
                     <ProjectModal
                         setProjectInput={setProjectInput}
                         projectInput={projectInput}
