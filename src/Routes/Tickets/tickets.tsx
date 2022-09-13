@@ -1,7 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-const Pagination = lazy(() => import("../../Components/Pagination"));
-const UserTickets = lazy(() => import("./Components/UserTickets"));
 import { useQuery } from "react-query";
 import axiosPrivate from "../../Components/AxiosInterceptors";
 import ErrorFallbackWithoutRetry from "../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
@@ -9,6 +7,8 @@ import Spinner from "../../Components/Spinner";
 import Tab from "../../Components/Tab/Tab";
 import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import { updateInitialState } from "../../Redux/Slices/ticketsSlice";
+const Pagination = lazy(() => import("../../Components/Pagination"));
+const UserTickets = lazy(() => import("./Components/UserTickets"));
 
 type fetchTicketsByUsernameType = {
     username: string;
@@ -54,11 +54,11 @@ const Tickets = () => {
         if (ticketStatus === "success") {
             dispatch(updateInitialState(userTickets.docs));
         }
-    }, [userTickets, ticketStatus]);
+    }, [userTickets, ticketStatus, dispatch]);
 
     useEffect(() => {
         refetch();
-    }, [pageNumber]);
+    }, [pageNumber, refetch]);
 
     return (
         <section className='sections'>
