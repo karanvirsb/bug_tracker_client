@@ -9,6 +9,7 @@ type checkUserPermissionsProps = {
 const useCheckTicketPermissions = () => {
     // checks to see if the user is part of the members of the project if so they returns true else returns false
     const loggedInUser = useAppSelector((state) => state.persistedReducer.user);
+    const tickets = useAppSelector((state) => state.tickets.tickets);
     const checkUserPermissions = ({
         users,
         usersString,
@@ -16,11 +17,10 @@ const useCheckTicketPermissions = () => {
     }: checkUserPermissionsProps): boolean => {
         let isUserApartOfProject = false;
         if (ticketId) {
-            const foundTicket = useAppSelector((state) =>
-                state.tickets.tickets.find(
-                    (ticket) => ticket.ticketId === ticketId
-                )
+            const foundTicket = tickets.find(
+                (ticket) => ticket.ticketId === ticketId
             );
+
             if (loggedInUser.username === foundTicket?.reporterId) {
                 isUserApartOfProject = true;
             } else {
