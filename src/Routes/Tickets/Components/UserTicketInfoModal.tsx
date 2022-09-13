@@ -130,7 +130,6 @@ const UserTicketInfoModal = ({ selectedId, setSelectedId }: props) => {
                         </div>
                     </div>
                     <div>
-                        {/* TODO go to ticket */}
                         <button
                             className='btn bg-blue-400 hover:outline hover:outline-2 hover:outline-blue-400 mt-4 '
                             onClick={goToTicketsPage}
