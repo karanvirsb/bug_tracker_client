@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react";
 import Spinner from "../../../Components/Spinner";
-const Members = lazy(() => import("../../../Components/Members"));
 import { useAppSelector } from "../../../Hooks/hooks";
 import { ITicket } from "./UserTickets";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../../Project/Components/Ticket";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
+const Members = lazy(() => import("../../../Components/Members"));
 
 type reportProps = {
     username: string;
