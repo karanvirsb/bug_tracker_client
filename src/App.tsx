@@ -42,6 +42,7 @@ const ToastContainer = lazy(async () => {
 });
 
 const NavbarLayout = () => {
+    // TODO make a check
     return (
         <>
             <Navbar></Navbar>
