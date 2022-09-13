@@ -12,6 +12,10 @@ type networkState = {
     effectiveType?: string;
 };
 
+/**
+ *
+ * @returns an array of network settings to aid in detecting if user is online or offline
+ */
 function useNetwork() {
     const [networkSettings, setNetworkSettings] = useState<networkState>({
         lastOnline: "",
