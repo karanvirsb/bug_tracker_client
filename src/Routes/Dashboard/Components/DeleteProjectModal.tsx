@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import socket from "../../../API/sockets";
 import { useAppSelector } from "../../../Hooks/hooks";
 import axiosPrivate from "../../../Components/AxiosInterceptors";
-
 import { resetModal } from "../../../Redux/Slices/modalSlice";
 
 type props = {
