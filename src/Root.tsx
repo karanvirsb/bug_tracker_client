@@ -1,6 +1,6 @@
+import "./index.css";
 import React, { ComponentType } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { persistor, store } from "./Redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
