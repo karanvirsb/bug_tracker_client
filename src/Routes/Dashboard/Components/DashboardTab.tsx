@@ -1,8 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
-const Projects = lazy(() => import("../Components/Projects"));
-const Pagination = lazy(() => import("../../../Components/Pagination"));
-const Statistics = lazy(() => import("./Statistics"));
 import Spinner from "../../../Components/Spinner";
 import { setModal } from "../../../Redux/Slices/modalSlice";
 import useIsAdmin from "../../../Hooks/useIsAdmin";
@@ -12,6 +9,9 @@ import { updateInitialState } from "../../../Redux/Slices/projectsSlice";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallbackWithoutRetry from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetry";
 import ErrorFallbackWithoutRetryForTable from "../../../Components/ErrorFallback/ErrorFallbackWithoutRetryForTable";
+const Projects = lazy(() => import("../Components/Projects"));
+const Pagination = lazy(() => import("../../../Components/Pagination"));
+const Statistics = lazy(() => import("./Statistics"));
 
 type props = {
     groupId: string | undefined;
@@ -143,7 +143,7 @@ const DashboardTab = ({ groupId }: props) => {
                                         </p>
                                         <button
                                             className='btn bg-gray-300 mb-5'
-                                            onClick={() => refetch}
+                                            onClick={() => refetch()}
                                         >
                                             try again
                                         </button>
