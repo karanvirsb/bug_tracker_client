@@ -198,7 +198,6 @@ function App() {
                                         element={<Tickets></Tickets>}
                                     ></Route>
                                 </Route>
-                                {/* TODO add routes */}
                             </Route>
                             <Route
                                 element={
