@@ -74,7 +74,7 @@ const PersistLogin = () => {
         if (auth.username && auth.accessToken && persist && !user.username) {
             getUserInfo(auth.accessToken);
         }
-    }, [auth.username, auth.accessToken, persist, user]);
+    }, [auth.username, auth.accessToken, persist, user, dispatch]);
 
     const persistTernary: JSX.Element = isLoading ? (
         <div className='fixed inset-0 flex justify-center items-center'>
