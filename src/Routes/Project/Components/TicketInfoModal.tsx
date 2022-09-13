@@ -7,13 +7,12 @@ import Spinner from "../../../Components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { setModal } from "../../../Redux/Slices/modalSlice";
 import useCheckTicketPermissions from "../Hooks/useCheckTicketPermissions";
-const CommentSection = lazy(() => import("./CommentSection"));
-
 import {
     ticketSeverityColor,
     ticketStatusColor,
     ticketTypeColor,
 } from "./Ticket";
+const CommentSection = lazy(() => import("./CommentSection"));
 
 type props = {
     selectedId: string;
