@@ -1,6 +1,5 @@
 import React, { useRef, useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-const TicketModal = lazy(() => import("./TicketModal"));
 import { ITicket } from "./TicketModal";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/hooks";
 import { useMutation } from "react-query";
@@ -10,6 +9,7 @@ import socket from "../../../API/sockets";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import Spinner from "../../../Components/Spinner";
+const TicketModal = lazy(() => import("./TicketModal"));
 
 const initalState = {
     title: "",
