@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 const ErrorModal = () => {
     const reloadModal = () => {
+        // eslint-disable-next-line no-restricted-globals
         location.reload();
     };
 
