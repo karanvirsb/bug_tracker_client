@@ -92,19 +92,19 @@ const TicketsTab = ({
         if (ticketStatus === "success") {
             dispatch(updateInitialState(tickets.docs));
         }
-    }, [tickets, ticketStatus]);
+    }, [tickets, ticketStatus, dispatch]);
 
     useEffect(() => {
         refetch();
-    }, [pageNumber]);
+    }, [pageNumber, refetch]);
 
     useEffect(() => {
         if (ticketInfoStatus === "success") {
-            if (ticketInfo?.ticketsPage != pageNumber) {
+            if (ticketInfo?.ticketsPage !== pageNumber) {
                 setPageNumber(ticketInfo?.ticketsPage ?? 1);
             }
         }
-    }, [ticketInfoStatus, ticketInfo]);
+    }, [ticketInfoStatus, ticketInfo, pageNumber]);
 
     return (
         <>
