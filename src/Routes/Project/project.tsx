@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/hooks";
 import socket from "../../API/sockets";
 import { setProject } from "../../Redux/Slices/projectSlice";
 import axiosPrivate from "../../Components/AxiosInterceptors";
-const TicketsTab = lazy(() => import("./Components/TicketsTab"));
 import Tab from "../../Components/Tab/Tab";
+const TicketsTab = lazy(() => import("./Components/TicketsTab"));
 const MembersTab = lazy(() => import("../../Components/MembersTab/MembersTab"));
 
 const Project = () => {
@@ -82,13 +82,13 @@ const Project = () => {
                 username: auth.username,
             });
         };
-    }, []);
+    }, [auth.username, projectId]);
 
     useEffect(() => {
         if (projectStatus === "success") {
             dispatch(setProject(project));
         }
-    }, [project, projectStatus]);
+    }, [dispatch, project, projectStatus]);
 
     return (
         <section className='sections'>
