@@ -37,14 +37,17 @@ const Navbar = () => {
 
     const { data: groupData, status: groupStatus } = useQuery(
         "groupInfo",
-        fetchGroup
+        fetchGroup,
+        {
+            enabled: group.groupId !== "" || auth.group_id !== "",
+        }
     );
 
     // fetching all the users of the group
     const fetchGroupUsers = async () => {
         const resp = await axiosPrivate("/user/group", {
             method: "Post",
-            data: { groupId: group.groupId },
+            data: { groupId: group.groupId || auth.group_id },
         });
         return resp.data;
     };
@@ -52,9 +55,7 @@ const Navbar = () => {
     const { data: usersData, status: groupUsersStatus } = useQuery(
         "groupUsers",
         fetchGroupUsers,
-        {
-            enabled: !group.groupId,
-        }
+        { enabled: group.groupId !== "" || auth.group_id !== "" }
     );
 
     const closeModal = () => {
