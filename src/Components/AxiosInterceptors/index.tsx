@@ -2,6 +2,7 @@ import { AxiosRequestConfig, AxiosResponse } from "axios";
 import React, { useEffect } from "react";
 import { axiosPrivate } from "../../API/axios";
 import { useAppSelector } from "../../Hooks/hooks";
+import useLogout from "../../Hooks/useLogout";
 import useRefreshToken from "../../Hooks/useRefreshToken";
 
 /**
@@ -11,7 +12,7 @@ import useRefreshToken from "../../Hooks/useRefreshToken";
  */
 export const AxiosInterceptor = ({ children }: any) => {
     const refresh = useRefreshToken();
-
+    const logout = useLogout();
     const auth = useAppSelector((state) => state.auth);
     useEffect(() => {
         // for each request send the authorization token
@@ -40,7 +41,7 @@ export const AxiosInterceptor = ({ children }: any) => {
                 //token expired
                 const config = error?.config;
 
-                // if (error.response.status === 401 && auth.accessToken) {
+                // if (error.response.status === 401 && !auth.accessToken) {
                 //     logout();
                 // }
 
@@ -52,20 +53,24 @@ export const AxiosInterceptor = ({ children }: any) => {
                 ) {
                     return Promise.reject(error);
                 }
+                if (error.response.status === 403) {
+                    if (!config.__isRetryRequest) {
+                        config.__isRetryRequest = true;
+                        const token = await refresh();
 
-                if (!config.__isRetryRequest) {
-                    config.__isRetryRequest = true;
-                    const token = await refresh();
-
-                    if (token) {
-                        if (config.headers) {
-                            config.headers["Authorization"] = `Bearer ${token}`;
+                        if (token) {
+                            if (config.headers) {
+                                config.headers[
+                                    "Authorization"
+                                ] = `Bearer ${token}`;
+                            }
                         }
-                    }
-                    return axiosPrivate(config);
-                }
 
-                return Promise.reject(error);
+                        return axiosPrivate(config);
+                    }
+
+                    return Promise.reject(error);
+                }
             }
         );
 
@@ -73,7 +78,7 @@ export const AxiosInterceptor = ({ children }: any) => {
             axiosPrivate.interceptors.response.eject(responseIntercept);
             axiosPrivate.interceptors.request.eject(requestIntercept);
         };
-    }, [auth, refresh]);
+    }, [auth, logout, refresh]);
 
     return children;
 };
