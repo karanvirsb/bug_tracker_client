@@ -16,27 +16,26 @@ const PersistLogin = () => {
     const effectRan = useRef(false);
 
     useEffect(() => {
+        let isMounted = true;
         if (
             effectRan.current === true ||
             process.env.NODE_ENV !== "development"
         ) {
+            const verifyRefreshToken = async () => {
+                // console.log("verifying refresh token");
+                try {
+                    // const resp =
+                    await refresh();
+                    // console.log(resp);
+                } catch (error) {
+                } finally {
+                    isMounted && setIsLoading(false);
+                }
+            };
+            // we need to have access to the accessToken before we can verifyREfreshToken
+
+            !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
         }
-        let isMounted = true;
-        const verifyRefreshToken = async () => {
-            console.log("verifying refresh token");
-            try {
-                // const resp =
-                await refresh();
-                // console.log(resp);
-            } catch (error) {
-            } finally {
-                isMounted && setIsLoading(false);
-            }
-        };
-
-        // we need to have access to the accessToken before we can verifyREfreshToken
-
-        !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
         return () => {
             isMounted = false;
