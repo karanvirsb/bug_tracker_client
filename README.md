@@ -77,12 +77,14 @@ Go to http://localhost:3000 in your browser and register an account. Then procee
 4. Live updates of CRUD operations
 
 ## Features being worked on 
-1. Comments on Tickets
-2. Administration of adding and removing users from a group
-3. Forums for projects
-4. Displaying all the members within the group or within the project
+[x] Comments on Tickets
+[x] Administration of adding and removing users from a group
+[ ] Forums for projects
+[x] Displaying all the members within the group or within the project
+[ ] Settings Page
+[ ] Account Page
 
-## How it looks
+# How it looks
 
 # Login Page
 
@@ -118,6 +120,6 @@ Go to http://localhost:3000 in your browser and register an account. Then procee
 # My Tickets Page
 ![My Tickets Page](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/my-tickets-page.jpeg)
 
-#Administration Page
+# Administration Page
 ![Administration Page](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/my-tickets-page.jpeg)
 
