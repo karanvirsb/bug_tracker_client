@@ -77,12 +77,12 @@ Go to http://localhost:3000 in your browser and register an account. Then procee
 4. Live updates of CRUD operations
 
 ## Features being worked on 
-[x] Comments on Tickets
-[x] Administration of adding and removing users from a group
-[ ] Forums for projects
-[x] Displaying all the members within the group or within the project
-[ ] Settings Page
-[ ] Account Page
+[x] Comments on Tickets <br/>
+[x] Administration of adding and removing users from a group <br/>
+[ ] Forums for projects <br/>
+[x] Displaying all the members within the group or within the project <br/>
+[ ] Settings Page <br/>
+[ ] Account Page <br/>
 
 # How it looks
 
