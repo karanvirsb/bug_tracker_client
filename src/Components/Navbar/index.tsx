@@ -142,7 +142,7 @@ const Navbar = () => {
                                 <div className='relative w-full'>
                                     <button
                                         id='groupNameBtn'
-                                        className='flex text-left items-center justify-center gap-4 w-full hover:outline hover:outline-gray-500 rounded-md'
+                                        className='flex text-left items-center justify-center gap-4 w-full hover:bg-gray-500 rounded-md'
                                     >
                                         {groupData.groupName}
                                         <div
@@ -188,7 +188,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <button
-                    className='bg-secondary-color text-black py-2 px-4 rounded-md hover:bg-transparent hover:text-white hover:font-semibold hover:outline hover:outline-secondary-color hover:outline-2'
+                    className='bg-secondary-color text-black py-2 px-4 rounded-3xl hover:bg-transparent hover:text-white font-semibold hover:border-2 hover:border-secondary-color'
                     onClick={logout}
                 >
                     Logout
