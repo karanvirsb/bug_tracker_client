@@ -107,3 +107,17 @@ Go to http://localhost:3000 in your browser and register an account. Then procee
 # Create Ticket Modal
 
 ![Create Ticket Modal](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/create-ticket-modal.jpeg)
+
+# Ticket Info Modal
+
+![Ticket Info Modal](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/project-tickets-modal.jpeg)
+
+# Comment Section
+![Comment Section](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/comment-section.jpeg)
+
+# My Tickets Page
+![My Tickets Page](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/my-tickets-page.jpeg)
+
+#Administration Page
+![Administration Page](https://github.com/karanvirsb/bug_tracker_client/blob/main/src/Assets/Screenshots/my-tickets-page.jpeg)
+
